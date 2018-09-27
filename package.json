@@ -32,10 +32,13 @@
     "dva": "^2.4.0",
     "enquire-js": "^0.2.1",
     "hash.js": "^1.1.5",
+    "humps": "^2.0.1",
+    "localforage": "^1.7.2",
     "lodash": "^4.17.10",
     "lodash-decorators": "^6.0.0",
     "memoize-one": "^4.0.0",
     "moment": "^2.22.2",
+    "normalizr": "^3.2.4",
     "numeral": "^2.0.6",
     "nzh": "^1.0.3",
     "omit.js": "^1.0.0",
@@ -79,9 +82,9 @@
     "stylelint": "^9.4.0",
     "stylelint-config-prettier": "^4.0.0",
     "stylelint-config-standard": "^18.0.0",
-    "umi": "^2.0.3",
-    "umi-plugin-react": "^1.0.3",
-    "umi-plugin-ga": "^1.0.3"
+    "umi": "^2.0.1",
+    "umi-plugin-react": "^1.0.1",
+    "umi-plugin-ga": "^1.0.2"
   },
   "optionalDependencies": {
     "puppeteer": "^1.6.0"

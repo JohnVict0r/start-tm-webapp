@@ -16,7 +16,7 @@ export default {
         },
         locale: {
           enable: true, // default false
-          default: 'zh-CN', // default zh-CN
+          default: 'pt-BR', // default pt-BR
           baseNavigator: true, // default true, when it is true, will use `navigator.language` overwrite default
         },
         dynamicImport: {
@@ -43,6 +43,7 @@ export default {
   ],
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
+    API_URL: process.env.API_URL || '',
   },
   // 路由配置
   routes: pageRoutes,

@@ -1,132 +1,117 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Tabs } from 'antd';
+import Link from 'umi/link';
+import { formatMessage, FormattedMessage } from 'umi/locale';
+import { Alert, Checkbox, Form, Icon, Input } from 'antd';
 import classNames from 'classnames';
-import LoginItem from './LoginItem';
-import LoginTab from './LoginTab';
 import LoginSubmit from './LoginSubmit';
 import styles from './index.less';
-import LoginContext from './loginContext';
 
 class Login extends Component {
   static propTypes = {
+    // login: PropTypes.shape({
+    //   status: PropTypes.
+    // })
+    submitting: PropTypes.bool,
     className: PropTypes.string,
-    defaultActiveKey: PropTypes.string,
-    onTabChange: PropTypes.func,
     onSubmit: PropTypes.func,
   };
 
   static defaultProps = {
+    submitting: false,
     className: '',
-    defaultActiveKey: '',
-    onTabChange: () => {},
     onSubmit: () => {},
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      type: props.defaultActiveKey,
-      tabs: [],
-      active: {},
-    };
-  }
-
-  onSwitch = type => {
-    this.setState({
-      type,
-    });
-    const { onTabChange } = this.props;
-    onTabChange(type);
-  };
-
-  getContext = () => {
-    const { tabs } = this.state;
-    const { form } = this.props;
-    return {
-      tabUtil: {
-        addTab: id => {
-          this.setState({
-            tabs: [...tabs, id],
-          });
-        },
-        removeTab: id => {
-          this.setState({
-            tabs: tabs.filter(currentId => currentId !== id),
-          });
-        },
-      },
-      form,
-      updateActive: activeItem => {
-        const { type, active } = this.state;
-        if (active[type]) {
-          active[type].push(activeItem);
-        } else {
-          active[type] = [activeItem];
-        }
-        this.setState({
-          active,
-        });
-      },
-    };
+  state = {
+    autoLogin: true,
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    const { active, type } = this.state;
     const { form, onSubmit } = this.props;
-    const activeFileds = active[type];
-    form.validateFields(activeFileds, { force: true }, (err, values) => {
+    form.validateFields({ force: true }, (err, values) => {
       onSubmit(err, values);
     });
   };
 
-  render() {
-    const { className, children } = this.props;
-    const { type, tabs } = this.state;
-    const TabChildren = [];
-    const otherChildren = [];
-    React.Children.forEach(children, item => {
-      if (!item) {
-        return;
-      }
-      // eslint-disable-next-line
-      if (item.type.typeName === 'LoginTab') {
-        TabChildren.push(item);
-      } else {
-        otherChildren.push(item);
-      }
+  changeAutoLogin = e => {
+    this.setState({
+      autoLogin: e.target.checked,
     });
+  };
+
+  renderMessage = content => (
+    <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
+  );
+
+  render() {
+    const { className, submitting, login, form, onSubmit } = this.props;
+    const { getFieldDecorator, validateFields } = form;
+    const { autoLogin } = this.state;
+
     return (
-      <LoginContext.Provider value={this.getContext()}>
-        <div className={classNames(className, styles.login)}>
-          <Form onSubmit={this.handleSubmit}>
-            {tabs.length ? (
-              <React.Fragment>
-                <Tabs
-                  animated={false}
-                  className={styles.tabs}
-                  activeKey={type}
-                  onChange={this.onSwitch}
-                >
-                  {TabChildren}
-                </Tabs>
-                {otherChildren}
-              </React.Fragment>
-            ) : (
-              [...children]
+      <div className={classNames(className, styles.login)}>
+        <Form onSubmit={this.handleSubmit}>
+          {login.status === 'error' &&
+            !submitting &&
+            this.renderMessage('账户或密码错误（admin/888888）')}
+
+          <Form.Item>
+            {getFieldDecorator('email', {
+              rules: [
+                { required: true, message: formatMessage({ id: 'validation.email.required' }) },
+                { type: 'email', message: formatMessage({ id: 'validation.email.wrong-format' }) },
+              ],
+            })(
+              <Input
+                size="large"
+                prefix={<Icon type="mail" className={styles.prefixIcon} />}
+                name="email"
+                placeholder="Email"
+              />
             )}
-          </Form>
-        </div>
-      </LoginContext.Provider>
+          </Form.Item>
+
+          <Form.Item>
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: 'Insira a senha!' }],
+            })(
+              <Input
+                size="large"
+                type="password"
+                prefix={<Icon type="lock" className={styles.prefixIcon} />}
+                name="password"
+                placeholder="Senha"
+                onPressEnter={() => validateFields(onSubmit)}
+              />
+            )}
+          </Form.Item>
+
+          <div>
+            <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
+              <FormattedMessage id="app.login.remember-me" />
+            </Checkbox>
+            <a style={{ float: 'right' }} href="">
+              <FormattedMessage id="app.login.forgot-password" />
+            </a>
+          </div>
+          <LoginSubmit loading={submitting}>
+            <FormattedMessage id="app.login.login" />
+          </LoginSubmit>
+          <div className={styles.other}>
+            <FormattedMessage id="app.login.sign-in-with" />
+            <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
+            <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
+            <Icon type="weibo-circle" className={styles.icon} theme="outlined" />
+            <Link className={styles.register} to="/User/Register">
+              <FormattedMessage id="app.login.signup" />
+            </Link>
+          </div>
+        </Form>
+      </div>
     );
   }
 }
-
-Login.Tab = LoginTab;
-Login.Submit = LoginSubmit;
-Object.keys(LoginItem).forEach(item => {
-  Login[item] = LoginItem[item];
-});
 
 export default Form.create()(Login);

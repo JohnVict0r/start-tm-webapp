@@ -35,6 +35,7 @@ functions/mock
 
 # screenshot
 screenshot
+.firebase
 
 # env
 .env

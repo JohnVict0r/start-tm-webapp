@@ -1,8 +1,8 @@
 export default {
   'navbar.lang': 'Português',
   'layout.user.link.help': 'ajuda',
-  'layout.user.link.privacy': 'plítica de privacidade',
-  'layout.user.link.terms': 'termos de serviços',
+  'layout.user.link.privacy': 'política de privacidade',
+  'layout.user.link.terms': 'termos de uso',
   'validation.email.required': 'Por favor insira seu email!',
   'validation.email.wrong-format': 'O email está errado!',
   'validation.password.required': 'Por favor insira sua senha!',

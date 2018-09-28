@@ -1,27 +1,32 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/api';
-import { setAuthority } from '@/utils/authority';
+import { login } from '@/services/auth';
+import { setAuthToken, removeAuthToken } from '@/utils/authentication';
 import { getPageQuery } from '@/utils/utils';
-import { reloadAuthorized } from '@/utils/Authorized';
+import { reloadAuthenticated } from '@/utils/Authenticated';
 
 export default {
   namespace: 'login',
 
   state: {
-    status: undefined,
+    isLoggedIn: undefined,
   },
 
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      const response = yield call(login, payload);
+
+      const isLoggedIn = !!response.token;
+
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: isLoggedIn,
       });
+
       // Login successfully
-      if (response.status === 'ok') {
-        reloadAuthorized();
+      if (isLoggedIn) {
+        setAuthToken(response.token);
+        reloadAuthenticated();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
@@ -41,19 +46,13 @@ export default {
       }
     },
 
-    *getCaptcha({ payload }, { call }) {
-      yield call(getFakeCaptcha, payload);
-    },
-
     *logout(_, { put }) {
       yield put({
         type: 'changeLoginStatus',
-        payload: {
-          status: false,
-          currentAuthority: 'guest',
-        },
+        payload: undefined,
       });
-      reloadAuthorized();
+      removeAuthToken();
+      reloadAuthenticated();
       yield put(
         routerRedux.push({
           pathname: '/user/login',
@@ -67,11 +66,9 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+        isLoggedIn: payload,
       };
     },
   },

@@ -2,8 +2,8 @@ import { camelizeKeys } from 'humps';
 import { normalize } from 'normalizr';
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
-import { getAuthToken } from '@/services/auth';
 import request from '@/utils/request';
+import { getAuthToken } from '@/utils/authentication';
 
 /**
  * Processa a resposta da requisição e tenta normalizá-la

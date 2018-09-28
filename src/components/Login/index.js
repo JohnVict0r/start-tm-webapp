@@ -53,9 +53,10 @@ class Login extends Component {
     return (
       <div className={classNames(className, styles.login)}>
         <Form onSubmit={this.handleSubmit}>
-          {login.status === 'error' &&
+          {login.isLoggedIn !== undefined &&
+            !login.isLoggedIn &&
             !submitting &&
-            this.renderMessage('账户或密码错误（admin/888888）')}
+            this.renderMessage('Email ou senha inválidos.')}
 
           <Form.Item>
             {getFieldDecorator('email', {

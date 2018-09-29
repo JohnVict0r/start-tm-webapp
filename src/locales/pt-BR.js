@@ -1,8 +1,8 @@
 export default {
-  'navbar.lang': 'Português',
+  'navbar.lang': 'Idiomas',
   'layout.user.link.help': 'ajuda',
   'layout.user.link.privacy': 'política de privacidade',
-  'layout.user.link.terms': 'termos de uso',
+  'layout.user.link.terms': 'termos de serviços',
   'validation.name.required': 'Por favor insira um nome!',
   'validation.email.required': 'Por favor insira seu email!',
   'validation.email.wrong-format': 'O email está errado!',

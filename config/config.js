@@ -14,6 +14,9 @@ export default {
         dva: {
           hmr: true,
         },
+        targets: {
+          ie: 9,
+        },
         locale: {
           enable: true, // default false
           default: 'pt-BR', // default pt-BR
@@ -22,7 +25,6 @@ export default {
         dynamicImport: {
           loadingComponent: './components/PageLoading/index',
         },
-        polyfills: ['ie11'],
         ...(!process.env.TEST && os.platform() === 'darwin'
           ? {
               dll: {

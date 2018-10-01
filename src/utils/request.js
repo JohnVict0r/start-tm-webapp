@@ -5,21 +5,21 @@ import hash from 'hash.js';
 import { isAntdPro } from './utils';
 
 const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
+  200: 'O servidor retornou com sucesso os dados solicitados.',
+  201: 'Dados novos ou modificados são bem sucedidos.',
+  202: 'Uma solicitação entrou na fila de segundo plano (tarefa assíncrona).',
+  204: 'Os dados foram excluídos com sucesso.',
+  400: 'A solicitação foi feita com um erro e o servidor não executou nenhuma operação de dados nova ou modificada.',
+  401: 'Usuário não está autenticado.',
+  403: 'Usuário não tem permissão de acesso.',
+  404: 'Recurso não encontrado.',
+  406: 'O formato da solicitação não está disponível.',
+  410: 'O recurso solicitado foi permanentemente excluído e não será recuperado.',
+  422: 'Ocorreu um erro de validação.',
+  500: 'Ocorreu um erro no servidor.',
+  502: 'Erro de gateway.',
+  503: 'O serviço está indisponível e o servidor está temporariamente sobrecarregado.',
+  504: 'O gateway expirou.',
 };
 
 const checkStatus = response => {
@@ -28,7 +28,7 @@ const checkStatus = response => {
   }
   const errortext = codeMessage[response.status] || response.statusText;
   notification.error({
-    message: `请求错误 ${response.status}: ${response.url}`,
+    message: `Erro de solicitação ${response.status}: ${response.url}`,
     description: errortext,
   });
   const error = new Error(errortext);
@@ -151,6 +151,10 @@ export default function request(
       }
       if (status >= 404 && status < 422) {
         router.push('/exception/404');
+        return;
       }
+
+      // Propagate the error
+      throw e;
     });
 }

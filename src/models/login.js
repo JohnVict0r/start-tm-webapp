@@ -16,7 +16,7 @@ export default {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
 
-      const isLoggedIn = !!response.token;
+      const isLoggedIn = !!response && !!response.token;
 
       yield put({
         type: 'changeLoginStatus',

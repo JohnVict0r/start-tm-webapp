@@ -34,6 +34,24 @@ function normalizeJson(reponseJson, schema) {
   return result;
 }
 
+async function handleError(e) {
+  // if validation error
+  if (e.response && e.response.status === 422) {
+    return e.response.json();
+  }
+
+  return e;
+}
+
+async function handleRequest(url, options, schema) {
+  try {
+    const response = await request(url, options);
+    return normalizeJson(response, schema);
+  } catch (e) {
+    return handleError(e);
+  }
+}
+
 /**
  * Cliente para consulta a API Rest.
  */
@@ -41,9 +59,6 @@ export default function callApi(endpoint, schema) {
   // API_URL defined in .env
   const url = API_URL + endpoint;
 
-  const normalizeFn = response => normalizeJson(response, schema);
-
-  // const token = await localForage.getItem('jwt')
   const token = getAuthToken();
   const options = {
     mode: 'cors',
@@ -51,9 +66,9 @@ export default function callApi(endpoint, schema) {
   };
 
   return {
-    post: data => request(url, { method: 'POST', body: data, ...options }).then(normalizeFn),
-    put: data => request(url, { method: 'PUT', body: data, ...options }).then(normalizeFn),
-    delete: () => request(url, { method: 'DELETE', ...options }).then(normalizeFn),
-    get: () => request(url, options).then(normalizeFn),
+    post: data => handleRequest(url, { method: 'POST', body: data, ...options }, schema),
+    put: data => handleRequest(url, { method: 'PUT', body: data, ...options }, schema),
+    delete: () => handleRequest(url, { method: 'DELETE', ...options }, schema),
+    get: () => handleRequest(url, options, schema),
   };
 }

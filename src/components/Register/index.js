@@ -33,7 +33,7 @@ const passwordProgressMap = {
 class Register extends Component {
   static propTypes = {
     // register: PropTypes.shape({
-    //   status: PropTypes.
+    //   error: PropTypes.
     // })
     submitting: PropTypes.bool,
     className: PropTypes.string,
@@ -42,7 +42,7 @@ class Register extends Component {
 
   static defaultProps = {
     // register: {
-    //   isLoggedIn: undefined,
+    //   error: undefined,
     // },
     submitting: false,
     className: '',
@@ -53,6 +53,27 @@ class Register extends Component {
     confirmDirty: false,
     help: '',
   };
+
+  componentDidUpdate(prevProps) {
+    const { form, register } = this.props;
+
+    if (prevProps.register !== register && register.error) {
+      const { errors } = register.error;
+
+      const mapErrors = Object.keys(errors).reduce(
+        (accum, key) => ({
+          ...accum,
+          [key]: {
+            value: form.getFieldValue(key),
+            errors: errors[key].map(err => new Error(err)),
+          },
+        }),
+        {}
+      );
+
+      form.setFields(mapErrors);
+    }
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -105,7 +126,7 @@ class Register extends Component {
       } else {
         const { form } = this.props;
         if (value && confirmDirty) {
-          form.validateFields(['confirm'], { force: true });
+          form.validateFields(['password_confirmation'], { force: true });
         }
         callback();
       }
@@ -150,7 +171,7 @@ class Register extends Component {
             )}
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('mail', {
+            {getFieldDecorator('email', {
               rules: [
                 { required: true, message: formatMessage({ id: 'validation.email.required' }) },
                 { type: 'email', message: formatMessage({ id: 'validation.email.wrong-format' }) },
@@ -186,7 +207,7 @@ class Register extends Component {
             </Popover>
           </Form.Item>
           <Form.Item>
-            {getFieldDecorator('confirm', {
+            {getFieldDecorator('password_confirmation', {
               rules: [
                 {
                   required: true,

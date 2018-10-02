@@ -1,4 +1,4 @@
-import { loadUserTeams } from '@/services/teams';
+import { loadUserTeams, createTeam } from '@/services/teams';
 
 const initialPaginatioState = {
   count: 0,
@@ -29,23 +29,48 @@ export default {
       });
 
       yield put({
-        type: 'saveList',
+        type: 'receiveItems',
         payload: {
           items: response.result,
           pagination: response.pagination,
         },
       });
     },
+
+    *createTeam({ payload }, { call, put }) {
+      const response = yield call(createTeam, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveItem',
+        payload: {
+          item: response.result,
+        },
+      });
+    },
   },
 
   reducers: {
-    saveList(state, { payload }) {
+    receiveItems(state, { payload }) {
       return {
         ...state,
         explore: {
           ...state.explore,
           items: payload.items,
           pagination: payload.pagination,
+        },
+      };
+    },
+    receiveItem(state, { payload }) {
+      return {
+        ...state,
+        explore: {
+          ...state.explore,
+          items: [...state.explore.items, payload.item],
         },
       };
     },

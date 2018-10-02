@@ -9,15 +9,18 @@ import styles from './index.less';
 
 class Login extends Component {
   static propTypes = {
-    // login: PropTypes.shape({
-    //   status: PropTypes.
-    // })
+    login: PropTypes.shape({
+      isLoggedIn: PropTypes.bool,
+    }),
     submitting: PropTypes.bool,
     className: PropTypes.string,
     onSubmit: PropTypes.func,
   };
 
   static defaultProps = {
+    login: {
+      isLoggedIn: undefined,
+    },
     submitting: false,
     className: '',
     onSubmit: () => {},
@@ -53,9 +56,10 @@ class Login extends Component {
     return (
       <div className={classNames(className, styles.login)}>
         <Form onSubmit={this.handleSubmit}>
-          {login.status === 'error' &&
+          {login.isLoggedIn !== undefined &&
+            !login.isLoggedIn &&
             !submitting &&
-            this.renderMessage('账户或密码错误（admin/888888）')}
+            this.renderMessage('Email ou senha inválidos.')}
 
           <Form.Item>
             {getFieldDecorator('email', {
@@ -101,9 +105,9 @@ class Login extends Component {
           </LoginSubmit>
           <div className={styles.other}>
             <FormattedMessage id="app.login.sign-in-with" />
-            <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
-            <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
-            <Icon type="weibo-circle" className={styles.icon} theme="outlined" />
+            <Icon type="google" className={styles.icon} theme="outlined" />
+            <Icon type="facebook" className={styles.icon} theme="outlined" />
+            <Icon type="twitter" className={styles.icon} theme="outlined" />
             <Link className={styles.register} to="/User/Register">
               <FormattedMessage id="app.login.signup" />
             </Link>

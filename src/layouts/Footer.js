@@ -8,27 +8,28 @@ const FooterView = () => (
     <GlobalFooter
       links={[
         {
-          key: 'Pro 首页',
-          title: 'Pro 首页',
-          href: 'https://pro.ant.design',
+          key: 'facebook',
+          title: <Icon type="facebook" />,
+          href: 'https://www.facebook.com/LAIS.HUOL/',
           blankTarget: true,
         },
         {
-          key: 'github',
-          title: <Icon type="github" />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          key: 'youtube',
+          title: <Icon type="youtube" />,
+          href: 'https://www.youtube.com/channel/UCZnAdBsMJq3YuepLjc5N7ZA',
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: 'instagram',
+          title: <Icon type="instagram" />,
+          href: 'https://www.instagram.com/laishuol/',
           blankTarget: true,
         },
       ]}
       copyright={
         <Fragment>
-          Copyright <Icon type="copyright" /> 2018 蚂蚁金服体验技术部出品
+          Copyright <Icon type="copyright" /> 2018 LAIS - Laboratório de inovação tecnológica em
+          saúde
         </Fragment>
       }
     />

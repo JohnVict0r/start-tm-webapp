@@ -14,8 +14,9 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    Routes: ['src/pages/Authorized'],
-    authority: ['admin', 'user'],
+    // Routes: ['src/pages/Authorized'],
+    // authority: ['admin', 'user'],
+    Routes: ['src/pages/Authenticated'],
     routes: [
       // dashboard
       { path: '/', redirect: '/dashboard/analysis' },
@@ -41,7 +42,18 @@ export default [
           },
         ],
       },
-      // forms
+      {
+        path: '/teams',
+        name: 'teams',
+        icon: 'team',
+        routes: [
+          {
+            path: '/teams/list',
+            name: 'list',
+            component: './Teams/TeamsList',
+          },
+        ],
+      },
       {
         path: '/form',
         icon: 'form',

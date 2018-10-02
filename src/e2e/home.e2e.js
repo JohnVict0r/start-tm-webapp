@@ -29,7 +29,7 @@ describe('Homepage', () => {
     await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
     await page.waitForSelector('#logo h1');
     const text = await page.evaluate(() => document.body.innerHTML);
-    expect(text).toContain('<h1>Ant Design Pro</h1>');
+    expect(text).toContain('<h1>Produtiivo</h1>');
   });
 
   afterAll(() => browser.close());

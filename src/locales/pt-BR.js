@@ -42,6 +42,8 @@ export default {
   'menu.dashboard.analysis': 'Análise',
   'menu.dashboard.monitor': 'Monitor',
   'menu.dashboard.workplace': 'Ambiente de Trabalho',
+  'menu.teams': 'Equipes',
+  'menu.teams.list': 'Minhas equipes',
   'menu.form': 'Formulário',
   'menu.form.basicform': 'Formulário Básico',
   'menu.form.stepform': 'Formulário Assistido',

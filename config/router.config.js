@@ -42,7 +42,18 @@ export default [
           },
         ],
       },
-      // forms
+      {
+        path: '/teams',
+        name: 'teams',
+        icon: 'team',
+        routes: [
+          {
+            path: '/teams/list',
+            name: 'list',
+            component: './Teams/TeamsList',
+          },
+        ],
+      },
       {
         path: '/form',
         icon: 'form',

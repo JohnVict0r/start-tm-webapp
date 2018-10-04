@@ -47,10 +47,16 @@ export default [
         name: 'teams',
         icon: 'team',
         routes: [
+          { path: '/teams', redirect: '/teams/list' },
           {
             path: '/teams/list',
             name: 'list',
             component: './Teams/TeamsList',
+          },
+          {
+            path: '/teams/:id',
+            component: './Teams/ViewTeam',
+            hideInMenu: true,
           },
         ],
       },

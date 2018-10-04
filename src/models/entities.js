@@ -4,7 +4,7 @@ export default {
   namespace: 'entities',
 
   state: {
-    //   teams: {},
+    teams: {},
     //   users: {},
   },
 

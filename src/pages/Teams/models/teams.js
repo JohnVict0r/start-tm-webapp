@@ -1,4 +1,4 @@
-import { loadUserTeams, createTeam } from '@/services/teams';
+import { loadUserTeams, loadTeam, createTeam } from '@/services/teams';
 
 const initialPaginatioState = {
   count: 0,
@@ -33,6 +33,22 @@ export default {
         payload: {
           items: response.result,
           pagination: response.pagination,
+        },
+      });
+    },
+
+    *fetchTeam({ payload }, { call, put }) {
+      const response = yield call(loadTeam, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveItem',
+        payload: {
+          item: response.result,
         },
       });
     },

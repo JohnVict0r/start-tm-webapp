@@ -71,6 +71,7 @@ export default {
   lessLoaderOptions: {
     javascriptEnabled: true,
   },
+  disableRedirectHoist: true,
   cssLoaderOptions: {
     modules: true,
     getLocalIdent: (context, localIdentName, localName) => {

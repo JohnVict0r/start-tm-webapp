@@ -43,20 +43,22 @@ export default [
         ],
       },
       {
-        path: '/teams',
+        path: '/explore/teams',
         name: 'teams',
         icon: 'team',
+        component: './Teams/TeamsList',
+      },
+      {
+        path: '/teams/:id',
+        component: './Teams/ViewTeam',
+        name: 'team',
+        hideInMenu: true,
         routes: [
-          { path: '/teams', redirect: '/teams/list' },
+          { path: '/teams/:id', redirect: '/teams/:id/projects' },
           {
-            path: '/teams/list',
-            name: 'list',
-            component: './Teams/TeamsList',
-          },
-          {
-            path: '/teams/:id',
-            component: './Teams/ViewTeam',
-            hideInMenu: true,
+            path: '/teams/:id/projects',
+            name: 'projects',
+            component: './Teams/Projects',
           },
         ],
       },

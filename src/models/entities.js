@@ -5,6 +5,7 @@ export default {
 
   state: {
     teams: {},
+    projects: {},
     //   users: {},
   },
 

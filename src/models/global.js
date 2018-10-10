@@ -1,14 +1,28 @@
 import { queryNotices } from '@/services/api';
+import { fetchRoles } from '@/services/auth';
 
 export default {
   namespace: 'global',
 
   state: {
+    roles: [],
     collapsed: false,
     notices: [],
   },
 
   effects: {
+    *fetchRoles(_, { call, put }) {
+      const response = yield call(fetchRoles);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+      yield put({
+        type: 'saveRoles',
+        payload: response.result,
+      });
+    },
+
     *fetchNotices(_, { call, put }) {
       const data = yield call(queryNotices);
       yield put({
@@ -38,6 +52,12 @@ export default {
       return {
         ...state,
         collapsed: payload,
+      };
+    },
+    saveRoles(state, { payload }) {
+      return {
+        ...state,
+        roles: payload,
       };
     },
     saveNotices(state, { payload }) {

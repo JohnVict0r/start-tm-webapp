@@ -60,6 +60,16 @@ export default [
             name: 'projects',
             component: './Teams/Projects',
           },
+          {
+            path: '/teams/:id/workflows',
+            name: 'workflows',
+            component: './Teams/Workflows',
+          },
+          {
+            path: '/teams/:id/members',
+            name: 'members',
+            component: './Teams/Members',
+          },
         ],
       },
       {

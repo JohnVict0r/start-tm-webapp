@@ -13,7 +13,9 @@ const action = (
       okText="Sim"
       cancelText="Não"
     >
-      <Button type="danger">Sair</Button>
+      <Button type="danger" ghost>
+        Sair
+      </Button>
     </Popconfirm>
   </Fragment>
 );

@@ -45,6 +45,8 @@ export default {
   'menu.teams': 'Equipes',
   'menu.team': 'Equipe',
   'menu.team.projects': 'Projetos da equipe',
+  'menu.team.workflows': 'Workflows da equipe',
+  'menu.team.members': 'Membros da equipe',
   'menu.form': 'Formulário',
   'menu.form.basicform': 'Formulário Básico',
   'menu.form.stepform': 'Formulário Assistido',

@@ -1,7 +1,7 @@
 // https://umijs.org/config/
 import os from 'os';
 import pageRoutes from './router.config';
-import webpackplugin from './plugin.config';
+import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 
 export default {
@@ -14,6 +14,9 @@ export default {
         dva: {
           hmr: true,
         },
+        targets: {
+          ie: 11,
+        },
         locale: {
           enable: true, // default false
           default: 'pt-BR', // default pt-BR
@@ -22,7 +25,6 @@ export default {
         dynamicImport: {
           loadingComponent: './components/PageLoading/index',
         },
-        polyfills: ['ie11'],
         ...(!process.env.TEST && os.platform() === 'darwin'
           ? {
               dll: {
@@ -38,9 +40,13 @@ export default {
       'umi-plugin-ga',
       {
         code: 'UA-72788897-6',
+        judge: () => process.env.APP_TYPE === 'site',
       },
     ],
   ],
+  targets: {
+    ie: 11,
+  },
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
     API_URL: process.env.API_URL || '',
@@ -55,10 +61,18 @@ export default {
   externals: {
     '@antv/data-set': 'DataSet',
   },
+  // proxy: {
+  //   '/server/api/': {
+  //     target: 'https://preview.pro.ant.design/',
+  //     changeOrigin: true,
+  //     pathRewrite: { '^/server': '' },
+  //   },
+  // },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
     javascriptEnabled: true,
   },
+  disableRedirectHoist: true,
   cssLoaderOptions: {
     modules: true,
     getLocalIdent: (context, localIdentName, localName) => {
@@ -96,7 +110,7 @@ export default {
     ],
   },
 
-  chainWebpack: webpackplugin,
+  chainWebpack: webpackPlugin,
   cssnano: {
     mergeRules: false,
   },

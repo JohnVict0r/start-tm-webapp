@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
-import { FormattedMessage, formatMessage, setLocale, getLocale } from 'umi/locale';
+import { FormattedMessage, formatMessage } from 'umi/locale';
 import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
+import SelectLang from '../SelectLang';
 import styles from './index.less';
 
 export default class GlobalHeaderRight extends PureComponent {
@@ -39,10 +40,6 @@ export default class GlobalHeaderRight extends PureComponent {
     return groupBy(newNotices, 'type');
   }
 
-  changLang = ({ key }) => {
-    setLocale(key);
-  };
-
   render() {
     const {
       currentUser,
@@ -73,12 +70,6 @@ export default class GlobalHeaderRight extends PureComponent {
         </Menu.Item>
       </Menu>
     );
-    const langMenu = (
-      <Menu className={styles.menu} selectedKeys={[getLocale()]} onClick={this.changLang}>
-        <Menu.Item key="en-US">English</Menu.Item>
-        <Menu.Item key="pt-BR">Português</Menu.Item>
-      </Menu>
-    );
     const noticeData = this.getNoticeData();
     let className = styles.right;
     if (theme === 'dark') {
@@ -107,7 +98,6 @@ export default class GlobalHeaderRight extends PureComponent {
             href="https://pro.ant.design/docs/getting-started"
             rel="noopener noreferrer"
             className={styles.action}
-            title="{ formatMessage({id: 'component.globalHeader.help'}) }"
           >
             <Icon type="question-circle-o" />
           </a>
@@ -118,6 +108,10 @@ export default class GlobalHeaderRight extends PureComponent {
           onItemClick={(item, tabProps) => {
             console.log(item, tabProps); // eslint-disable-line
           }}
+          locale={{
+            emptyText: formatMessage({ id: 'component.noticeIcon.empty' }),
+            clear: formatMessage({ id: 'component.noticeIcon.clear' }),
+          }}
           onClear={onNoticeClear}
           onPopupVisibleChange={onNoticeVisibleChange}
           loading={fetchingNotices}
@@ -126,18 +120,21 @@ export default class GlobalHeaderRight extends PureComponent {
           <NoticeIcon.Tab
             list={noticeData.notification}
             title={formatMessage({ id: 'component.globalHeader.notification' })}
+            name="notification"
             emptyText={formatMessage({ id: 'component.globalHeader.notification.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg"
           />
           <NoticeIcon.Tab
             list={noticeData.message}
             title={formatMessage({ id: 'component.globalHeader.message' })}
+            name="message"
             emptyText={formatMessage({ id: 'component.globalHeader.message.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg"
           />
           <NoticeIcon.Tab
             list={noticeData.event}
             title={formatMessage({ id: 'component.globalHeader.event' })}
+            name="event"
             emptyText={formatMessage({ id: 'component.globalHeader.event.empty' })}
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
@@ -157,11 +154,7 @@ export default class GlobalHeaderRight extends PureComponent {
         ) : (
           <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}
-        <Dropdown overlay={langMenu}>
-          <span className={styles.action}>
-            <FormattedMessage id="navbar.lang" /> <Icon type="down" />
-          </span>
-        </Dropdown>
+        <SelectLang className={styles.action} />
       </div>
     );
   }

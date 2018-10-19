@@ -501,8 +501,16 @@ class Analysis extends Component {
                       <ul className={styles.rankingList}>
                         {this.rankingListData.map((item, i) => (
                           <li key={item.title}>
-                            <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
-                            <span>{item.title}</span>
+                            <span
+                              className={`${styles.rankingItemNumber} ${
+                                i < 3 ? styles.active : ''
+                              }`}
+                            >
+                              {i + 1}
+                            </span>
+                            <span className={styles.rankingItemTitle} title={item.title}>
+                              {item.title}
+                            </span>
                             <span>{numeral(item.total).format('0,0')}</span>
                           </li>
                         ))}
@@ -560,10 +568,22 @@ class Analysis extends Component {
                 <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
                   <NumberInfo
                     subTitle={
-                      <FormattedMessage
-                        id="app.analysis.per-capita-search"
-                        defaultMessage="Per Capita Search"
-                      />
+                      <span>
+                        <FormattedMessage
+                          id="app.analysis.per-capita-search"
+                          defaultMessage="Per Capita Search"
+                        />
+                        <Tooltip
+                          title={
+                            <FormattedMessage
+                              id="app.analysis.introduce"
+                              defaultMessage="introduce"
+                            />
+                          }
+                        >
+                          <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
+                        </Tooltip>
+                      </span>
                     }
                     total={2.7}
                     status="down"

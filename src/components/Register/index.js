@@ -182,6 +182,7 @@ class Register extends Component {
           </Form.Item>
           <Form.Item help={help}>
             <Popover
+              getPopupContainer={node => node.parentNode}
               content={
                 <div style={{ padding: '4px 0' }}>
                   {passwordStatusMap[this.getPasswordStatus()]}

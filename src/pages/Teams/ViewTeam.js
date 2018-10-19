@@ -1,31 +1,22 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { Button, Menu, Dropdown, Icon } from 'antd';
+import { Button, Rate, Popconfirm } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
-
-const menu = (
-  <Menu mode="vertical">
-    <Menu.Item key="1">
-      <Icon type="team" /> Gerenciar membros
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Icon type="fork" /> Fluxos de trabalho
-    </Menu.Item>
-  </Menu>
-);
+import router from 'umi/router';
 
 const action = (
   <Fragment>
-    <Button.Group>
-      <Button>Novo projeto</Button>
-      <Dropdown overlay={menu} placement="bottomRight">
-        <Button>
-          <Icon type="ellipsis" />
-        </Button>
-      </Dropdown>
-    </Button.Group>
-    <Button type="danger">Sair da equipe</Button>
+    <Popconfirm
+      title="Tem certeza que quer sair da equipe?"
+      onConfirm={() => {}}
+      okText="Sim"
+      cancelText="Não"
+    >
+      <Button type="danger" ghost>
+        Sair
+      </Button>
+    </Popconfirm>
   </Fragment>
 );
 
@@ -57,8 +48,25 @@ class ViewTeam extends Component {
     });
   }
 
+  handleTabChange = key => {
+    const { match } = this.props;
+    switch (key) {
+      case 'projects':
+        router.push(`${match.url}/projects`);
+        break;
+      case 'workflows':
+        router.push(`${match.url}/workflows`);
+        break;
+      case 'members':
+        router.push(`${match.url}/members`);
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
-    const { team } = this.props;
+    const { team, children, match, location } = this.props;
 
     if (!team) {
       return <PageLoading />;
@@ -67,14 +75,14 @@ class ViewTeam extends Component {
     return (
       <PageHeaderWrapper
         title={team.name}
-        logo={
-          <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />
-        }
+        logo={<Rate count={1} />}
         action={action}
         content={team.description}
         tabList={tabList}
+        tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
+        onTabChange={this.handleTabChange}
       >
-        <h1>{team.name}</h1>
+        {children}
       </PageHeaderWrapper>
     );
   }

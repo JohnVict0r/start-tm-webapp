@@ -88,7 +88,7 @@ class TeamsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper>
+      <PageHeaderWrapper title="Minhas equipes">
         <div className={styles.standardList}>
           <Card
             className={styles.listCard}

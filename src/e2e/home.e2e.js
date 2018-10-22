@@ -1,5 +1,7 @@
 import puppeteer from 'puppeteer';
 
+const BASE_URL = `http://localhost:${process.env.PORT || 8000}`;
+
 describe('Homepage', () => {
   let browser;
   let page;
@@ -10,7 +12,7 @@ describe('Homepage', () => {
 
   beforeEach(async () => {
     page = await browser.newPage();
-    await page.goto('http://localhost:3000/user/login', { waitUntil: 'networkidle2' });
+    await page.goto(`${BASE_URL}/user/login`, { waitUntil: 'networkidle2' });
     // await page.evaluate(() => window.localStorage.setItem('antd-pro-authority', 'guest'));
 
     // login
@@ -26,7 +28,7 @@ describe('Homepage', () => {
   afterEach(() => page.close());
 
   it('it should have logo text', async () => {
-    await page.goto('http://localhost:3000', { waitUntil: 'networkidle2' });
+    await page.goto(`${BASE_URL}`, { waitUntil: 'networkidle2' });
     await page.waitForSelector('#logo h1');
     const text = await page.evaluate(() => document.body.innerHTML);
     expect(text).toContain('<h1>Produtiivo</h1>');

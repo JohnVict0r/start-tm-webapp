@@ -81,6 +81,20 @@ export default [
         ],
       },
       {
+        path: '/projects',
+        name: 'projects',
+        icon: 'project',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/projects', redirect: '/projects/explore' },
+          {
+            path: '/projects/explore',
+            name: 'my-projects',
+            component: './Projects/ProjectsList',
+          },
+        ],
+      },
+      {
         path: '/form',
         icon: 'form',
         name: 'form',

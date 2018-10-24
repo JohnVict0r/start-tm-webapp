@@ -1,4 +1,6 @@
-import { loadUserTeams, loadUserMasterOfTeams, loadTeam, createTeam } from '@/services/teams';
+import { loadUserProjects, createProject } from '@/services/projects';
+import { routerRedux } from 'dva/router';
+import { notification } from 'antd';
 
 const initialPaginatioState = {
   count: 0,
@@ -10,10 +12,9 @@ const initialPaginatioState = {
 };
 
 export default {
-  namespace: 'teams',
+  namespace: 'projects',
 
   state: {
-    masterOfTeams: [],
     explore: {
       items: [],
       pagination: initialPaginatioState,
@@ -21,8 +22,8 @@ export default {
   },
 
   effects: {
-    *fetchUserTeams({ payload }, { call, put }) {
-      const response = yield call(loadUserTeams, payload);
+    *fetchUserProjects({ payload }, { call, put }) {
+      const response = yield call(loadUserProjects, payload);
 
       yield put({
         type: 'entities/mergeEntities',
@@ -38,8 +39,8 @@ export default {
       });
     },
 
-    *fetchTeam({ payload }, { call, put }) {
-      const response = yield call(loadTeam, payload);
+    *createProject({ payload }, { call, put }) {
+      const response = yield call(createProject, payload);
 
       yield put({
         type: 'entities/mergeEntities',
@@ -52,36 +53,14 @@ export default {
           item: response.result,
         },
       });
-    },
 
-    *fetchUserMasterOfTeams(_, { call, put }) {
-      const response = yield call(loadUserMasterOfTeams);
+      yield put(routerRedux.push(`/projects/${response.result}`));
 
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
-      });
-
-      yield put({
-        type: 'receiveMasterOfTeams',
-        payload: response.result,
-      });
-    },
-
-    *createTeam({ payload }, { call, put }) {
-      const response = yield call(createTeam, payload);
-
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
-      });
-
-      yield put({
-        type: 'receiveItem',
-        payload: {
-          item: response.result,
-        },
-      });
+      yield put(
+        notification.success({
+          message: `Projeto criado com sucesso!`,
+        })
+      );
     },
   },
 
@@ -103,12 +82,6 @@ export default {
           ...state.explore,
           items: [...state.explore.items, payload.item],
         },
-      };
-    },
-    receiveMasterOfTeams(state, { payload }) {
-      return {
-        ...state,
-        masterOfTeams: payload,
       };
     },
   },

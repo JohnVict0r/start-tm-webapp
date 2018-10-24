@@ -6,15 +6,15 @@ import { List, Card, Input, Button, Avatar, Skeleton } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import NewTeamModal from '@/components/NewTeamModal';
-import { exploreTeamsSelector } from './selectors/teams';
+import { exploreProjectsSelector } from './selectors/projects';
 
-import styles from './TeamsList.less';
+import styles from './ProjectsList.less';
 
 @connect(state => ({
-  teams: exploreTeamsSelector(state),
-  loading: state.loading.effects['teams/fetchUserTeams'],
+  projects: exploreProjectsSelector(state),
+  loading: state.loading.effects['projects/fetchUserProjects'],
 }))
-class TeamsList extends PureComponent {
+class ProjectsList extends PureComponent {
   state = {
     visible: false,
     done: false,
@@ -23,7 +23,7 @@ class TeamsList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'teams/fetchUserTeams',
+      type: 'projects/fetchUserProjects',
     });
   }
 
@@ -57,7 +57,7 @@ class TeamsList extends PureComponent {
       });
 
       dispatch({
-        type: 'teams/createTeam',
+        type: 'projects/createProject',
         payload: values,
       });
     }
@@ -65,7 +65,7 @@ class TeamsList extends PureComponent {
 
   render() {
     const {
-      teams: { items, pagination },
+      projects: { items, pagination },
       loading,
     } = this.props;
     const { visible, done } = this.state;
@@ -88,12 +88,12 @@ class TeamsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="Minhas equipes">
+      <PageHeaderWrapper title="Meus projetos">
         <div className={styles.standardList}>
           <Card
             className={styles.listCard}
             bordered={false}
-            title="Equipes"
+            title="Projetos"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
@@ -109,7 +109,7 @@ class TeamsList extends PureComponent {
                 /* eslint-enable */
               }}
             >
-              Nova equipe
+              Novo projeto
             </Button>
             <List
               size="large"
@@ -122,7 +122,7 @@ class TeamsList extends PureComponent {
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
                       avatar={<Avatar src={item.logo} shape="square" size="large" />}
-                      title={<Link to={`/teams/${item.id}`}>{item.name}</Link>}
+                      title={<Link to={`/projects/${item.id}`}>{item.name}</Link>}
                       description={item.description}
                     />
                   </Skeleton>
@@ -144,4 +144,4 @@ class TeamsList extends PureComponent {
   }
 }
 
-export default TeamsList;
+export default ProjectsList;

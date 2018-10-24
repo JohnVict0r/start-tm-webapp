@@ -9,6 +9,7 @@ import { masterOfTeamsSelector } from '@/selectors/teams';
 @connect(state => ({
   teams: masterOfTeamsSelector(state),
   loadingTeamOptions: state.loading.effects['teams/fetchUserMasterOfTeams'],
+  submitting: state.loading.effects['projects/createProject'],
 }))
 @Form.create()
 class NewProject extends PureComponent {
@@ -19,10 +20,34 @@ class NewProject extends PureComponent {
     });
   }
 
+  handleSubmit = e => {
+    e.preventDefault();
+    const { form } = this.props;
+    form.validateFields({ force: true }, (err, values) => {
+      if (!err) {
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'projects/createProject',
+          payload: {
+            teamId: values.owner,
+            project: {
+              ...values,
+              owner_type: 'teams',
+              owner_id: values.owner,
+            },
+          },
+        });
+        form.resetFields();
+      }
+    });
+  };
+
   render() {
     const {
       form: { getFieldDecorator },
       teams,
+      loadingTeamOptions,
+      submitting,
     } = this.props;
 
     const formItemLayout = {
@@ -60,7 +85,7 @@ class NewProject extends PureComponent {
               {getFieldDecorator('owner', {
                 rules: [{ required: true, message: 'Por favor selecione uma equipe!' }],
               })(
-                <Select placeholder="Equipe">
+                <Select placeholder="Equipe" disabled={loadingTeamOptions}>
                   {teams.map(r => (
                     <Select.Option key={r.id}>{r.name}</Select.Option>
                   ))}
@@ -88,7 +113,7 @@ class NewProject extends PureComponent {
               )}
             </Form.Item>
             <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" loading={submitting}>
                 Criar projeto
               </Button>
             </Form.Item>

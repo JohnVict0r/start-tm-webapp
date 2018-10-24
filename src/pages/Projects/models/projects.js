@@ -1,4 +1,6 @@
-import { loadUserProjects } from '@/services/projects';
+import { loadUserProjects, createProject } from '@/services/projects';
+import { routerRedux } from 'dva/router';
+import { notification } from 'antd';
 
 const initialPaginatioState = {
   count: 0,
@@ -35,6 +37,30 @@ export default {
           pagination: response.pagination,
         },
       });
+    },
+
+    *createProject({ payload }, { call, put }) {
+      const response = yield call(createProject, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveItem',
+        payload: {
+          item: response.result,
+        },
+      });
+
+      yield put(routerRedux.push(`/projects/${response.result}`));
+
+      yield put(
+        notification.success({
+          message: `Projeto criado com sucesso!`,
+        })
+      );
     },
   },
 

@@ -92,6 +92,11 @@ export default [
             name: 'my-projects',
             component: './Projects/ProjectsList',
           },
+          {
+            path: '/projects/new',
+            name: 'new-project',
+            component: './Projects/NewProject',
+          },
         ],
       },
       {

@@ -1,4 +1,4 @@
-import { loadUserTeams, loadTeam, createTeam } from '@/services/teams';
+import { loadUserTeams, loadUserMasterOfTeams, loadTeam, createTeam } from '@/services/teams';
 
 const initialPaginatioState = {
   count: 0,
@@ -13,6 +13,7 @@ export default {
   namespace: 'teams',
 
   state: {
+    masterOfTeams: [],
     explore: {
       items: [],
       pagination: initialPaginatioState,
@@ -53,6 +54,20 @@ export default {
       });
     },
 
+    *fetchUserMasterOfTeams(_, { call, put }) {
+      const response = yield call(loadUserMasterOfTeams);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveMasterOfTeams',
+        payload: response.result,
+      });
+    },
+
     *createTeam({ payload }, { call, put }) {
       const response = yield call(createTeam, payload);
 
@@ -88,6 +103,12 @@ export default {
           ...state.explore,
           items: [...state.explore.items, payload.item],
         },
+      };
+    },
+    receiveMasterOfTeams(state, { payload }) {
+      return {
+        ...state,
+        masterOfTeams: payload,
       };
     },
   },

@@ -1,3 +1,5 @@
+image: node:8.10.0
+
 stages:
   - test
 
@@ -9,7 +11,6 @@ cache:
 
 test_components:
   stage: test
-  image: .
   script:
     - npm install
     - npm run test:component

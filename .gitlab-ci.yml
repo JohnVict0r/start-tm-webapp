@@ -1,20 +1,33 @@
-image: node:8.10.0
+image: docker:stable
 
-stages:
-  - test
-
-# This folder is cached between builds
-# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
-cache:
-  paths:
-    - node_modules/
+services:
+- docker:dind
 
 before_script:
-  - docker info
+- docker info
 
-test_components:
-  stage: test
-  image: .
+build:
+  stage: build
   script:
-    - npm install
-    - npm run test:component
+  - docker build -t my-docker-image .
+
+#image: node:8.10.0
+#
+#stages:
+#  - test
+#
+## This folder is cached between builds
+## http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+#cache:
+#  paths:
+#    - node_modules/
+#
+#before_script:
+#  - docker info
+#
+#test_components:
+#  stage: test
+#  image: .
+#  script:
+#    - npm install
+#    - npm run test:component

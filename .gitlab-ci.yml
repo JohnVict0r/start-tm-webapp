@@ -10,6 +10,7 @@ build:
   stage: build
   script:
   - docker build -t my-docker-image .
+  - docker run my-docker-image npm run test:all
 
 #image: node:8.10.0
 #

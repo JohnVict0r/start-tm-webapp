@@ -1,0 +1,31 @@
+@import '~antd/lib/style/themes/default.less';
+
+.descriptionIcon {
+  cursor: pointer;
+  color: @text-color-secondary;
+  margin-left: 12px;
+  font-style: normal;
+}
+
+.descriptionPopover {
+  :global {
+    .ant-popover-inner-content {
+      max-height: 290px;
+      overflow: auto;
+      max-width: 256px;
+    }
+  }
+}
+
+.pageHeaderContent {
+  display: flex;
+
+  .boardSelector {
+    margin-right: 8px;
+  }
+
+  .boardIcon {
+    font-size: @font-size-base !important;
+    transform: none !important;
+  }
+}

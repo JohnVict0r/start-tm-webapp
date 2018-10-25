@@ -1,4 +1,4 @@
-import { loadUserProjects, createProject } from '@/services/projects';
+import { loadUserProjects, loadProject, createProject } from '@/services/projects';
 import { routerRedux } from 'dva/router';
 import { notification } from 'antd';
 
@@ -35,6 +35,22 @@ export default {
         payload: {
           items: response.result,
           pagination: response.pagination,
+        },
+      });
+    },
+
+    *fetchProject({ payload }, { call, put }) {
+      const response = yield call(loadProject, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveItem',
+        payload: {
+          item: response.result,
         },
       });
     },

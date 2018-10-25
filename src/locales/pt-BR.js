@@ -50,6 +50,7 @@ export default {
   'menu.teams.team.members': 'Membros da equipe',
   'menu.projects': 'Projetos',
   'menu.projects.my-projects': 'Meus Projetos',
+  'menu.projects.project': 'Projeto',
   'menu.projects.new-project': 'Novo Projeto',
   'menu.form': 'Formulário',
   'menu.form.basicform': 'Formulário Básico',

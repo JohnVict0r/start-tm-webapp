@@ -27,7 +27,7 @@ test-components:
   stage: test
   script:
   - docker pull $CONTAINER_TEST_IMAGE
-  - docker run $CONTAINER_TEST_IMAGE npm run test:component
+  - docker run $CONTAINER_TEST_IMAGE npm run test:component -- --coverage
 
 release-image:
   stage: release

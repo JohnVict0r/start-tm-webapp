@@ -12,7 +12,8 @@ cache:
     - node_modules/
 
 test_components:
+  stage: test
+  image: .
   script:
     - npm install
     - npm run test:component
-  stage: test

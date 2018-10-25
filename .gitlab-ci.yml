@@ -6,14 +6,12 @@ services:
 stages:
   - build
   - test
-#  - release
+  - release
 #  - deploy
 
 variables:
-#  DOCKER_HOST: tcp://docker:2375
-#  DOCKER_DRIVER: overlay2
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-#  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
 before_script:
   - docker info
@@ -25,31 +23,24 @@ build:
   - docker build --pull -t $CONTAINER_TEST_IMAGE .
   - docker push $CONTAINER_TEST_IMAGE
 
-test_components:
+test-components:
   stage: test
   script:
   - docker pull $CONTAINER_TEST_IMAGE
-  - docker run $CONTAINER_TEST_IMAGE npm run test:component
-#  - docker build -t my-docker-image .
-#  - docker run my-docker-image npm run test:component
+  - docker run $CONTAINER_TEST_IMAGE npm run test:component -- --coverage
 
-#image: node:8.10.0
-#
-#stages:
-#  - test
-#
-## This folder is cached between builds
-## http://docs.gitlab.com/ce/ci/yaml/README.html#cache
-#cache:
-#  paths:
-#    - node_modules/
-#
-#before_script:
-#  - docker info
-#
-#test_components:
-#  stage: test
-#  image: .
+release-image:
+  stage: release
+  script:
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+  only:
+    - master
+
+#deploy:
+#  stage: deploy
 #  script:
-#    - npm install
-#    - npm run test:component
+#    - ./deploy.sh
+#  only:
+#    - master

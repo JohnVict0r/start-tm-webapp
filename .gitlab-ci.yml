@@ -20,14 +20,15 @@ before_script:
 build:
   stage: build
   script:
-  - docker build --pull -t $CONTAINER_TEST_IMAGE .
-  - docker push $CONTAINER_TEST_IMAGE
+    - docker build --pull -t $CONTAINER_TEST_IMAGE .
+    - docker push $CONTAINER_TEST_IMAGE
 
 test-components:
   stage: test
   script:
-  - docker pull $CONTAINER_TEST_IMAGE
-  - docker run $CONTAINER_TEST_IMAGE npm run test:component -- --coverage
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker run $CONTAINER_TEST_IMAGE npm run test:component -- --coverage
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
 
 release-image:
   stage: release

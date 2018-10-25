@@ -97,6 +97,20 @@ export default [
             name: 'new-project',
             component: './Projects/NewProject',
           },
+          {
+            path: '/projects/:id',
+            name: 'project',
+            component: './Projects/ViewProject',
+            hideInMenu: true,
+            routes: [
+              // { path: '/projects/:id', redirect: '/projects/:id/projects' },
+              // {
+              //   path: '/teams/:id/projects',
+              //   name: 'projects',
+              //   component: './Teams/Projects',
+              // },
+            ],
+          },
         ],
       },
       {

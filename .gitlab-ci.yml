@@ -9,9 +9,12 @@ cache:
   paths:
     - node_modules/
 
+before_script:
+  - docker info
+
 test_components:
   stage: test
   image: .
   script:
-#    - npm install
+    - npm install
     - npm run test:component

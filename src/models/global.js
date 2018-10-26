@@ -1,5 +1,6 @@
 import { queryNotices } from '@/services/api';
 import { fetchRoles } from '@/services/auth';
+import { loadLoggedInUser } from '@/services/user';
 
 export default {
   namespace: 'global',
@@ -8,9 +9,23 @@ export default {
     roles: [],
     collapsed: false,
     notices: [],
+    loggedInUser: null,
   },
 
   effects: {
+    *fetchLoggedInUser(_, { call, put }) {
+      const response = yield call(loadLoggedInUser);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'saveLoggedInUser',
+        payload: response.result,
+      });
+    },
     *fetchRoles(_, { call, put }) {
       const response = yield call(fetchRoles);
       yield put({
@@ -48,6 +63,12 @@ export default {
   },
 
   reducers: {
+    saveLoggedInUser(state, { payload }) {
+      return {
+        ...state,
+        loggedInUser: payload,
+      };
+    },
     changeLayoutCollapsed(state, { payload }) {
       return {
         ...state,

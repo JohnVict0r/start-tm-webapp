@@ -1,6 +1,11 @@
 import { createSelector } from 'reselect';
 
-// eslint-disable-next-line
+export const loggedInUserSelector = createSelector(
+  state => state.global.loggedInUser,
+  state => state.entities.users,
+  (loggedInUser, users) => (loggedInUser ? users[loggedInUser] : {})
+);
+
 export const rolesSelector = createSelector(
   state => state.global.roles,
   state => state.entities.roles,

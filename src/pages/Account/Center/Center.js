@@ -4,15 +4,9 @@ import Link from 'umi/link';
 import router from 'umi/router';
 import { Card, Row, Col, Icon, Avatar, Tag, Divider, Spin, Input } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
+import { loggedInUserSelector } from '@/selectors/global';
 import styles from './Center.less';
 
-@connect(({ loading, user, project }) => ({
-  listLoading: loading.effects['list/fetch'],
-  currentUser: user.currentUser,
-  currentUserLoading: loading.effects['user/fetchCurrent'],
-  project,
-  projectLoading: loading.effects['project/fetchNotice'],
-}))
 class Center extends PureComponent {
   state = {
     newTags: [],
@@ -127,9 +121,9 @@ class Center extends PureComponent {
               {currentUser && Object.keys(currentUser).length ? (
                 <div>
                   <div className={styles.avatarHolder}>
-                    <img alt="" src={currentUser.avatar} />
+                    <img alt="" src={currentUser.pictureUrl} />
                     <div className={styles.name}>{currentUser.name}</div>
-                    <div>{currentUser.signature}</div>
+                    {/* <div>{currentUser.signature}</div> */}
                   </div>
                   <div className={styles.detail}>
                     <p>
@@ -213,4 +207,13 @@ class Center extends PureComponent {
   }
 }
 
-export default Center;
+export default connect(state => {
+  const { loading, project } = state;
+  return {
+    listLoading: loading.effects['list/fetch'],
+    currentUser: loggedInUserSelector(state),
+    currentUserLoading: loading.effects['user/fetchCurrent'],
+    project,
+    projectLoading: loading.effects['project/fetchNotice'],
+  };
+})(Center);

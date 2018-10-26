@@ -79,7 +79,7 @@ export default {
   'menu.exception.server-error': '500',
   'menu.exception.trigger': 'Disparar',
   'menu.account': 'Conta',
-  'menu.account.center': 'Central da Conta',
+  'menu.account.center': 'Perfil',
   'menu.account.settings': 'Configurar Conta',
   'menu.account.trigger': 'Disparar Erro',
   'menu.account.logout': 'Sair',

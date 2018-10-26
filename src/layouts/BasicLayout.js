@@ -97,7 +97,7 @@ class BasicLayout extends React.PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'user/fetchCurrent',
+      type: 'global/fetchLoggedInUser',
     });
     dispatch({
       type: 'setting/getSetting',

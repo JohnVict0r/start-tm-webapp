@@ -79,7 +79,6 @@ export default function request(url, option) {
     .digest('hex');
 
   const defaultOptions = {
-    mode: 'no-cors',
     credentials: 'include',
   };
   const newOptions = { ...defaultOptions, ...options };

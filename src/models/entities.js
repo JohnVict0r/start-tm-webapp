@@ -6,6 +6,7 @@ export default {
   state: {
     teams: {},
     projects: {},
+    boards: {},
     //   users: {},
   },
 

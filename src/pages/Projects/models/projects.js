@@ -1,4 +1,5 @@
 import { loadUserProjects, loadProject, createProject } from '@/services/projects';
+import { loadProjectBoards } from '@/services/boards';
 import { routerRedux } from 'dva/router';
 import { notification } from 'antd';
 
@@ -15,6 +16,9 @@ export default {
   namespace: 'projects',
 
   state: {
+    currentProject: {
+      boards: [],
+    },
     explore: {
       items: [],
       pagination: initialPaginatioState,
@@ -52,6 +56,20 @@ export default {
         payload: {
           item: response.result,
         },
+      });
+    },
+
+    *fetchProjectBoards({ payload }, { call, put }) {
+      const response = yield call(loadProjectBoards, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveBoards',
+        payload: response.result,
       });
     },
 
@@ -97,6 +115,15 @@ export default {
         explore: {
           ...state.explore,
           items: [...state.explore.items, payload.item],
+        },
+      };
+    },
+    receiveBoards(state, { payload }) {
+      return {
+        ...state,
+        currentProject: {
+          ...state.currentProject,
+          boards: payload,
         },
       };
     },

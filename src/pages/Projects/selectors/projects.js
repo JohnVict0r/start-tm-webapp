@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-// eslint-disable-next-line
 export const exploreProjectsSelector = createSelector(
   state => state.projects.explore,
   state => state.entities.projects,
@@ -8,4 +7,10 @@ export const exploreProjectsSelector = createSelector(
     items: explore.items.map(id => projects[id]),
     pagination: explore.pagination,
   })
+);
+
+export const projectBoardsSelector = createSelector(
+  state => state.projects.currentProject.boards,
+  state => state.entities.boards,
+  (collection, boards) => collection.map(id => boards[id])
 );

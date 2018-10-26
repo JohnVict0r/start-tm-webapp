@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Button, Icon, Rate, Menu, Popover, Dropdown, Input } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
-// import router from 'umi/router';
+import { projectBoardsSelector } from './selectors/projects';
 
 import styles from './ViewProject.less';
 
@@ -23,15 +23,11 @@ const boardOptionsMenu = (
   </Menu>
 );
 
-const boards = [
-  { id: 1, name: 'Board 01' },
-  { id: 2, name: 'Board 02' },
-  { id: 3, name: 'Est incidunt doloribus minima nihil distinctio reprehenderit.' },
-];
-
 @connect((state, ownProps) => ({
   project: state.entities.projects[ownProps.match.params.id],
+  boards: projectBoardsSelector(state),
   loading: state.loading.effects['projects/fetchProject'],
+  loadingBoards: state.loading.effects['projects/fetchProjectBoards'],
 }))
 class ViewProject extends Component {
   componentDidMount() {
@@ -40,10 +36,15 @@ class ViewProject extends Component {
       type: 'projects/fetchProject',
       payload: match.params.id,
     });
+
+    dispatch({
+      type: 'projects/fetchProjectBoards',
+      payload: match.params.id,
+    });
   }
 
   render() {
-    const { project, children } = this.props;
+    const { project, boards, loadingBoards, children } = this.props;
 
     if (!project) {
       return <PageLoading />;
@@ -83,7 +84,7 @@ class ViewProject extends Component {
       <div className={styles.pageHeaderContent}>
         <div className={styles.boardSelector}>
           <Input.Group compact>
-            <Dropdown overlay={boardsMenu}>
+            <Dropdown overlay={boardsMenu} disabled={loadingBoards}>
               <Button>
                 <Icon type="project" className={styles.boardIcon} />
                 Quadro:{' '}

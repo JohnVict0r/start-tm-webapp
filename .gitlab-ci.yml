@@ -7,6 +7,7 @@ stages:
   - build
   - test
   - release
+  - review
 #  - deploy
 
 variables:
@@ -44,6 +45,24 @@ release-image:
     - docker push $CONTAINER_RELEASE_IMAGE
   only:
     - master
+
+deploy_review:
+  stage: review
+  script:
+  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+  - ./deploy.sh
+  environment:
+    name: production
+    url: http://192.168.1.1
+  when: manual
+  only:
+    - master
+    - rayron
 
 #deploy:
 #  stage: deploy

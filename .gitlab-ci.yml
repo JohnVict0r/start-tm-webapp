@@ -48,17 +48,17 @@ release-image:
 
 deploy_review:
   stage: review
-  script:
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-  - eval $(ssh-agent -s)
-  - ssh-add <(echo "$SSH_PRIVATE_KEY")
-  - mkdir -p ~/.ssh
-  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-  - ./deploy.sh
   environment:
     name: production
     url: http://192.168.1.1
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh-add <(echo "$SSH_PRIVATE_KEY");
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < ./deploy.sh;
   when: manual
   only:
     - master

@@ -59,7 +59,9 @@ deploy_review:
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY");
     # - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < 'REMOTE_APP_DIR=$REMOTE_APP_DIR';
-    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"';
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"';';
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"';';
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"';';
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < ./deploy.sh;
   when: manual
   only:

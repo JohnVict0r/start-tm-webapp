@@ -1,11 +1,5 @@
 #!/bin/sh
 
-echo "antes"
-echo $REMOTE_APP_DIR
-echo "depois"
-
-exit 0;
-
 releases_dir="$REMOTE_APP_DIR/releases";
 release=$CI_COMMIT_REF_SLUG;
 new_release_dir=$releases_dir/$release;

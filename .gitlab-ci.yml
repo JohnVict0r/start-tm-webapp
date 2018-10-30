@@ -51,6 +51,9 @@ deploy_review:
   environment:
     name: production
     url: http://192.168.1.1
+  variables:
+    RELEASE_DIR: $REMOTE_APP_DIR/releases
+    NEW_RELEASE_DIR: $REMOTE_APP_DIR/releases/$CI_COMMIT_REF_SLUG
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - mkdir -p ~/.ssh
@@ -62,7 +65,11 @@ deploy_review:
     #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"';';
     #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"';';
     #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < ./deploy.sh;
-    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"'; export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"'; export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"'; bash -s' < ./deploy.sh;
+    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"'; export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"'; export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"'; bash -s' < ./deploy.sh;
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" '[ -d '"'$RELEASE_DIR'"' ] || mkdir '"'$RELEASE_DIR'"';'
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'git clone --depth 1 '"'$CI_REPOSITORY_URL'"' '"'$NEW_RELEASE_DIR'"';'
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'ln -nfs '"'$NEW_RELEASE_DIR'"' '"'$REMOTE_APP_DIR'"'/current;'
+
   when: manual
   only:
     - master

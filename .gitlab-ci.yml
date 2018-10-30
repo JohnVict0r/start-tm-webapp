@@ -58,10 +58,11 @@ deploy_review:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY");
-    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"';';
+    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"';';
     #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"';';
     #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"';';
-    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < ./deploy.sh;
+    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < ./deploy.sh;
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"'; export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"'; export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"'; bash -s' < ./deploy.sh;
   when: manual
   only:
     - master

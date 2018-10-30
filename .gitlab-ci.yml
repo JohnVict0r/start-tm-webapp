@@ -50,7 +50,7 @@ deploy_review:
   stage: review
   environment:
     name: review
-    url: http://devel7.sedis.ufrn.br/produtiivo-web-client/current
+    url: http://devel7.sedis.ufrn.br/produtiivo/app
   variables:
     RELEASE_DIR: $REMOTE_APP_DIR/releases
     NEW_RELEASE_DIR: $REMOTE_APP_DIR/releases/$CI_COMMIT_SHA

@@ -49,8 +49,8 @@ release-image:
 deploy_review:
   stage: review
   environment:
-    name: production
-    url: http://192.168.1.1
+    name: review
+    url: http://devel7.sedis.ufrn.br/produtiivo-web-client/current
   variables:
     RELEASE_DIR: $REMOTE_APP_DIR/releases
     NEW_RELEASE_DIR: $REMOTE_APP_DIR/releases/$CI_COMMIT_REF_SLUG
@@ -61,11 +61,6 @@ deploy_review:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY");
-    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"';';
-    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"';';
-    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"';';
-    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < ./deploy.sh;
-    #- ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'export REMOTE_APP_DIR='"'$REMOTE_APP_DIR'"'; export CI_COMMIT_REF_SLUG='"'$CI_COMMIT_REF_SLUG'"'; export CI_REPOSITORY_URL='"'$CI_REPOSITORY_URL'"'; bash -s' < ./deploy.sh;
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" '[ -d '"'$RELEASE_DIR'"' ] || mkdir '"'$RELEASE_DIR'"';'
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'git clone --depth 1 '"'$CI_REPOSITORY_URL'"' '"'$NEW_RELEASE_DIR'"';'
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'ln -nfs '"'$NEW_RELEASE_DIR'"' '"'$REMOTE_APP_DIR'"'/current;'

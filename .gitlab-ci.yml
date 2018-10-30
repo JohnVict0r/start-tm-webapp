@@ -57,8 +57,8 @@ deploy_review:
     - eval $(ssh-agent -s)
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
-    - echo $REMOTE_APP_DIR
     - ssh-add <(echo "$SSH_PRIVATE_KEY");
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < 'REMOTE_APP_DIR=$REMOTE_APP_DIR';
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' < ./deploy.sh;
   when: manual
   only:

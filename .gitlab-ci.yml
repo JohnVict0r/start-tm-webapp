@@ -53,7 +53,7 @@ deploy_review:
     url: http://devel7.sedis.ufrn.br/produtiivo-web-client/current
   variables:
     RELEASE_DIR: $REMOTE_APP_DIR/releases
-    NEW_RELEASE_DIR: $REMOTE_APP_DIR/releases/$CI_COMMIT_REF_SLUG
+    NEW_RELEASE_DIR: $REMOTE_APP_DIR/releases/$CI_COMMIT_SHA
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - mkdir -p ~/.ssh

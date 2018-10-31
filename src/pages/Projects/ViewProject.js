@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
+import isEmpty from 'lodash/isEmpty';
 import { connect } from 'dva';
+import router from 'umi/router';
+import Link from 'umi/link';
 import { Button, Icon, Rate, Menu, Popover, Dropdown, Input } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
@@ -30,21 +33,48 @@ const boardOptionsMenu = (
   loadingBoards: state.loading.effects['projects/fetchProjectBoards'],
 }))
 class ViewProject extends Component {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    // não há quadro selecionado?
+    if (!prevState.selectedBoard && !isEmpty(nextProps.boards)) {
+      return {
+        selectedBoard: nextProps.boards[0],
+      };
+    }
+    return null;
+  }
+
+  state = {
+    selectedBoard: null,
+  };
+
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'projects/fetchProject',
       payload: match.params.id,
     });
-
-    dispatch({
-      type: 'projects/fetchProjectBoards',
-      payload: match.params.id,
-    });
   }
 
+  componentDidUpdate(_, prevState) {
+    const { match } = this.props;
+    const { selectedBoard } = this.state;
+
+    if (selectedBoard && selectedBoard !== prevState.selectedBoard) {
+      router.push(`${match.url}/boards/${selectedBoard.id}`);
+    }
+  }
+
+  onBoardSelect = ({ key }) => {
+    const { match, boards } = this.props;
+    this.setState({
+      selectedBoard: boards.find(b => b.id.toString() === key),
+    });
+    router.push(`${match.url}/boards/${key}`);
+  };
+
   render() {
-    const { project, boards, loadingBoards, children } = this.props;
+    const { project, boards, loadingBoards, match, children } = this.props;
+    const { selectedBoard } = this.state;
 
     if (!project) {
       return <PageLoading />;
@@ -73,9 +103,11 @@ class ViewProject extends Component {
     );
 
     const boardsMenu = (
-      <Menu>
+      <Menu selectable onSelect={this.onBoardSelect}>
         {boards.map(r => (
-          <Menu.Item key={r.id}>{r.name}</Menu.Item>
+          <Menu.Item key={r.id}>
+            <Link to={`${match.url}/boards/${r.id}`}>{r.name}</Link>
+          </Menu.Item>
         ))}
       </Menu>
     );
@@ -87,10 +119,13 @@ class ViewProject extends Component {
             <Dropdown overlay={boardsMenu} disabled={loadingBoards}>
               <Button>
                 <Icon type="project" className={styles.boardIcon} />
-                Quadro:{' '}
-                <span>
-                  <b>Livro Educação a Distância: Capítulo 01</b>
-                </span>
+                {selectedBoard ? (
+                  <span>
+                    {'Quadro: '} <b>{selectedBoard.name}</b>
+                  </span>
+                ) : (
+                  <span>Selecione um quadro</span>
+                )}
                 <Icon type="down" />
               </Button>
             </Dropdown>

@@ -48,6 +48,10 @@ export default {
   'menu.teams.team.projects': 'Projetos da equipe',
   'menu.teams.team.workflows': 'Workflows da equipe',
   'menu.teams.team.members': 'Membros da equipe',
+  'menu.admin.workflows': 'Fluxos de Trabalho',
+  'menu.admin.teams': 'Equipes',
+  'menu.admin.users': 'Usuários',
+  'menu.admin.acess': 'Acesso',
   'menu.projects': 'Projetos',
   'menu.projects.my-projects': 'Meus Projetos',
   'menu.projects.project': 'Projeto',
@@ -247,6 +251,7 @@ export default {
   'app.setting.othersettings': 'Outras configurações',
   'app.setting.weakmode': 'Weak Mode',
   'app.setting.copy': 'Copiar Configuração',
+  'component.globalHeader.admin': 'Página de Administração',
   'app.setting.copyinfo':
     'copiado com sucesso，por favor trocar o defaultSettings em src/models/setting.js',
   'app.setting.production.hint':

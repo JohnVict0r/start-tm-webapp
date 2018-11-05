@@ -114,8 +114,16 @@ class ViewProject extends Component {
 
     const content = (
       <div className={styles.pageHeaderContent}>
+        <Button type="primary" icon="plus">
+          Quadro
+        </Button>
         <div className={styles.boardSelector}>
           <Input.Group compact>
+            <Dropdown overlay={boardOptionsMenu} placement="bottomRight">
+              <Button>
+                <Icon type="ellipsis" />
+              </Button>
+            </Dropdown>
             <Dropdown overlay={boardsMenu} disabled={loadingBoards}>
               <Button>
                 <Icon type="project" className={styles.boardIcon} />
@@ -129,29 +137,24 @@ class ViewProject extends Component {
                 <Icon type="down" />
               </Button>
             </Dropdown>
-            <Dropdown overlay={boardOptionsMenu} placement="bottomRight">
-              <Button>
-                <Icon type="ellipsis" />
-              </Button>
-            </Dropdown>
           </Input.Group>
         </div>
-        <Button type="primary" icon="plus">
-          Quadro
-        </Button>
       </div>
     );
 
     return (
-      <PageHeaderWrapper
-        hiddenBreadcrumb
-        title={project.name}
-        // logo={<Rate count={1} />}
-        action={action}
-        content={content}
-      >
-        {children}
-      </PageHeaderWrapper>
+      <Fragment>
+        <PageHeaderWrapper
+          hiddenBreadcrumb
+          title={project.name}
+          // logo={<Rate count={1} />}
+          action={action}
+          content={content}
+        />
+        <div className={styles.content}>
+          <div className={`${styles.main}`}>{children}</div>
+        </div>
+      </Fragment>
     );
   }
 }

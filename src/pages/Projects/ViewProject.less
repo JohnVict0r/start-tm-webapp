@@ -21,11 +21,33 @@
   display: flex;
 
   .boardSelector {
-    margin-right: 8px;
+    margin-left: 8px;
   }
 
   .boardIcon {
     font-size: @font-size-base !important;
     transform: none !important;
+  }
+}
+
+.content {
+  margin: 24px -24px 0;
+  background: white;
+}
+
+@media screen and (max-width: @screen-sm) {
+  .content {
+    margin: 24px 0 0;
+  }
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  transition: 0.3s;
+  &.wide {
+    max-width: 1200px;
+    margin: 0 auto;
   }
 }

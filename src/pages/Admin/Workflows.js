@@ -8,8 +8,6 @@ import { workflowsSelector } from './selectors/workflows';
 
 import styles from './Workflows.less';
 
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
 @connect(state => ({
   workflows: workflowsSelector(state),
   loading: state.loading.effects['admin/fetchWorkflows'],
@@ -46,49 +44,47 @@ class Workflows extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="Portal Administrativo">
-        <div className={styles.standardList}>
-          <Card
-            className={styles.listCard}
-            bordered={false}
-            title="Workflows"
-            style={{ marginTop: 24 }}
-            bodyStyle={{ padding: '0 32px 40px 32px' }}
-            extra={extraContent}
+      <div className={styles.standardList}>
+        <Card
+          className={styles.listCard}
+          bordered={false}
+          title="Workflows"
+          style={{ marginTop: 24 }}
+          bodyStyle={{ padding: '0 32px 40px 32px' }}
+          extra={extraContent}
+        >
+          <Button
+            type="dashed"
+            style={{ width: '100%', marginBottom: 8 }}
+            icon="plus"
+            onClick={() => {}}
+            ref={component => {
+              /* eslint-disable */
+              this.addBtn = findDOMNode(component);
+              /* eslint-enable */
+            }}
           >
-            <Button
-              type="dashed"
-              style={{ width: '100%', marginBottom: 8 }}
-              icon="plus"
-              onClick={() => {}}
-              ref={component => {
-                /* eslint-disable */
-                this.addBtn = findDOMNode(component);
-                /* eslint-enable */
-              }}
-            >
-              Novo workflow
-            </Button>
-            <List
-              size="large"
-              rowKey="id"
-              loading={loading}
-              dataSource={items}
-              pagination={paginationProps}
-              renderItem={item => (
-                <List.Item>
-                  <Skeleton title={false} loading={loading} active>
-                    <List.Item.Meta
-                      title={<Link to={`/workflows/${item.id}`}>{item.name}</Link>}
-                      description={item.description}
-                    />
-                  </Skeleton>
-                </List.Item>
-              )}
-            />
-          </Card>
-        </div>
-      </PageHeaderWrapper>
+            Novo workflow
+          </Button>
+          <List
+            size="large"
+            rowKey="id"
+            loading={loading}
+            dataSource={items}
+            pagination={paginationProps}
+            renderItem={item => (
+              <List.Item>
+                <Skeleton title={false} loading={loading} active>
+                  <List.Item.Meta
+                    title={<Link to={`/workflows/${item.id}`}>{item.name}</Link>}
+                    description={item.description}
+                  />
+                </Skeleton>
+              </List.Item>
+            )}
+          />
+        </Card>
+      </div>
     );
   }
 }

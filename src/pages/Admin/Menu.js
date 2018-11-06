@@ -6,6 +6,8 @@ import { Menu } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './Menu.less';
 
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+
 const { Item } = Menu;
 
 @connect(({ user }) => ({
@@ -17,6 +19,7 @@ class Info extends Component {
     const { match, location } = props;
     const menuMap = {
       base: <FormattedMessage id="menu.admin.workflows" defaultMessage="Workflows" />,
+      user: <FormattedMessage id="menu.admin.users" defaultMessage="Users" />,
     };
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
@@ -88,24 +91,26 @@ class Info extends Component {
     }
     const { mode, selectKey } = this.state;
     return (
-      <GridContent>
-        <div
-          className={styles.main}
-          ref={ref => {
-            this.main = ref;
-          }}
-        >
-          <div className={styles.leftmenu}>
-            <Menu mode={mode} selectedKeys={[selectKey]} onClick={this.selectKey}>
-              {this.getmenu()}
-            </Menu>
+      <PageHeaderWrapper title="Portal Administrativo">
+        <GridContent>
+          <div
+            className={styles.main}
+            ref={ref => {
+              this.main = ref;
+            }}
+          >
+            <div className={styles.leftmenu}>
+              <Menu mode={mode} selectedKeys={[selectKey]} onClick={this.selectKey}>
+                {this.getmenu()}
+              </Menu>
+            </div>
+            <div className={styles.right}>
+              <div className={styles.title}>{this.getRightTitle()}</div>
+              {children}
+            </div>
           </div>
-          <div className={styles.right}>
-            <div className={styles.title}>{this.getRightTitle()}</div>
-            {children}
-          </div>
-        </div>
-      </GridContent>
+        </GridContent>
+      </PageHeaderWrapper>
     );
   }
 }

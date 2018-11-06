@@ -52,6 +52,7 @@ export default {
   'menu.admin.teams': 'Equipes',
   'menu.admin.users': 'Usuários',
   'menu.admin.acess': 'Acesso',
+  'menu.admin.portal': 'Portal Administrativo',
   'menu.projects': 'Projetos',
   'menu.projects.my-projects': 'Meus Projetos',
   'menu.projects.project': 'Projeto',

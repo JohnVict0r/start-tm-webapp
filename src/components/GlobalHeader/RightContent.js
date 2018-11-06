@@ -3,6 +3,7 @@ import { FormattedMessage, formatMessage } from 'umi/locale';
 import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
+import Link from 'umi/link';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
@@ -139,6 +140,12 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
         </NoticeIcon>
+        {/* TODO pegar em algum lugar se é adm */}
+        <Tooltip title={formatMessage({ id: 'component.globalHeader.admin' })}>
+          <Link to="/admin" rel="noopener noreferrer" className={styles.action}>
+            <Icon type="tool" theme="outlined" />
+          </Link>
+        </Tooltip>
         {currentUser.name ? (
           <Dropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>

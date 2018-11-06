@@ -328,6 +328,19 @@ export default [
         ],
       },
       {
+        name: 'admin',
+        path: '/admin',
+        component: './Admin/Menu',
+        hideInMenu: true,
+        routes: [
+          { path: '/admin', redirect: '/admin/workflows' },
+          {
+            path: '/admin/workflows',
+            component: './Admin/Workflows',
+          },
+        ],
+      },
+      {
         component: '404',
       },
     ],

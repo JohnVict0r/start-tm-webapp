@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
 import router from 'umi/router';
 import { FormattedMessage } from 'umi/locale';
 import { Menu } from 'antd';
@@ -9,11 +8,13 @@ import styles from './Menu.less';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 
 const { Item } = Menu;
-
+/*
+import { connect } from 'dva';
 @connect(({ user }) => ({
   currentUser: user.currentUser,
 }))
-class Info extends Component {
+*/
+class AdminMenu extends Component {
   constructor(props) {
     super(props);
     const { match, location } = props;
@@ -85,10 +86,8 @@ class Info extends Component {
   };
 
   render() {
-    const { children, currentUser } = this.props;
-    if (!currentUser.userid) {
-      return '';
-    }
+    const { children } = this.props;
+
     const { mode, selectKey } = this.state;
     return (
       <PageHeaderWrapper title="Portal Administrativo">
@@ -115,4 +114,4 @@ class Info extends Component {
   }
 }
 
-export default Info;
+export default AdminMenu;

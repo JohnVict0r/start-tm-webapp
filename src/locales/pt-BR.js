@@ -49,6 +49,7 @@ export default {
   'menu.teams.team.workflows': 'Workflows da equipe',
   'menu.teams.team.members': 'Membros da equipe',
   'menu.admin.workflows': 'Fluxos de Trabalho',
+  'menu.admin': 'Administração',
   'menu.admin.teams': 'Equipes',
   'menu.admin.users': 'Usuários',
   'menu.admin.acess': 'Acesso',

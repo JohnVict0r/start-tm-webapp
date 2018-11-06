@@ -309,7 +309,7 @@ export default [
               },
               {
                 path: '/account/settings/base',
-                component: './Account/Settings/BaseView',
+                component: './Account/Settings/BaseInfo',
               },
               {
                 path: '/account/settings/security',

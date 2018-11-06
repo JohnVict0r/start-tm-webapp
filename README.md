@@ -82,8 +82,8 @@ We need your help: https://github.com/ant-design/ant-design-pro/issues/120
 ### Use bash
 
 ```bash
-$ git clone https://github.com/ant-design/ant-design-pro.git --depth=1
-$ cd ant-design-pro
+$ git clone git@gitlab.sedis.ufrn.br:SISTEMAS/produtiivo-web-client-pro.git
+$ cd produtiivo-web-client-pro
 $ npm install
 $ npm start         # visit http://localhost:8000
 ```

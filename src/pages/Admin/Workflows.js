@@ -4,28 +4,25 @@ import { connect } from 'dva';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
 
-import { adminWorkflowsSelector } from './selectors/workflows';
+import { workflowsSelector } from './selectors/workflows';
 
 import styles from './Workflows.less';
 
 @connect(state => ({
-  workflows: adminWorkflowsSelector(state),
-  loading: state.loading.effects['currentAdminWorkflows/fetch'],
+  workflows: workflowsSelector(state),
+  loading: state.loading.effects['admin/fetchWorkflows'],
 }))
-class BasicList extends PureComponent {
+class Workflows extends PureComponent {
   componentDidMount() {
-    const { dispatch, match } = this.props;
+    const { dispatch } = this.props;
     dispatch({
-      type: 'currentAdminWorkflows/fetch',
-      payload: {
-        id: match.params.id,
-      },
+      type: 'admin/fetchWorkflows',
     });
   }
 
   render() {
     const {
-      workflows: { items },
+      workflows: { items, pagination },
       loading,
     } = this.props;
 
@@ -38,6 +35,13 @@ class BasicList extends PureComponent {
         />
       </div>
     );
+
+    const paginationProps = {
+      current: pagination.currentPage,
+      pageSize: pagination.perPage,
+      total: pagination.total,
+      hideOnSinglePage: true,
+    };
 
     return (
       <div className={styles.standardList}>
@@ -67,6 +71,7 @@ class BasicList extends PureComponent {
             rowKey="id"
             loading={loading}
             dataSource={items}
+            pagination={paginationProps}
             renderItem={item => (
               <List.Item>
                 <Skeleton title={false} loading={loading} active>
@@ -84,4 +89,4 @@ class BasicList extends PureComponent {
   }
 }
 
-export default BasicList;
+export default Workflows;

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
+import router from 'umi/router';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Avatar, Skeleton } from 'antd';
 
@@ -27,6 +27,7 @@ class BasicList extends PureComponent {
     const {
       projects: { items, pagination },
       loading,
+      match,
     } = this.props;
 
     const extraContent = (
@@ -60,12 +61,14 @@ class BasicList extends PureComponent {
             type="dashed"
             style={{ width: '100%', marginBottom: 8 }}
             icon="plus"
-            onClick={() => {}}
-            ref={component => {
-              /* eslint-disable */
-              this.addBtn = findDOMNode(component);
-              /* eslint-enable */
-            }}
+            onClick={() =>
+              router.push({
+                pathname: '/projects/new',
+                state: {
+                  owner: match.params.id,
+                },
+              })
+            }
           >
             Novo projeto
           </Button>

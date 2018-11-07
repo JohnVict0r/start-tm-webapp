@@ -19,8 +19,8 @@ class AdminMenu extends Component {
     super(props);
     const { match, location } = props;
     const menuMap = {
-      base: <FormattedMessage id="menu.admin.workflows" defaultMessage="Workflows" />,
-      user: <FormattedMessage id="menu.admin.users" defaultMessage="Users" />,
+      Workflows: <FormattedMessage id="menu.admin.workflows" defaultMessage="Workflows" />,
+      users: <FormattedMessage id="menu.admin.users" defaultMessage="Users" />,
     };
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
@@ -60,7 +60,7 @@ class AdminMenu extends Component {
   };
 
   selectKey = ({ key }) => {
-    router.push(`/account/settings/${key}`);
+    router.push(`/admin/${key}`);
     this.setState({
       selectKey: key,
     });

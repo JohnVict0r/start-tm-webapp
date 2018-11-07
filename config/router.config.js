@@ -338,6 +338,10 @@ export default [
             path: '/admin/workflows',
             component: './Admin/Workflows',
           },
+          {
+            path: '/admin/users',
+            component: './Admin/Users',
+          },
         ],
       },
       {

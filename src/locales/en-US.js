@@ -77,6 +77,13 @@ export default {
   'menu.dashboard.workplace': 'Workplace',
   'menu.teams': 'Teams',
   'menu.teams.list': 'My teams',
+
+  'menu.admin.workflows': 'Workflows',
+  'menu.admin.teams': 'teams',
+  'menu.admin.users': 'Users',
+  'menu.admin.acess': 'Acess',
+  'menu.admin.portal': 'Administrative Portal',
+
   'menu.form': 'Form',
   'menu.form.basicform': 'Basic Form',
   'menu.form.stepform': 'Step Form',
@@ -104,7 +111,7 @@ export default {
   'menu.exception.server-error': '500',
   'menu.exception.trigger': 'Trigger',
   'menu.account': 'Account',
-  'menu.account.center': 'Account Center',
+  'menu.account.center': 'Profile',
   'menu.account.settings': 'Account Settings',
   'menu.account.trigger': 'Trigger Error',
   'menu.account.logout': 'Logout',

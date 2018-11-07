@@ -308,7 +308,11 @@ export default [
               },
               {
                 path: '/account/settings/base',
-                component: './Account/Settings/BaseView',
+                component: './Account/Settings/BaseInfo',
+              },
+              {
+                path: '/account/settings/password',
+                component: './Account/Settings/PasswordView',
               },
               {
                 path: '/account/settings/security',
@@ -323,6 +327,19 @@ export default [
                 component: './Account/Settings/NotificationView',
               },
             ],
+          },
+        ],
+      },
+      {
+        name: 'admin',
+        path: '/admin',
+        component: './Admin/Menu',
+        hideInMenu: true,
+        routes: [
+          { path: '/admin', redirect: '/admin/workflows' },
+          {
+            path: '/admin/workflows',
+            component: './Admin/Workflows',
           },
         ],
       },

@@ -3,6 +3,7 @@ import { FormattedMessage, formatMessage } from 'umi/locale';
 import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
+import Link from 'umi/link';
 import NoticeIcon from '../NoticeIcon';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
@@ -52,8 +53,14 @@ export default class GlobalHeaderRight extends PureComponent {
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
-          <Icon type="user" />
-          <FormattedMessage id="menu.account.center" defaultMessage="account center" />
+          <Avatar
+            size="small"
+            className={styles.avatar}
+            style={{ height: '15px', width: '15px' }}
+            src={currentUser.pictureUrl}
+            alt="avatar"
+          />
+          <span>{currentUser.name}</span>
         </Menu.Item>
         <Menu.Item key="userinfo">
           <Icon type="setting" />
@@ -139,6 +146,12 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
         </NoticeIcon>
+        {/* TODO pegar em algum lugar se é adm */}
+        <Tooltip title={formatMessage({ id: 'component.globalHeader.admin' })}>
+          <Link to="/admin" rel="noopener noreferrer" className={styles.action}>
+            <Icon type="tool" theme="outlined" />
+          </Link>
+        </Tooltip>
         {currentUser.name ? (
           <Dropdown overlay={menu}>
             <span className={`${styles.action} ${styles.account}`}>
@@ -148,7 +161,6 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={currentUser.pictureUrl}
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.name}</span>
             </span>
           </Dropdown>
         ) : (

@@ -1,4 +1,11 @@
-import { query as queryUsers, queryCurrent } from '@/services/user';
+import {
+  query as queryUsers,
+  queryCurrent,
+  updateLoggedInUserInfo,
+  updateLoggedInUserPassword,
+} from '@/services/user';
+import { formatMessage } from 'umi/locale';
+import { notification } from 'antd';
 
 export default {
   namespace: 'user',
@@ -6,6 +13,9 @@ export default {
   state: {
     list: [],
     currentUser: {},
+    updatePassword: {
+      error: null,
+    },
   },
 
   effects: {
@@ -22,6 +32,24 @@ export default {
         type: 'saveCurrentUser',
         payload: response,
       });
+    },
+    *updateUserInfo({ payload }, { call, put }) {
+      const response = yield call(updateLoggedInUserInfo, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+    },
+    *updateUserPassword({ payload }, { call, put }) {
+      const response = yield call(updateLoggedInUserPassword, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handlePasswordUpdateError',
+          payload: response,
+        });
+      } else {
+        notification.success({ message: formatMessage({ id: 'form.passwordchange.sucess' }) });
+      }
     },
   },
 
@@ -44,6 +72,15 @@ export default {
         currentUser: {
           ...state.currentUser,
           notifyCount: action.payload,
+        },
+      };
+    },
+    handlePasswordUpdateError(state, { payload }) {
+      return {
+        ...state,
+        updatePassword: {
+          ...state.updatePassword,
+          error: payload,
         },
       };
     },

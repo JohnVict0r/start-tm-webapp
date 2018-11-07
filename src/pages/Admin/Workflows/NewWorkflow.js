@@ -1,8 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Input, Form, Card, Button } from 'antd';
-
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-
 import { formatMessage } from 'umi/locale';
 
 @Form.create()
@@ -34,19 +32,38 @@ class NewWorkflow extends PureComponent {
       form: { getFieldDecorator },
     } = this.props;
 
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 7 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 10 },
+      },
+    };
+
+    const submitFormLayout = {
+      wrapperCol: {
+        xs: { span: 24, offset: 0 },
+        sm: { span: 10, offset: 7 },
+      },
+    };
+
     return (
-      <PageHeaderWrapper
-        title={formatMessage({ id: 'app.admin.workflows.new' })}
-        content={formatMessage({ id: 'app.admin.workflows.context' })}
-      >
+      <PageHeaderWrapper title={formatMessage({ id: 'app.admin.workflows.new' })}>
         <Card bordered={false}>
-          <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
-            <Form.Item label={formatMessage({ id: 'app.admin.workflows.name' })}>
+          <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+            <Form.Item
+              label={formatMessage({ id: 'app.admin.workflows.name' })}
+              {...formItemLayout}
+            >
               {getFieldDecorator('name', {
                 rules: [
                   {
                     required: true,
-                    message: formatMessage({ id: 'app.admin.workflows.name-message' }, {}),
+                    message: formatMessage({ id: 'app.admin.workflows.name-message' }),
                   },
                 ],
               })(
@@ -55,22 +72,23 @@ class NewWorkflow extends PureComponent {
                 />
               )}
             </Form.Item>
-            <Form.Item label={formatMessage({ id: 'app.admin.workflows.description' })}>
-              {getFieldDecorator('descricao', {
-                rules: [
-                  {
-                    required: false,
-                  },
-                ],
+            <Form.Item
+              label={formatMessage({ id: 'app.admin.workflows.description' })}
+              {...formItemLayout}
+            >
+              {getFieldDecorator('description', {
+                rules: [{ required: false }],
               })(
                 <Input
                   placeholder={formatMessage({ id: 'app.admin.workflows.description-placeholder' })}
                 />
               )}
             </Form.Item>
-            <Button type="primary" htmlType="submit">
-              {formatMessage({ id: 'app.admin.workflows.create' })}
-            </Button>
+            <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
+              <Button type="primary" htmlType="submit">
+                {formatMessage({ id: 'app.admin.workflows.create' })}
+              </Button>
+            </Form.Item>
           </Form>
         </Card>
       </PageHeaderWrapper>

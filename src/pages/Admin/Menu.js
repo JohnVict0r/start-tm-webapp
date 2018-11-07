@@ -90,7 +90,7 @@ class AdminMenu extends Component {
 
     const { mode, selectKey } = this.state;
     return (
-      <PageHeaderWrapper title="Portal Administrativo">
+      <PageHeaderWrapper>
         <GridContent>
           <div
             className={styles.main}

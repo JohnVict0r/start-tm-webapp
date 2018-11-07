@@ -301,4 +301,13 @@ export default {
   'app.setting.copyinfo': 'copy success，please replace defaultSettings in src/models/setting.js',
   'app.setting.production.hint':
     'Setting panel shows in development environment only, please manually modify',
+  'app.admin.workflows': 'Workflows',
+  'app.admin.workflows.new': 'New Workflow',
+  'app.admin.workflows.context': 'Create a New Workflow',
+  'app.admin.workflows.name': 'Name',
+  'app.admin.workflows.name-message': 'Please enter a name!',
+  'app.admin.workflows.name-placeholder': 'Enter the name of the workflow',
+  'app.admin.workflows.description': 'Description',
+  'app.admin.workflows.description-placeholder': 'Enter a description',
+  'app.admin.workflows.create': 'Create Workflow',
 };

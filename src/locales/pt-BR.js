@@ -261,4 +261,13 @@ export default {
     'copiado com sucesso，por favor trocar o defaultSettings em src/models/setting.js',
   'app.setting.production.hint':
     'O painel de configuração apenas é exibido no ambiente de desenvolvimento, por favor modifique manualmente o',
+  'app.admin.workflows': 'Fluxos de Trabalho',
+  'app.admin.workflows.new': 'Novo Fluxo de Trabalho',
+  'app.admin.workflows.context': 'Crie um novo fluxo de trabalho',
+  'app.admin.workflows.name': 'Nome',
+  'app.admin.workflows.name-message': 'Por favor insira um nome!',
+  'app.admin.workflows.name-placeholder': 'Insira o nome do fluxo de trabalho',
+  'app.admin.workflows.description': 'Descrição',
+  'app.admin.workflows.description-placeholder': 'Insira uma descrição',
+  'app.admin.workflows.create': 'Criar Fluxo de Trabalho',
 };

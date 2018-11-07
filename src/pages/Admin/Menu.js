@@ -26,14 +26,14 @@ class AdminMenu extends Component {
     this.state = {
       mode: 'inline',
       menuMap,
-      selectKey: menuMap[key] ? key : 'base',
+      selectKey: menuMap[key] ? key : 'Workflows',
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     const { match, location } = props;
     let selectKey = location.pathname.replace(`${match.path}/`, '');
-    selectKey = state.menuMap[selectKey] ? selectKey : 'base';
+    selectKey = state.menuMap[selectKey] ? selectKey : 'Workflows';
     if (selectKey !== state.selectKey) {
       return { selectKey };
     }

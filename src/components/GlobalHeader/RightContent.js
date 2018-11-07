@@ -53,8 +53,14 @@ export default class GlobalHeaderRight extends PureComponent {
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
-          <Icon type="user" />
-          <FormattedMessage id="menu.account.center" defaultMessage="account center" />
+          <Avatar
+            size="small"
+            className={styles.avatar}
+            style={{ height: '15px', width: '15px' }}
+            src={currentUser.pictureUrl}
+            alt="avatar"
+          />
+          <span>{currentUser.name}</span>
         </Menu.Item>
         <Menu.Item key="userinfo">
           <Icon type="setting" />
@@ -155,7 +161,6 @@ export default class GlobalHeaderRight extends PureComponent {
                 src={currentUser.pictureUrl}
                 alt="avatar"
               />
-              <span className={styles.name}>{currentUser.name}</span>
             </span>
           </Dropdown>
         ) : (

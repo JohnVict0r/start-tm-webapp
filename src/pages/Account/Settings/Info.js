@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
 import router from 'umi/router';
 import { FormattedMessage } from 'umi/locale';
 import { Menu } from 'antd';
@@ -8,9 +7,6 @@ import styles from './Info.less';
 
 const { Item } = Menu;
 
-@connect(({ user }) => ({
-  currentUser: user.currentUser,
-}))
 class Info extends Component {
   constructor(props) {
     super(props);
@@ -94,10 +90,7 @@ class Info extends Component {
   };
 
   render() {
-    const { children, currentUser } = this.props;
-    if (!currentUser.userid) {
-      return '';
-    }
+    const { children } = this.props;
     const { mode, selectKey } = this.state;
     return (
       <GridContent>

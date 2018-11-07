@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Avatar, Skeleton } from 'antd';
+import { List, Card, Input, Button, Skeleton } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import NewTeamModal from '@/components/NewTeamModal';
@@ -121,7 +121,6 @@ class TeamsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
-                      avatar={<Avatar src={item.logo} shape="square" size="large" />}
                       title={<Link to={`/teams/${item.id}`}>{item.name}</Link>}
                       description={item.description}
                     />

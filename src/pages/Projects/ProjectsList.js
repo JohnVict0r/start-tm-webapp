@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Avatar, Skeleton } from 'antd';
+import { List, Card, Input, Button, Skeleton } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { exploreProjectsSelector } from './selectors/projects';
@@ -73,8 +73,13 @@ class ProjectsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
-                      avatar={<Avatar src={item.logo} shape="square" size="large" />}
-                      title={<Link to={`/projects/${item.id}`}>{item.name}</Link>}
+                      title={
+                        <Link to={`/projects/${item.id}`}>
+                          {item.owner.name}
+                          {' / '}
+                          {item.name}
+                        </Link>
+                      }
                       description={item.description}
                     />
                   </Skeleton>

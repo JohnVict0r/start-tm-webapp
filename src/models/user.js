@@ -1,4 +1,4 @@
-import { query as queryUsers, queryCurrent } from '@/services/user';
+import { query as queryUsers, queryCurrent, updateLoggedInUserInfo } from '@/services/user';
 
 export default {
   namespace: 'user',
@@ -21,6 +21,13 @@ export default {
       yield put({
         type: 'saveCurrentUser',
         payload: response,
+      });
+    },
+    *updateUserInfo({ payload }, { call, put }) {
+      const response = yield call(updateLoggedInUserInfo, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
       });
     },
   },

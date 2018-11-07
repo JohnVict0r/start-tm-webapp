@@ -11,3 +11,5 @@ export async function queryCurrent() {
 }
 
 export const loadLoggedInUser = () => callApi('me', schema.USER).get();
+
+export const updateLoggedInUserInfo = ({ name }) => callApi('me', schema.USER).put({ name });

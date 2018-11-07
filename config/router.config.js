@@ -336,11 +336,11 @@ export default [
           { path: '/admin', redirect: '/admin/workflows' },
           {
             path: '/admin/workflows',
-            component: './Admin/Workflows',
+            component: './Admin/Workflows/Workflows',
           },
           {
             path: '/admin/users',
-            component: './Admin/Users',
+            component: './Admin/Users/Users',
           },
         ],
       },

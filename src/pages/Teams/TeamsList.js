@@ -72,6 +72,18 @@ class TeamsList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
+        <Button
+          type="primary"
+          icon="plus"
+          onClick={this.showModal}
+          ref={component => {
+            /* eslint-disable */
+            this.addBtn = findDOMNode(component);
+            /* eslint-enable */
+          }}
+        >
+          Equipe
+        </Button>
         <Input.Search
           className={styles.extraContentSearch}
           placeholder="Buscar"
@@ -88,29 +100,16 @@ class TeamsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="Minhas equipes">
+      <PageHeaderWrapper>
         <div className={styles.standardList}>
           <Card
             className={styles.listCard}
+            title="Minhas equipes"
             bordered={false}
-            title="Equipes"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
-            <Button
-              type="dashed"
-              style={{ width: '100%', marginBottom: 8 }}
-              icon="plus"
-              onClick={this.showModal}
-              ref={component => {
-                /* eslint-disable */
-                this.addBtn = findDOMNode(component);
-                /* eslint-enable */
-              }}
-            >
-              Nova equipe
-            </Button>
             <List
               size="large"
               rowKey="id"

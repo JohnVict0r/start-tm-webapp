@@ -32,6 +32,20 @@ class BasicList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
+        <Button
+          type="primary"
+          icon="plus"
+          onClick={() =>
+            router.push({
+              pathname: '/projects/new',
+              state: {
+                owner: match.params.id,
+              },
+            })
+          }
+        >
+          Projeto
+        </Button>
         <Input.Search
           className={styles.extraContentSearch}
           placeholder="Buscar"
@@ -57,21 +71,6 @@ class BasicList extends PureComponent {
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
         >
-          <Button
-            type="dashed"
-            style={{ width: '100%', marginBottom: 8 }}
-            icon="plus"
-            onClick={() =>
-              router.push({
-                pathname: '/projects/new',
-                state: {
-                  owner: match.params.id,
-                },
-              })
-            }
-          >
-            Novo projeto
-          </Button>
           <List
             size="large"
             rowKey="id"

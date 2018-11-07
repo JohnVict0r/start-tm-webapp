@@ -29,6 +29,9 @@ class ProjectsList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
+        <Button type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
+          Projeto
+        </Button>
         <Input.Search
           className={styles.extraContentSearch}
           placeholder="Buscar"
@@ -45,24 +48,16 @@ class ProjectsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="Meus projetos">
+      <PageHeaderWrapper>
         <div className={styles.standardList}>
           <Card
             className={styles.listCard}
             bordered={false}
-            title="Projetos"
+            title="Meus projetos"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
-            <Button
-              type="dashed"
-              style={{ width: '100%', marginBottom: 8 }}
-              icon="plus"
-              onClick={() => router.push('/projects/new')}
-            >
-              Novo projeto
-            </Button>
             <List
               size="large"
               rowKey="id"

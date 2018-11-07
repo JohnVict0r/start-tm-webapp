@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
@@ -31,6 +30,9 @@ class BasicList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
+        <Button type="primary" icon="plus" onClick={() => {}}>
+          Workflow
+        </Button>
         <Input.Search
           className={styles.extraContentSearch}
           placeholder="Buscar"
@@ -56,19 +58,6 @@ class BasicList extends PureComponent {
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
         >
-          <Button
-            type="dashed"
-            style={{ width: '100%', marginBottom: 8 }}
-            icon="plus"
-            onClick={() => {}}
-            ref={component => {
-              /* eslint-disable */
-              this.addBtn = findDOMNode(component);
-              /* eslint-enable */
-            }}
-          >
-            Novo workflow
-          </Button>
           <List
             size="large"
             rowKey="id"

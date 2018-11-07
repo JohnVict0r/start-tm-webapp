@@ -95,7 +95,10 @@ class BaseInfo extends Component {
                   },
                 ],
               })(
-                <Input placeholder={formatMessage({ id: 'app.settings.basic.name-placeholder' })} />
+                <Input
+                  maxLength={255}
+                  placeholder={formatMessage({ id: 'app.settings.basic.name-placeholder' })}
+                />
               )}
             </Form.Item>
             <Button type="primary" htmlType="submit" loading={submitting}>

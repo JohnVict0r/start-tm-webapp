@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
+import router from 'umi/router';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Avatar, Skeleton } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import NewTeamModal from '@/components/NewTeamModal';
 import { exploreProjectsSelector } from './selectors/projects';
 
 import styles from './ProjectsList.less';
@@ -15,11 +14,6 @@ import styles from './ProjectsList.less';
   loading: state.loading.effects['projects/fetchUserProjects'],
 }))
 class ProjectsList extends PureComponent {
-  state = {
-    visible: false,
-    done: false,
-  };
-
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -27,48 +21,11 @@ class ProjectsList extends PureComponent {
     });
   }
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleDone = () => {
-    setTimeout(() => this.addBtn.blur(), 0);
-    this.setState({
-      done: false,
-      visible: false,
-    });
-  };
-
-  handleCancel = () => {
-    setTimeout(() => this.addBtn.blur(), 0);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  handleSubmit = (err, values) => {
-    if (!err) {
-      const { dispatch } = this.props;
-
-      this.setState({
-        done: true,
-      });
-
-      dispatch({
-        type: 'projects/createProject',
-        payload: values,
-      });
-    }
-  };
-
   render() {
     const {
       projects: { items, pagination },
       loading,
     } = this.props;
-    const { visible, done } = this.state;
 
     const extraContent = (
       <div className={styles.extraContent}>
@@ -102,12 +59,7 @@ class ProjectsList extends PureComponent {
               type="dashed"
               style={{ width: '100%', marginBottom: 8 }}
               icon="plus"
-              onClick={this.showModal}
-              ref={component => {
-                /* eslint-disable */
-                this.addBtn = findDOMNode(component);
-                /* eslint-enable */
-              }}
+              onClick={() => router.push('/projects/new')}
             >
               Novo projeto
             </Button>
@@ -131,14 +83,6 @@ class ProjectsList extends PureComponent {
             />
           </Card>
         </div>
-
-        <NewTeamModal
-          visible={visible}
-          done={done}
-          onDone={this.handleDone}
-          onCancel={this.handleCancel}
-          onSubmit={this.handleSubmit}
-        />
       </PageHeaderWrapper>
     );
   }

@@ -25,6 +25,7 @@ export default {
   'form.verification-code.placeholder': 'Código de verificação',
   'form.oldpasssword.placeholder': 'Password Atual',
   'form.passwordchange.sucess': 'Senha alteraada com sucesso',
+  'form.namechange.sucess': 'Nome alteraado com sucesso',
   'component.globalHeader.search': 'Busca',
   'component.globalHeader.search.example1': 'Exemplo de busca 1',
   'component.globalHeader.search.example2': 'Exemplo de busca 2',
@@ -266,4 +267,13 @@ export default {
     'copiado com sucesso，por favor trocar o defaultSettings em src/models/setting.js',
   'app.setting.production.hint':
     'O painel de configuração apenas é exibido no ambiente de desenvolvimento, por favor modifique manualmente o',
+  'app.admin.workflows': 'Fluxos de Trabalho',
+  'app.admin.workflows.new': 'Novo Fluxo de Trabalho',
+  'app.admin.workflows.context': 'Crie um novo fluxo de trabalho',
+  'app.admin.workflows.name': 'Nome',
+  'app.admin.workflows.name-message': 'Por favor insira um nome!',
+  'app.admin.workflows.name-placeholder': 'Insira o nome do fluxo de trabalho',
+  'app.admin.workflows.description': 'Descrição',
+  'app.admin.workflows.description-placeholder': 'Insira uma descrição',
+  'app.admin.workflows.create': 'Criar Fluxo de Trabalho',
 };

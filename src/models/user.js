@@ -39,6 +39,7 @@ export default {
         type: 'entities/mergeEntities',
         payload: response.entities,
       });
+      notification.success({ message: formatMessage({ id: 'form.namechange.sucess' }) });
     },
     *updateUserPassword({ payload }, { call, put }) {
       const response = yield call(updateLoggedInUserPassword, payload);

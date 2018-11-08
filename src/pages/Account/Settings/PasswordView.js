@@ -141,9 +141,18 @@ class PasswordView extends Component {
     } = this.props;
     const { help } = this.state;
 
+    const formItemLayout = {
+      wrapperCol: {
+        span: 10,
+      },
+    };
+
     return (
-      <Form onSubmit={this.handleSubmit} hideRequiredMark>
-        <Form.Item label={formatMessage({ id: 'app.settings.basic.current-password' })}>
+      <Form onSubmit={this.handleSubmit} layout="vertical" hideRequiredMark>
+        <Form.Item
+          {...formItemLayout}
+          label={formatMessage({ id: 'app.settings.basic.current-password' })}
+        >
           {getFieldDecorator('currentPassword', {
             rules: [
               { required: true, message: formatMessage({ id: 'validation.password.required' }) },
@@ -155,7 +164,11 @@ class PasswordView extends Component {
             />
           )}
         </Form.Item>
-        <Form.Item help={help} label={formatMessage({ id: 'app.settings.basic.newpassword' })}>
+        <Form.Item
+          {...formItemLayout}
+          help={help}
+          label={formatMessage({ id: 'app.settings.basic.newpassword' })}
+        >
           <Popover
             getPopupContainer={node => node.parentNode}
             content={
@@ -184,7 +197,7 @@ class PasswordView extends Component {
             )}
           </Popover>
         </Form.Item>
-        <Form.Item>
+        <Form.Item {...formItemLayout}>
           {getFieldDecorator('passwordConfirmation', {
             rules: [
               {

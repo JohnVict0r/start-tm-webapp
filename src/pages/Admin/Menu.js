@@ -19,21 +19,21 @@ class AdminMenu extends Component {
     super(props);
     const { match, location } = props;
     const menuMap = {
-      base: <FormattedMessage id="menu.admin.workflows" defaultMessage="Workflows" />,
-      user: <FormattedMessage id="menu.admin.users" defaultMessage="Users" />,
+      workflows: <FormattedMessage id="menu.admin.workflows" defaultMessage="Workflows" />,
+      users: <FormattedMessage id="menu.admin.users" defaultMessage="Users" />,
     };
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
       mode: 'inline',
       menuMap,
-      selectKey: menuMap[key] ? key : 'base',
+      selectKey: menuMap[key] ? key : 'workflows',
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     const { match, location } = props;
     let selectKey = location.pathname.replace(`${match.path}/`, '');
-    selectKey = state.menuMap[selectKey] ? selectKey : 'base';
+    selectKey = state.menuMap[selectKey] ? selectKey : 'workflows';
     if (selectKey !== state.selectKey) {
       return { selectKey };
     }
@@ -60,7 +60,7 @@ class AdminMenu extends Component {
   };
 
   selectKey = ({ key }) => {
-    router.push(`/account/settings/${key}`);
+    router.push(`/admin/${key}`);
     this.setState({
       selectKey: key,
     });
@@ -90,7 +90,7 @@ class AdminMenu extends Component {
 
     const { mode, selectKey } = this.state;
     return (
-      <PageHeaderWrapper title="Portal Administrativo">
+      <PageHeaderWrapper>
         <GridContent>
           <div
             className={styles.main}

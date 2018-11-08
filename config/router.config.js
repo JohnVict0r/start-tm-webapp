@@ -345,7 +345,30 @@ export default [
           { path: '/admin', redirect: '/admin/workflows' },
           {
             path: '/admin/workflows',
-            component: './Admin/Workflows',
+            component: './Admin/Workflows/Workflows',
+          },
+          /*
+          {
+            path: '/admin/workflows/new',            
+            component: './Admin/Workflows/NewWorkflow',
+          },
+          */
+          {
+            path: '/admin/users',
+            component: './Admin/Users/Users',
+          },
+        ],
+      },
+      {
+        path: '/workflows',
+        name: 'workflows',
+        icon: 'workflows',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/workflows', redirect: '/workflows/new' },
+          {
+            path: '/workflows/new',
+            component: './Admin/Workflows/NewWorkflow',
           },
         ],
       },

@@ -123,6 +123,7 @@ export default class GlobalHeaderRight extends PureComponent {
           onPopupVisibleChange={onNoticeVisibleChange}
           loading={fetchingNotices}
           popupAlign={{ offset: [20, -16] }}
+          clearClose
         >
           <NoticeIcon.Tab
             list={noticeData.notification}

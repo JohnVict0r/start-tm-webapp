@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Avatar, Skeleton } from 'antd';
+import { List, Card, Input, Button, Skeleton } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import NewTeamModal from '@/components/NewTeamModal';
@@ -72,6 +72,18 @@ class TeamsList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
+        <Button
+          type="primary"
+          icon="plus"
+          onClick={this.showModal}
+          ref={component => {
+            /* eslint-disable */
+            this.addBtn = findDOMNode(component);
+            /* eslint-enable */
+          }}
+        >
+          Equipe
+        </Button>
         <Input.Search
           className={styles.extraContentSearch}
           placeholder="Buscar"
@@ -88,29 +100,16 @@ class TeamsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="Minhas equipes">
+      <PageHeaderWrapper>
         <div className={styles.standardList}>
           <Card
             className={styles.listCard}
+            title="Minhas equipes"
             bordered={false}
-            title="Equipes"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
-            <Button
-              type="dashed"
-              style={{ width: '100%', marginBottom: 8 }}
-              icon="plus"
-              onClick={this.showModal}
-              ref={component => {
-                /* eslint-disable */
-                this.addBtn = findDOMNode(component);
-                /* eslint-enable */
-              }}
-            >
-              Nova equipe
-            </Button>
             <List
               size="large"
               rowKey="id"
@@ -121,7 +120,6 @@ class TeamsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
-                      avatar={<Avatar src={item.logo} shape="square" size="large" />}
                       title={<Link to={`/teams/${item.id}`}>{item.name}</Link>}
                       description={item.description}
                     />

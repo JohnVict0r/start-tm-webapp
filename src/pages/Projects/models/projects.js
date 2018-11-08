@@ -46,6 +46,11 @@ export default {
     *fetchProject({ payload }, { call, put }) {
       const response = yield call(loadProject, payload);
 
+      // yield put({
+      //   type: 'fetchProjectBoards',
+      //   payload,
+      // });
+
       yield put({
         type: 'entities/mergeEntities',
         payload: response.entities,
@@ -90,11 +95,9 @@ export default {
 
       yield put(routerRedux.push(`/projects/${response.result}`));
 
-      yield put(
-        notification.success({
-          message: `Projeto criado com sucesso!`,
-        })
-      );
+      notification.success({
+        message: `Projeto criado com sucesso!`,
+      });
     },
   },
 

@@ -1,0 +1,35 @@
+@import '~antd/lib/style/themes/default.less';
+
+.container {
+  min-height: 100vh;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  position: relative;
+  transition: 0.3s;
+  background: white;
+}
+
+.board {
+  display: flex;
+  overflow: auto;
+  transition: 0.3s;
+}
+
+.pageHeaderContent {
+  display: flex;
+  max-width: 1200px;
+  //margin: 0 auto;
+  padding: 16px 8px 8px;
+
+  .boardSelector {
+    margin-left: 8px;
+  }
+
+  .boardIcon {
+    font-size: @font-size-base !important;
+    transform: none !important;
+  }
+}

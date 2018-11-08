@@ -103,12 +103,17 @@ export default [
             component: './Projects/ViewProject',
             hideInMenu: true,
             routes: [
-              // { path: '/projects/:id', redirect: '/projects/:id/projects' },
-              // {
-              //   path: '/teams/:id/projects',
-              //   name: 'projects',
-              //   component: './Teams/Projects',
-              // },
+              { path: '/projects/:id/boards', redirect: '/projects/:id' },
+              {
+                path: '/projects/:id/boards/new',
+                name: 'new-board',
+                component: './Projects/NewBoard',
+              },
+              {
+                path: '/projects/:id/boards/:boardId',
+                name: 'project-boards',
+                component: './Projects/BoardSelector',
+              },
             ],
           },
         ],

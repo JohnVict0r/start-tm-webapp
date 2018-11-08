@@ -14,10 +14,20 @@ import { masterOfTeamsSelector } from '@/selectors/teams';
 @Form.create()
 class NewProject extends PureComponent {
   componentDidMount() {
-    const { dispatch } = this.props;
+    const {
+      location: { state },
+      dispatch,
+      form,
+    } = this.props;
+
     dispatch({
       type: 'teams/fetchUserMasterOfTeams',
     });
+
+    const owner = state && state.owner;
+    if (owner) {
+      form.setFieldsValue({ owner });
+    }
   }
 
   handleSubmit = e => {

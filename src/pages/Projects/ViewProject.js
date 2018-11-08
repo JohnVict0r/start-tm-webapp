@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { Button, Icon, Rate, Menu, Popover, Dropdown, Input } from 'antd';
+import Redirect from 'umi/redirect';
+import { Button, Icon, Rate, Menu, Popover, Dropdown } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
-import { projectBoardsSelector } from './selectors/projects';
 
 import styles from './ViewProject.less';
 
@@ -14,20 +14,9 @@ const projectOptionsMenu = (
   </Menu>
 );
 
-const boardOptionsMenu = (
-  <Menu>
-    <Menu.Item key="1">
-      <Icon type="edit" />
-      Editar Quadro
-    </Menu.Item>
-  </Menu>
-);
-
 @connect((state, ownProps) => ({
   project: state.entities.projects[ownProps.match.params.id],
-  boards: projectBoardsSelector(state),
   loading: state.loading.effects['projects/fetchProject'],
-  loadingBoards: state.loading.effects['projects/fetchProjectBoards'],
 }))
 class ViewProject extends Component {
   componentDidMount() {
@@ -36,18 +25,21 @@ class ViewProject extends Component {
       type: 'projects/fetchProject',
       payload: match.params.id,
     });
-
-    dispatch({
-      type: 'projects/fetchProjectBoards',
-      payload: match.params.id,
-    });
   }
 
   render() {
-    const { project, boards, loadingBoards, children } = this.props;
+    const { project, match, children } = this.props;
 
     if (!project) {
       return <PageLoading />;
+    }
+
+    if (match.isExact) {
+      if (project.selectedBoardId) {
+        return <Redirect to={`${match.url}/boards/${project.selectedBoardId}`} />;
+      }
+
+      return <Redirect to={`${match.url}/boards/new`} />;
     }
 
     const action = (
@@ -72,51 +64,12 @@ class ViewProject extends Component {
       </Fragment>
     );
 
-    const boardsMenu = (
-      <Menu>
-        {boards.map(r => (
-          <Menu.Item key={r.id}>{r.name}</Menu.Item>
-        ))}
-      </Menu>
-    );
-
-    const content = (
-      <div className={styles.pageHeaderContent}>
-        <div className={styles.boardSelector}>
-          <Input.Group compact>
-            <Dropdown overlay={boardsMenu} disabled={loadingBoards}>
-              <Button>
-                <Icon type="project" className={styles.boardIcon} />
-                Quadro:{' '}
-                <span>
-                  <b>Livro Educação a Distância: Capítulo 01</b>
-                </span>
-                <Icon type="down" />
-              </Button>
-            </Dropdown>
-            <Dropdown overlay={boardOptionsMenu} placement="bottomRight">
-              <Button>
-                <Icon type="ellipsis" />
-              </Button>
-            </Dropdown>
-          </Input.Group>
-        </div>
-        <Button type="primary" icon="plus">
-          Quadro
-        </Button>
-      </div>
-    );
-
     return (
-      <PageHeaderWrapper
-        hiddenBreadcrumb
-        title={project.name}
-        // logo={<Rate count={1} />}
-        action={action}
-        content={content}
-      >
-        {children}
-      </PageHeaderWrapper>
+      <Fragment>
+        <PageHeaderWrapper hiddenBreadcrumb title={project.name} action={action}>
+          {children}
+        </PageHeaderWrapper>
+      </Fragment>
     );
   }
 }

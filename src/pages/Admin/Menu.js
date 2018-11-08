@@ -19,21 +19,21 @@ class AdminMenu extends Component {
     super(props);
     const { match, location } = props;
     const menuMap = {
-      Workflows: <FormattedMessage id="menu.admin.workflows" defaultMessage="Workflows" />,
+      workflows: <FormattedMessage id="menu.admin.workflows" defaultMessage="Workflows" />,
       users: <FormattedMessage id="menu.admin.users" defaultMessage="Users" />,
     };
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
       mode: 'inline',
       menuMap,
-      selectKey: menuMap[key] ? key : 'Workflows',
+      selectKey: menuMap[key] ? key : 'workflows',
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     const { match, location } = props;
     let selectKey = location.pathname.replace(`${match.path}/`, '');
-    selectKey = state.menuMap[selectKey] ? selectKey : 'Workflows';
+    selectKey = state.menuMap[selectKey] ? selectKey : 'workflows';
     if (selectKey !== state.selectKey) {
       return { selectKey };
     }

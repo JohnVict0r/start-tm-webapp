@@ -340,6 +340,7 @@ export default [
           { path: '/admin', redirect: '/admin/workflows' },
           {
             path: '/admin/workflows',
+            name: 'workflows',
             component: './Admin/Workflows/Workflows',
           },
           /*
@@ -350,6 +351,7 @@ export default [
           */
           {
             path: '/admin/users',
+            name: 'users',
             component: './Admin/Users/Users',
           },
         ],
@@ -363,6 +365,7 @@ export default [
           { path: '/workflows', redirect: '/workflows/new' },
           {
             path: '/workflows/new',
+            name: 'workflows',
             component: './Admin/Workflows/NewWorkflow',
           },
         ],

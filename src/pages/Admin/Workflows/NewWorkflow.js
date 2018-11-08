@@ -52,9 +52,9 @@ class NewWorkflow extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title={formatMessage({ id: 'app.admin.workflows.new' })}>
+      <PageHeaderWrapper title={formatMessage({ id: 'app.admin.workflows.new' })} hiddenBreadcrumb>
         <Card bordered={false}>
-          <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+          <Form onSubmit={this.handleSubmit} style={{ marginTop: 8 }}>
             <Form.Item
               label={formatMessage({ id: 'app.admin.workflows.name' })}
               {...formItemLayout}

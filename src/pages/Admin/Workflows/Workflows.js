@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
+import router from 'umi/router';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
 import { formatMessage } from 'umi/locale';
@@ -48,7 +49,6 @@ class Workflows extends PureComponent {
         <Card
           className={styles.listCard}
           bordered={false}
-          title={formatMessage({ id: 'app.admin.workflows' })}
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
@@ -57,9 +57,7 @@ class Workflows extends PureComponent {
             type="dashed"
             style={{ width: '100%', marginBottom: 8 }}
             icon="plus"
-            onClick={() => {
-              window.location.href = '/workflows/new';
-            }}
+            onClick={() => router.push('/workflows/new')}
             ref={component => {
               /* eslint-disable */
               this.addBtn = findDOMNode(component);

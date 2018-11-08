@@ -25,7 +25,18 @@ export default class NoticeIcon extends PureComponent {
   onItemClick = (item, tabProps) => {
     const { onItemClick } = this.props;
     onItemClick(item, tabProps);
+    if (clickClose) {
+      this.popover.click();
+    }
   };
+
+  onClear = (name) => {
+    const { onClear, clearClose } = this.props;
+    onClear(name)
+    if (clearClose) {
+      this.popover.click();
+    }
+  }
 
   onTabChange = tabType => {
     const { onTabChange } = this.props;
@@ -93,6 +104,7 @@ export default class NoticeIcon extends PureComponent {
         popupAlign={popupAlign}
         onVisibleChange={onPopupVisibleChange}
         {...popoverProps}
+        ref={node => { this.popover = ReactDOM.findDOMNode(node)}} // eslint-disable-line
       >
         {trigger}
       </Popover>

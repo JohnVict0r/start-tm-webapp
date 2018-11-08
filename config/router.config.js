@@ -312,6 +312,10 @@ export default [
                 component: './Account/Settings/BaseInfo',
               },
               {
+                path: '/account/settings/password',
+                component: './Account/Settings/PasswordView',
+              },
+              {
                 path: '/account/settings/security',
                 component: './Account/Settings/SecurityView',
               },

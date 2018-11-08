@@ -37,7 +37,8 @@ function normalizeJson(reponseJson, schema) {
 async function handleError(e) {
   // if validation error
   if (e.response && e.response.status === 422) {
-    return e.response.json();
+    const response = await e.response.json();
+    return camelizeKeys(response);
   }
 
   return e;

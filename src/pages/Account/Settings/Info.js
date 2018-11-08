@@ -13,6 +13,9 @@ class Info extends Component {
     const { match, location } = props;
     const menuMap = {
       base: <FormattedMessage id="app.settings.menuMap.basic" defaultMessage="Basic Settings" />,
+      password: (
+        <FormattedMessage id="app.settings.menuMap.password" defaultMessage="Password Settings" />
+      ),
       security: (
         <FormattedMessage id="app.settings.menuMap.security" defaultMessage="Security Settings" />
       ),

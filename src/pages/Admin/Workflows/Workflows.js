@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
-
+import { formatMessage } from 'umi/locale';
 import { workflowsSelector } from './selectors/workflows';
 
 import styles from './Workflows.less';
@@ -48,7 +48,7 @@ class Workflows extends PureComponent {
         <Card
           className={styles.listCard}
           bordered={false}
-          title="Workflows"
+          title={formatMessage({ id: 'app.admin.workflows' })}
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
@@ -57,14 +57,16 @@ class Workflows extends PureComponent {
             type="dashed"
             style={{ width: '100%', marginBottom: 8 }}
             icon="plus"
-            onClick={() => {}}
+            onClick={() => {
+              window.location.href = '/workflows/new';
+            }}
             ref={component => {
               /* eslint-disable */
               this.addBtn = findDOMNode(component);
               /* eslint-enable */
             }}
           >
-            Novo workflow
+            {formatMessage({ id: 'app.admin.workflows.create' })}
           </Button>
           <List
             size="large"

@@ -23,6 +23,7 @@ const plugins = [
       dynamicImport: {
         loadingComponent: './components/PageLoading/index',
       },
+      pwa: {},
       ...(!process.env.TEST && os.platform() === 'darwin'
         ? {
             dll: {

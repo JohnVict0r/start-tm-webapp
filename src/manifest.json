@@ -1,0 +1,25 @@
+{
+  "name": "Produtiivo",
+  "short_name": "Produtiivo",
+  "icons": [
+    {
+      "src": "./logo-1024.png",
+      "sizes": "1024x1024"
+    }, {
+      "src": "./logo-512.png",
+      "sizes": "512x512"
+    }, {
+      "src": "./logo-192.png",
+      "sizes": "192x192"
+    }, {
+      "src": "./logo-128.png",
+      "sizes": "128x128"
+    }
+  ],
+  "display": "fullscreen",
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "portrait",
+  "theme_color": "#1abc9c",
+  "background_color": "#2c3e50"
+}

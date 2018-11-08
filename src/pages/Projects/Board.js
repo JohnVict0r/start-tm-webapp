@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import { Spin } from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { makeBoardSelector } from './selectors/projects';
 import PageLoading from '@/components/PageLoading';
 import CardList from '@/components/CardList';
 import { reorderCardMap } from '@/utils/reorder';
-
 import styles from './Board.less';
 
 const resetDisabledCardlists = (cardlists, value) =>
@@ -18,10 +18,11 @@ const resetDisabledCardlists = (cardlists, value) =>
   );
 
 @connect((state, ownProps) => {
-  const { match } = ownProps;
-  const boardSelector = makeBoardSelector({ boardId: match.params.boardId });
+  const { boardId } = ownProps;
+  const boardSelector = makeBoardSelector({ boardId });
   return {
     board: boardSelector(state),
+    loading: state.loading.effects['boards/fetchBoard'],
   };
 })
 class Board extends PureComponent {
@@ -61,10 +62,10 @@ class Board extends PureComponent {
   }
 
   componentDidMount() {
-    const { dispatch, match } = this.props;
+    const { dispatch, boardId } = this.props;
     dispatch({
       type: 'boards/fetchBoard',
-      payload: match.params.boardId,
+      payload: boardId,
     });
   }
 
@@ -151,7 +152,7 @@ class Board extends PureComponent {
   };
 
   render() {
-    const { board } = this.props;
+    const { board, loading } = this.props;
     const { cardMap, disabledCardlists } = this.state;
 
     if (!board) {
@@ -159,19 +160,21 @@ class Board extends PureComponent {
     }
 
     return (
-      <div className={styles.board}>
-        <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-          {board.cardlists.map(cardlist => (
-            <CardList
-              key={cardlist.id}
-              cardList={cardlist}
-              createCard={this.createCard}
-              isDisabled={disabledCardlists[cardlist.id]}
-              items={cardMap[cardlist.id]}
-            />
-          ))}
-        </DragDropContext>
-      </div>
+      <Spin spinning={loading}>
+        <div className={styles.board}>
+          <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+            {board.cardlists.map(cardlist => (
+              <CardList
+                key={cardlist.id}
+                cardList={cardlist}
+                createCard={this.createCard}
+                isDisabled={disabledCardlists[cardlist.id]}
+                items={cardMap[cardlist.id]}
+              />
+            ))}
+          </DragDropContext>
+        </div>
+      </Spin>
     );
   }
 }

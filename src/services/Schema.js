@@ -88,6 +88,7 @@ Project.define({
   loggedInUser: {
     role: Role,
   },
+  boards: [Board],
 });
 
 Board.define({

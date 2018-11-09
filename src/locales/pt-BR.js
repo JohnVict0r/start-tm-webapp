@@ -277,4 +277,5 @@ export default {
   'app.admin.workflows.description': 'Descrição',
   'app.admin.workflows.description-placeholder': 'Insira uma descrição',
   'app.admin.workflows.create': 'Criar Fluxo de Trabalho',
+  'app.form.workflows.success': 'Fluxo de trabalho criado com sucesso',
 };

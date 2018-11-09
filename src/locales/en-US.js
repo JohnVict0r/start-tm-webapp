@@ -310,4 +310,5 @@ export default {
   'app.admin.workflows.description': 'Description',
   'app.admin.workflows.description-placeholder': 'Enter a description',
   'app.admin.workflows.create': 'Create Workflow',
+  'app.form.workflows.success': 'Successfully created workflow',
 };

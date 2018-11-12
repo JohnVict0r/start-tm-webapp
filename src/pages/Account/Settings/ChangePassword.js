@@ -33,7 +33,7 @@ const passwordProgressMap = {
   submitting: state.loading.effects['user/updateUserPassword'],
 }))
 @Form.create()
-class PasswordView extends Component {
+class ChangePassword extends Component {
   state = {
     help: '',
   };
@@ -223,4 +223,4 @@ class PasswordView extends Component {
   }
 }
 
-export default PasswordView;
+export default ChangePassword;

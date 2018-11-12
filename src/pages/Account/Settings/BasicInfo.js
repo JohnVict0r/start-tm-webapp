@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Form, Input, Upload, Button } from 'antd';
+import { Form, Input, Upload, Button, Col, Row } from 'antd';
 import { connect } from 'dva';
 import { loggedInUserSelector } from '@/selectors/global';
 
-import styles from './BaseInfo.less';
+import styles from './BasicInfo.less';
 
 const AvatarView = ({ avatar }) => (
   <Fragment>
@@ -29,7 +29,7 @@ const AvatarView = ({ avatar }) => (
   submitting: state.loading.effects['user/updateUserInfo'],
 }))
 @Form.create()
-class BaseInfo extends Component {
+class BasicInfo extends Component {
   componentDidMount() {
     this.setBaseInfo();
   }
@@ -73,8 +73,8 @@ class BaseInfo extends Component {
     } = this.props;
 
     return (
-      <div className={styles.baseView}>
-        <div className={styles.left}>
+      <Row gutter={16} className={styles.baseView}>
+        <Col xl={12} lg={24}>
           <Form layout="vertical" onSubmit={this.handleSubmit} hideRequiredMark>
             <Form.Item label={formatMessage({ id: 'app.settings.basic.email' })}>
               {getFieldDecorator('email', {
@@ -108,13 +108,15 @@ class BaseInfo extends Component {
               />
             </Button>
           </Form>
-        </div>
-        <div className={styles.right}>
-          <AvatarView avatar={this.getAvatarURL()} />
-        </div>
-      </div>
+        </Col>
+        <Col xl={12} lg={24}>
+          <div className={styles.right}>
+            <AvatarView avatar={this.getAvatarURL()} />
+          </div>
+        </Col>
+      </Row>
     );
   }
 }
 
-export default BaseInfo;
+export default BasicInfo;

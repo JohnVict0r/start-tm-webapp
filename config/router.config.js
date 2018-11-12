@@ -305,19 +305,16 @@ export default [
           {
             path: '/account/settings',
             name: 'settings',
-            component: './Account/Settings/Info',
+            component: './Account/Settings/AccountSettings',
             routes: [
+              { path: '/account/settings', redirect: '/account/settings/basic' },
               {
-                path: '/account/settings',
-                redirect: '/account/settings/base',
-              },
-              {
-                path: '/account/settings/base',
-                component: './Account/Settings/BaseInfo',
+                path: '/account/settings/basic',
+                component: './Account/Settings/BasicInfo',
               },
               {
                 path: '/account/settings/password',
-                component: './Account/Settings/PasswordView',
+                component: './Account/Settings/ChangePassword',
               },
               {
                 path: '/account/settings/security',

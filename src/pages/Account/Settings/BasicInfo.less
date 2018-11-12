@@ -2,15 +2,8 @@
 
 .baseView {
   display: flex;
-  padding-top: 12px;
 
-  .left {
-    max-width: 448px;
-    min-width: 224px;
-  }
   .right {
-    flex: 1;
-    padding-left: 104px;
     .avatar_title {
       height: 22px;
       font-size: @font-size-base;
@@ -21,6 +14,7 @@
     .avatar {
       width: 144px;
       height: 144px;
+      border-radius: 50%;
       margin-bottom: 12px;
       overflow: hidden;
       img {
@@ -43,7 +37,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 448px;
       .avatar_title {
         display: none;
       }

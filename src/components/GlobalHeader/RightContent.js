@@ -5,6 +5,7 @@ import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Link from 'umi/link';
 import NoticeIcon from '../NoticeIcon';
+import Ellipsis from '../Ellipsis';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../SelectLang';
 import styles from './index.less';
@@ -60,7 +61,9 @@ export default class GlobalHeaderRight extends PureComponent {
             src={currentUser.pictureUrl}
             alt="avatar"
           />
-          <span>{currentUser.name}</span>
+          <Ellipsis className={styles.ellipsis} length={13}>
+            {currentUser.name}
+          </Ellipsis>
         </Menu.Item>
         <Menu.Item key="userinfo">
           <Icon type="setting" />

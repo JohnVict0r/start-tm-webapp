@@ -84,6 +84,7 @@ class ForgotPassword extends Component {
               })(
                 <Input
                   size="large"
+                  maxLength={255}
                   placeholder={formatMessage({ id: 'form.email.recoverplaceholder' })}
                 />
               )}

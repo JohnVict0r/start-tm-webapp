@@ -105,7 +105,7 @@ class NewProject extends PureComponent {
             <Form.Item label="Nome do projeto" {...formItemLayout}>
               {getFieldDecorator('name', {
                 rules: [{ required: true, message: 'Por favor informe o nome do projeto!' }],
-              })(<Input placeholder="Insita o nome do projeto" />)}
+              })(<Input maxLength={255} placeholder="Insita o nome do projeto" />)}
             </Form.Item>
             <Form.Item {...formItemLayout} label="Descrição">
               {getFieldDecorator('description', {
@@ -117,6 +117,7 @@ class NewProject extends PureComponent {
                 ],
               })(
                 <Input.TextArea
+                  maxLength={255}
                   rows={4}
                   placeholder="Por favor, insira uma descrição para o projeto"
                 />

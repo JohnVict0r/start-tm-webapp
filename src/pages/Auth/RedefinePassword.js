@@ -6,7 +6,8 @@ import PasswordForce from '@/components/PasswordForce';
 
 import styles from './RedefinePassword.less';
 
-@connect(({ loading }) => ({
+@connect(({ resetPassword, loading }) => ({
+  resetPassword,
   submitting: loading.effects['resetPassword/resetPasswordWithToken'],
 }))
 @Form.create()
@@ -93,9 +94,13 @@ class RedefinePassword extends Component {
   };
 
   render() {
-    const { form, submitting } = this.props;
+    const { form, submitting, resetPassword } = this.props;
     const { getFieldDecorator } = form;
     const { help } = this.state;
+    const errorMessage = !!resetPassword.error && {
+      help: formatMessage({ id: 'validation.email.mailnotfound' }),
+      validateStatus: 'error',
+    };
 
     return (
       <div className={styles.main}>
@@ -104,7 +109,7 @@ class RedefinePassword extends Component {
         </h3>
         <div className={styles.main}>
           <Form onSubmit={this.handleSubmit}>
-            <Form.Item>
+            <Form.Item {...errorMessage}>
               {getFieldDecorator('email', {
                 rules: [
                   { required: true, message: formatMessage({ id: 'validation.email.required' }) },

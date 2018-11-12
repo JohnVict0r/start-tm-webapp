@@ -24,11 +24,6 @@ export default {
         payload: response,
       });
     },
-    *resetState(_, { put }) {
-      yield put({
-        type: 'handleResetState',
-      });
-    },
   },
 
   reducers: {

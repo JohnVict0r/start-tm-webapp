@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import { Button, Input, Popover, Form, Progress } from 'antd';
 import { connect } from 'dva';
-import styles from '../../../components/Register/index.less';
+import styles from './ChangePassword.less';
 
 const passwordStatusMap = {
   ok: (

@@ -5,19 +5,19 @@ import Link from 'umi/link';
 import { Button, Form, Input, Alert } from 'antd';
 import styles from './ForgotPassword.less';
 
-@connect(({ resetPassword, loading }) => ({
-  resetPassword,
-  submitting: loading.effects['resetPassword/forgot'],
+@connect(({ forgotPassword, loading }) => ({
+  forgotPassword,
+  submitting: loading.effects['forgotPassword/forgot'],
 }))
 @Form.create()
 class ForgotPassword extends Component {
-  state = { sentmail: null };
+  state = { emailSent: null };
 
   componentWillUnmount() {
     const { dispatch } = this.props;
 
     dispatch({
-      type: 'resetPassword/resetState',
+      type: 'forgotPassword/resetState',
     });
   }
 
@@ -29,28 +29,28 @@ class ForgotPassword extends Component {
         const { dispatch } = this.props;
 
         dispatch({
-          type: 'resetPassword/forgot',
+          type: 'forgotPassword/forgot',
           payload: values,
         });
-        this.setState({ sentmail: form.getFieldValue('email') });
+        this.setState({ emailSent: form.getFieldValue('email') });
         form.resetFields();
       }
     });
   };
 
   render() {
-    const { form, submitting, resetPassword } = this.props;
+    const { form, submitting, forgotPassword } = this.props;
     const { getFieldDecorator } = form;
-    const { sentmail } = this.state;
+    const { emailSent } = this.state;
 
-    if (resetPassword.sentToken) {
+    if (forgotPassword.sentToken) {
       return (
         <div className={styles.main}>
           <h3>
             <FormattedMessage id="app.register.mailrecover" />
           </h3>
           <Alert
-            message={formatMessage({ id: 'app.register.mailsend' }, { email: sentmail })}
+            message={formatMessage({ id: 'app.register.mailsend' }, { email: emailSent })}
             type="success"
           />
           <Link className={styles.login} to="/auth/login">
@@ -60,7 +60,7 @@ class ForgotPassword extends Component {
       );
     }
 
-    const errorMessage = !!resetPassword.error && {
+    const errorMessage = !!forgotPassword.error && {
       help: formatMessage({ id: 'validation.email.mailnotfound' }),
       validateStatus: 'error',
     };

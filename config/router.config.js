@@ -345,13 +345,7 @@ export default [
             path: '/admin/workflows',
             name: 'workflows',
             component: './Admin/Workflows/Workflows',
-          },
-          /*
-          {
-            path: '/admin/workflows/new',            
-            component: './Admin/Workflows/NewWorkflow',
-          },
-          */
+          },          
           {
             path: '/admin/users',
             name: 'users',
@@ -362,13 +356,13 @@ export default [
       {
         path: '/workflows',
         name: 'workflows',
-        icon: 'workflows',
+        icon: 'branches',
         hideInBreadcrumb: true,
         routes: [
           { path: '/workflows', redirect: '/workflows/new' },
           {
             path: '/workflows/new',
-            name: 'workflows',
+            name: 'newWorkflow',
             component: './Admin/Workflows/NewWorkflow',
           },
         ],

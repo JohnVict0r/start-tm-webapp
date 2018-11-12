@@ -89,6 +89,8 @@ export default {
   'menu.exception.not-find': '404',
   'menu.exception.server-error': '500',
   'menu.exception.trigger': 'Disparar',
+  'menu.workflows': 'Fluxos de Trabalho',
+  'menu.workflows.newWorkflow': 'Novo Fluxo de Trabalho',
   'menu.account': 'Conta',
   'menu.account.center': 'Perfil',
   'menu.account.settings': 'Configurar Conta',

@@ -13,7 +13,7 @@ describe('Homepage', () => {
 
   beforeEach(async () => {
     page = await browser.newPage();
-    await page.goto(`${BASE_URL}/user/login`, { waitUntil: 'networkidle2' });
+    await page.goto(`${BASE_URL}/auth/login`, { waitUntil: 'networkidle2' });
     // await page.evaluate(() => window.localStorage.setItem('antd-pro-authority', 'guest'));
 
     // login

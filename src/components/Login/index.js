@@ -96,7 +96,7 @@ class Login extends Component {
             <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
               <FormattedMessage id="app.login.remember-me" />
             </Checkbox>
-            <Link style={{ float: 'right' }} to="/user/forgot">
+            <Link style={{ float: 'right' }} to="/auth/forgot-password">
               <FormattedMessage id="app.login.forgot-password" />
             </Link>
           </div>
@@ -108,7 +108,7 @@ class Login extends Component {
             <Icon type="google" className={styles.icon} theme="outlined" />
             <Icon type="facebook" className={styles.icon} theme="outlined" />
             <Icon type="twitter" className={styles.icon} theme="outlined" />
-            <Link className={styles.register} to="/user/register">
+            <Link className={styles.register} to="/auth/register">
               <FormattedMessage id="app.login.signup" />
             </Link>
           </div>

@@ -53,7 +53,7 @@ class Board extends PureComponent {
           <Form.Item label="Nome do quadro" {...formItemLayout}>
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Por favor informe o nome do quadro!' }],
-            })(<Input placeholder="Insita o nome do quadro" />)}
+            })(<Input maxLength={255} placeholder="Insita o nome do quadro" />)}
           </Form.Item>
           {/* <Form.Item
             label="Fluxo de trabalho"

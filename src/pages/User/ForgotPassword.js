@@ -61,7 +61,7 @@ class ForgotPassword extends Component {
     }
 
     const errorMessage = !!resetPassword.error && {
-      help: 'Email já existente',
+      help: formatMessage({ id: 'validation.email.mailnotfound' }),
       validateStatus: 'error',
     };
 
@@ -91,7 +91,7 @@ class ForgotPassword extends Component {
             <Button loading={submitting} className={styles.submit} type="primary" htmlType="submit">
               <FormattedMessage id="app.register.send" />
             </Button>
-            <Link className={styles.login} to="/User/Login">
+            <Link className={styles.login} to="/user/login">
               <FormattedMessage id="app.login.backlogin" />
             </Link>
           </Form>

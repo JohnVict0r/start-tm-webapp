@@ -7,6 +7,7 @@ export default [
       { path: '/user', redirect: '/user/login' },
       { path: '/user/login', component: './User/Login' },
       { path: '/user/forgot', component: './User/ForgotPassword' },
+      { path: '/user/reset-password/:token', component: './User/RedefinePassword' },
       { path: '/user/register', component: './User/Register' },
       { path: '/user/register-result', component: './User/RegisterResult' },
     ],

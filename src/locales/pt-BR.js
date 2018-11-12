@@ -17,6 +17,7 @@ export default {
   'validation.phone-number.required': 'Por favor insira seu telefone!',
   'validation.phone-number.wrong-format': 'Formato de telefone errado!',
   'validation.verification-code.required': 'Por favor insira seu código de verificação!',
+  'validation.email.mailnotfound': 'Email não existente',
   'form.user-name.placeholder': 'Como gostaria de ser chamado?',
   'form.email.placeholder': 'Email',
   'form.email.recoverplaceholder': 'Email cadastrado',

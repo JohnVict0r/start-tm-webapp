@@ -5,11 +5,10 @@ export default [
     component: '../layouts/UserLayout',
     routes: [
       { path: '/auth', redirect: '/auth/login' },
-      { path: '/auth/login', component: './User/Login' },
-      { path: '/auth/forgot-password', component: './User/ForgotPassword' },
-      { path: '/auth/reset-password/:token', component: './User/RedefinePassword' },
-      { path: '/auth/register', component: './User/Register' },
-      { path: '/auth/register-result', component: './User/RegisterResult' },
+      { path: '/auth/login', component: './Auth/Login' },
+      { path: '/auth/forgot-password', component: './Auth/ForgotPassword' },
+      { path: '/auth/reset-password/:token', component: './Auth/RedefinePassword' },
+      { path: '/auth/register', component: './Auth/Register' },
     ],
   },
   // app

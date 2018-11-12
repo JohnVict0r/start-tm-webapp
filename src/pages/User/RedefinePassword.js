@@ -4,7 +4,7 @@ import { FormattedMessage, formatMessage } from 'umi/locale';
 import { Button, Form, Input } from 'antd';
 import PasswordForce from '@/components/PasswordForce';
 
-import styles from './ForgotPassword.less';
+import styles from './RedefinePassword.less';
 
 @connect(({ loading }) => ({
   submitting: loading.effects['resetPassword/resetPasswordWithToken'],

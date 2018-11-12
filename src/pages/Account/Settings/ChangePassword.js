@@ -4,7 +4,7 @@ import { Button, Input, Form } from 'antd';
 import { connect } from 'dva';
 import PasswordForce from '@/components/PasswordForce';
 
-import styles from '../../../components/Register/index.less';
+import styles from './ChangePassword.less';
 
 @connect(state => ({
   updatePassword: state.user.updatePassword,

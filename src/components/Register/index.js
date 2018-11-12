@@ -115,6 +115,7 @@ class Register extends Component {
               <Input
                 size="large"
                 name="name"
+                maxLength={255}
                 placeholder={formatMessage({ id: 'form.user-name.placeholder' })}
               />
             )}
@@ -126,7 +127,11 @@ class Register extends Component {
                 { type: 'email', message: formatMessage({ id: 'validation.email.wrong-format' }) },
               ],
             })(
-              <Input size="large" placeholder={formatMessage({ id: 'form.email.placeholder' })} />
+              <Input
+                size="large"
+                maxLength={255}
+                placeholder={formatMessage({ id: 'form.email.placeholder' })}
+              />
             )}
           </Form.Item>
           <Form.Item help={help}>

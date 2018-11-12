@@ -1,10 +1,35 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 import { Input, Form, Card, Button } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { formatMessage } from 'umi/locale';
 
+@connect(state => ({
+  createForm: state.workflows.createForm,
+  submitting: state.loading.effects['workflows/createWorkflow'],
+}))
 @Form.create()
 class NewWorkflow extends PureComponent {
+  componentDidUpdate(prevProps) {
+    const { form, createForm } = this.props;
+
+    if (prevProps.createForm !== createForm && createForm.error) {
+      const { errors } = createForm.error;
+      const mapErrors = Object.keys(errors).reduce(
+        (accum, key) => ({
+          ...accum,
+          [key]: {
+            value: form.getFieldValue(key),
+            errors: errors[key].map(err => new Error(err)),
+          },
+        }),
+        {}
+      );
+
+      form.setFields(mapErrors);
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const { form } = this.props;
@@ -12,15 +37,8 @@ class NewWorkflow extends PureComponent {
       if (!err) {
         const { dispatch } = this.props;
         dispatch({
-          type: 'projects/createProject',
-          payload: {
-            teamId: values.owner,
-            project: {
-              ...values,
-              owner_type: 'teams',
-              owner_id: values.owner,
-            },
-          },
+          type: 'workflows/createWorkflow',
+          payload: values,
         });
         form.resetFields();
       }
@@ -30,6 +48,7 @@ class NewWorkflow extends PureComponent {
   render() {
     const {
       form: { getFieldDecorator },
+      submitting,
     } = this.props;
 
     const formItemLayout = {
@@ -68,6 +87,7 @@ class NewWorkflow extends PureComponent {
                 ],
               })(
                 <Input
+                  maxLength={255}
                   placeholder={formatMessage({ id: 'app.admin.workflows.name-placeholder' })}
                 />
               )}
@@ -79,13 +99,14 @@ class NewWorkflow extends PureComponent {
               {getFieldDecorator('description', {
                 rules: [{ required: false }],
               })(
-                <Input
+                <Input.TextArea
+                  rows={4}
                   placeholder={formatMessage({ id: 'app.admin.workflows.description-placeholder' })}
                 />
               )}
             </Form.Item>
-            <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
-              <Button type="primary" htmlType="submit">
+            <Form.Item style={{ marginTop: 32 }} {...submitFormLayout}>
+              <Button type="primary" htmlType="submit" loading={submitting}>
                 {formatMessage({ id: 'app.admin.workflows.create' })}
               </Button>
             </Form.Item>

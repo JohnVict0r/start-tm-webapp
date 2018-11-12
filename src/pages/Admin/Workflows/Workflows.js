@@ -11,13 +11,13 @@ import styles from './Workflows.less';
 
 @connect(state => ({
   workflows: workflowsSelector(state),
-  loading: state.loading.effects['admin/fetchWorkflows'],
+  loading: state.loading.effects['workflows/fetchWorkflows'],
 }))
 class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'admin/fetchWorkflows',
+      type: 'workflows/fetchWorkflows',
     });
   }
 

@@ -53,7 +53,7 @@ class ForgotPassword extends Component {
             message={formatMessage({ id: 'app.register.mailsend' }, { email: sentmail })}
             type="success"
           />
-          <Link className={styles.login} to="/user/login">
+          <Link className={styles.login} to="/auth/login">
             <FormattedMessage id="app.login.backlogin" />
           </Link>
         </div>
@@ -92,7 +92,7 @@ class ForgotPassword extends Component {
             <Button loading={submitting} className={styles.submit} type="primary" htmlType="submit">
               <FormattedMessage id="app.register.send" />
             </Button>
-            <Link className={styles.login} to="/user/login">
+            <Link className={styles.login} to="/auth/login">
               <FormattedMessage id="app.login.backlogin" />
             </Link>
           </Form>

@@ -1,15 +1,15 @@
 export default [
   // user
   {
-    path: '/user',
+    path: '/auth',
     component: '../layouts/UserLayout',
     routes: [
-      { path: '/user', redirect: '/user/login' },
-      { path: '/user/login', component: './User/Login' },
-      { path: '/user/forgot', component: './User/ForgotPassword' },
-      { path: '/user/reset-password/:token', component: './User/RedefinePassword' },
-      { path: '/user/register', component: './User/Register' },
-      { path: '/user/register-result', component: './User/RegisterResult' },
+      { path: '/auth', redirect: '/auth/login' },
+      { path: '/auth/login', component: './User/Login' },
+      { path: '/auth/forgot-password', component: './User/ForgotPassword' },
+      { path: '/auth/reset-password/:token', component: './User/RedefinePassword' },
+      { path: '/auth/register', component: './User/Register' },
+      { path: '/auth/register-result', component: './User/RegisterResult' },
     ],
   },
   // app

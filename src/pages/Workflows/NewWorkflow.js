@@ -11,7 +11,7 @@ import { formatMessage } from 'umi/locale';
 @Form.create()
 class NewWorkflow extends PureComponent {
   componentDidUpdate(prevProps) {
-    const { form, createForm } = this.props;
+    const { form, createForm} = this.props;
 
     if (prevProps.createForm !== createForm && createForm.error) {
       const { errors } = createForm.error;
@@ -32,14 +32,18 @@ class NewWorkflow extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form } = this.props;
+    const { form, owner  } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch } = this.props;
+        const { dispatch } = this.props;        
         dispatch({
-          type: 'workflows/createWorkflow',
-          payload: values,
+          type: 'createWorkflows/createWorkflow',
+          payload: {
+            owner,
+            values,
+          }
         });
+
         form.resetFields();
       }
     });

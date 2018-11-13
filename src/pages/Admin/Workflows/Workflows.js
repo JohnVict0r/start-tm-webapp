@@ -57,7 +57,9 @@ class Workflows extends PureComponent {
             type="dashed"
             style={{ width: '100%', marginBottom: 8 }}
             icon="plus"
-            onClick={() => router.push('/workflows/new')}
+            onClick={() => router.push({
+              pathname:'/workflows/new',              
+            })}
             ref={component => {
               /* eslint-disable */
               this.addBtn = findDOMNode(component);

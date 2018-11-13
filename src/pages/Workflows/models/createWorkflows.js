@@ -1,6 +1,7 @@
 import { 
     createWorkflow,
-   
+    createWorkflowForTeam, 
+    createWorkflowForProject
  } from '@/services/workflows';
 
 import { formatMessage } from 'umi/locale';
@@ -16,13 +17,21 @@ export default {
   },
 
   effects: {    
-    *createWorkflow({ payload }, { call, put }) {
+    *createWorkflow({ payload:{ owner, values } }, { call, put }) {
+        let callCreateWorkflow;
 
+        if (!owner) {
+            callCreateWorkflow = [createWorkflow, values];
+        } else if (owner.type === 'projects') {
+            callCreateWorkflow = [createWorkflowForProject, owner.id, values];
+        } else if (owner.type === 'teams') {
+            callCreateWorkflow = [createWorkflowForTeam, owner.id, values];
+        } else {
+            callCreateWorkflow = [createWorkflow, values];
+        }
 
-      
-      const response = yield call(createWorkflow, payload);
-      
-      
+        const response = yield call(...callCreateWorkflow);
+        
       if (response.errors) {
         yield put({
           type: 'handleFormError',

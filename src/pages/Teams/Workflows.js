@@ -27,11 +27,24 @@ class BasicList extends PureComponent {
     const {
       workflows: { items, pagination },
       loading,
+      match
     } = this.props;
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => router.push('/workflows/new')}>
+        <Button
+          type="primary"
+          icon="plus"
+          onClick={() => router.push({
+            pathname:'/workflows/new',
+            state: {
+              owner: {
+                type: 'teams',
+                id: match.params.id
+              }
+            }
+          })}
+        >
           {formatMessage({ id: 'app.admin.workflows.create' })}
         </Button>
         <Input.Search

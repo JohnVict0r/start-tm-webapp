@@ -19,6 +19,8 @@ export default {
   'validation.verification-code.required': 'Por favor insira seu código de verificação!',
   'validation.email.mailnotfound': 'Email não existente',
   'form.user-name.placeholder': 'Como gostaria de ser chamado?',
+  'form.captcha': 'Get Captcha',
+  'form.captcha.second': 'sec',
   'form.email.placeholder': 'Email',
   'form.email.recoverplaceholder': 'Email cadastrado',
   'form.password.placeholder': 'Senha',

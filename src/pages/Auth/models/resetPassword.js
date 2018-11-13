@@ -1,5 +1,5 @@
 import { routerRedux } from 'dva/router';
-import { forgotPassword, resetPassword } from '@/services/auth';
+import { resetPassword } from '@/services/auth';
 import { setAuthToken } from '@/utils/authentication';
 import { reloadAuthenticated } from '@/utils/Authenticated';
 
@@ -8,24 +8,9 @@ export default {
 
   state: {
     error: null,
-    sentToken: false,
   },
 
   effects: {
-    *forgot({ payload }, { call, put }) {
-      const response = yield call(forgotPassword, payload);
-      if (response) {
-        yield put({
-          type: 'handleForgotPasswordError',
-          payload: response,
-        });
-      } else {
-        yield put({
-          type: 'handleSentMail',
-          payload: response,
-        });
-      }
-    },
     *resetPasswordWithToken({ payload }, { call, put }) {
       const response = yield call(resetPassword, payload);
 
@@ -39,11 +24,6 @@ export default {
         payload: response,
       });
     },
-    *resetState(_, { put }) {
-      yield put({
-        type: 'handleResetState',
-      });
-    },
   },
 
   reducers: {
@@ -51,20 +31,6 @@ export default {
       return {
         ...state,
         error: payload,
-        sentToken: false,
-      };
-    },
-    handleSentMail(state) {
-      return {
-        ...state,
-        error: null,
-        sentToken: true,
-      };
-    },
-    handleResetState() {
-      return {
-        error: null,
-        sentToken: false,
       };
     },
   },

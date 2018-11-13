@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
-
+import { formatMessage } from 'umi/locale';
 import { teamWorkflowsSelector } from './selectors/workflows';
 
 import styles from './Workflows.less';
@@ -30,8 +31,8 @@ class BasicList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => {}}>
-          Workflow
+        <Button type="primary" icon="plus" onClick={() => router.push('/workflows/new')}>
+          {formatMessage({ id: 'app.admin.workflows.create' })}
         </Button>
         <Input.Search
           className={styles.extraContentSearch}
@@ -53,7 +54,7 @@ class BasicList extends PureComponent {
         <Card
           className={styles.listCard}
           bordered={false}
-          title="Workflows"
+          title={formatMessage({ id: 'menu.workflows' })}
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}

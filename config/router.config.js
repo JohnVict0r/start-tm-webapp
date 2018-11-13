@@ -356,13 +356,13 @@ export default [
         path: '/workflows',
         name: 'workflows',
         icon: 'branches',
-        hideInBreadcrumb: true,
+        hideInMenu: true,
         routes: [
-          { path: '/workflows', redirect: '/workflows/new' },
+          { path: '/workflows', redirect: '/workflows/new' },                              
           {
             path: '/workflows/new',
-            name: 'newWorkflow',
-            component: './Admin/Workflows/NewWorkflow',
+            name: 'new-workflow',
+            component: './Workflows/NewWorkflow',
           },
         ],
       },

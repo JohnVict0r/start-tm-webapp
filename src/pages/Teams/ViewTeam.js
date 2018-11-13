@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
+import { formatMessage } from 'umi/locale';
 import { Button, Rate, Popconfirm } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
@@ -23,15 +24,15 @@ const action = (
 const tabList = [
   {
     key: 'projects',
-    tab: 'Projetos',
+    tab: formatMessage({ id: 'menu.projects' }),
   },
   {
     key: 'workflows',
-    tab: 'Workflows',
+    tab: formatMessage({ id: 'menu.workflows' }),
   },
   {
     key: 'members',
-    tab: 'Membros',
+    tab: formatMessage({ id: 'menu.teams.team.members' }),
   },
 ];
 

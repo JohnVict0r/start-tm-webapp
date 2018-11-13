@@ -17,7 +17,7 @@ class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'workflows/fetchWorkflows',
+      type: 'currentWorkflows/fetchCurrentWorkflows',
     });
   }
 

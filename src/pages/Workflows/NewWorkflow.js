@@ -5,7 +5,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { formatMessage } from 'umi/locale';
 
 @connect(state => ({
-  createForm: state.workflows.createForm,
+  createForm: state.createWorkflows.createForm,
   submitting: state.loading.effects['workflows/createWorkflow'],
 }))
 @Form.create()

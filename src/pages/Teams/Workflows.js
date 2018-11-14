@@ -12,7 +12,7 @@ import styles from './Workflows.less';
   workflows: teamWorkflowsSelector(state),
   loading: state.loading.effects['currentTeamWorkflows/fetch'],
 }))
-class BasicList extends PureComponent {
+class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
@@ -95,4 +95,4 @@ class BasicList extends PureComponent {
   }
 }
 
-export default BasicList;
+export default Workflows;

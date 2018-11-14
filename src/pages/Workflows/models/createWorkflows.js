@@ -18,13 +18,13 @@ export default {
 
   effects: {    
     *createWorkflow({ payload:{ owner, values } }, { call, put }) {
-        let callCreateWorkflow;
+        let callCreateWorkflow;        
 
         if (!owner) {
             callCreateWorkflow = [createWorkflow, values];
         } else if (owner.type === 'projects') {
             callCreateWorkflow = [createWorkflowForProject, owner.id, values];
-        } else if (owner.type === 'teams') {
+        } else if (owner.type === 'teams') {            
             callCreateWorkflow = [createWorkflowForTeam, owner.id, values];
         } else {
             callCreateWorkflow = [createWorkflow, values];

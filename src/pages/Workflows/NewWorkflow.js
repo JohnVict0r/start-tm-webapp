@@ -32,7 +32,10 @@ class NewWorkflow extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, owner  } = this.props;
+    const { form, location: { state }  } = this.props;
+    
+    const owner = state && state.owner; 
+
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         const { dispatch } = this.props;        

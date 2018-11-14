@@ -101,6 +101,7 @@ class NewWorkflow extends PureComponent {
               })(
                 <Input.TextArea
                   rows={4}
+                  maxLength={255}
                   placeholder={formatMessage({ id: 'app.admin.workflows.description-placeholder' })}
                 />
               )}

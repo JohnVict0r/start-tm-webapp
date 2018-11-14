@@ -9,15 +9,15 @@ import router from 'umi/router';
 const tabList = [
   {
     key: 'projects',
-    tab: 'Projetos',
+    tab: formatMessage({ id: 'menu.projects' }),
   },
   {
     key: 'workflows',
-    tab: 'Workflows',
+    tab: formatMessage({ id: 'menu.workflows' }),
   },
   {
     key: 'members',
-    tab: 'Membros',
+    tab: formatMessage({ id: 'menu.teams.team.members' }),
   },
 ];
 

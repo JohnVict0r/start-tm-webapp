@@ -1,11 +1,10 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
-
+import { FormattedMessage, formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import NewTeamModal from '@/components/NewTeamModal';
+import router from 'umi/router';
 import { exploreTeamsSelector } from './selectors/teams';
 
 import styles from './TeamsList.less';
@@ -15,11 +14,6 @@ import styles from './TeamsList.less';
   loading: state.loading.effects['teams/fetchUserTeams'],
 }))
 class TeamsList extends PureComponent {
-  state = {
-    visible: false,
-    done: false,
-  };
-
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -27,62 +21,16 @@ class TeamsList extends PureComponent {
     });
   }
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  handleDone = () => {
-    setTimeout(() => this.addBtn.blur(), 0);
-    this.setState({
-      done: false,
-      visible: false,
-    });
-  };
-
-  handleCancel = () => {
-    setTimeout(() => this.addBtn.blur(), 0);
-    this.setState({
-      visible: false,
-    });
-  };
-
-  handleSubmit = (err, values) => {
-    if (!err) {
-      const { dispatch } = this.props;
-
-      this.setState({
-        done: true,
-      });
-
-      dispatch({
-        type: 'teams/createTeam',
-        payload: values,
-      });
-    }
-  };
-
   render() {
     const {
       teams: { items, pagination },
       loading,
     } = this.props;
-    const { visible, done } = this.state;
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <Button
-          type="primary"
-          icon="plus"
-          onClick={this.showModal}
-          ref={component => {
-            /* eslint-disable */
-            this.addBtn = findDOMNode(component);
-            /* eslint-enable */
-          }}
-        >
-          Equipe
+        <Button type="primary" icon="plus" onClick={() => router.push('/teams/new')}>
+          <FormattedMessage id="menu.admin.teams" />
         </Button>
         <Input.Search
           className={styles.extraContentSearch}
@@ -104,7 +52,7 @@ class TeamsList extends PureComponent {
         <div className={styles.standardList}>
           <Card
             className={styles.listCard}
-            title="Minhas equipes"
+            title={formatMessage({ id: 'menu.teams.my-teams' })}
             bordered={false}
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
@@ -129,14 +77,6 @@ class TeamsList extends PureComponent {
             />
           </Card>
         </div>
-
-        <NewTeamModal
-          visible={visible}
-          done={done}
-          onDone={this.handleDone}
-          onCancel={this.handleCancel}
-          onSubmit={this.handleSubmit}
-        />
       </PageHeaderWrapper>
     );
   }

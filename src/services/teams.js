@@ -18,5 +18,6 @@ export const loadWorkflowsAvailableForTeam = ({ id, page }) =>
 export const loadTeamMembers = ({ id }) =>
   callApi(`teams/${id}/members`, schema.TEAMMEMBER_ARRAY).get();
 export const createTeam = team => callApi(`teams`, schema.TEAM).post(team);
+export const updateTeam = ({ id, values }) => callApi(`teams/${id}`, schema.TEAM).put(values);
 export const addTeamMember = (id, member) =>
   callApi(`teams/${id}/members`, schema.TEAMMEMBER_ARRAY).post(member);

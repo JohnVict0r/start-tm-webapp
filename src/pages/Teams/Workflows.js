@@ -12,7 +12,7 @@ import styles from './Workflows.less';
   workflows: teamWorkflowsSelector(state),
   loading: state.loading.effects['currentTeamWorkflows/fetch'],
 }))
-class BasicList extends PureComponent {
+class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
@@ -27,11 +27,24 @@ class BasicList extends PureComponent {
     const {
       workflows: { items, pagination },
       loading,
+      match
     } = this.props;
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => router.push('/workflows/new')}>
+        <Button
+          type="primary"
+          icon="plus"
+          onClick={() => router.push({
+            pathname:'/workflows/new',
+            state: {
+              owner: {
+                type: 'teams',
+                id: match.params.id
+              }
+            }
+          })}
+        >
           {formatMessage({ id: 'app.admin.workflows.create' })}
         </Button>
         <Input.Search
@@ -82,4 +95,4 @@ class BasicList extends PureComponent {
   }
 }
 
-export default BasicList;
+export default Workflows;

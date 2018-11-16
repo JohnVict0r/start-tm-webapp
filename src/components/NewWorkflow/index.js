@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import { Input, Button, Card, Form, Row, Col } from 'antd';
+import { Input, Button, Form, Row, Col } from 'antd';
 import { formatMessage } from 'umi/locale';
 
 @connect(state => ({

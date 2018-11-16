@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Skeleton } from 'antd';
+import { List, Card, Input, Skeleton } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { teamWorkflowsSelector } from './selectors/workflows';
 

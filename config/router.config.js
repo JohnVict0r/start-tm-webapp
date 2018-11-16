@@ -118,6 +118,11 @@ export default [
             routes: [
               { path: '/projects/:id/boards', redirect: '/projects/:id' },
               {
+                path: '/projects/:id/edit',
+                name: 'edit-project',
+                component: './Projects/EditProject',
+              },
+              {
                 path: '/projects/:id/boards/new',
                 name: 'new-board',
                 component: './Projects/NewBoard',

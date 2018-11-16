@@ -297,4 +297,6 @@ export default {
   'app.team.teamdescription.helper': 'Insita o nome do quadro',
   'app.team.sucess-created': 'Equipe criada com sucesso',
   'app.team.sucess-updated': 'Equipe atualizada com sucesso',
+  'app.project.sucess-edited': 'Projeto editado com sucesso!',
+  'app.project.edit': 'Editar projeto',
 };

@@ -311,9 +311,9 @@ export default {
   'app.admin.workflows.context': 'Create a New Workflow',
   'app.admin.workflows.name': 'Name',
   'app.admin.workflows.name-message': 'Please enter a name!',
-  'app.admin.workflows.name-placeholder': 'Enter the name of the workflow',
+  'app.admin.workflows.name-placeholder': 'Name',
   'app.admin.workflows.description': 'Description',
-  'app.admin.workflows.description-placeholder': 'Enter a description',
-  'app.admin.workflows.create': 'Create Workflow',
+  'app.admin.workflows.description-placeholder': 'Description',
+  'app.admin.workflows.create': 'Create',
   'app.form.workflows.success': 'Successfully created workflow',
 };

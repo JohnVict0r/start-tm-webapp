@@ -6,6 +6,8 @@ import { List, Card, Input, Button, Skeleton } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { teamWorkflowsSelector } from './selectors/workflows';
 
+import CardNewWorkflow from '@/components/NewWorkflow';
+
 import styles from './Workflows.less';
 
 @connect(state => ({
@@ -27,26 +29,11 @@ class Workflows extends PureComponent {
     const {
       workflows: { items, pagination },
       loading,
-      match
+      match,
     } = this.props;
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <Button
-          type="primary"
-          icon="plus"
-          onClick={() => router.push({
-            pathname:'/workflows/new',
-            state: {
-              owner: {
-                type: 'teams',
-                id: match.params.id
-              }
-            }
-          })}
-        >
-          {formatMessage({ id: 'app.admin.workflows.create' })}
-        </Button>
         <Input.Search
           className={styles.extraContentSearch}
           placeholder="Buscar"
@@ -62,8 +49,19 @@ class Workflows extends PureComponent {
       hideOnSinglePage: true,
     };
 
+    const owner = {
+      type: 'teams',
+      id: match.params.id,
+    };
     return (
-      <div className={styles.standardList}>
+      <React.Fragment>
+        <Card
+          bordered={false}
+          title={formatMessage({ id: 'app.admin.workflows.new' })}
+          style={{ marginTop: 24 }}
+        >
+          <CardNewWorkflow owner={owner} />
+        </Card>
         <Card
           className={styles.listCard}
           bordered={false}
@@ -90,7 +88,7 @@ class Workflows extends PureComponent {
             )}
           />
         </Card>
-      </div>
+      </React.Fragment>
     );
   }
 }

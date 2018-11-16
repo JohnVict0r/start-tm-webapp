@@ -7,6 +7,8 @@ import { List, Card, Input, Button, Skeleton } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { workflowsSelector } from './selectors/workflows';
 
+import CardNewWorkflow from '@/components/NewWorkflow';
+
 import styles from './Workflows.less';
 
 @connect(state => ({
@@ -46,6 +48,9 @@ class Workflows extends PureComponent {
 
     return (
       <div className={styles.standardList}>
+        <Card bordered={false} style={{ marginTop: 24 }}>
+          <CardNewWorkflow />
+        </Card>
         <Card
           className={styles.listCard}
           bordered={false}
@@ -53,21 +58,6 @@ class Workflows extends PureComponent {
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
         >
-          <Button
-            type="dashed"
-            style={{ width: '100%', marginBottom: 8 }}
-            icon="plus"
-            onClick={() => router.push({
-              pathname:'/workflows/new',              
-            })}
-            ref={component => {
-              /* eslint-disable */
-              this.addBtn = findDOMNode(component);
-              /* eslint-enable */
-            }}
-          >
-            {formatMessage({ id: 'app.admin.workflows.create' })}
-          </Button>
           <List
             size="large"
             rowKey="id"

@@ -365,20 +365,6 @@ export default [
         ],
       },
       {
-        path: '/workflows',
-        name: 'workflows',
-        icon: 'branches',
-        hideInMenu: true,
-        routes: [
-          { path: '/workflows', redirect: '/workflows/new' },                              
-          {
-            path: '/workflows/new',
-            name: 'new-workflow',
-            component: './Workflows/NewWorkflow',
-          },
-        ],
-      },
-      {
         component: '404',
       },
     ],

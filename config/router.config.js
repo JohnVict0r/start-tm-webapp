@@ -118,6 +118,11 @@ export default [
             routes: [
               { path: '/projects/:id/boards', redirect: '/projects/:id' },
               {
+                path: '/projects/:id/edit',
+                name: 'edit-project',
+                component: './Projects/EditProject',
+              },
+              {
                 path: '/projects/:id/boards/new',
                 name: 'new-board',
                 component: './Projects/NewBoard',
@@ -370,7 +375,7 @@ export default [
         icon: 'branches',
         hideInMenu: true,
         routes: [
-          { path: '/workflows', redirect: '/workflows/new' },                              
+          { path: '/workflows', redirect: '/workflows/new' },
           {
             path: '/workflows/new',
             name: 'new-workflow',

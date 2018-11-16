@@ -21,7 +21,6 @@ export default {
       items: [],
       pagination: initialPaginatioState,
     },
-    error: null,
   },
 
   effects: {

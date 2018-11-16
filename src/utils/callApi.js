@@ -62,7 +62,7 @@ export default function callApi(endpoint, schema) {
 
   const token = getAuthToken();
   const options = {
-    mode: 'cors',
+    credentials: 'same-origin',
     headers: { Authorization: `Bearer ${token}` },
   };
 

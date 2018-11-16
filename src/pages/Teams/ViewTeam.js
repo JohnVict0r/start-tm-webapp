@@ -1,37 +1,23 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { Button, Rate, Popconfirm } from 'antd';
+import { formatMessage } from 'umi/locale';
+import { Button, Rate, Popconfirm, Dropdown, Icon, Menu } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import router from 'umi/router';
 
-const action = (
-  <Fragment>
-    <Popconfirm
-      title="Tem certeza que quer sair da equipe?"
-      onConfirm={() => {}}
-      okText="Sim"
-      cancelText="Não"
-    >
-      <Button type="danger" ghost>
-        Sair
-      </Button>
-    </Popconfirm>
-  </Fragment>
-);
-
 const tabList = [
   {
     key: 'projects',
-    tab: 'Projetos',
+    tab: formatMessage({ id: 'menu.projects' }),
   },
   {
     key: 'workflows',
-    tab: 'Workflows',
+    tab: formatMessage({ id: 'menu.workflows' }),
   },
   {
     key: 'members',
-    tab: 'Membros',
+    tab: formatMessage({ id: 'menu.teams.team.members' }),
   },
 ];
 
@@ -71,6 +57,32 @@ class ViewTeam extends Component {
     if (!team) {
       return <PageLoading />;
     }
+
+    const actionpart = (
+      <Menu>
+        <Menu.Item onClick={() => router.push(`/teams/${match.params.id}/edit`)} key="1">
+          Alterar Equipe
+        </Menu.Item>
+      </Menu>
+    );
+
+    const action = (
+      <Fragment>
+        <Popconfirm
+          title={formatMessage({ id: 'app.team.suregetout' })}
+          onConfirm={() => {}}
+          okText="Sim"
+          cancelText="Não"
+        >
+          <Button type="danger">Sair</Button>
+        </Popconfirm>
+        <Dropdown overlay={actionpart} placement="bottomLeft">
+          <Button>
+            <Icon type="ellipsis" />
+          </Button>
+        </Dropdown>
+      </Fragment>
+    );
 
     return (
       <PageHeaderWrapper

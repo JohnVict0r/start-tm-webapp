@@ -1,7 +1,4 @@
-import { loadWorkFlows, createWorkflow } from '@/services/workflows';
-import { formatMessage } from 'umi/locale';
-import { routerRedux } from 'dva/router';
-import { notification } from 'antd';
+import { loadWorkFlows } from '@/services/workflows';
 
 const initialPaginatioState = {
   count: 0,
@@ -13,20 +10,16 @@ const initialPaginatioState = {
 };
 
 export default {
-  namespace: 'workflows',
-
+  namespace: 'currentWorkflows',
   state: {
     workflows: {
       items: [],
       pagination: initialPaginatioState,
     },
-    createForm: {
-      error: null,
-    },
   },
 
   effects: {
-    *fetchWorkflows(_, { call, put }) {
+    *fetchCurrentWorkflows(_, { call, put }) {
       const response = yield call(loadWorkFlows);
 
       yield put({
@@ -42,33 +35,6 @@ export default {
         },
       });
     },
-    *createWorkflow({ payload }, { call, put }) {
-      const response = yield call(createWorkflow, payload);
-      if (response.errors) {
-        yield put({
-          type: 'handleFormError',
-          payload: response,
-        });
-      } else {
-        yield put({
-          type: 'entities/mergeEntities',
-          payload: response.entities,
-        });
-
-        yield put({
-          type: 'receiveItem',
-          payload: {
-            item: response.result,
-          },
-        });
-
-        yield put(routerRedux.push(`/workflows/${response.result}`));
-
-        notification.success({
-          message: formatMessage({ id: 'app.form.workflows.success' }),
-        });
-      }
-    },
   },
 
   reducers: {
@@ -79,14 +45,6 @@ export default {
           ...state.workflows,
           items: payload.items,
           pagination: payload.pagination,
-        },
-      };
-    },
-    handleFormError(state, { payload }) {
-      return {
-        ...state,
-        createForm: {
-          error: payload,
         },
       };
     },

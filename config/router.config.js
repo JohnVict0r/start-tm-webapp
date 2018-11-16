@@ -56,6 +56,18 @@ export default [
             component: './Teams/TeamsList',
           },
           {
+            path: '/teams/:id/edit',
+            name: 'team-edit',
+            component: './Teams/EditTeam',
+            hideInMenu: true,
+          },
+          {
+            path: '/teams/new',
+            name: 'new-team',
+            component: './Teams/NewTeam',
+            hideInMenu: true,
+          },
+          {
             path: '/teams/:id',
             name: 'team',
             component: './Teams/ViewTeam',
@@ -344,7 +356,7 @@ export default [
             path: '/admin/workflows',
             name: 'workflows',
             component: './Admin/Workflows/Workflows',
-          },          
+          },
           {
             path: '/admin/users',
             name: 'users',
@@ -356,13 +368,13 @@ export default [
         path: '/workflows',
         name: 'workflows',
         icon: 'branches',
-        hideInBreadcrumb: true,
+        hideInMenu: true,
         routes: [
           { path: '/workflows', redirect: '/workflows/new' },
           {
             path: '/workflows/new',
-            name: 'newWorkflow',
-            component: './Admin/Workflows/NewWorkflow',
+            name: 'new-workflow',
+            component: './Workflows/NewWorkflow',
           },
         ],
       },

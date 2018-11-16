@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
-
+import { formatMessage } from 'umi/locale';
 import { teamWorkflowsSelector } from './selectors/workflows';
 
 import styles from './Workflows.less';
@@ -11,7 +12,7 @@ import styles from './Workflows.less';
   workflows: teamWorkflowsSelector(state),
   loading: state.loading.effects['currentTeamWorkflows/fetch'],
 }))
-class BasicList extends PureComponent {
+class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
@@ -26,12 +27,27 @@ class BasicList extends PureComponent {
     const {
       workflows: { items, pagination },
       loading,
+      match,
     } = this.props;
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => {}}>
-          Workflow
+        <Button
+          type="primary"
+          icon="plus"
+          onClick={() =>
+            router.push({
+              pathname: '/workflows/new',
+              state: {
+                owner: {
+                  type: 'teams',
+                  id: match.params.id,
+                },
+              },
+            })
+          }
+        >
+          {formatMessage({ id: 'app.admin.workflows.create' })}
         </Button>
         <Input.Search
           className={styles.extraContentSearch}
@@ -53,7 +69,7 @@ class BasicList extends PureComponent {
         <Card
           className={styles.listCard}
           bordered={false}
-          title="Workflows"
+          title={formatMessage({ id: 'menu.workflows' })}
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
@@ -81,4 +97,4 @@ class BasicList extends PureComponent {
   }
 }
 
-export default BasicList;
+export default Workflows;

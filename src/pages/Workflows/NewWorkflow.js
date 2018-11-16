@@ -5,7 +5,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { formatMessage } from 'umi/locale';
 
 @connect(state => ({
-  createForm: state.workflows.createForm,
+  createForm: state.createWorkflows.createForm,
   submitting: state.loading.effects['workflows/createWorkflow'],
 }))
 @Form.create()
@@ -32,14 +32,24 @@ class NewWorkflow extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form } = this.props;
+    const {
+      form,
+      location: { state },
+    } = this.props;
+
+    const owner = state && state.owner;
+
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         const { dispatch } = this.props;
         dispatch({
-          type: 'workflows/createWorkflow',
-          payload: values,
+          type: 'createWorkflows/createWorkflow',
+          payload: {
+            owner,
+            values,
+          },
         });
+
         form.resetFields();
       }
     });
@@ -101,6 +111,7 @@ class NewWorkflow extends PureComponent {
               })(
                 <Input.TextArea
                   rows={4}
+                  maxLength={255}
                   placeholder={formatMessage({ id: 'app.admin.workflows.description-placeholder' })}
                 />
               )}

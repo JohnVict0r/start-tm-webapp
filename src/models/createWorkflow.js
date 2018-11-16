@@ -1,23 +1,22 @@
+import { formatMessage } from 'umi/locale';
+import { routerRedux } from 'dva/router';
+import { notification } from 'antd';
+
 import {
   createWorkflow,
   createWorkflowForTeam,
   createWorkflowForProject,
 } from '@/services/workflows';
 
-import { formatMessage } from 'umi/locale';
-import { routerRedux } from 'dva/router';
-import { notification } from 'antd';
-
 export default {
-  namespace: 'createWorkflows',
+  namespace: 'createWorkflow',
+
   state: {
-    createForm: {
-      error: null,
-    },
+    error: null,
   },
 
   effects: {
-    *createWorkflow(
+    *create(
       {
         payload: { owner, values },
       },
@@ -58,7 +57,7 @@ export default {
         yield put(routerRedux.push(`/workflows/${response.result}`));
 
         notification.success({
-          message: formatMessage({ id: 'app.form.workflows.success' }),
+          message: formatMessage({ id: 'form.create' }, { name: 'Fluxo....' }),
         });
       }
     },
@@ -68,9 +67,7 @@ export default {
     handleFormError(state, { payload }) {
       return {
         ...state,
-        createForm: {
-          error: payload,
-        },
+        error: payload,
       };
     },
   },

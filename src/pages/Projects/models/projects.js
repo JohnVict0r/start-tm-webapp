@@ -1,7 +1,9 @@
-import { loadUserProjects, loadProject, createProject } from '@/services/projects';
+import { loadUserProjects, loadProject, createProject, updateProject } from '@/services/projects';
 import { loadProjectBoards } from '@/services/boards';
 import { routerRedux } from 'dva/router';
 import { notification } from 'antd';
+import { formatMessage } from 'umi/locale';
+import router from 'umi/router';
 
 const initialPaginatioState = {
   count: 0,
@@ -10,6 +12,7 @@ const initialPaginatioState = {
   perPage: 0,
   total: 0,
   totalPages: 0,
+  error: null,
 };
 
 export default {
@@ -23,6 +26,7 @@ export default {
       items: [],
       pagination: initialPaginatioState,
     },
+    error: null,
   },
 
   effects: {
@@ -99,6 +103,26 @@ export default {
         message: `Projeto criado com sucesso!`,
       });
     },
+    *editProject({ payload }, { call, put }) {
+      const response = yield call(updateProject, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        notification.success({
+          message: formatMessage({ id: 'app.project.sucess-edited' }),
+        });
+
+        router.push(`/projects/${response.result}`);
+      }
+    },
   },
 
   reducers: {
@@ -128,6 +152,12 @@ export default {
           ...state.currentProject,
           boards: payload,
         },
+      };
+    },
+    handleError(state, { payload }) {
+      return {
+        ...state,
+        error: payload,
       };
     },
   },

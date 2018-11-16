@@ -1,17 +1,21 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Skeleton } from 'antd';
+import { List, Form, Card, Input, Skeleton } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { teamWorkflowsSelector } from './selectors/workflows';
+
+import NewWorkflow from '@/components/NewWorkflow';
 
 import styles from './Workflows.less';
 
 @connect(state => ({
   workflows: teamWorkflowsSelector(state),
+  createWorkflow: state.createWorkflow,
   loading: state.loading.effects['currentTeamWorkflows/fetch'],
+  submitting: state.loading.effects['createWorkflow/create'],
 }))
+@Form.create()
 class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -23,32 +27,33 @@ class Workflows extends PureComponent {
     });
   }
 
+  handleSubmit = (err, values) => {
+    if (!err) {
+      const { dispatch, match } = this.props;
+      dispatch({
+        type: 'createWorkflow/create',
+        payload: {
+          owner: {
+            type: 'teams',
+            id: match.params.id,
+          },
+          values,
+        },
+      });
+    }
+  };
+
   render() {
     const {
       workflows: { items, pagination },
       loading,
-      match,
+      form,
+      createWorkflow,
+      submitting,
     } = this.props;
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <Button
-          type="primary"
-          icon="plus"
-          onClick={() =>
-            router.push({
-              pathname: '/workflows/new',
-              state: {
-                owner: {
-                  type: 'teams',
-                  id: match.params.id,
-                },
-              },
-            })
-          }
-        >
-          {formatMessage({ id: 'app.admin.workflows.create' })}
-        </Button>
         <Input.Search
           className={styles.extraContentSearch}
           placeholder="Buscar"
@@ -65,7 +70,19 @@ class Workflows extends PureComponent {
     };
 
     return (
-      <div className={styles.standardList}>
+      <React.Fragment>
+        <Card
+          bordered={false}
+          title={formatMessage({ id: 'app.admin.workflows.new' })}
+          style={{ marginTop: 24 }}
+        >
+          <NewWorkflow
+            form={form}
+            validation={createWorkflow.error}
+            submitting={submitting}
+            onSubmit={this.handleSubmit}
+          />
+        </Card>
         <Card
           className={styles.listCard}
           bordered={false}
@@ -92,7 +109,7 @@ class Workflows extends PureComponent {
             )}
           />
         </Card>
-      </div>
+      </React.Fragment>
     );
   }
 }

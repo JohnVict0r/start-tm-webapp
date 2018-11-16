@@ -1,17 +1,20 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Skeleton } from 'antd';
+import { List, Card, Input, Skeleton, Form } from 'antd';
 import { workflowsSelector } from './selectors/workflows';
 
-import CardNewWorkflow from '@/components/NewWorkflow';
+import NewWorkflow from '@/components/NewWorkflow';
 
 import styles from './Workflows.less';
 
 @connect(state => ({
   workflows: workflowsSelector(state),
+  createWorkflow: state.createWorkflow,
   loading: state.loading.effects['workflows/fetchWorkflows'],
+  submitting: state.loading.effects['createWorkflow/create'],
 }))
+@Form.create()
 class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
@@ -20,10 +23,25 @@ class Workflows extends PureComponent {
     });
   }
 
+  handleSubmit = (err, values) => {
+    if (!err) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'createWorkflow/create',
+        payload: {
+          values,
+        },
+      });
+    }
+  };
+
   render() {
     const {
       workflows: { items, pagination },
       loading,
+      form,
+      createWorkflow,
+      submitting,
     } = this.props;
 
     const extraContent = (
@@ -45,8 +63,13 @@ class Workflows extends PureComponent {
 
     return (
       <div className={styles.standardList}>
-        <Card bordered={false} style={{ marginTop: 24 }}>
-          <CardNewWorkflow />
+        <Card bordered style={{ marginTop: 24 }}>
+          <NewWorkflow
+            form={form}
+            validation={createWorkflow.error}
+            submitting={submitting}
+            onSubmit={this.handleSubmit}
+          />
         </Card>
         <Card
           className={styles.listCard}

@@ -1,18 +1,21 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Skeleton } from 'antd';
+import { List, Form, Card, Input, Skeleton } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { teamWorkflowsSelector } from './selectors/workflows';
 
-import CardNewWorkflow from '@/components/NewWorkflow';
+import NewWorkflow from '@/components/NewWorkflow';
 
 import styles from './Workflows.less';
 
 @connect(state => ({
   workflows: teamWorkflowsSelector(state),
+  createWorkflow: state.createWorkflow,
   loading: state.loading.effects['currentTeamWorkflows/fetch'],
+  submitting: state.loading.effects['createWorkflow/create'],
 }))
+@Form.create()
 class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -24,11 +27,29 @@ class Workflows extends PureComponent {
     });
   }
 
+  handleSubmit = (err, values) => {
+    if (!err) {
+      const { dispatch, match } = this.props;
+      dispatch({
+        type: 'createWorkflow/create',
+        payload: {
+          owner: {
+            type: 'teams',
+            id: match.params.id,
+          },
+          values,
+        },
+      });
+    }
+  };
+
   render() {
     const {
       workflows: { items, pagination },
       loading,
-      match,
+      form,
+      createWorkflow,
+      submitting,
     } = this.props;
 
     const extraContent = (
@@ -48,10 +69,6 @@ class Workflows extends PureComponent {
       hideOnSinglePage: true,
     };
 
-    const owner = {
-      type: 'teams',
-      id: match.params.id,
-    };
     return (
       <React.Fragment>
         <Card
@@ -59,7 +76,12 @@ class Workflows extends PureComponent {
           title={formatMessage({ id: 'app.admin.workflows.new' })}
           style={{ marginTop: 24 }}
         >
-          <CardNewWorkflow owner={owner} />
+          <NewWorkflow
+            form={form}
+            validation={createWorkflow.error}
+            submitting={submitting}
+            onSubmit={this.handleSubmit}
+          />
         </Card>
         <Card
           className={styles.listCard}

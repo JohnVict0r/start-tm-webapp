@@ -1,19 +1,15 @@
 import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import { Input, Button, Form, Row, Col } from 'antd';
+import { Input, Form, Button, Row, Col } from 'antd';
 import { formatMessage } from 'umi/locale';
 
-@connect(state => ({
-  createForm: state.createWorkflows.createForm,
-  submitting: state.loading.effects['workflows/NewWorkflow'],
-}))
-@Form.create()
+import styles from './index.less';
+
 class NewWorkflow extends PureComponent {
   componentDidUpdate(prevProps) {
-    const { form, createForm } = this.props;
+    const { form, validation } = this.props;
 
-    if (prevProps.createForm !== createForm && createForm.error) {
-      const { errors } = createForm.error;
+    if (prevProps.validation !== validation) {
+      const { errors } = validation;
       const mapErrors = Object.keys(errors).reduce(
         (accum, key) => ({
           ...accum,
@@ -31,26 +27,10 @@ class NewWorkflow extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form } = this.props;
-    let { owner } = this.props;
-
-    if (!owner) {
-      owner = {
-        type: 'admin',
-      };
-    }
-
+    const { form, onSubmit } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch } = this.props;
-        dispatch({
-          type: 'createWorkflows/createWorkflow',
-          payload: {
-            owner,
-            values,
-          },
-        });
-
+        onSubmit(err, values);
         form.resetFields();
       }
     });
@@ -61,8 +41,9 @@ class NewWorkflow extends PureComponent {
       form: { getFieldDecorator },
       submitting,
     } = this.props;
+
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.handleSubmit} className={styles.form}>
         <Row gutter={16}>
           <Col lg={9} md={24}>
             <Form.Item>
@@ -83,9 +64,7 @@ class NewWorkflow extends PureComponent {
           </Col>
           <Col lg={12} md={24}>
             <Form.Item>
-              {getFieldDecorator('description', {
-                rules: [{ required: false }],
-              })(
+              {getFieldDecorator('description')(
                 <Input
                   maxLength={255}
                   placeholder={formatMessage({ id: 'app.admin.workflows.description-placeholder' })}

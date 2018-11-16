@@ -1,18 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
+import Link from 'umi/link';
 import Redirect from 'umi/redirect';
 import { Button, Icon, Rate, Menu, Popover, Dropdown } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
 import styles from './ViewProject.less';
-
-const projectOptionsMenu = (
-  <Menu>
-    <Menu.Item key="1">Gerenciar Membros</Menu.Item>
-    <Menu.Item key="2">Gerenciar Quadros</Menu.Item>
-  </Menu>
-);
 
 @connect((state, ownProps) => ({
   project: state.entities.projects[ownProps.match.params.id],
@@ -41,6 +35,15 @@ class ViewProject extends Component {
 
       return <Redirect to={`${match.url}/boards/new`} />;
     }
+    const projectOptionsMenu = (
+      <Menu>
+        <Menu.Item key="3">
+          <Link to={`${match.url}/edit`}>Editar Projeto</Link>
+        </Menu.Item>
+        <Menu.Item key="1">Gerenciar Membros</Menu.Item>
+        <Menu.Item key="2">Gerenciar Quadros</Menu.Item>
+      </Menu>
+    );
 
     const action = (
       <Fragment>
@@ -66,7 +69,11 @@ class ViewProject extends Component {
 
     return (
       <Fragment>
-        <PageHeaderWrapper hiddenBreadcrumb title={project.name} action={action}>
+        <PageHeaderWrapper
+          hiddenBreadcrumb
+          title={<Link to={`${match.url}`}>{project.name}</Link>}
+          action={action}
+        >
           {children}
         </PageHeaderWrapper>
       </Fragment>

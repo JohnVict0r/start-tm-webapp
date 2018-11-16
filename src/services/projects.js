@@ -8,3 +8,5 @@ export const loadUserProjects = page =>
 export const loadProject = id => callApi(`projects/${id}?include=boards`, schema.PROJECT).get();
 export const createProject = ({ teamId, project }) =>
   callApi(`teams/${teamId}/projects`, schema.PROJECT).post(project);
+export const updateProject = ({ project }) =>
+  callApi(`projects/${project.id}`, schema.PROJECT).put(project);

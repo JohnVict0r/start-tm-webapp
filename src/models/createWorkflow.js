@@ -57,7 +57,7 @@ export default {
         yield put(routerRedux.push(`/workflows/${response.result}`));
 
         notification.success({
-          message: formatMessage({ id: 'form.create' }, { name: 'Fluxo....' }),
+          message: formatMessage({ id: 'form.create' }),
         });
       }
     },

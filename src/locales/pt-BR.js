@@ -30,6 +30,7 @@ export default {
   'form.oldpasssword.placeholder': 'Password Atual',
   'form.passwordchange.sucess': 'Senha alteraada com sucesso',
   'form.namechange.sucess': 'Nome alteraado com sucesso',
+  'form.create': 'Criar',
   'component.globalHeader.search': 'Busca',
   'component.globalHeader.search.example1': 'Exemplo de busca 1',
   'component.globalHeader.search.example2': 'Exemplo de busca 2',

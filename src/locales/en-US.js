@@ -58,6 +58,7 @@ export default {
   'form.publicUsers.option.A': 'Colleague A',
   'form.publicUsers.option.B': 'Colleague B',
   'form.publicUsers.option.C': 'Colleague C',
+  'form.create': 'Create',
   'component.globalHeader.search': 'Search',
   'component.globalHeader.search.example1': 'Search example 1',
   'component.globalHeader.search.example2': 'Search example 2',

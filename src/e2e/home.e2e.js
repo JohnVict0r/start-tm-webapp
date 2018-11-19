@@ -1,20 +1,12 @@
-import puppeteer from 'puppeteer';
-
 const BASE_URL = `http://localhost:${process.env.PORT || 8000}`;
 
 describe('Homepage', () => {
-  let browser;
-  let page;
-
   beforeAll(async () => {
     jest.setTimeout(1000000);
-    browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   });
 
   beforeEach(async () => {
-    page = await browser.newPage();
     await page.goto(`${BASE_URL}/auth/login`, { waitUntil: 'networkidle2' });
-    // await page.evaluate(() => window.localStorage.setItem('antd-pro-authority', 'guest'));
 
     // login
     await page.waitForSelector('#email', {
@@ -26,14 +18,12 @@ describe('Homepage', () => {
     await page.waitForSelector('#logo h1');
   });
 
-  afterEach(() => page.close());
-
   it('it should have logo text', async () => {
-    await page.goto(`${BASE_URL}`, { waitUntil: 'networkidle2' });
-    await page.waitForSelector('#logo h1');
-    const text = await page.evaluate(() => document.body.innerHTML);
-    expect(text).toContain('<h1>Produtiivo</h1>');
+    await page.goto(BASE_URL);
+    await page.waitForSelector('#logo h1', {
+      timeout: 2000,
+    });
+    const text = await page.evaluate(() => document.getElementsByTagName('h1')[0].innerText);
+    expect(text).toContain('Produtiivo');
   });
-
-  afterAll(() => browser.close());
 });

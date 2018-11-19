@@ -1,22 +1,13 @@
-import puppeteer from 'puppeteer';
-
 const BASE_URL = `http://localhost:${process.env.PORT || 8000}`;
 
 describe('Login', () => {
-  let browser;
-  let page;
-
   beforeAll(async () => {
     jest.setTimeout(1000000);
-    browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   });
 
   beforeEach(async () => {
-    page = await browser.newPage();
     await page.goto(`${BASE_URL}/auth/login`, { waitUntil: 'networkidle2' });
   });
-
-  afterEach(() => page.close());
 
   it('should login with failure', async () => {
     await page.waitForSelector('#email', {
@@ -39,6 +30,4 @@ describe('Login', () => {
     const text = await page.evaluate(() => document.body.innerHTML);
     expect(text).toContain('<h1>Produtiivo</h1>');
   });
-
-  afterAll(() => browser.close());
 });

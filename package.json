@@ -38,6 +38,7 @@
     "hash.js": "^1.1.5",
     "humps": "^2.0.1",
     "localforage": "^1.7.2",
+    "jest-puppeteer": "^3.5.1",
     "lodash": "^4.17.10",
     "lodash-decorators": "^6.0.0",
     "memoize-one": "^4.0.0",

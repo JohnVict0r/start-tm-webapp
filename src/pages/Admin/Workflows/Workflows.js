@@ -1,18 +1,20 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
-import router from 'umi/router';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Skeleton } from 'antd';
-import { formatMessage } from 'umi/locale';
+import { List, Card, Input, Skeleton, Form } from 'antd';
 import { workflowsSelector } from './selectors/workflows';
+
+import NewWorkflow from '@/components/NewWorkflow';
 
 import styles from './Workflows.less';
 
 @connect(state => ({
   workflows: workflowsSelector(state),
+  createWorkflow: state.createWorkflow,
   loading: state.loading.effects['workflows/fetchWorkflows'],
+  submitting: state.loading.effects['createWorkflow/create'],
 }))
+@Form.create()
 class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
@@ -21,10 +23,25 @@ class Workflows extends PureComponent {
     });
   }
 
+  handleSubmit = (err, values) => {
+    if (!err) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'createWorkflow/create',
+        payload: {
+          values,
+        },
+      });
+    }
+  };
+
   render() {
     const {
       workflows: { items, pagination },
       loading,
+      form,
+      createWorkflow,
+      submitting,
     } = this.props;
 
     const extraContent = (
@@ -46,6 +63,14 @@ class Workflows extends PureComponent {
 
     return (
       <div className={styles.standardList}>
+        <Card bordered style={{ marginTop: 24 }}>
+          <NewWorkflow
+            form={form}
+            validation={createWorkflow.error}
+            submitting={submitting}
+            onSubmit={this.handleSubmit}
+          />
+        </Card>
         <Card
           className={styles.listCard}
           bordered={false}
@@ -53,21 +78,6 @@ class Workflows extends PureComponent {
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
         >
-          <Button
-            type="dashed"
-            style={{ width: '100%', marginBottom: 8 }}
-            icon="plus"
-            onClick={() => router.push({
-              pathname:'/workflows/new',              
-            })}
-            ref={component => {
-              /* eslint-disable */
-              this.addBtn = findDOMNode(component);
-              /* eslint-enable */
-            }}
-          >
-            {formatMessage({ id: 'app.admin.workflows.create' })}
-          </Button>
           <List
             size="large"
             rowKey="id"

@@ -64,7 +64,7 @@ deploy_review:
     - ssh-add <(echo "$SSH_PRIVATE_KEY");
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" '[ -d '"'$RELEASE_DIR'"' ] || mkdir '"'$RELEASE_DIR'"';'
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'git clone --depth 1 '"'$CI_REPOSITORY_URL'"' '"'$NEW_RELEASE_DIR'"';'
-    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'cd '"'$NEW_RELEASE_DIR'"' && npm install && UMI_ENV=dev npm run build;'
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'cd '"'$NEW_RELEASE_DIR'"' && npm install && API_URL=http://devel7.sedis.ufrn.br/produtiivo-ws/public/api/ UMI_ENV=dev npm run build;'
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'cd '"'$NEW_RELEASE_DIR'"' && find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf;'
     - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/app;'
   when: manual

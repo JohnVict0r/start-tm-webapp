@@ -37,11 +37,14 @@ class ViewProject extends Component {
     }
     const projectOptionsMenu = (
       <Menu>
+        <Menu.Item key="1">Membros</Menu.Item>
+        <Menu.Item key="2">Quadros</Menu.Item>
         <Menu.Item key="3">
           <Link to={`${match.url}/edit`}>Editar Projeto</Link>
         </Menu.Item>
-        <Menu.Item key="1">Gerenciar Membros</Menu.Item>
-        <Menu.Item key="2">Gerenciar Quadros</Menu.Item>
+        <Menu.Item key="4">
+          <Link to={`${match.url}/workflows`}>Workflows</Link>
+        </Menu.Item>
       </Menu>
     );
 

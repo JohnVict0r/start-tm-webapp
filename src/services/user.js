@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import { returnParams, normalizeReponse } from '@/utils/apiParameters';
 import callApi from '@/utils/callApi';
 import schema from './Schema';
 
@@ -19,3 +20,7 @@ export const updateLoggedInUserPassword = ({ currentPassword, password, password
     password,
     password_confirmation: passwordConfirmation,
   });
+
+export const updateLoggedUserPicProps = () => returnParams('me/avatar');
+
+export const constructUserScehma = ({ data }) => normalizeReponse({ data }, schema.USER);

@@ -14,6 +14,7 @@ import settingDrawer from './pt-BR/settingDrawer';
 import settings from './pt-BR/settings';
 import team from './pt-BR/team';
 import validation from './pt-BR/validation';
+import pwa from './pt-BR/pwa';
 
 export default {
   'navBar.lang': 'Idiomas',
@@ -35,4 +36,5 @@ export default {
   ...settings,
   ...team,
   ...validation,
+  ...pwa,
 };

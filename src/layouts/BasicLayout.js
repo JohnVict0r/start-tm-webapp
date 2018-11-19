@@ -180,11 +180,11 @@ class BasicLayout extends React.PureComponent {
     if (!currRouterData) {
       return 'Produtiivo';
     }
-    const message = formatMessage({
+    const pageName = formatMessage({
       id: currRouterData.locale || currRouterData.name,
       defaultMessage: currRouterData.name,
     });
-    return `${message} - Produtiivo`;
+    return `${pageName} - Produtiivo`;
   };
 
   getLayoutStyle = () => {

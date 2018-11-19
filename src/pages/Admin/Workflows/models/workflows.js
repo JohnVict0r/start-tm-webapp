@@ -1,4 +1,4 @@
-import { loadWorkFlows} from '@/services/workflows';
+import { loadWorkFlows } from '@/services/workflows';
 
 const initialPaginatioState = {
   count: 0,
@@ -34,7 +34,7 @@ export default {
           pagination: response.pagination,
         },
       });
-    },        
+    },
   },
 
   reducers: {
@@ -47,6 +47,6 @@ export default {
           pagination: payload.pagination,
         },
       };
-    },    
+    },
   },
 };

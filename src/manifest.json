@@ -1,28 +1,17 @@
 {
   "name": "Produtiivo",
   "short_name": "Produtiivo",
+  "display": "standalone",
+  "start_url": "./?utm_source=homescreen",
+  "theme_color": "#002140",
+  "background_color": "#001529",
   "icons": [
     {
-      "src": "./logo-1024.png",
-      "sizes": "1024x1024"
-    },
-    {
-      "src": "./logo-512.png",
-      "sizes": "512x512"
-    },
-    {
-      "src": "./logo-192.png",
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192"
-    },
-    {
-      "src": "./logo-128.png",
+    },{
+      "src": "icons/icon-128x128.png",
       "sizes": "128x128"
     }
-  ],
-  "display": "fullscreen",
-  "scope": "/",
-  "start_url": "/",
-  "orientation": "portrait",
-  "theme_color": "#1abc9c",
-  "background_color": "#2c3e50"
+  ]
 }

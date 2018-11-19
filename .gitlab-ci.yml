@@ -62,18 +62,11 @@ deploy_review:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY");
-#    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" '[ -d '"'$RELEASE_DIR'"' ] || mkdir '"'$RELEASE_DIR'"';'
-#    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'git clone --depth 1 '"'$CI_REPOSITORY_URL'"' '"'$NEW_RELEASE_DIR'"';'
-#    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'cd '"'$NEW_RELEASE_DIR'"' && npm install && UMI_ENV=dev npm run build;'
-#    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'cd '"'$NEW_RELEASE_DIR'"' && find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf;'
-#    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/app;'
-    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'bash -s' << EOF
-      '[ -d "$RELEASE_DIR" ] || mkdir "$RELEASE_DIR";'
-      git clone --depth 1 "$CI_REPOSITORY_URL" "$NEW_RELEASE_DIR";
-      cd "$NEW_RELEASE_DIR" && npm install && UMI_ENV=dev npm run build;
-      cd "$NEW_RELEASE_DIR" && find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf;
-      ln -nfs "$NEW_RELEASE_DIR"/dist "$REMOTE_APP_DIR"/app;
-      EOF
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" '[ -d '"'$RELEASE_DIR'"' ] || mkdir '"'$RELEASE_DIR'"';'
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'git clone --depth 1 '"'$CI_REPOSITORY_URL'"' '"'$NEW_RELEASE_DIR'"';'
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'cd '"'$NEW_RELEASE_DIR'"' && npm install && UMI_ENV=dev npm run build;'
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'cd '"'$NEW_RELEASE_DIR'"' && find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf;'
+    - ssh -o StrictHostKeyChecking=no rayron@"$REVIEW_SERVER" 'ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/app;'
   when: manual
   only:
     - master

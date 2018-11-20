@@ -229,6 +229,7 @@ export default [
             path: '/projects/new',
             name: 'new-project',
             component: './Projects/NewProject',
+            hideInMenu: true,
           },
           {
             path: '/projects/:id',

@@ -1,23 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import { Form, Input, Button, Col, Row } from 'antd';
 import AvatarUpload from '@/components/Upload/Avatar';
 import { connect } from 'dva';
 import { loggedInUserSelector } from '@/selectors/global';
-import { updateLoggedUserPicProps } from '@/services/user';
 import styles from './BasicInfo.less';
-
-const AvatarView = ({ avatar, updateAvatar }) => (
-  <Fragment>
-    <div className={styles.avatar_title}>
-      <FormattedMessage id="app.settings.basic.avatar" defaultMessage="Avatar" />
-    </div>
-    <div className={styles.avatar}>
-      <img src={avatar} alt="avatar" />
-    </div>
-    <AvatarUpload callback={updateAvatar} uploadProps={updateLoggedUserPicProps()} />
-  </Fragment>
-);
 
 @connect(state => ({
   currentUser: loggedInUserSelector(state),
@@ -61,11 +48,11 @@ class BasicInfo extends Component {
     });
   };
 
-  updateUserAvatar = ({ response }) => {
+  onUploadAvatar = file => {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'global/fetchLoggedInUserAvatar',
-      payload: response,
+    return dispatch({
+      type: 'user/updateAvatar',
+      payload: file,
     });
   };
 
@@ -114,7 +101,14 @@ class BasicInfo extends Component {
         </Col>
         <Col xl={12} lg={24}>
           <div className={styles.right}>
-            <AvatarView updateAvatar={this.updateUserAvatar} avatar={this.getAvatarURL()} />
+            <div className={styles.avatar_title}>
+              <FormattedMessage id="app.settings.basic.avatar" defaultMessage="Avatar" />
+            </div>
+            <AvatarUpload
+              name="picture_url"
+              avatar={this.getAvatarURL()}
+              onUpload={this.onUploadAvatar}
+            />
           </div>
         </Col>
       </Row>

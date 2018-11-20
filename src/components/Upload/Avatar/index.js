@@ -1,37 +1,52 @@
-import React, { PureComponent } from 'react';
-import { Button, Upload } from 'antd';
-import { FormattedMessage } from 'umi/locale';
-import styles from '../../../pages/Account/Settings/BasicInfo.less';
+import React, { Fragment, PureComponent } from 'react';
+import { Upload, Spin } from 'antd';
+import styles from './index.less';
 
 class AvatarUpload extends PureComponent {
-  render() {
-    const { callback, uploadProps } = this.props;
+  state = {
+    uploading: false,
+  };
 
-    const uploaded = ({ file }) => {
-      if (file.status === 'done') {
-        callback(file);
-      }
-    };
+  beforeUpload = () => false;
+
+  handleChange = async info => {
+    const { onUpload, name } = this.props;
+
+    this.setState({
+      uploading: true,
+    });
+
+    const formData = new FormData(info.file);
+    formData.append(name, info.file);
+
+    await onUpload(formData);
+
+    this.setState({
+      uploading: false,
+    });
+  };
+
+  render() {
+    const { avatar, name } = this.props;
+    const { uploading } = this.state;
 
     return (
-      <Upload
-        onChange={uploaded}
-        showUploadList={false}
-        multiple={false}
-        name="picture_url"
-        accept="image/*"
-        {...uploadProps}
-      >
-        <div className={styles.button_view}>
-          <Button icon="upload">
-            <FormattedMessage
-              name="picture_url"
-              id="app.settings.basic.change-avatar"
-              defaultMessage="Change avatar"
-            />
-          </Button>
-        </div>
-      </Upload>
+      <Fragment>
+        <Upload
+          beforeUpload={this.beforeUpload}
+          onChange={this.handleChange}
+          showUploadList={false}
+          name={name}
+          accept="image/*"
+          listType="picture-card"
+        >
+          <div className={styles.avatar}>
+            <Spin spinning={uploading}>
+              <img src={avatar} alt="avatar" />
+            </Spin>
+          </div>
+        </Upload>
+      </Fragment>
     );
   }
 }

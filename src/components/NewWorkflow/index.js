@@ -75,7 +75,7 @@ class NewWorkflow extends PureComponent {
           <Col lg={3} md={24}>
             <Form.Item>
               <Button block type="primary" htmlType="submit" loading={submitting}>
-                {formatMessage({ id: 'app.admin.workflows.create' })}
+                {formatMessage({ id: 'form.create' })}
               </Button>
             </Form.Item>
           </Col>

@@ -1,4 +1,4 @@
 export default {
-  base: '/app/',
+  base: '/produtiivo/app/',
   publicPath: 'http://devel7.sedis.ufrn.br/produtiivo/app/',
 };

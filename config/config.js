@@ -61,7 +61,7 @@ export default {
   },
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
-    API_URL: process.env.API_URL || '',
+    API_URL: process.env.API_URL || 'http://localhost:8000/api/',
   },
   // 路由配置
   routes: pageRoutes,

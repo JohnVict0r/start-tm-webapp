@@ -132,6 +132,11 @@ export default [
                 name: 'project-boards',
                 component: './Projects/BoardSelector',
               },
+              {
+                path: '/projects/:id/workflows',
+                name: 'project-workflows',
+                component: './Projects/Workflows',
+              },
             ],
           },
         ],

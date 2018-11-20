@@ -15,6 +15,7 @@ export default {
   'form.optional': ' (optional) ',
   'form.submit': 'Submit',
   'form.save': 'Save',
+  'form.create': 'Criar',
   'form.title.label': 'Title',
   'form.title.placeholder': 'Give the target a name',
   'form.date.label': 'Start and end date',

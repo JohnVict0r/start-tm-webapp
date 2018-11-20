@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Input, Form, Card, Button, Select } from 'antd';
-
+import { formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import Link from 'umi/link';
 import { masterOfTeamsSelector } from '@/selectors/teams';
 
 @connect(state => ({
   teams: masterOfTeamsSelector(state),
+  proejcts: state.saveProject,
   loadingTeamOptions: state.loading.effects['teams/fetchUserMasterOfTeams'],
-  submitting: state.loading.effects['projects/createProject'],
+  submitting: state.loading.effects['saveProject/save'],
 }))
 @Form.create()
 class NewProject extends PureComponent {
@@ -30,6 +31,26 @@ class NewProject extends PureComponent {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { form, proejcts } = this.props;
+
+    if (prevProps.proejcts !== proejcts && proejcts.error) {
+      const { errors } = proejcts.error;
+      const mapErrors = Object.keys(errors).reduce(
+        (accum, key) => ({
+          ...accum,
+          [key]: {
+            value: form.getFieldValue(key),
+            errors: errors[key].map(err => new Error(err)),
+          },
+        }),
+        {}
+      );
+
+      form.setFields(mapErrors);
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     const { form } = this.props;
@@ -37,7 +58,7 @@ class NewProject extends PureComponent {
       if (!err) {
         const { dispatch } = this.props;
         dispatch({
-          type: 'projects/createProject',
+          type: 'saveProject/save',
           payload: {
             teamId: values.owner,
             project: {
@@ -125,7 +146,7 @@ class NewProject extends PureComponent {
             </Form.Item>
             <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
-                Criar projeto
+                {formatMessage({ id: 'app.project.create' })}
               </Button>
             </Form.Item>
           </Form>

@@ -62,6 +62,8 @@ export default function callApi(endpoint, schema) {
 
   const token = getAuthToken();
   const options = {
+    // TODO quando o bug abaixo for resolvido e alterado, remover o atributo crendentials
+    // https://github.com/spatie/laravel-cors/issues/28
     credentials: 'same-origin',
     headers: { Authorization: `Bearer ${token}` },
   };

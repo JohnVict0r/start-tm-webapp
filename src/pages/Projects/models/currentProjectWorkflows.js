@@ -1,4 +1,4 @@
-import { loadWorkFlows } from '@/services/workflows';
+import { loadProjectWorkflows } from '@/services/projects';
 
 const initialPaginatioState = {
   count: 0,
@@ -10,17 +10,16 @@ const initialPaginatioState = {
 };
 
 export default {
-  namespace: 'currentWorkflows',
+  namespace: 'currentProjectWorkflows',
+
   state: {
-    workflows: {
-      items: [],
-      pagination: initialPaginatioState,
-    },
+    items: [],
+    pagination: initialPaginatioState,
   },
 
   effects: {
-    *fetchCurrentWorkflows(_, { call, put }) {
-      const response = yield call(loadWorkFlows);
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(loadProjectWorkflows, payload);
 
       yield put({
         type: 'entities/mergeEntities',
@@ -28,7 +27,7 @@ export default {
       });
 
       yield put({
-        type: 'receiveWorkflows',
+        type: 'receiveItems',
         payload: {
           items: response.result,
           pagination: response.pagination,
@@ -38,14 +37,11 @@ export default {
   },
 
   reducers: {
-    receiveWorkflows(state, { payload }) {
+    receiveItems(state, { payload }) {
       return {
         ...state,
-        workflows: {
-          ...state.workflows,
-          items: payload.items,
-          pagination: payload.pagination,
-        },
+        items: payload.items,
+        pagination: payload.pagination,
       };
     },
   },

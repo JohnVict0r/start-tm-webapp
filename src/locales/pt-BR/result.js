@@ -1,4 +1,7 @@
 export default {
+  'app.result.created.success': '{name} criado com sucesso!',
+  'app.result.updated.success': '{name} atualizado com sucesso!',
+  'app.result.removed.success': '{name} removido com sucesso!',
   'app.result.error.title': 'A Submissão Falhou',
   'app.result.error.description':
     'Por favor, verifique e modifique as seguintes informações antes de reenviar.',

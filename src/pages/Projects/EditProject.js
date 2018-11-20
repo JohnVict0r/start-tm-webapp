@@ -5,11 +5,11 @@ import { formatMessage } from 'umi/locale';
 
 @connect((state, ownProps) => ({
   project: state.entities.projects[ownProps.match.params.id],
-  proejcts: state.projects,
-  submitting: state.loading.effects['projects/editProject'],
+  proejcts: state.saveProject,
+  submitting: state.loading.effects['saveProject/save'],
 }))
 @Form.create()
-class NewProject extends PureComponent {
+class EditProject extends PureComponent {
   componentDidUpdate(prevProps) {
     const { form, proejcts } = this.props;
 
@@ -36,11 +36,11 @@ class NewProject extends PureComponent {
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         dispatch({
-          type: 'projects/editProject',
+          type: 'saveProject/save',
           payload: {
+            id: match.params.id,
             project: {
               ...values,
-              id: match.params.id,
             },
           },
         });
@@ -111,4 +111,4 @@ class NewProject extends PureComponent {
   }
 }
 
-export default NewProject;
+export default EditProject;

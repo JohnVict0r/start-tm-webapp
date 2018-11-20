@@ -1,6 +1,6 @@
 import { queryNotices } from '@/services/api';
 import { fetchRoles } from '@/services/auth';
-import { loadLoggedInUser } from '@/services/user';
+import { loadLoggedInUser, constructUserScehma } from '@/services/user';
 
 export default {
   namespace: 'global',
@@ -15,7 +15,6 @@ export default {
   effects: {
     *fetchLoggedInUser(_, { call, put }) {
       const response = yield call(loadLoggedInUser);
-
       yield put({
         type: 'entities/mergeEntities',
         payload: response.entities,
@@ -24,6 +23,13 @@ export default {
       yield put({
         type: 'saveLoggedInUser',
         payload: response.result,
+      });
+    },
+    *fetchLoggedInUserAvatar({ payload }, { call, put }) {
+      const response = yield call(constructUserScehma, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
       });
     },
     *fetchRoles(_, { call, put }) {

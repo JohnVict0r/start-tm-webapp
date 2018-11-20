@@ -1,5 +1,5 @@
 export default [
-  // user
+  // auth
   {
     path: '/auth',
     component: '../layouts/UserLayout',
@@ -11,6 +11,7 @@ export default [
       { path: '/auth/register', component: './Auth/Register' },
     ],
   },
+
   // app
   {
     path: '/',
@@ -19,259 +20,14 @@ export default [
     // authority: ['admin', 'user'],
     Routes: ['src/pages/Authenticated'],
     routes: [
-      // dashboard
       { path: '/', redirect: '/dashboard/analysis' },
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        icon: 'dashboard',
-        routes: [
-          {
-            path: '/dashboard/analysis',
-            name: 'analysis',
-            component: './Dashboard/Analysis',
-          },
-          {
-            path: '/dashboard/monitor',
-            name: 'monitor',
-            component: './Dashboard/Monitor',
-          },
-          {
-            path: '/dashboard/workplace',
-            name: 'workplace',
-            component: './Dashboard/Workplace',
-          },
-        ],
-      },
-      {
-        path: '/teams',
-        name: 'teams',
-        icon: 'team',
-        hideInBreadcrumb: true,
-        routes: [
-          { path: '/teams', redirect: '/teams/explore' },
-          {
-            path: '/teams/explore',
-            name: 'my-teams',
-            component: './Teams/TeamsList',
-          },
-          {
-            path: '/teams/:id/edit',
-            name: 'team-edit',
-            component: './Teams/EditTeam',
-            hideInMenu: true,
-          },
-          {
-            path: '/teams/new',
-            name: 'new-team',
-            component: './Teams/NewTeam',
-            hideInMenu: true,
-          },
-          {
-            path: '/teams/:id',
-            name: 'team',
-            component: './Teams/ViewTeam',
-            hideInMenu: true,
-            routes: [
-              { path: '/teams/:id', redirect: '/teams/:id/projects' },
-              {
-                path: '/teams/:id/projects',
-                name: 'projects',
-                component: './Teams/Projects',
-              },
-              {
-                path: '/teams/:id/workflows',
-                name: 'workflows',
-                component: './Teams/Workflows',
-              },
-              {
-                path: '/teams/:id/members',
-                name: 'members',
-                component: './Teams/Members',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: '/projects',
-        name: 'projects',
-        icon: 'project',
-        hideInBreadcrumb: true,
-        routes: [
-          { path: '/projects', redirect: '/projects/explore' },
-          {
-            path: '/projects/explore',
-            name: 'my-projects',
-            component: './Projects/ProjectsList',
-          },
-          {
-            path: '/projects/new',
-            name: 'new-project',
-            component: './Projects/NewProject',
-          },
-          {
-            path: '/projects/:id',
-            name: 'project',
-            component: './Projects/ViewProject',
-            hideInMenu: true,
-            routes: [
-              { path: '/projects/:id/boards', redirect: '/projects/:id' },
-              {
-                path: '/projects/:id/edit',
-                name: 'edit-project',
-                component: './Projects/EditProject',
-              },
-              {
-                path: '/projects/:id/boards/new',
-                name: 'new-board',
-                component: './Projects/NewBoard',
-              },
-              {
-                path: '/projects/:id/boards/:boardId',
-                name: 'project-boards',
-                component: './Projects/BoardSelector',
-              },
-              {
-                path: '/projects/:id/workflows',
-                name: 'project-workflows',
-                component: './Projects/Workflows',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: '/form',
-        icon: 'form',
-        name: 'form',
-        routes: [
-          {
-            path: '/form/basic-form',
-            name: 'basicform',
-            component: './Forms/BasicForm',
-          },
-          {
-            path: '/form/step-form',
-            name: 'stepform',
-            component: './Forms/StepForm',
-            hideChildrenInMenu: true,
-            routes: [
-              {
-                path: '/form/step-form',
-                redirect: '/form/step-form/info',
-              },
-              {
-                path: '/form/step-form/info',
-                name: 'info',
-                component: './Forms/StepForm/Step1',
-              },
-              {
-                path: '/form/step-form/confirm',
-                name: 'confirm',
-                component: './Forms/StepForm/Step2',
-              },
-              {
-                path: '/form/step-form/result',
-                name: 'result',
-                component: './Forms/StepForm/Step3',
-              },
-            ],
-          },
-          {
-            path: '/form/advanced-form',
-            name: 'advancedform',
-            authority: ['admin'],
-            component: './Forms/AdvancedForm',
-          },
-        ],
-      },
-      // list
-      {
-        path: '/list',
-        icon: 'table',
-        name: 'list',
-        routes: [
-          {
-            path: '/list/table-list',
-            name: 'searchtable',
-            component: './List/TableList',
-          },
-          {
-            path: '/list/basic-list',
-            name: 'basiclist',
-            component: './List/BasicList',
-          },
-          {
-            path: '/list/card-list',
-            name: 'cardlist',
-            component: './List/CardList',
-          },
-          {
-            path: '/list/search',
-            name: 'searchlist',
-            component: './List/List',
-            routes: [
-              {
-                path: '/list/search',
-                redirect: '/list/search/articles',
-              },
-              {
-                path: '/list/search/articles',
-                name: 'articles',
-                component: './List/Articles',
-              },
-              {
-                path: '/list/search/projects',
-                name: 'projects',
-                component: './List/Projects',
-              },
-              {
-                path: '/list/search/applications',
-                name: 'applications',
-                component: './List/Applications',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: '/profile',
-        name: 'profile',
-        icon: 'profile',
-        routes: [
-          // profile
-          {
-            path: '/profile/basic',
-            name: 'basic',
-            component: './Profile/BasicProfile',
-          },
-          {
-            path: '/profile/advanced',
-            name: 'advanced',
-            authority: ['admin'],
-            component: './Profile/AdvancedProfile',
-          },
-        ],
-      },
-      {
-        name: 'result',
-        icon: 'check-circle-o',
-        path: '/result',
-        routes: [
-          // result
-          {
-            path: '/result/success',
-            name: 'success',
-            component: './Result/Success',
-          },
-          { path: '/result/fail', name: 'fail', component: './Result/Error' },
-        ],
-      },
+
+      // exception
       {
         name: 'exception',
         icon: 'warning',
         path: '/exception',
+        hideInMenu: true,
         routes: [
           // exception
           {
@@ -297,10 +53,13 @@ export default [
           },
         ],
       },
+
+      // account
       {
         name: 'account',
         icon: 'user',
         path: '/account',
+        hideInMenu: true,
         routes: [
           {
             path: '/account/center',
@@ -355,6 +114,32 @@ export default [
           },
         ],
       },
+
+      // dashboard
+      {
+        path: '/dashboard',
+        name: 'dashboard',
+        icon: 'dashboard',
+        routes: [
+          {
+            path: '/dashboard/analysis',
+            name: 'analysis',
+            component: './Dashboard/Analysis',
+          },
+          {
+            path: '/dashboard/monitor',
+            name: 'monitor',
+            component: './Dashboard/Monitor',
+          },
+          {
+            path: '/dashboard/workplace',
+            name: 'workplace',
+            component: './Dashboard/Workplace',
+          },
+        ],
+      },
+
+      // admin
       {
         name: 'admin',
         path: '/admin',
@@ -374,6 +159,254 @@ export default [
           },
         ],
       },
+
+      // teams
+      {
+        path: '/teams',
+        name: 'teams',
+        icon: 'team',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/teams', redirect: '/teams/explore' },
+          {
+            path: '/teams/explore',
+            name: 'my-teams',
+            component: './Teams/TeamsList',
+          },
+          {
+            path: '/teams/:id/edit',
+            name: 'team-edit',
+            component: './Teams/EditTeam',
+            hideInMenu: true,
+          },
+          {
+            path: '/teams/new',
+            name: 'new-team',
+            component: './Teams/NewTeam',
+            hideInMenu: true,
+          },
+          {
+            path: '/teams/:id',
+            name: 'team',
+            component: './Teams/ViewTeam',
+            hideInMenu: true,
+            routes: [
+              { path: '/teams/:id', redirect: '/teams/:id/projects' },
+              {
+                path: '/teams/:id/projects',
+                name: 'projects',
+                component: './Teams/Projects',
+              },
+              {
+                path: '/teams/:id/workflows',
+                name: 'workflows',
+                component: './Teams/Workflows',
+              },
+              {
+                path: '/teams/:id/members',
+                name: 'members',
+                component: './Teams/Members',
+              },
+            ],
+          },
+        ],
+      },
+
+      // projects
+      {
+        path: '/projects',
+        name: 'projects',
+        icon: 'project',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/projects', redirect: '/projects/explore' },
+          {
+            path: '/projects/explore',
+            name: 'my-projects',
+            component: './Projects/ProjectsList',
+          },
+          {
+            path: '/projects/new',
+            name: 'new-project',
+            component: './Projects/NewProject',
+          },
+          {
+            path: '/projects/:id',
+            name: 'project',
+            component: './Projects/ViewProject',
+            hideInMenu: true,
+            routes: [
+              { path: '/projects/:id/boards', redirect: '/projects/:id' },
+              {
+                path: '/projects/:id/edit',
+                name: 'edit-project',
+                component: './Projects/EditProject',
+              },
+              {
+                path: '/projects/:id/boards/new',
+                name: 'new-board',
+                component: './Projects/NewBoard',
+              },
+              {
+                path: '/projects/:id/boards/:boardId',
+                name: 'project-boards',
+                component: './Projects/BoardSelector',
+              },
+              {
+                path: '/projects/:id/workflows',
+                name: 'project-workflows',
+                component: './Projects/Workflows',
+              },
+            ],
+          },
+        ],
+      },
+
+      // demos
+      // only show in development
+      ...(process.env.NODE_ENV === 'development'
+        ? [
+            {
+              path: '/demos',
+              name: 'demos',
+              routes: [
+                {
+                  path: '/demos/form',
+                  icon: 'form',
+                  name: 'form',
+                  routes: [
+                    {
+                      path: '/demos/form/basic-form',
+                      name: 'basicform',
+                      component: './Forms/BasicForm',
+                    },
+                    {
+                      path: '/demos/form/step-form',
+                      name: 'stepform',
+                      component: './Forms/StepForm',
+                      hideChildrenInMenu: true,
+                      routes: [
+                        {
+                          path: '/demos/form/step-form',
+                          redirect: '/demos/form/step-form/info',
+                        },
+                        {
+                          path: '/demos/form/step-form/info',
+                          name: 'info',
+                          component: './Forms/StepForm/Step1',
+                        },
+                        {
+                          path: '/demos/form/step-form/confirm',
+                          name: 'confirm',
+                          component: './Forms/StepForm/Step2',
+                        },
+                        {
+                          path: '/demos/form/step-form/result',
+                          name: 'result',
+                          component: './Forms/StepForm/Step3',
+                        },
+                      ],
+                    },
+                    {
+                      path: '/demos/form/advanced-form',
+                      name: 'advancedform',
+                      authority: ['admin'],
+                      component: './Forms/AdvancedForm',
+                    },
+                  ],
+                },
+
+                // list
+                {
+                  path: '/demos/list',
+                  icon: 'table',
+                  name: 'list',
+                  routes: [
+                    {
+                      path: '/demos/list/table-list',
+                      name: 'searchtable',
+                      component: './List/TableList',
+                    },
+                    {
+                      path: '/demos/list/basic-list',
+                      name: 'basiclist',
+                      component: './List/BasicList',
+                    },
+                    {
+                      path: '/demos/list/card-list',
+                      name: 'cardlist',
+                      component: './List/CardList',
+                    },
+                    {
+                      path: '/demos/list/search',
+                      name: 'searchlist',
+                      component: './List/List',
+                      routes: [
+                        {
+                          path: '/demos/list/search',
+                          redirect: '/list/search/articles',
+                        },
+                        {
+                          path: '/demos/list/search/articles',
+                          name: 'articles',
+                          component: './List/Articles',
+                        },
+                        {
+                          path: '/demos/list/search/projects',
+                          name: 'projects',
+                          component: './List/Projects',
+                        },
+                        {
+                          path: '/demos/list/search/applications',
+                          name: 'applications',
+                          component: './List/Applications',
+                        },
+                      ],
+                    },
+                  ],
+                },
+
+                // profile
+                {
+                  path: '/demos/profile',
+                  name: 'profile',
+                  icon: 'profile',
+                  routes: [
+                    // profile
+                    {
+                      path: '/demos/profile/basic',
+                      name: 'basic',
+                      component: './Profile/BasicProfile',
+                    },
+                    {
+                      path: '/demos/profile/advanced',
+                      name: 'advanced',
+                      authority: ['admin'],
+                      component: './Profile/AdvancedProfile',
+                    },
+                  ],
+                },
+
+                // result
+                {
+                  name: 'result',
+                  icon: 'check-circle-o',
+                  path: '/demos/result',
+                  routes: [
+                    // result
+                    {
+                      path: '/demos/result/success',
+                      name: 'success',
+                      component: './Result/Success',
+                    },
+                    { path: '/demos/result/fail', name: 'fail', component: './Result/Error' },
+                  ],
+                },
+              ],
+            },
+          ]
+        : []),
+
       {
         component: '404',
       },

@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { formatMessage } from 'umi/locale';
-import { Button, Rate, Popconfirm, Dropdown, Icon, Menu } from 'antd';
+import { Button, Rate, Dropdown, Icon, Menu, Popover } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import router from 'umi/router';
+import styles from './ViewTeam.less';
 
 const tabList = [
   {
@@ -58,38 +59,46 @@ class ViewTeam extends Component {
       return <PageLoading />;
     }
 
-    const actionpart = (
+    const teamOptionsMenu = (
       <Menu>
-        <Menu.Item onClick={() => router.push(`/teams/${match.params.id}/edit`)} key="1">
-          Alterar Equipe
+        <Menu.Item key="1">
+          <Icon type="pie-chart" />
+          Relatórios
+        </Menu.Item>
+        <Menu.Item key="2" onClick={() => router.push(`/teams/${match.params.id}/edit`)}>
+          <Icon type="edit" />
+          Editar Equipe
         </Menu.Item>
       </Menu>
     );
 
     const action = (
       <Fragment>
-        <Popconfirm
-          title={formatMessage({ id: 'app.team.suregetout' })}
-          onConfirm={() => {}}
-          okText="Sim"
-          cancelText="Não"
+        <Rate count={1} />
+        <Popover
+          title="Descrição da equipe"
+          content={team.description}
+          overlayClassName={styles.descriptionPopover}
+          trigger="click"
         >
-          <Button type="danger">Sair</Button>
-        </Popconfirm>
-        <Dropdown overlay={actionpart} placement="bottomLeft">
-          <Button>
-            <Icon type="ellipsis" />
-          </Button>
-        </Dropdown>
+          <Button type="dashed" shape="circle" icon="info-circle-o" />
+        </Popover>
+        <Button.Group>
+          <Button>Sair da Equipe</Button>
+          <Dropdown overlay={teamOptionsMenu} placement="bottomRight">
+            <Button>
+              <Icon type="ellipsis" />
+            </Button>
+          </Dropdown>
+        </Button.Group>
       </Fragment>
     );
 
     return (
       <PageHeaderWrapper
+        hiddenBreadcrumb
         title={team.name}
-        logo={<Rate count={1} />}
         action={action}
-        content={team.description}
         tabList={tabList}
         tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
         onTabChange={this.handleTabChange}

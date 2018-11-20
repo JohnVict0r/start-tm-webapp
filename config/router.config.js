@@ -174,12 +174,6 @@ export default [
             component: './Teams/TeamsList',
           },
           {
-            path: '/teams/:id/edit',
-            name: 'team-edit',
-            component: './Teams/EditTeam',
-            hideInMenu: true,
-          },
-          {
             path: '/teams/new',
             name: 'new-team',
             component: './Teams/NewTeam',
@@ -201,6 +195,11 @@ export default [
                 path: '/teams/:id/workflows',
                 name: 'workflows',
                 component: './Teams/Workflows',
+              },
+              {
+                path: '/teams/:id/edit',
+                name: 'team-edit',
+                component: './Teams/EditTeam',
               },
               {
                 path: '/teams/:id/members',

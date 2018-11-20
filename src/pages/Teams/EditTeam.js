@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Card, Form } from 'antd';
 import TeamForm from '@/components/Form/Team';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
 @connect((state, ownProps) => ({
@@ -65,16 +64,9 @@ class EditTeam extends PureComponent {
     }
 
     return (
-      <PageHeaderWrapper>
-        <Card bordered={false}>
-          <TeamForm
-            form={form}
-            onSubmit={this.handleSubmit}
-            current={team}
-            submiting={submitting}
-          />
-        </Card>
-      </PageHeaderWrapper>
+      <Card title="Editar equipe" bordered={false}>
+        <TeamForm form={form} onSubmit={this.handleSubmit} current={team} submiting={submitting} />
+      </Card>
     );
   }
 }

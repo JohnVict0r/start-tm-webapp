@@ -55,7 +55,7 @@ class NewTeam extends PureComponent {
     }
 
     return (
-      <PageHeaderWrapper>
+      <PageHeaderWrapper title="Nova Equipe">
         <Card bordered={false}>
           <TeamForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />
         </Card>

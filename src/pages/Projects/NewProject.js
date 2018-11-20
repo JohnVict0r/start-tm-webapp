@@ -101,7 +101,7 @@ class NewProject extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="Novo projeto" content="Crie um novo projeto">
+      <PageHeaderWrapper title="Novo projeto">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <Form.Item

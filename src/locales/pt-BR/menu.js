@@ -1,5 +1,9 @@
 export default {
   'menu.demos': 'Demos (dev)',
+  'menu.demos.dashboard': 'Dashboard',
+  'menu.demos.dashboard.analysis': 'Análise',
+  'menu.demos.dashboard.monitor': 'Monitor',
+  'menu.demos.dashboard.workplace': 'Ambiente de Trabalho',
   'menu.demos.form': 'Formulário',
   'menu.demos.form.basicform': 'Formulário Básico',
   'menu.demos.form.stepform': 'Formulário Assistido',

@@ -7,7 +7,7 @@ import Link from 'umi/link';
 import NoticeIcon from '../NoticeIcon';
 import Ellipsis from '../Ellipsis';
 import HeaderSearch from '../HeaderSearch';
-import SelectLang from '../SelectLang';
+// import SelectLang from '../SelectLang';
 import styles from './index.less';
 
 export default class GlobalHeaderRight extends PureComponent {
@@ -73,7 +73,7 @@ export default class GlobalHeaderRight extends PureComponent {
       onNoticeClear,
       theme,
     } = this.props;
-    const menu = (
+    const accountMenu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="userCenter">
           <Avatar
@@ -102,6 +102,22 @@ export default class GlobalHeaderRight extends PureComponent {
         </Menu.Item>
       </Menu>
     );
+    const createMenu = (
+      <Menu className={styles.menu}>
+        <Menu.Item key="new-team">
+          <Link to="/teams/new">
+            <Icon type="team" />
+            Nova Equipe
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="new-project">
+          <Link to="/projects/new">
+            <Icon type="project" />
+            Novo Projeto
+          </Link>
+        </Menu.Item>
+      </Menu>
+    );
     const noticeData = this.getNoticeData();
     const unreadMsg = this.getUnreadData(noticeData);
     let className = styles.right;
@@ -125,7 +141,7 @@ export default class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         />
-        <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
+        {/* <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
           <a
             target="_blank"
             href="https://pro.ant.design/docs/getting-started"
@@ -134,7 +150,12 @@ export default class GlobalHeaderRight extends PureComponent {
           >
             <Icon type="question-circle-o" />
           </a>
-        </Tooltip>
+        </Tooltip> */}
+        <Dropdown overlay={createMenu}>
+          <span className={`${styles.action}`}>
+            <Icon type="plus" style={{ fontSize: '14px' }} />
+          </span>
+        </Dropdown>
         <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}
@@ -184,7 +205,7 @@ export default class GlobalHeaderRight extends PureComponent {
           </Link>
         </Tooltip>
         {currentUser.name ? (
-          <Dropdown overlay={menu}>
+          <Dropdown overlay={accountMenu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
                 size="small"
@@ -197,7 +218,7 @@ export default class GlobalHeaderRight extends PureComponent {
         ) : (
           <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}
-        <SelectLang className={styles.action} />
+        {/* <SelectLang className={styles.action} /> */}
       </div>
     );
   }

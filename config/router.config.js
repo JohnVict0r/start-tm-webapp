@@ -120,6 +120,7 @@ export default [
         path: '/dashboard',
         name: 'dashboard',
         icon: 'dashboard',
+        hideInMenu: true,
         routes: [
           {
             path: '/dashboard/analysis',
@@ -228,6 +229,7 @@ export default [
             path: '/projects/new',
             name: 'new-project',
             component: './Projects/NewProject',
+            hideInMenu: true,
           },
           {
             path: '/projects/:id',
@@ -269,6 +271,31 @@ export default [
               path: '/demos',
               name: 'demos',
               routes: [
+                // dashboard
+                {
+                  path: '/demos/dashboard',
+                  name: 'dashboard',
+                  icon: 'dashboard',
+                  routes: [
+                    {
+                      path: '/demos/dashboard/analysis',
+                      name: 'analysis',
+                      component: './Dashboard/Analysis',
+                    },
+                    {
+                      path: '/demos/dashboard/monitor',
+                      name: 'monitor',
+                      component: './Dashboard/Monitor',
+                    },
+                    {
+                      path: '/demos/dashboard/workplace',
+                      name: 'workplace',
+                      component: './Dashboard/Workplace',
+                    },
+                  ],
+                },
+
+                // form
                 {
                   path: '/demos/form',
                   icon: 'form',

@@ -1,26 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import { formatMessage } from 'umi/locale';
+import { FormattedMessage } from 'umi/locale';
 import { Button, Rate, Dropdown, Icon, Menu, Popover } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
-import router from 'umi/router';
-import styles from './ViewTeam.less';
+import Link from 'umi/link';
 
-const tabList = [
-  {
-    key: 'projects',
-    tab: formatMessage({ id: 'menu.projects' }),
-  },
-  {
-    key: 'workflows',
-    tab: formatMessage({ id: 'menu.workflows' }),
-  },
-  {
-    key: 'members',
-    tab: formatMessage({ id: 'menu.teams.team.members' }),
-  },
-];
+import styles from './ViewTeam.less';
 
 @connect((state, ownProps) => ({
   team: state.entities.teams[ownProps.match.params.id],
@@ -35,25 +21,8 @@ class ViewTeam extends Component {
     });
   }
 
-  handleTabChange = key => {
-    const { match } = this.props;
-    switch (key) {
-      case 'projects':
-        router.push(`${match.url}/projects`);
-        break;
-      case 'workflows':
-        router.push(`${match.url}/workflows`);
-        break;
-      case 'members':
-        router.push(`${match.url}/members`);
-        break;
-      default:
-        break;
-    }
-  };
-
   render() {
-    const { team, children, match, location } = this.props;
+    const { team, children, match } = this.props;
 
     if (!team) {
       return <PageLoading />;
@@ -62,12 +31,23 @@ class ViewTeam extends Component {
     const teamOptionsMenu = (
       <Menu>
         <Menu.Item key="1">
-          <Icon type="pie-chart" />
-          Relatórios
+          <Link to={`${match.url}/projects`}>
+            <FormattedMessage id="menu.projects" />
+          </Link>
         </Menu.Item>
-        <Menu.Item key="2" onClick={() => router.push(`/teams/${match.params.id}/edit`)}>
-          <Icon type="edit" />
-          Editar Equipe
+        <Menu.Item key="2">
+          <Link to={`${match.url}/workflows`}>
+            <FormattedMessage id="menu.workflows" />
+          </Link>
+        </Menu.Item>
+        <Menu.Item key="3">
+          <Link to={`${match.url}/members`}>
+            <FormattedMessage id="menu.teams.team.members" />
+          </Link>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="4">
+          <Link to={`/teams/${match.params.id}/edit`}>Editar Equipe</Link>
         </Menu.Item>
       </Menu>
     );
@@ -84,10 +64,10 @@ class ViewTeam extends Component {
           <Button type="dashed" shape="circle" icon="info-circle-o" />
         </Popover>
         <Button.Group>
-          <Button>Sair da Equipe</Button>
           <Dropdown overlay={teamOptionsMenu} placement="bottomRight">
             <Button>
-              <Icon type="ellipsis" />
+              Menu
+              <Icon type="down" />
             </Button>
           </Dropdown>
         </Button.Group>
@@ -97,11 +77,8 @@ class ViewTeam extends Component {
     return (
       <PageHeaderWrapper
         hiddenBreadcrumb
-        title={team.name}
+        title={<Link to={`${match.url}`}>{team.name}</Link>}
         action={action}
-        tabList={tabList}
-        tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
-        onTabChange={this.handleTabChange}
       >
         {children}
       </PageHeaderWrapper>

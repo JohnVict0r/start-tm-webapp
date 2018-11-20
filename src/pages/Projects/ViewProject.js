@@ -37,13 +37,13 @@ class ViewProject extends Component {
     }
     const projectOptionsMenu = (
       <Menu>
-        <Menu.Item key="1">Membros</Menu.Item>
-        <Menu.Item key="2">Quadros</Menu.Item>
+        <Menu.Item key="1">
+          <Link to={`${match.url}/workflows`}>Fluxos de Trabalho</Link>
+        </Menu.Item>
+        <Menu.Item key="2">Membros</Menu.Item>
+        <Menu.Divider />
         <Menu.Item key="3">
           <Link to={`${match.url}/edit`}>Editar Projeto</Link>
-        </Menu.Item>
-        <Menu.Item key="4">
-          <Link to={`${match.url}/workflows`}>Workflows</Link>
         </Menu.Item>
       </Menu>
     );
@@ -60,10 +60,10 @@ class ViewProject extends Component {
           <Button type="dashed" shape="circle" icon="info-circle-o" />
         </Popover>
         <Button.Group>
-          <Button icon="pie-chart">Relatórios</Button>
           <Dropdown overlay={projectOptionsMenu} placement="bottomRight">
             <Button>
-              <Icon type="ellipsis" />
+              Menu
+              <Icon type="down" />
             </Button>
           </Dropdown>
         </Button.Group>

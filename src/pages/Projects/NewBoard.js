@@ -100,9 +100,9 @@ class NewBoard extends PureComponent {
             }
           >
             {getFieldDecorator('workflow_id', {
-              rules: [{ required: true, message: 'Por favor selecione uma equipe!' }],
+              rules: [{ required: true, message: 'Por favor selecione um fluxo de trabalho!' }],
             })(
-              <Select placeholder="Equipe" disabled={false}>
+              <Select placeholder="Selecione um fluxo de trabalho" disabled={false}>
                 {workflows.map(r => (
                   <Select.Option key={r.id}>{r.name}</Select.Option>
                 ))}

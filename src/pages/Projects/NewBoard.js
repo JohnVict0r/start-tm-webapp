@@ -6,6 +6,7 @@ import Link from 'umi/link';
 @connect(state => ({
   workflows: state.createBoard.availableWorkflows.map(id => state.entities.workflows[id]),
   validation: state.createBoard.validation,
+  submitting: state.loading.effects['createBoard/create'],
 }))
 @Form.create()
 class NewBoard extends PureComponent {
@@ -57,6 +58,7 @@ class NewBoard extends PureComponent {
     const {
       form: { getFieldDecorator },
       workflows,
+      submitting,
       match,
     } = this.props;
 
@@ -108,11 +110,7 @@ class NewBoard extends PureComponent {
             )}
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              // loading={submitting}
-            >
+            <Button type="primary" htmlType="submit" disabled={submitting} loading={submitting}>
               Criar Quadro
             </Button>
           </Form.Item>

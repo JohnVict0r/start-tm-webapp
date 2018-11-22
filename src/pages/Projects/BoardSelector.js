@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import Redirect from 'umi/redirect';
+import router from 'umi/router';
 import Link from 'umi/link';
 import { Input, Menu, Button, Dropdown, Icon } from 'antd';
 import PageLoading from '@/components/PageLoading';
-import { makeProjectSelector } from './selectors/projects';
+import { makeProjectSelector, makeBoardSelector } from './selectors/projects';
 import Board from './Board';
 
 import styles from './Board.less';
@@ -21,7 +21,9 @@ const boardOptionsMenu = (
 @connect((state, ownProps) => {
   const { match } = ownProps;
   const projectSelector = makeProjectSelector({ id: match.params.id });
+  const boardSelector = makeBoardSelector({ boardId: match.params.boardId });
   return {
+    board: boardSelector(state),
     project: projectSelector(state),
     loading: state.loading.effects['projects/fetchProject'],
   };
@@ -35,17 +37,22 @@ class BoardSelector extends PureComponent {
     });
   }
 
-  render() {
-    const { project, loading, match } = this.props;
+  componentDidUpdate() {
+    const { project, match } = this.props;
+    const existsBoard = project.boards.find(b => b.id.toString() === match.params.boardId);
 
-    if (!project) {
-      return <PageLoading />;
+    // se o quadro não pertence
+    // ao projeto, redirecione!
+    if (!existsBoard) {
+      router.replace(`/projects/${match.params.id}`);
     }
+  }
 
-    const selectedBoard = project.boards.find(b => b.id.toString() === match.params.boardId);
+  render() {
+    const { board, project, loading, match } = this.props;
 
-    if (!selectedBoard) {
-      return <Redirect to={`/projects/${match.params.id}`} />;
+    if (!board || !project) {
+      return <PageLoading />;
     }
 
     const boardsMenu = (
@@ -61,11 +68,6 @@ class BoardSelector extends PureComponent {
     return (
       <div className={styles.container}>
         <div className={styles.pageHeaderContent}>
-          <Link to={`/projects/${match.params.id}/boards/new`}>
-            <Button type="primary" icon="plus">
-              Quadro
-            </Button>
-          </Link>
           <div className={styles.boardSelector}>
             <Input.Group compact>
               <Dropdown overlay={boardOptionsMenu} placement="bottomRight">
@@ -77,7 +79,7 @@ class BoardSelector extends PureComponent {
                 <Button>
                   <Icon type="project" className={styles.boardIcon} />
                   <span>
-                    {'Quadro: '} <b>{selectedBoard.name}</b>
+                    {'Quadro: '} <b>{board.name}</b>
                   </span>
                   <Icon type="down" />
                 </Button>
@@ -86,7 +88,7 @@ class BoardSelector extends PureComponent {
           </div>
         </div>
 
-        <Board boardId={selectedBoard.id} />
+        <Board boardId={board.id} />
       </div>
     );
   }

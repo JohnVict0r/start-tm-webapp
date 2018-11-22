@@ -29,13 +29,16 @@ class ViewProject extends Component {
       return <PageLoading />;
     }
 
+    // ao acessar o projeto, se houver um quadro a
+    // ser selecionado automaticamente faça-o, do contrário,
+    // redirecione para criação de um novo quadro.
     if (match.isExact) {
       if (project.selectedBoardId) {
         return <Redirect to={`${match.url}/boards/${project.selectedBoardId}`} />;
       }
-
       return <Redirect to={`${match.url}/boards/new`} />;
     }
+
     const projectOptionsMenu = (
       <Menu>
         <Menu.Item key="1">

@@ -61,11 +61,6 @@ class BoardSelector extends PureComponent {
     return (
       <div className={styles.container}>
         <div className={styles.pageHeaderContent}>
-          <Link to={`/projects/${match.params.id}/boards/new`}>
-            <Button type="primary" icon="plus">
-              Quadro
-            </Button>
-          </Link>
           <div className={styles.boardSelector}>
             <Input.Group compact>
               <Dropdown overlay={boardOptionsMenu} placement="bottomRight">

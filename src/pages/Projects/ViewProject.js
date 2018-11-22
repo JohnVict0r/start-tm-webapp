@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
+import router from 'umi/router';
 import Redirect from 'umi/redirect';
 import { Button, Icon, Rate, Menu, Popover, Dropdown } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -59,6 +60,13 @@ class ViewProject extends Component {
         >
           <Button type="dashed" shape="circle" icon="info-circle-o" />
         </Popover>
+        <Button
+          type="primary"
+          icon="plus"
+          onClick={() => router.push(`/projects/${match.params.id}/boards/new`)}
+        >
+          Quadro
+        </Button>
         <Button.Group>
           <Dropdown overlay={projectOptionsMenu} placement="bottomRight">
             <Button>

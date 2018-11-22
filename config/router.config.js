@@ -251,7 +251,7 @@ export default [
               {
                 path: '/projects/:id/boards/:boardId',
                 name: 'project-boards',
-                component: './Projects/BoardSelector',
+                component: './Projects/Board',
               },
               {
                 path: '/projects/:id/workflows',
@@ -270,6 +270,7 @@ export default [
             {
               path: '/demos',
               name: 'demos',
+              icon: 'appstore',
               routes: [
                 // dashboard
                 {

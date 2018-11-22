@@ -18,8 +18,7 @@ const resetDisabledCardlists = (cardlists, value) =>
   );
 
 @connect((state, ownProps) => {
-  const { boardId } = ownProps;
-  const boardSelector = makeBoardSelector({ boardId });
+  const boardSelector = makeBoardSelector({ boardId: ownProps.match.params.boardId });
   return {
     board: boardSelector(state),
     loading: state.loading.effects['boards/fetchBoard'],
@@ -62,10 +61,10 @@ class Board extends PureComponent {
   }
 
   componentDidMount() {
-    const { dispatch, boardId } = this.props;
+    const { dispatch, match } = this.props;
     dispatch({
       type: 'boards/fetchBoard',
-      payload: boardId,
+      payload: match.params.boardId,
     });
   }
 
@@ -161,18 +160,20 @@ class Board extends PureComponent {
 
     return (
       <Spin spinning={loading}>
-        <div className={styles.board}>
-          <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-            {board.cardlists.map(cardlist => (
-              <CardList
-                key={cardlist.id}
-                cardList={cardlist}
-                createCard={this.createCard}
-                isDisabled={disabledCardlists[cardlist.id]}
-                items={cardMap[cardlist.id]}
-              />
-            ))}
-          </DragDropContext>
+        <div className={styles.container}>
+          <div className={styles.board}>
+            <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+              {board.cardlists.map(cardlist => (
+                <CardList
+                  key={cardlist.id}
+                  cardList={cardlist}
+                  createCard={this.createCard}
+                  isDisabled={disabledCardlists[cardlist.id]}
+                  items={cardMap[cardlist.id]}
+                />
+              ))}
+            </DragDropContext>
+          </div>
         </div>
       </Spin>
     );

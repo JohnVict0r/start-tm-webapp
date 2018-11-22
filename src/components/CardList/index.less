@@ -13,11 +13,8 @@
   padding: 8px 8px 0;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  background-color: @layout-body-background;
+  background-color: lighten(@layout-body-background, 3%);
   transition: background-color 0.1s ease;
-  &:hover {
-    background-color: rgba(240, 244, 247, 0.8);
-  }
 }
 
 .title {
@@ -43,7 +40,7 @@
 }
 
 .listWrapper {
-  background-color: @layout-body-background;
+  background-color: lighten(@layout-body-background, 3%);
   display: flex;
   flex-direction: column;
   opacity: inherit;

@@ -70,8 +70,11 @@ deploy_review:
       echo -e "--->  Instalando dependências\n" &&
       cd '"'$NEW_RELEASE_DIR'"' && npm install &&
 
+      echo -e "---> Linkando o arquivo .env\n" &&
+      ln -nfs '"'$REMOTE_APP_DIR'"'/.env '"'$NEW_RELEASE_DIR'"'/.env &&
+
       echo -e "--->  Gerando build\n" &&
-      API_URL=http://devel7.sedis.ufrn.br/produtiivo/ws/current/public/api/ UMI_ENV=dev npm run build &&
+      npm run build &&
 
       echo -e "--->  Limpando build\n" &&
       find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf &&

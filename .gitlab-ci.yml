@@ -51,7 +51,7 @@ deploy_review:
   stage: review
   environment:
     name: review
-    url: http://devel7.sedis.ufrn.br/produtiivo/app
+    url: http://devel7.sedis.ufrn.br/produtiivo/app/current
   variables:
     RELEASE_DIR: $REMOTE_APP_DIR/releases
     NEW_RELEASE_DIR: $REMOTE_APP_DIR/releases/$CI_COMMIT_SHA
@@ -70,8 +70,8 @@ deploy_review:
       echo UMI_ENV=dev >> .env &&
       npm run build &&
       find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf &&
-      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/app &&
-      cd '"'$REMOTE_APP_DIR'"' && cp .htaccess ./app/.htaccess'
+      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/current &&
+      cd '"'$REMOTE_APP_DIR'"' && cp .htaccess ./current/.htaccess'
   when: manual
 
 #deploy:

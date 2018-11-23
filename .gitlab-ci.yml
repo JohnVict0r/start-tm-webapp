@@ -81,7 +81,9 @@ deploy_review:
 
       echo -e "--->  Colocando nova release em produção\n" &&
       ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/current'
-  when: manual
+  #when: manual
+  only:
+    - master
 
 #deploy:
 #  stage: deploy

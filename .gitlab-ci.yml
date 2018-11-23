@@ -70,7 +70,8 @@ deploy_review:
       echo UMI_ENV=dev >> .env &&
       npm run build &&
       find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf &&
-      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/app'
+      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/app &&
+      cd '"'$REMOTE_APP_DIR'"' && cp .htaccess ./app/.htaccess
   when: manual
 
 #deploy:

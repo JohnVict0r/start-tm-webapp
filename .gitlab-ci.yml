@@ -76,9 +76,11 @@ deploy_review:
       echo -e "--->  Limpando build\n" &&
       find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf &&
 
+      echo -e "---> Linkando o arquivo .htaccess\n" &&
+      ln -nfs '"'$REMOTE_APP_DIR'"'/.htaccess '"'$NEW_RELEASE_DIR'"'/dist/.htaccess &&
+
       echo -e "--->  Colocando nova release em produção\n" &&
-      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/current &&
-      cd '"'$REMOTE_APP_DIR'"' && cp .htaccess ./current/.htaccess'
+      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/current'
   when: manual
 
 #deploy:

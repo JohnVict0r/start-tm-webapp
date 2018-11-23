@@ -70,11 +70,9 @@ deploy_review:
       echo -e "--->  Instalando dependências\n" &&
       cd '"'$NEW_RELEASE_DIR'"' && npm install &&
 
-      echo -e "--->  Gerando .env\n" &&
-      echo API_URL=http://devel7.sedis.ufrn.br/produtiivo-ws/public/api/ >> .env &&
-      echo UMI_ENV=dev >> .env &&
-
       echo -e "--->  Gerando build\n" &&
+      API_URL=http://devel7.sedis.ufrn.br/produtiivo-ws/public/api/ \
+      UMI_ENV=dev \
       npm run build &&
 
       echo -e "--->  Limpando build\n" &&

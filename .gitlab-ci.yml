@@ -71,7 +71,7 @@ deploy_review:
       cd '"'$NEW_RELEASE_DIR'"' && npm install &&
 
       echo -e "--->  Gerando build\n" &&
-      API_URL=http://devel7.sedis.ufrn.br/produtiivo-ws/public/api/ UMI_ENV=dev npm run build &&
+      API_URL=http://devel7.sedis.ufrn.br/produtiivo/ws/current/public/api/ UMI_ENV=dev npm run build &&
 
       echo -e "--->  Limpando build\n" &&
       find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf &&

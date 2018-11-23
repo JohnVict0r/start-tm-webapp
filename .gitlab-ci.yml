@@ -51,10 +51,10 @@ deploy_review:
   stage: review
   environment:
     name: review
-    url: http://devel7.sedis.ufrn.br/produtiivo/app/current
+    url: http://themanager-dev.sedis.ufrn.br
   variables:
-    RELEASE_DIR: $REMOTE_APP_DIR/releases
-    NEW_RELEASE_DIR: $REMOTE_APP_DIR/releases/$CI_COMMIT_SHA
+    RELEASE_DIR: $REMOTE_DEV_APP_DIR/releases
+    NEW_RELEASE_DIR: $REMOTE_DEV_APP_DIR/releases/$CI_COMMIT_SHA
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - mkdir -p ~/.ssh
@@ -71,7 +71,7 @@ deploy_review:
       cd '"'$NEW_RELEASE_DIR'"' && npm install &&
 
       echo -e "---> Linkando o arquivo .env\n" &&
-      ln -nfs '"'$REMOTE_APP_DIR'"'/.env '"'$NEW_RELEASE_DIR'"'/.env &&
+      ln -nfs '"'$REMOTE_DEV_APP_DIR'"'/.env '"'$NEW_RELEASE_DIR'"'/.env &&
 
       echo -e "--->  Gerando build\n" &&
       npm run build &&
@@ -80,10 +80,10 @@ deploy_review:
       find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf &&
 
       echo -e "---> Linkando o arquivo .htaccess\n" &&
-      ln -nfs '"'$REMOTE_APP_DIR'"'/.htaccess '"'$NEW_RELEASE_DIR'"'/dist/.htaccess &&
+      ln -nfs '"'$REMOTE_DEV_APP_DIR'"'/.htaccess '"'$NEW_RELEASE_DIR'"'/dist/.htaccess &&
 
       echo -e "--->  Colocando nova release em produção\n" &&
-      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/current'
+      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_DEV_APP_DIR'"'/current'
   #when: manual
   only:
     - master

@@ -71,7 +71,7 @@ deploy_review:
       npm run build &&
       find . -mindepth 1 -name "dist" -prune -o -print0 | xargs -0 rm -rf &&
       ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_APP_DIR'"'/app &&
-      cd '"'$REMOTE_APP_DIR'"' && cp .htaccess ./app/.htaccess
+      cd '"'$REMOTE_APP_DIR'"' && cp .htaccess ./app/.htaccess'
   when: manual
 
 #deploy:

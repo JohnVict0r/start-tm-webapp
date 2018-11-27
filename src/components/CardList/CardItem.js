@@ -68,18 +68,21 @@ const CardItem = ({ card, isDragging, provided }) => {
         // {...provided.dragHandleProps}
       >
         <div className={styles.cardMetaInfo}>
-          <Priority
-            className={styles.priority}
-            icon={priority.icon}
-            label={priority.label}
-            style={priority.style}
-          />
-          <Due date={card.due} />
-        </div>
-        <Ellipsis lines={5}>{card.description}</Ellipsis>
-        <div className={styles.cardUsers}>
+          <div className={styles.left}>
+            <Priority
+              className={styles.priority}
+              icon={priority.icon}
+              label={priority.label}
+              style={priority.style}
+            />
+            <Due date={card.due} />
+          </div>
           <div className={styles.avatarList}>
-            <AvatarList size="mini">
+            <AvatarList
+              size="mini"
+              maxLength={3}
+              excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+            >
               {card.members.map(member => (
                 <AvatarList.Item
                   key={`${card.id}-avatar-${member.id}`}
@@ -90,6 +93,7 @@ const CardItem = ({ card, isDragging, provided }) => {
             </AvatarList>
           </div>
         </div>
+        <Ellipsis lines={3}>{card.description}</Ellipsis>
       </Card>
     </div>
   );

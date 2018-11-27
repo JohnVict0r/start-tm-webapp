@@ -159,8 +159,8 @@ class Board extends PureComponent {
     }
 
     return (
-      <Spin spinning={loading}>
-        <div className={styles.container}>
+      <div className={styles.container}>
+        <Spin spinning={loading}>
           <div className={styles.board}>
             <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
               {board.cardlists.map(cardlist => (
@@ -174,8 +174,8 @@ class Board extends PureComponent {
               ))}
             </DragDropContext>
           </div>
-        </div>
-      </Spin>
+        </Spin>
+      </div>
     );
   }
 }

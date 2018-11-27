@@ -14,6 +14,8 @@ cols: 1
 | 参数      | 说明                                      | 类型         | 默认值 |
 |----------|------------------------------------------|-------------|-------|
 | size | 头像大小 | `large`、`small` 、`mini`, `default` | `default` |
+| maxLength | max items to show | number | - |
+| excessItemsStyle | the excess item style | CSSProperties | - |
 
 ### AvatarList.Item
 

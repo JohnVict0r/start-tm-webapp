@@ -6,7 +6,7 @@ import AvatarList from '@/components/AvatarList';
 import timeAgo from '@/utils/timeAgo';
 import { priorityFilter } from '@/utils/labels';
 
-import styles from './index.less';
+import styles from './CardItem.less';
 
 // const CardItem = ({ card, isDragging, provided, match }) => {
 //   // const priority = priorityFilter(card.priority)
@@ -59,7 +59,8 @@ const CardItem = ({ card, isDragging, provided }) => {
       {...provided.dragHandleProps}
     >
       <Card
-        className={classNames(styles.card, { [styles.card.dragging]: isDragging })}
+        bordered={false}
+        className={classNames(styles.card, { [styles.dragging]: isDragging })}
         bodyStyle={{ padding: '12px' }}
         hoverable
         // cover={<img alt={item.title} src={item.cover} />}

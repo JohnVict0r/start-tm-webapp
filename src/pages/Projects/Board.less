@@ -1,20 +1,19 @@
 @import '~antd/lib/style/themes/default.less';
 
 .container {
-  margin-top: -24px;
-  min-height: 100vh;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  margin: -24px -50vw;
   width: 100vw;
   left: 50%;
   right: 50%;
   position: relative;
   transition: 0.3s;
-  //background: white;
+  background: white;
 }
 
 .board {
   display: flex;
   overflow: auto;
   transition: 0.3s;
+
+  height: ~'calc(100vh - 2 * @{layout-header-height})';
 }

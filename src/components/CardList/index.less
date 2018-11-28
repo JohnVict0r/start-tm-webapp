@@ -4,16 +4,24 @@
   display: flex;
   flex-direction: column;
   margin: 8px;
+  background: #fafafa;
+  border: @border-width-base @border-style-base @border-color-split;
+  border-radius: 4px;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 8px 0;
+  padding: 8px;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   transition: background-color 0.1s ease;
+  border-bottom: @border-width-base @border-style-base @border-color-split;
+
+  .add {
+    padding: 0 4px !important;
+  }
 }
 
 .title {
@@ -32,6 +40,7 @@
 .dropzone {
   /* stop the list collapsing when empty */
   min-height: 250px;
+  height: 100%;
 
   /* not relying on the items for a margin-bottom
   as it will collapse when the list is empty */
@@ -48,6 +57,7 @@
   transition: background-color 0.1s ease, opacity 0.1s ease;
   user-select: none;
   width: 300px;
+  height: 100%;
 
   &.dragging {
     //background-color: rgba(240, 244, 247, 0.4);
@@ -56,94 +66,4 @@
   &.disabled {
     opacity: 0.5;
   }
-}
-
-.header,
-.listWrapper {
-  //background-color: darken(@layout-body-background, 3%);
-}
-
-.carditemSubheader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 8px;
-  height: 30px;
-
-  .due {
-    font-size: 12px;
-    margin-right: 5px;
-    color: white;
-    background-color: @red-1;
-    padding: 0 5px;
-    line-height: 16px;
-    border-radius: 10px;
-  }
-
-  .card-status {
-    display: flex;
-  }
-}
-
-.cardWrapper {
-  margin-bottom: 8px;
-}
-
-.card {
-  user-select: none;
-
-  :global {
-    .ant-card-meta-title {
-      margin-bottom: 4px;
-      & > a {
-        color: @heading-color;
-        display: inline-block;
-        max-width: 100%;
-      }
-    }
-    .ant-card-meta-description {
-      height: 44px;
-      line-height: 22px;
-      overflow: hidden;
-    }
-  }
-
-  &:focus {
-    outline: 2px solid @purple-1;
-    outline-offset: 2px;
-    box-shadow: none;
-  }
-
-  &.dragging {
-    filter: drop-shadow(8px 8px 10px gray);
-  }
-
-  &:hover {
-    :global {
-      .ant-card-meta-title > a {
-        color: @primary-color;
-      }
-    }
-  }
-}
-
-.cardMetaInfo {
-  display: flex;
-  margin: 4px 0;
-  line-height: 20px;
-  min-height: 20px;
-  flex-wrap: wrap;
-
-  .left {
-    display: flex;
-    flex: 1;
-
-    & > .priority {
-      margin-right: 8px;
-    }
-  }
-}
-
-.avatarList ul {
-  padding: 0;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Icon } from 'antd';
+import { Button } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import CardItem from './CardItem';
 
@@ -10,7 +10,7 @@ const CardList = ({ cardList, isDisabled, items }) => (
   <div className={styles.column}>
     <div className={styles.header}>
       <h4 className={styles.title}>{cardList.name}</h4>
-      {cardList.canCreateCard && <Icon type="plus" />}
+      {cardList.canCreateCard && <Button className={styles.add} icon="plus" size="small" />}
     </div>
     <List
       listId={cardList.id.toString()}

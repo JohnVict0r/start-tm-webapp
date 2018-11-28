@@ -11,7 +11,6 @@ import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
 import logo from '../assets/logo.svg';
-import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
 import Exception403 from '../pages/Exception/403';
@@ -145,7 +144,7 @@ class BasicLayout extends React.PureComponent {
   getContentStyle = () => {
     const { fixedHeader } = this.props;
     return {
-      margin: '24px 24px 0',
+      margin: '24px',
       paddingTop: fixedHeader ? 64 : 0,
     };
   };
@@ -211,7 +210,6 @@ class BasicLayout extends React.PureComponent {
               {children}
             </Authorized>
           </Content>
-          <Footer />
         </Layout>
       </Layout>
     );

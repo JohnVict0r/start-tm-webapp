@@ -28,8 +28,9 @@ const FooterView = () => (
       ]}
       copyright={
         <Fragment>
-          Copyright <Icon type="copyright" /> 2018 LAIS - Laboratório de inovação tecnológica em
-          saúde
+          <a href="http://lais.huol.ufrn.br/" target="_blank" rel="noopener noreferrer">
+            Copyright <Icon type="copyright" /> 2018 LAIS
+          </a>
         </Fragment>
       }
     />

@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import Link from 'umi/link';
 import Redirect from 'umi/redirect';
 import { Button, Icon, Rate, Menu, Popover, Dropdown } from 'antd';
+import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import { makeProjectSelector } from './selectors/projects';
@@ -74,7 +75,7 @@ class ViewProject extends Component {
     }
 
     const action = (
-      <div>
+      <Fragment>
         <Dropdown overlay={boardsMenu} disabled={loading}>
           <Button>
             <Icon type="project" className={styles.boardIcon} />
@@ -91,7 +92,7 @@ class ViewProject extends Component {
         <Link to={`/projects/${match.params.id}/boards/new`}>
           <Button type="primary">Novo Quadro</Button>
         </Link>
-      </div>
+      </Fragment>
     );
 
     const title = (
@@ -103,7 +104,11 @@ class ViewProject extends Component {
           overlayClassName={styles.descriptionPopover}
           mouseEnterDelay={1}
         >
-          <Link to={`${match.url}`}>{project.name}</Link>
+          <Link to={`${match.url}`}>
+            <Ellipsis length={50} tooltip>
+              {project.name}
+            </Ellipsis>
+          </Link>
         </Popover>
         <Dropdown overlay={projectOptionsMenu} placement="bottomRight">
           <Icon type="ellipsis" className={styles.action} />
@@ -113,7 +118,13 @@ class ViewProject extends Component {
 
     return (
       <Fragment>
-        <PageHeaderWrapper hiddenBreadcrumb title={title} action={action} wide={false}>
+        <PageHeaderWrapper
+          hiddenBreadcrumb
+          className={styles.pageHeader}
+          title={title}
+          action={action}
+          wide={false}
+        >
           {children}
         </PageHeaderWrapper>
       </Fragment>

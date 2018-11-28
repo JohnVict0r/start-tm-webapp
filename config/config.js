@@ -69,6 +69,7 @@ export default {
   // https://ant.design/docs/react/customize-theme-cn
   theme: {
     'primary-color': defaultSettings.primaryColor,
+    'layout-header-height': defaultSettings.layoutHeaderHeight,
   },
   externals: {
     '@antv/data-set': 'DataSet',

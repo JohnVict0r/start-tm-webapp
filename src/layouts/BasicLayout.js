@@ -17,6 +17,8 @@ import Exception403 from '../pages/Exception/403';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 
+import styles from './BasicLayout.less';
+
 // lazy load SettingDrawer
 const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
 
@@ -141,14 +143,6 @@ class BasicLayout extends React.PureComponent {
     return null;
   };
 
-  getContentStyle = () => {
-    const { fixedHeader } = this.props;
-    return {
-      margin: '24px',
-      paddingTop: fixedHeader ? 64 : 0,
-    };
-  };
-
   handleMenuCollapse = collapsed => {
     const { dispatch } = this.props;
     dispatch({
@@ -174,9 +168,11 @@ class BasicLayout extends React.PureComponent {
       location: { pathname },
       isMobile,
       menuData,
+      fixedHeader,
     } = this.props;
     const isTop = PropsLayout === 'topmenu';
     const routerConfig = this.matchParamsPath(pathname);
+    const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
       <Layout>
         {isTop && !isMobile ? null : (
@@ -202,7 +198,7 @@ class BasicLayout extends React.PureComponent {
             isMobile={isMobile}
             {...this.props}
           />
-          <Content style={this.getContentStyle()}>
+          <Content className={styles.content} style={contentStyle}>
             <Authorized
               authority={routerConfig && routerConfig.authority}
               noMatch={<Exception403 />}

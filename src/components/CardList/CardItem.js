@@ -1,10 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Card, Tag, Icon, Tooltip } from 'antd';
+import { Card, Icon } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import AvatarList from '@/components/AvatarList';
 import timeAgo from '@/utils/timeAgo';
-import { priorityFilter } from '@/utils/labels';
 
 import styles from './CardItem.less';
 
@@ -36,68 +35,60 @@ import styles from './CardItem.less';
 
 const Due = ({ date }) => {
   const due = timeAgo(date);
-  return due && <Tag color="red">{due}</Tag>;
-};
-
-const Priority = ({ icon, label, className, style }) => (
-  <Tooltip title={`Prioridade: ${label}`}>
-    <div className={className}>
-      <Icon type={icon} style={style} />
-    </div>
-  </Tooltip>
-);
-
-const CardItem = ({ card, isDragging, provided }) => {
-  const priority = priorityFilter(card.priority);
-  // const due = timeAgo(card.due)
-
   return (
-    <div
-      className={styles.cardWrapper}
-      ref={provided.innerRef}
-      {...provided.draggableProps}
-      {...provided.dragHandleProps}
-    >
-      <Card
-        bordered={false}
-        className={classNames(styles.card, { [styles.dragging]: isDragging })}
-        bodyStyle={{ padding: '12px' }}
-        hoverable
-        // cover={<img alt={item.title} src={item.cover} />}
-        // ref={provided.innerRef}
-        // {...provided.draggableProps}
-        // {...provided.dragHandleProps}
-      >
-        <div className={styles.cardMetaInfo}>
-          <div className={styles.left}>
-            <Priority
-              className={styles.priority}
-              icon={priority.icon}
-              label={priority.label}
-              style={priority.style}
-            />
-            <Due date={card.due} />
-          </div>
-          <div className={styles.avatarList}>
-            <AvatarList
-              size="mini"
-              maxLength={3}
-              excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-            >
-              {card.members.map(member => (
-                <AvatarList.Item
-                  key={`${card.id}-avatar-${member.id}`}
-                  src={member.pictureUrl}
-                  tips={member.name}
-                />
-              ))}
-            </AvatarList>
-          </div>
-        </div>
-        <Ellipsis lines={3}>{card.description}</Ellipsis>
-      </Card>
-    </div>
+    due && (
+      <div className={styles.due}>
+        <Icon type="clock-circle" /> {due}
+      </div>
+    )
   );
 };
+
+const priorityClass = ['lower', 'low', 'normal', 'high', 'higher'];
+
+const CardItem = ({ card, isDragging, provided }) => (
+  <div
+    className={styles.cardWrapper}
+    ref={provided.innerRef}
+    {...provided.draggableProps}
+    {...provided.dragHandleProps}
+  >
+    <Card
+      bordered={false}
+      className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {
+        [styles.dragging]: isDragging,
+      })}
+      // style={{ borderColor: priority.style.color }}
+      bodyStyle={{ padding: '12px' }}
+      hoverable
+      // cover={<img alt={item.title} src={item.cover} />}
+      // ref={provided.innerRef}
+      // {...provided.draggableProps}
+      // {...provided.dragHandleProps}
+    >
+      <div className={styles.cardMetaInfo}>
+        <div className={styles.left}>
+          <Due date={card.due} />
+        </div>
+        <div className={styles.avatarList}>
+          <AvatarList
+            size="mini"
+            maxLength={3}
+            excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+          >
+            {card.members.map(member => (
+              <AvatarList.Item
+                key={`${card.id}-avatar-${member.id}`}
+                src={member.pictureUrl}
+                tips={member.name}
+              />
+            ))}
+          </AvatarList>
+        </div>
+      </div>
+      <Ellipsis lines={3}>{card.description}</Ellipsis>
+    </Card>
+  </div>
+);
 
 export default CardItem;

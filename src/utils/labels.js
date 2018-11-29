@@ -5,7 +5,7 @@ export const priorities = [
     icon: 'double-left',
     label: 'altíssima',
   },
-  { value: 4, style: { color: '#D64242' }, icon: 'up', label: 'alta' },
+  { value: 4, style: { color: '#FA8C16' }, icon: 'up', label: 'alta' },
   { value: 3, style: { color: '#74C080' }, icon: 'minus', label: 'normal' },
   { value: 2, style: { color: '#56CDFC' }, icon: 'down', label: 'baixa' },
   {

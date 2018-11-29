@@ -58,14 +58,9 @@ const CardItem = ({ card, isDragging, provided }) => (
       className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {
         [styles.dragging]: isDragging,
       })}
-      // style={{ borderColor: priority.style.color }}
       bodyStyle={{ padding: '12px' }}
-      hoverable
-      // cover={<img alt={item.title} src={item.cover} />}
-      // ref={provided.innerRef}
-      // {...provided.draggableProps}
-      // {...provided.dragHandleProps}
     >
+      <Ellipsis lines={3}>{card.description}</Ellipsis>
       <div className={styles.cardMetaInfo}>
         <div className={styles.left}>
           <Due date={card.due} />
@@ -86,7 +81,6 @@ const CardItem = ({ card, isDragging, provided }) => (
           </AvatarList>
         </div>
       </div>
-      <Ellipsis lines={3}>{card.description}</Ellipsis>
     </Card>
   </div>
 );

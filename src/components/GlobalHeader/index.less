@@ -42,18 +42,13 @@
 }
 
 .trigger {
-  height: 100%;
-  padding: 0 24px;
-  display: inline-block;
-
-  i {
-    font-size: 20px;
-    cursor: pointer;
-    vertical-align: middle;
-    transition: all 0.3s, padding 0s;
-    &:hover {
-      background: @pro-header-hover-bg;
-    }
+  font-size: 20px;
+  height: @layout-header-height;
+  cursor: pointer;
+  transition: all 0.3s, padding 0s;
+  padding: ~'calc((@{layout-header-height} - 20px) / 2)' 24px;
+  &:hover {
+    background: @pro-header-hover-bg;
   }
 }
 

@@ -74,57 +74,56 @@ class ViewProject extends Component {
       selectedBoard = project.boards.find(b => b.id.toString() === boarId);
     }
 
-    const action = (
-      <Fragment>
-        <Dropdown overlay={boardsMenu} disabled={loading}>
-          <Button>
-            <Icon type="project" className={styles.boardIcon} />
-            {selectedBoard ? (
+    const content = (
+      <div className={styles.optionsBar}>
+        <div className={styles.left}>
+          <Rate count={1} className={styles.action} />
+          <div className={styles.title}>
+            <Popover
+              title="Descrição do projeto"
+              content={project.description}
+              overlayClassName={styles.descriptionPopover}
+              mouseEnterDelay={1}
+            >
+              <Link to={`${match.url}`}>
+                <Ellipsis lines={1} tooltip>
+                  {project.name}
+                </Ellipsis>
+              </Link>
+            </Popover>
+          </div>
+          <Dropdown overlay={projectOptionsMenu} placement="bottomRight">
+            <Button className={styles.settings}>
               <span>
-                {'Quadro: '} <b>{selectedBoard.name}</b>
+                <Icon type="setting" />
               </span>
-            ) : (
-              'Selecione um quadro'
-            )}
-            <Icon type="down" />
-          </Button>
-        </Dropdown>
-        <Link to={`/projects/${match.params.id}/boards/new`}>
-          <Button type="primary">Novo Quadro</Button>
-        </Link>
-      </Fragment>
-    );
-
-    const title = (
-      <div>
-        <Rate count={1} className={styles.action} />
-        <Popover
-          title="Descrição do projeto"
-          content={project.description}
-          overlayClassName={styles.descriptionPopover}
-          mouseEnterDelay={1}
-        >
-          <Link to={`${match.url}`}>
-            <Ellipsis length={50} tooltip>
-              {project.name}
-            </Ellipsis>
+            </Button>
+          </Dropdown>
+        </div>
+        <div className={styles.right}>
+          <Dropdown overlay={boardsMenu} disabled={loading}>
+            <Button>
+              <Icon type="project" className={styles.boardIcon} />
+              {selectedBoard ? (
+                <span>
+                  {'Quadro: '} <b>{selectedBoard.name}</b>
+                </span>
+              ) : (
+                'Selecione um quadro'
+              )}
+              <Icon type="down" />
+            </Button>
+          </Dropdown>
+          <Link to={`/projects/${match.params.id}/boards/new`}>
+            <Button type="primary">Novo Quadro</Button>
           </Link>
-        </Popover>
-        <Dropdown overlay={projectOptionsMenu} placement="bottomRight">
-          <Icon type="ellipsis" className={styles.action} />
-        </Dropdown>
+        </div>
       </div>
     );
 
     return (
       <Fragment>
-        <PageHeaderWrapper
-          hiddenBreadcrumb
-          className={styles.pageHeader}
-          title={title}
-          action={action}
-          wide={false}
-        >
+        <PageHeaderWrapper hiddenBreadcrumb content={content} wide={false}>
           {children}
         </PageHeaderWrapper>
       </Fragment>

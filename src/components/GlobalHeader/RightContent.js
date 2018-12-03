@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage, formatMessage } from 'umi/locale';
-import { Spin, Tag, Menu, Icon, Dropdown, Avatar, Tooltip } from 'antd';
+import { Spin, Tag, Menu, Icon, Dropdown, Avatar } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Link from 'umi/link';
@@ -91,9 +91,10 @@ export default class GlobalHeaderRight extends PureComponent {
           <Icon type="setting" />
           <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
         </Menu.Item>
-        <Menu.Item key="triggerError">
-          <Icon type="close-circle" />
-          <FormattedMessage id="menu.account.trigger" defaultMessage="Trigger Error" />
+        <Menu.Divider />
+        <Menu.Item key="admin">
+          <Icon type="tool" theme="outlined" />
+          <FormattedMessage id="menu.admin" defaultMessage="Admin" />
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout">
@@ -141,16 +142,6 @@ export default class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         />
-        {/* <Tooltip title={formatMessage({ id: 'component.globalHeader.help' })}>
-          <a
-            target="_blank"
-            href="https://pro.ant.design/docs/getting-started"
-            rel="noopener noreferrer"
-            className={styles.action}
-          >
-            <Icon type="question-circle-o" />
-          </a>
-        </Tooltip> */}
         <Dropdown overlay={createMenu}>
           <span className={`${styles.action}`}>
             <Icon type="plus" style={{ fontSize: '14px' }} />
@@ -198,12 +189,6 @@ export default class GlobalHeaderRight extends PureComponent {
             emptyImage="https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg"
           />
         </NoticeIcon>
-        {/* TODO pegar em algum lugar se é adm */}
-        <Tooltip title={formatMessage({ id: 'component.globalHeader.admin' })}>
-          <Link to="/admin" rel="noopener noreferrer" className={styles.action}>
-            <Icon type="tool" theme="outlined" />
-          </Link>
-        </Tooltip>
         {currentUser.name ? (
           <Dropdown overlay={accountMenu}>
             <span className={`${styles.action} ${styles.account}`}>

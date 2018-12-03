@@ -37,24 +37,26 @@ export const makeProjectSelector = ({ id }) =>
         const { schema, id: ownerId } = project.owner;
         const owner = schema === 'teams' ? teams[ownerId] : users[ownerId];
 
-        const projectBoards = project.boards.map(i => boards[i]).map(board => {
-          const cardlistsArr = board.cardlists.map(item => cardlists[item]);
-          const cardMap = cardlistsArr.reduce(
-            (previous, cardlist) => ({
-              ...previous,
-              [cardlist.id]: cardlist.cards.map(item => {
-                const members = cards[item].members.map(member => users[member]);
-                return {
-                  ...cards[item],
-                  members,
-                };
+        const projectBoards = project.boards
+          .map(i => boards[i])
+          .map(board => {
+            const cardlistsArr = board.cardlists.map(item => cardlists[item]);
+            const cardMap = cardlistsArr.reduce(
+              (previous, cardlist) => ({
+                ...previous,
+                [cardlist.id]: cardlist.cards.map(item => {
+                  const members = cards[item].members.map(member => users[member]);
+                  return {
+                    ...cards[item],
+                    members,
+                  };
+                }),
               }),
-            }),
-            {}
-          );
+              {}
+            );
 
-          return { ...board, cardlists: cardlistsArr, cardMap };
-        });
+            return { ...board, cardlists: cardlistsArr, cardMap };
+          });
 
         return { ...project, owner, boards: projectBoards };
       }

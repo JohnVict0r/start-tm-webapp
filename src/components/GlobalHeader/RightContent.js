@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage, formatMessage } from 'umi/locale';
-import { Spin, Tag, Menu, Icon, Dropdown, Avatar } from 'antd';
+import { Spin, Tag, Menu, Icon, Avatar } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
 import Link from 'umi/link';
 import NoticeIcon from '../NoticeIcon';
 import Ellipsis from '../Ellipsis';
 import HeaderSearch from '../HeaderSearch';
+import HeaderDropdown from '../HeaderDropdown';
 // import SelectLang from '../SelectLang';
 import styles from './index.less';
 
@@ -142,11 +143,11 @@ export default class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         />
-        <Dropdown overlay={createMenu}>
+        <HeaderDropdown overlay={createMenu}>
           <span className={`${styles.action}`}>
             <Icon type="plus" style={{ fontSize: '14px' }} />
           </span>
-        </Dropdown>
+        </HeaderDropdown>
         <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}
@@ -189,7 +190,7 @@ export default class GlobalHeaderRight extends PureComponent {
           />
         </NoticeIcon>
         {currentUser.name ? (
-          <Dropdown overlay={accountMenu}>
+          <HeaderDropdown overlay={accountMenu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
                 size="small"
@@ -198,7 +199,7 @@ export default class GlobalHeaderRight extends PureComponent {
                 alt="avatar"
               />
             </span>
-          </Dropdown>
+          </HeaderDropdown>
         ) : (
           <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
         )}

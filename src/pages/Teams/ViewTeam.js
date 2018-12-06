@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
-import { Button, Rate, Dropdown, Icon, Menu, Popover } from 'antd';
+import { Button, Dropdown, Icon, Menu, Popover } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
+import { FavoriteIcon } from '@/components/Favorite';
 import Link from 'umi/link';
 
 import styles from './ViewTeam.less';
@@ -20,6 +21,14 @@ class ViewTeam extends Component {
       payload: match.params.id,
     });
   }
+
+  handleFavorite = () => {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'teams/favoriteTeam',
+      payload: match.params.id,
+    });
+  };
 
   render() {
     const { team, children, match } = this.props;
@@ -54,7 +63,7 @@ class ViewTeam extends Component {
 
     const action = (
       <Fragment>
-        <Rate count={1} />
+        <FavoriteIcon onClick={this.handleFavorite} favorited={team.favorited} />
         <Popover
           title="Descrição da equipe"
           content={team.description}

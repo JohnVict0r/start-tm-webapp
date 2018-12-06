@@ -1,4 +1,4 @@
-import { loadUserProjects, loadProject } from '@/services/projects';
+import { loadUserProjects, loadProject, favoriteProject } from '@/services/projects';
 import { loadProjectBoards } from '@/services/boards';
 
 const initialPaginatioState = {
@@ -73,6 +73,15 @@ export default {
       yield put({
         type: 'receiveBoards',
         payload: response.result,
+      });
+    },
+
+    *favoriteProject({ payload }, { call, put }) {
+      const response = yield call(favoriteProject, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
       });
     },
   },

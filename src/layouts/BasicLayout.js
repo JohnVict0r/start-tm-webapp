@@ -9,11 +9,9 @@ import classNames from 'classnames';
 import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
-import Authorized from '@/utils/Authorized';
 import logo from '../assets/logo.svg';
 import Header from './Header';
 import Context from './MenuContext';
-import Exception403 from '../pages/Exception/403';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 
@@ -95,22 +93,6 @@ class BasicLayout extends React.PureComponent {
     return breadcrumbNameMap[pathKey];
   };
 
-  getRouterAuthority = (pathname, routeData) => {
-    let routeAuthority = ['noAuthority'];
-    const getAuthority = (key, routes) => {
-      routes.map(route => {
-        if (route.path === key) {
-          routeAuthority = route.authority;
-        } else if (route.routes) {
-          routeAuthority = getAuthority(key, route.routes);
-        }
-        return route;
-      });
-      return routeAuthority;
-    };
-    return getAuthority(pathname, routeData);
-  };
-
   getPageTitle = (pathname, breadcrumbNameMap) => {
     const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
 
@@ -161,12 +143,10 @@ class BasicLayout extends React.PureComponent {
       isMobile,
       menuData,
       breadcrumbNameMap,
-      route: { routes },
       fixedHeader,
     } = this.props;
 
     const isTop = PropsLayout === 'topmenu';
-    const routerConfig = this.getRouterAuthority(pathname, routes);
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
       <Layout>
@@ -194,9 +174,7 @@ class BasicLayout extends React.PureComponent {
             {...this.props}
           />
           <Content className={styles.content} style={contentStyle}>
-            <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-              {children}
-            </Authorized>
+            {children}
           </Content>
         </Layout>
       </Layout>

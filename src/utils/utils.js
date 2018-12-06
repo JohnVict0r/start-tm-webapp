@@ -2,6 +2,7 @@ import moment from 'moment';
 import React from 'react';
 import nzh from 'nzh/cn';
 import { parse, stringify } from 'qs';
+import pathToRegexp from 'path-to-regexp';
 
 export function fixedZero(val) {
   return val * 1 < 10 ? `0${val}` : val;
@@ -129,6 +130,39 @@ export function getRoutes(path, routerData) {
     };
   });
   return renderRoutes;
+}
+
+/**
+ * Get the route authority. If the route don't have
+ * authoriry, get the parent route authority, and so on.
+ *
+ * @param {string} pathname the route pathname
+ * @param {array} routeData routes
+ * @returns {string[]} the authority list for that route
+ */
+export function getRouteAuthority(pathname, routeData) {
+  const routes = routeData.slice(); // clone
+  let authorities;
+
+  while (routes.length > 0) {
+    const route = routes.shift();
+
+    if (pathToRegexp(`${route.path}(.*)`).test(pathname)) {
+      if (route.authority) {
+        authorities = route.authority;
+      }
+
+      if (pathToRegexp(route.path).test(pathname)) {
+        break;
+      }
+
+      if (route.routes) {
+        route.routes.forEach(r => routes.push(r));
+      }
+    }
+  }
+
+  return authorities;
 }
 
 export function getPageQuery() {

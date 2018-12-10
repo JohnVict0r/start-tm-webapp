@@ -167,14 +167,14 @@ class HeaderView extends PureComponent {
 }
 
 export default connect(state => {
-  const { global, favorites, setting, loading } = state;
+  const { global, setting, loading } = state;
   return {
     currentUser: loggedInUserSelector(state),
     collapsed: global.collapsed,
     fetchingNotices: loading.effects['global/fetchNotices'],
     notices: global.notices,
     fetchingFavorites: loading.effects['global/fetchFavorites'],
-    favorites,
+    favorites: global.favorites,
     setting,
   };
 })(HeaderView);

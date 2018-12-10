@@ -15,5 +15,11 @@
   overflow: auto;
   transition: 0.3s;
 
-  height: ~'calc(100vh - 2 * @{layout-header-height})';
+  height: ~'calc(100vh - @{layout-header-height} - 65px)';
+}
+
+@media screen and (max-width: @screen-md-max) {
+  .board {
+    height: ~'calc(100vh - @{layout-header-height} - 113px)';
+  }
 }

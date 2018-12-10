@@ -35,8 +35,40 @@ class ViewProject extends Component {
     });
   };
 
+  renderBoardSelector = selectedBoard => {
+    const { project, loading, match } = this.props;
+    const boardsMenu = (
+      <Menu selectable>
+        {project.boards.map(r => (
+          <Menu.Item key={r.id}>
+            <Link to={`/projects/${match.params.id}/boards/${r.id}`}>{r.name}</Link>
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+
+    const placeholder = selectedBoard ? (
+      <Ellipsis lines={1}>
+        <span className={styles.hiddenInMobile}>Quadro: </span>
+        <b>{selectedBoard.name}</b>
+      </Ellipsis>
+    ) : (
+      'Selecione um quadro'
+    );
+
+    return (
+      <Dropdown overlay={boardsMenu} disabled={loading}>
+        <Button className={styles.selector}>
+          <Icon type="project" className={styles.boardIcon} />
+          <span className={styles.placeholder}>{placeholder}</span>
+          <Icon type="down" />
+        </Button>
+      </Dropdown>
+    );
+  };
+
   render() {
-    const { project, loading, match, children, location } = this.props;
+    const { project, match, children, location } = this.props;
 
     if (!project) {
       return <PageLoading />;
@@ -62,16 +94,6 @@ class ViewProject extends Component {
         <Menu.Item key="3">
           <Link to={`${match.url}/edit`}>Editar Projeto</Link>
         </Menu.Item>
-      </Menu>
-    );
-
-    const boardsMenu = (
-      <Menu selectable>
-        {project.boards.map(r => (
-          <Menu.Item key={r.id}>
-            <Link to={`/projects/${match.params.id}/boards/${r.id}`}>{r.name}</Link>
-          </Menu.Item>
-        ))}
       </Menu>
     );
 
@@ -114,21 +136,12 @@ class ViewProject extends Component {
           </Dropdown>
         </div>
         <div className={styles.right}>
-          <Dropdown overlay={boardsMenu} disabled={loading}>
-            <Button>
-              <Icon type="project" className={styles.boardIcon} />
-              {selectedBoard ? (
-                <span>
-                  {'Quadro: '} <b>{selectedBoard.name}</b>
-                </span>
-              ) : (
-                'Selecione um quadro'
-              )}
-              <Icon type="down" />
-            </Button>
-          </Dropdown>
+          {this.renderBoardSelector(selectedBoard)}
           <Link to={`/projects/${match.params.id}/boards/new`}>
-            <Button type="primary">Novo Quadro</Button>
+            <Button type="primary">
+              <Icon type="plus" />
+              <span className={styles.hiddenInMobile}>Quadro</span>
+            </Button>
           </Link>
         </div>
       </div>

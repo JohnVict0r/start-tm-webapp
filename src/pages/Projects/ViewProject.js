@@ -2,10 +2,11 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import Redirect from 'umi/redirect';
-import { Button, Icon, Rate, Menu, Popover, Dropdown } from 'antd';
+import { Button, Icon, Menu, Popover, Dropdown } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
+import { FavoriteIcon } from '@/components/Favorite';
 import { makeProjectSelector } from './selectors/projects';
 
 import styles from './ViewProject.less';
@@ -25,6 +26,14 @@ class ViewProject extends Component {
       payload: match.params.id,
     });
   }
+
+  handleFavorite = () => {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'projects/favoriteProject',
+      payload: match.params.id,
+    });
+  };
 
   render() {
     const { project, loading, match, children, location } = this.props;
@@ -77,7 +86,11 @@ class ViewProject extends Component {
     const content = (
       <div className={styles.optionsBar}>
         <div className={styles.left}>
-          <Rate count={1} className={styles.action} />
+          <FavoriteIcon
+            className={styles.action}
+            onClick={this.handleFavorite}
+            favorited={project.favorited}
+          />
           <div className={styles.title}>
             <Popover
               title="Descrição do projeto"

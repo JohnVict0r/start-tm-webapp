@@ -89,6 +89,15 @@ class HeaderView extends PureComponent {
     }
   };
 
+  handleFavoriteVisibleChange = visible => {
+    if (visible) {
+      const { dispatch } = this.props;
+      dispatch({
+        type: 'global/fetchFavorites',
+      });
+    }
+  };
+
   handScroll = () => {
     const { autoHideHeader } = this.props;
     const { visible } = this.state;
@@ -134,6 +143,7 @@ class HeaderView extends PureComponent {
             onNoticeClear={this.handleNoticeClear}
             onMenuClick={this.handleMenuClick}
             onNoticeVisibleChange={this.handleNoticeVisibleChange}
+            onFavoriteVisibleChange={this.handleFavoriteVisibleChange}
             {...this.props}
           />
         ) : (
@@ -142,6 +152,7 @@ class HeaderView extends PureComponent {
             onNoticeClear={this.handleNoticeClear}
             onMenuClick={this.handleMenuClick}
             onNoticeVisibleChange={this.handleNoticeVisibleChange}
+            onFavoriteVisibleChange={this.handleFavoriteVisibleChange}
             {...this.props}
           />
         )}
@@ -156,12 +167,14 @@ class HeaderView extends PureComponent {
 }
 
 export default connect(state => {
-  const { global, setting, loading } = state;
+  const { global, favorites, setting, loading } = state;
   return {
     currentUser: loggedInUserSelector(state),
     collapsed: global.collapsed,
     fetchingNotices: loading.effects['global/fetchNotices'],
     notices: global.notices,
+    fetchingFavorites: loading.effects['global/fetchFavorites'],
+    favorites,
     setting,
   };
 })(HeaderView);

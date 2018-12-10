@@ -1,4 +1,10 @@
-import { loadUserTeams, loadUserMasterOfTeams, loadTeam, createTeam } from '@/services/teams';
+import {
+  loadUserTeams,
+  loadUserMasterOfTeams,
+  loadTeam,
+  createTeam,
+  favoriteTeam,
+} from '@/services/teams';
 
 const initialPaginatioState = {
   count: 0,
@@ -81,6 +87,15 @@ export default {
         payload: {
           item: response.result,
         },
+      });
+    },
+
+    *favoriteTeam({ payload }, { call, put }) {
+      const response = yield call(favoriteTeam, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
       });
     },
   },

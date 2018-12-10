@@ -1,6 +1,6 @@
 import { queryNotices } from '@/services/api';
 import { fetchRoles } from '@/services/auth';
-import { loadLoggedInUser, constructUserScehma } from '@/services/user';
+import { loadLoggedInUser, loadFavorites } from '@/services/user';
 
 export default {
   namespace: 'global',
@@ -9,6 +9,7 @@ export default {
     roles: [],
     collapsed: false,
     notices: [],
+    favorites: [],
     loggedInUser: null,
   },
 
@@ -23,13 +24,6 @@ export default {
       yield put({
         type: 'saveLoggedInUser',
         payload: response.result,
-      });
-    },
-    *fetchLoggedInUserAvatar({ payload }, { call, put }) {
-      const response = yield call(constructUserScehma, payload);
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
       });
     },
     *fetchRoles(_, { call, put }) {
@@ -100,6 +94,13 @@ export default {
         },
       });
     },
+    *fetchFavorites(_, { call, put }) {
+      const response = yield call(loadFavorites);
+      yield put({
+        type: 'saveFavorites',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -131,6 +132,12 @@ export default {
       return {
         ...state,
         notices: state.notices.filter(item => item.type !== payload),
+      };
+    },
+    saveFavorites(state, { payload }) {
+      return {
+        ...state,
+        favorites: payload,
       };
     },
   },

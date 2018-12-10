@@ -8,6 +8,7 @@ import NoticeIcon from '../NoticeIcon';
 import Ellipsis from '../Ellipsis';
 import HeaderSearch from '../HeaderSearch';
 import HeaderDropdown from '../HeaderDropdown';
+import { FavoriteList } from '../Favorite';
 // import SelectLang from '../SelectLang';
 import styles from './index.less';
 
@@ -43,6 +44,11 @@ export default class GlobalHeaderRight extends PureComponent {
     return groupBy(newNotices, 'type');
   }
 
+  getFavoriteData = () => {
+    const { favorites } = this.props;
+    return groupBy(favorites, 'favoriteableType');
+  };
+
   getUnreadData = noticeData => {
     const unreadMsg = {};
     Object.entries(noticeData).forEach(([key, value]) => {
@@ -69,7 +75,9 @@ export default class GlobalHeaderRight extends PureComponent {
     const {
       currentUser,
       fetchingNotices,
+      fetchingFavorites,
       onNoticeVisibleChange,
+      onFavoriteVisibleChange,
       onMenuClick,
       onNoticeClear,
       theme,
@@ -148,6 +156,12 @@ export default class GlobalHeaderRight extends PureComponent {
             <Icon type="plus" style={{ fontSize: '14px' }} />
           </span>
         </HeaderDropdown>
+        <FavoriteList
+          className={styles.action}
+          loading={fetchingFavorites}
+          favorites={this.getFavoriteData()}
+          onFavoriteVisibleChange={onFavoriteVisibleChange}
+        />
         <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}

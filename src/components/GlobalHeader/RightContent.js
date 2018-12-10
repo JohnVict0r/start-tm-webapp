@@ -46,7 +46,7 @@ export default class GlobalHeaderRight extends PureComponent {
 
   getFavoriteData = () => {
     const { favorites } = this.props;
-    return groupBy(favorites, 'favoriteableType');
+    return groupBy(favorites, 'type');
   };
 
   getUnreadData = noticeData => {

@@ -12,6 +12,8 @@ export async function queryCurrent() {
 
 export const loadLoggedInUser = () => callApi('me', schema.USER).get();
 
+export const loadFavorites = () => callApi('me/favorites').get();
+
 export const updateLoggedInUserInfo = ({ name }) => callApi('me', schema.USER).put({ name });
 
 export const updateAvatar = file => callApi('me/avatar', schema.USER).post(file);

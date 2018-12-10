@@ -1,0 +1,32 @@
+@import '~antd/lib/style/themes/default.less';
+
+.container {
+  width: 336px;
+}
+
+.spin {
+  text-align: center;
+  padding: 30px 50px;
+}
+
+.menu {
+  :global {
+    .ant-dropdown-menu-item-group-list {
+      padding: 0;
+    }
+    .ant-dropdown-menu-item {
+      padding-left: 24px;
+
+      a {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .starIcon {
+    color: @yellow-6;
+    margin-right: 8px;
+  }
+}

@@ -12,12 +12,7 @@ const CardList = ({ cardList, isDisabled, items }) => (
       <h4 className={styles.title}>{cardList.name}</h4>
       {cardList.canCreateCard && <Button className={styles.add} icon="plus" size="small" />}
     </div>
-    <Scrollbars
-      hideTracksWhenNotNeeded
-      autoHeight
-      autoHeightMin={400}
-      autoHeightMax={500}
-    >
+    <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
       <List
         listId={cardList.id.toString()}
         listType="CARD"

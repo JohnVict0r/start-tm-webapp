@@ -14,8 +14,13 @@
   display: flex;
   overflow: auto;
   transition: 0.3s;
-
   height: ~'calc(100vh - @{layout-header-height} - 65px)';
+}
+
+.scroll {
+  display: flex;
+  overflow: hidden;
+  height: ~'calc(100vh - @{layout-header-height} - 65px)' !important;
 }
 
 @media screen and (max-width: @screen-md-max) {

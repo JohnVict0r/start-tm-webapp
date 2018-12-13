@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Button } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { Scrollbars } from 'react-custom-scrollbars';
 import CardItem from './CardItem';
-
 import styles from './index.less';
 
 const CardList = ({ cardList, isDisabled, items }) => (
@@ -12,12 +12,14 @@ const CardList = ({ cardList, isDisabled, items }) => (
       <h4 className={styles.title}>{cardList.name}</h4>
       {cardList.canCreateCard && <Button className={styles.add} icon="plus" size="small" />}
     </div>
-    <List
-      listId={cardList.id.toString()}
-      listType="CARD"
-      cards={items}
-      isDropDisabled={isDisabled}
-    />
+    <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
+      <List
+        listId={cardList.id.toString()}
+        listType="CARD"
+        cards={items}
+        isDropDisabled={isDisabled}
+      />
+    </Scrollbars>
   </div>
 );
 

@@ -12,14 +12,20 @@
 
 .board {
   display: flex;
-  overflow: auto;
+  overflow-x: visible;
+  overflow-y: hidden;
   transition: 0.3s;
+  height: 100%;
+}
 
-  height: ~'calc(100vh - @{layout-header-height} - 65px)';
+.scroll {
+  display: flex;
+  overflow: hidden;
+  height: ~'calc(100vh - @{layout-header-height} - 65px)' !important;
 }
 
 @media screen and (max-width: @screen-md-max) {
-  .board {
-    height: ~'calc(100vh - @{layout-header-height} - 113px)';
+  .scroll {
+    height: ~'calc(100vh - @{layout-header-height} - 113px)' !important;
   }
 }

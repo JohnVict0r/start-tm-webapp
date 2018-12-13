@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Spin } from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { makeBoardSelector } from './selectors/projects';
 import PageLoading from '@/components/PageLoading';
 import CardList from '@/components/CardList';
@@ -161,19 +162,21 @@ class Board extends PureComponent {
     return (
       <div className={styles.container}>
         <Spin spinning={loading}>
-          <div className={styles.board}>
-            <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-              {board.cardlists.map(cardlist => (
-                <CardList
-                  key={cardlist.id}
-                  cardList={cardlist}
-                  createCard={this.createCard}
-                  isDisabled={disabledCardlists[cardlist.id]}
-                  items={cardMap[cardlist.id]}
-                />
-              ))}
-            </DragDropContext>
-          </div>
+          <Scrollbars className={styles.scroll}>
+            <div className={styles.board}>
+              <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+                {board.cardlists.map(cardlist => (
+                  <CardList
+                    key={cardlist.id}
+                    cardList={cardlist}
+                    createCard={this.createCard}
+                    isDisabled={disabledCardlists[cardlist.id]}
+                    items={cardMap[cardlist.id]}
+                  />
+                ))}
+              </DragDropContext>
+            </div>
+          </Scrollbars>
         </Spin>
       </div>
     );

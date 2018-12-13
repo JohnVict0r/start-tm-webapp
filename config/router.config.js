@@ -170,13 +170,14 @@ export default [
           {
             path: '/teams/explore',
             name: 'my-teams',
+            icon: 'team',
             component: './Teams/TeamsList',
           },
           {
             path: '/teams/new',
             name: 'new-team',
+            icon: 'plus',
             component: './Teams/NewTeam',
-            hideInMenu: true,
           },
           {
             path: '/teams/:id',
@@ -221,13 +222,14 @@ export default [
           {
             path: '/projects/explore',
             name: 'my-projects',
+            icon: 'project',
             component: './Projects/ProjectsList',
           },
           {
             path: '/projects/new',
             name: 'new-project',
+            icon: 'plus',
             component: './Projects/NewProject',
-            hideInMenu: true,
           },
           {
             path: '/projects/:id',

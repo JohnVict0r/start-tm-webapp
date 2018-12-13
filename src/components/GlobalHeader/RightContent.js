@@ -3,7 +3,6 @@ import { FormattedMessage, formatMessage } from 'umi/locale';
 import { Spin, Tag, Menu, Icon, Avatar } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
-import Link from 'umi/link';
 import NoticeIcon from '../NoticeIcon';
 import Ellipsis from '../Ellipsis';
 import HeaderSearch from '../HeaderSearch';
@@ -112,22 +111,6 @@ export default class GlobalHeaderRight extends PureComponent {
         </Menu.Item>
       </Menu>
     );
-    const createMenu = (
-      <Menu className={styles.menu}>
-        <Menu.Item key="new-team">
-          <Link to="/teams/new">
-            <Icon type="team" />
-            Nova Equipe
-          </Link>
-        </Menu.Item>
-        <Menu.Item key="new-project">
-          <Link to="/projects/new">
-            <Icon type="project" />
-            Novo Projeto
-          </Link>
-        </Menu.Item>
-      </Menu>
-    );
     const noticeData = this.getNoticeData();
     const unreadMsg = this.getUnreadData(noticeData);
     let className = styles.right;
@@ -151,11 +134,6 @@ export default class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         />
-        <HeaderDropdown overlay={createMenu}>
-          <span className={`${styles.action}`}>
-            <Icon type="plus" style={{ fontSize: '14px' }} />
-          </span>
-        </HeaderDropdown>
         <FavoriteList
           className={styles.action}
           loading={fetchingFavorites}

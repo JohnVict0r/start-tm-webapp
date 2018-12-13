@@ -16,3 +16,35 @@
     }
   }
 }
+
+.optionsBar {
+  display: flex;
+  flex-direction: column;
+
+  .left {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+
+    .title {
+      flex: 1;
+      display: flex;
+      padding: 0 12px;
+    }
+
+    .settings {
+      padding: 0 8px;
+    }
+  }
+
+  .right {
+    flex: 0 0 auto;
+    display: flex;
+
+    :global {
+      .ant-btn:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+}

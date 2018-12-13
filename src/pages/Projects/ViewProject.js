@@ -149,7 +149,7 @@ class ViewProject extends Component {
 
     return (
       <Fragment>
-        <PageHeaderWrapper hiddenBreadcrumb content={content} wide={false}>
+        <PageHeaderWrapper hiddenBreadcrumb content={content}>
           {children}
         </PageHeaderWrapper>
       </Fragment>

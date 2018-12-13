@@ -92,7 +92,7 @@ class ViewTeam extends Component {
     );
 
     return (
-      <PageHeaderWrapper hiddenBreadcrumb content={content} wide={false}>
+      <PageHeaderWrapper hiddenBreadcrumb content={content}>
         {children}
       </PageHeaderWrapper>
     );

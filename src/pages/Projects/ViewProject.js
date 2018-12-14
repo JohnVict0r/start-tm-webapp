@@ -47,17 +47,19 @@ class ViewProject extends Component {
       </Menu>
     );
 
+    const selectorText = project.boards.length > 0 ? 'Selecione um quadro' : 'Ainda não há quadros';
+
     const placeholder = selectedBoard ? (
       <Ellipsis lines={1}>
         <span className={styles.hiddenInMobile}>Quadro: </span>
         <b>{selectedBoard.name}</b>
       </Ellipsis>
     ) : (
-      'Selecione um quadro'
+      selectorText
     );
 
     return (
-      <Dropdown overlay={boardsMenu} disabled={loading}>
+      <Dropdown overlay={boardsMenu} disabled={project.boards.length === 0 || loading}>
         <Button className={styles.selector}>
           <Icon type="project" className={styles.boardIcon} />
           <span className={styles.placeholder}>{placeholder}</span>

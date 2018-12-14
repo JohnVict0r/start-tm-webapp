@@ -147,7 +147,7 @@ export function getRouteAuthority(pathname, routeData) {
   while (routes.length > 0) {
     const route = routes.shift();
 
-    if (pathToRegexp(`${route.path}(.*)`).test(pathname)) {
+    if (route.path && pathToRegexp(`${route.path}(.*)`).test(pathname)) {
       if (route.authority) {
         authorities = route.authority;
       }

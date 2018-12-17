@@ -19,6 +19,9 @@ import pwa from './pt-BR/pwa';
 export default {
   'navBar.lang': 'Idiomas',
   'app.home.introduce': 'introduzir',
+  'app.forms.basic.title': 'Basic form',
+  'app.forms.basic.description':
+    'Páginas de formulário são usadas para coletar e verificar as informações dos usuários e formulários básicos são comuns nos cenários onde existem alguns formatos de informações.',
   'app.form.workflows.success': 'Fluxo de trabalho criado com sucesso',
   ...admin,
   ...analysis,

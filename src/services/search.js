@@ -7,3 +7,9 @@ export const queryUserInTeam = ({ id, query }) =>
 
 export const queryUserNotInTeam = ({ id, query }) =>
   callApi(`users/search/teams/${id}?${stringify({ query, c: 0 })}`, schema.USER_ARRAY).get();
+
+export const queryUserInProject = ({ id, query }) =>
+  callApi(`users/search/projects/${id}?${stringify({ query, c: 1 })}`, schema.USER_ARRAY).get();
+
+export const queryUserNotInProject = ({ id, query }) =>
+  callApi(`users/search/projects/${id}?${stringify({ query, c: 0 })}`, schema.USER_ARRAY).get();

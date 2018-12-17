@@ -258,6 +258,11 @@ export default [
                 name: 'project-workflows',
                 component: './Projects/Workflows',
               },
+              {
+                path: '/projects/:id/members',
+                name: 'project-members',
+                component: './Projects/Members',
+              },
             ],
           },
         ],

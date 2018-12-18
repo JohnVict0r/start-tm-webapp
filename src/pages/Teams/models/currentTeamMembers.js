@@ -1,4 +1,5 @@
-import { loadTeamMembers, addTeamMember } from '@/services/teams';
+import { notification } from 'antd';
+import { loadTeamMembers, addTeamMember, deleteTeamMember } from '@/services/teams';
 
 export default {
   namespace: 'currentTeamMembers',
@@ -33,6 +34,18 @@ export default {
         payload: response.result,
       });
     },
+
+    *deleteMember({ payload }, { call }) {
+      // const response = yield call(deleteTeamMember, payload.id, payload.member);
+
+      // nao possui resposta para usar yield put
+      yield call(
+        deleteTeamMember, 
+        payload.id, 
+        payload.member
+      );      
+
+    }
   },
 
   reducers: {

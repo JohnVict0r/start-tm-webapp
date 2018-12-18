@@ -1,4 +1,4 @@
-import { loadProjectMembers, addProjectMember } from '@/services/projects';
+import { loadProjectMembers, addProjectMember, deleteProjectMember } from '@/services/projects';
 
 export default {
   namespace: 'currentProjectMembers',
@@ -22,6 +22,20 @@ export default {
 
     *addMember({ payload }, { call, put }) {
       const response = yield call(addProjectMember, payload.id, payload.member);
+      
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveItems',
+        payload: response.result,
+      });
+    },
+
+    *deleteMember({ payload }, { call, put }) {
+      const response = yield call(deleteProjectMember, payload.id, payload.member);
 
       yield put({
         type: 'entities/mergeEntities',

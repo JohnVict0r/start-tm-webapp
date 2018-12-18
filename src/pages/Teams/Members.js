@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Avatar, Skeleton, Select } from 'antd';
+import { List, Card, Input, Button, Avatar, Skeleton, Select, Popconfirm, Icon } from 'antd';
 import NewMemberForm from './NewMember';
 import { teamMembersSelector } from './selectors/members';
 
@@ -18,6 +18,17 @@ class TeamMembers extends PureComponent {
       type: 'currentTeamMembers/fetch',
       payload: {
         id: match.params.id,
+      },
+    });
+  }
+  
+  handleDelete= (memberId) => {    
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'currentTeamMembers/deleteMember',
+      payload: {
+        id: match.params.id,
+        member: memberId
       },
     });
   }
@@ -61,7 +72,13 @@ class TeamMembers extends PureComponent {
                     <Select.Option value="Gerente">Gerente</Select.Option>
                     <Select.Option value="Colaborador">Colaborador</Select.Option>
                   </Select>,
-                  <Button type="danger" icon="delete" ghost />,
+                  <Popconfirm 
+                    title="Deseja deletar？" 
+                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                    onConfirm={() => this.handleDelete(user.id)}
+                  >
+                    <Button type="danger" icon="delete" ghost />
+                  </Popconfirm>,
                 ]}
               >
                 <Skeleton title={false} loading={loading} active>

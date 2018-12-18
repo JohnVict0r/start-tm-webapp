@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import { loadTeamMembers, addTeamMember, deleteTeamMember } from '@/services/teams';
 
 export default {

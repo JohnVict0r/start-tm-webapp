@@ -32,3 +32,6 @@ export const favoriteTeam = id => callApi(`teams/${id}/favorite`, schema.TEAM).p
 
 export const addTeamMember = (id, member) =>
   callApi(`teams/${id}/members`, schema.TEAMMEMBER_ARRAY).post(member);
+
+export const deleteTeamMember = (teamId, member) =>
+  callApi(`teams/${teamId}/members/${member}`, schema.TEAMMEMBER_ARRAY).delete();

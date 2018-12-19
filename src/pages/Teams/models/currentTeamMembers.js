@@ -1,4 +1,5 @@
-import { loadTeamMembers, addTeamMember } from '@/services/teams';
+import { loadTeamMembers, addTeamMember, deleteTeamMember } from '@/services/teams';
+import { notification } from 'antd';
 
 export default {
   namespace: 'currentTeamMembers',
@@ -23,15 +24,41 @@ export default {
     *addMember({ payload }, { call, put }) {
       const response = yield call(addTeamMember, payload.id, payload.member);
 
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
-      });
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível Adicionar o membro!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
 
-      yield put({
-        type: 'receiveItems',
-        payload: response.result,
-      });
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Membro adicionado com sucesso!' });
+      }
+    },
+
+    *deleteMember({ payload }, { call, put }) {
+      const response = yield call(deleteTeamMember, payload.id, payload.member);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível remover o membro!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Membro removido com sucesso!' });
+      }
     },
   },
 

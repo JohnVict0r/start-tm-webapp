@@ -4,10 +4,12 @@ import Link from 'umi/link';
 import { List, Card, Input, Button, Avatar, Skeleton, Select, Popconfirm, Icon } from 'antd';
 import NewMemberForm from './NewMember';
 import { teamMembersSelector } from './selectors/members';
+import { rolesSelector } from '@/selectors/global';
 
 import styles from './Members.less';
 
 @connect(state => ({
+  roles: rolesSelector(state),
   members: teamMembersSelector(state),
   loading: state.loading.effects['currentTeamMembers/fetch'],
 }))
@@ -33,8 +35,21 @@ class TeamMembers extends PureComponent {
     });
   };
 
+  handleChangeRole = (memberId, role) => {
+    const { dispatch, match } = this.props;
+
+    dispatch({
+      type: 'currentTeamMembers/changeMemberRole',
+      payload: {
+        teamId: match.params.id,
+        member: memberId,
+        roleId: role,
+      },
+    });
+  };
+
   render() {
-    const { members, loading, match } = this.props;
+    const { roles, members, loading, match } = this.props;
 
     const extraContent = (
       <div className={styles.extraContent}>
@@ -66,11 +81,19 @@ class TeamMembers extends PureComponent {
             renderItem={({ user, role }) => (
               <List.Item
                 actions={[
-                  <Select defaultValue={role.name} style={{ width: 140 }} onChange={() => {}}>
-                    <Select.Option value="Administrador">Administrador</Select.Option>
-                    <Select.Option value="Proprietário">Proprietário</Select.Option>
-                    <Select.Option value="Gerente">Gerente</Select.Option>
-                    <Select.Option value="Colaborador">Colaborador</Select.Option>
+                  <Select
+                    defaultValue={role.id}
+                    style={{ width: 140 }}
+                    onChange={roleId => {
+                      this.handleChangeRole(user.id, roleId);
+                    }}
+                  >
+                    {roles.map(r => (
+                      <Select.Option key={r.id} value={r.id}>
+                        {' '}
+                        {r.name}{' '}
+                      </Select.Option>
+                    ))}
                   </Select>,
                   <Popconfirm
                     title="Tem certeza?"

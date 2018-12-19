@@ -1,4 +1,9 @@
-import { queryUserInTeam, queryUserNotInTeam, queryUserInProject, queryUserNotInProject } from '@/services/search';
+import {
+  queryUserInTeam,
+  queryUserNotInTeam,
+  queryUserInProject,
+  queryUserNotInProject,
+} from '@/services/search';
 
 export default {
   namespace: 'search',
@@ -50,7 +55,7 @@ export default {
         type: 'saveUsers',
         payload: response.result,
       });
-    },  
+    },
     *searchUserNotInProject({ payload }, { call, put }) {
       yield put({ type: 'clearUserQuery' });
       const response = yield call(queryUserNotInProject, payload);

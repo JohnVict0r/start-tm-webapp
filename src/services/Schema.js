@@ -8,6 +8,7 @@ import { schema } from 'normalizr';
 const User = new schema.Entity('users');
 const Status = new schema.Entity('status');
 const Role = new schema.Entity('roles');
+const Ted = new schema.Entity('teds');
 const Team = new schema.Entity('teams');
 const TeamMember = new schema.Object({
   user: User,
@@ -48,6 +49,10 @@ const UserOrTeams = new schema.Union(
 
 User.define({
   role: Role,
+});
+
+Ted.define({
+  creator: User,
 });
 
 Team.define({
@@ -118,6 +123,8 @@ const Schemas = {
   STATUS_ARRAY: [Status],
   ROLE: Role,
   ROLE_ARRAY: [Role],
+  TED: Ted,
+  TED_ARRAY: [Ted],
   TEAM: Team,
   TEAM_ARRAY: [Team],
   TEAMMEMBER: TeamMember,

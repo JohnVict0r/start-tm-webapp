@@ -21,17 +21,17 @@ class TeamMembers extends PureComponent {
       },
     });
   }
-  
-  handleDelete= (memberId) => {    
+
+  handleDelete = memberId => {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'currentTeamMembers/deleteMember',
       payload: {
         id: match.params.id,
-        member: memberId
+        member: memberId,
       },
     });
-  }
+  };
 
   render() {
     const { members, loading, match } = this.props;
@@ -72,8 +72,8 @@ class TeamMembers extends PureComponent {
                     <Select.Option value="Gerente">Gerente</Select.Option>
                     <Select.Option value="Colaborador">Colaborador</Select.Option>
                   </Select>,
-                  <Popconfirm 
-                    title="Deseja deletar？" 
+                  <Popconfirm
+                    title="Tem certeza?"
                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                     onConfirm={() => this.handleDelete(user.id)}
                   >

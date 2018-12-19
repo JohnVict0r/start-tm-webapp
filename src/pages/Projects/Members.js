@@ -22,16 +22,16 @@ class ProjectMembers extends PureComponent {
     });
   }
 
-  handleDelete= (memberId) => {
+  handleDelete = memberId => {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'currentProjectMembers/deleteMember',
       payload: {
         id: match.params.id,
-        member: memberId
+        member: memberId,
       },
     });
-  }
+  };
 
   render() {
     const { members, loading, match } = this.props;
@@ -46,7 +46,6 @@ class ProjectMembers extends PureComponent {
       </div>
     );
 
-    
     return (
       <React.Fragment>
         <Card bordered={false} title="Adicionar membro" style={{ marginTop: 24 }}>
@@ -59,7 +58,7 @@ class ProjectMembers extends PureComponent {
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
           extra={extraContent}
-        >          
+        >
           <List
             rowKey="id"
             loading={loading}
@@ -73,14 +72,13 @@ class ProjectMembers extends PureComponent {
                     <Select.Option value="Gerente">Gerente</Select.Option>
                     <Select.Option value="Colaborador">Colaborador</Select.Option>
                   </Select>,
-                  <Popconfirm 
-                    title="Deseja deletar？" 
+                  <Popconfirm
+                    title="Tem certeza?"
                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
                     onConfirm={() => this.handleDelete(user.id)}
                   >
                     <Button type="danger" icon="delete" ghost />
                   </Popconfirm>,
-                  
                 ]}
               >
                 <Skeleton title={false} loading={loading} active>

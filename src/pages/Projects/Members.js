@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Avatar, Skeleton, Select, Popconfirm, Icon } from 'antd';
+import { List, Card, Button, Avatar, Skeleton, Select, Popconfirm, Icon } from 'antd';
 import NewMemberForm from './NewMember';
 import { projectMembersSelector } from './selectors/members';
 import { rolesSelector } from '@/selectors/global';
@@ -51,16 +51,6 @@ class ProjectMembers extends PureComponent {
   render() {
     const { roles, members, loading, match } = this.props;
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Input.Search
-          className={styles.extraContentSearch}
-          placeholder="Buscar"
-          onSearch={() => ({})}
-        />
-      </div>
-    );
-
     return (
       <React.Fragment>
         <Card bordered={false} title="Adicionar membro" style={{ marginTop: 24 }}>
@@ -72,7 +62,6 @@ class ProjectMembers extends PureComponent {
           title="Membros"
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
-          extra={extraContent}
         >
           <List
             rowKey="id"

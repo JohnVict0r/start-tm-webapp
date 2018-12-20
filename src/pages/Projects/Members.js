@@ -1,13 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Avatar, Skeleton, Select } from 'antd';
+import { List, Card, Button, Avatar, Skeleton, Select, Popconfirm, Icon } from 'antd';
 import NewMemberForm from './NewMember';
 import { projectMembersSelector } from './selectors/members';
+import { rolesSelector } from '@/selectors/global';
 
 import styles from './Members.less';
 
 @connect(state => ({
+  roles: rolesSelector(state),
   members: projectMembersSelector(state),
   loading: state.loading.effects['currentProjectMembers/fetch'],
 }))
@@ -22,18 +24,32 @@ class ProjectMembers extends PureComponent {
     });
   }
 
-  render() {
-    const { members, loading, match } = this.props;
+  handleDelete = memberId => {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'currentProjectMembers/deleteMember',
+      payload: {
+        id: match.params.id,
+        member: memberId,
+      },
+    });
+  };
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Input.Search
-          className={styles.extraContentSearch}
-          placeholder="Buscar"
-          onSearch={() => ({})}
-        />
-      </div>
-    );
+  handleChangeRole = (memberId, role) => {
+    const { dispatch, match } = this.props;
+
+    dispatch({
+      type: 'currentProjectMembers/changeMemberRole',
+      payload: {
+        projectId: match.params.id,
+        member: memberId,
+        roleId: role,
+      },
+    });
+  };
+
+  render() {
+    const { roles, members, loading, match } = this.props;
 
     return (
       <React.Fragment>
@@ -46,7 +62,6 @@ class ProjectMembers extends PureComponent {
           title="Membros"
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
-          extra={extraContent}
         >
           <List
             rowKey="id"
@@ -55,13 +70,27 @@ class ProjectMembers extends PureComponent {
             renderItem={({ user, role }) => (
               <List.Item
                 actions={[
-                  <Select defaultValue={role.name} style={{ width: 140 }} onChange={() => {}}>
-                    <Select.Option value="Administrador">Administrador</Select.Option>
-                    <Select.Option value="Proprietário">Proprietário</Select.Option>
-                    <Select.Option value="Gerente">Gerente</Select.Option>
-                    <Select.Option value="Colaborador">Colaborador</Select.Option>
+                  <Select
+                    defaultValue={role.id}
+                    style={{ width: 140 }}
+                    onChange={roleId => {
+                      this.handleChangeRole(user.id, roleId);
+                    }}
+                  >
+                    {roles.map(r => (
+                      <Select.Option key={r.id} value={r.id}>
+                        {' '}
+                        {r.name}{' '}
+                      </Select.Option>
+                    ))}
                   </Select>,
-                  <Button type="danger" icon="delete" ghost />,
+                  <Popconfirm
+                    title="Tem certeza?"
+                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                    onConfirm={() => this.handleDelete(user.id)}
+                  >
+                    <Button type="danger" icon="delete" ghost />
+                  </Popconfirm>,
                 ]}
               >
                 <Skeleton title={false} loading={loading} active>

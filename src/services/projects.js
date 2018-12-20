@@ -23,3 +23,11 @@ export const loadProjectMembers = ({ id }) =>
 
 export const addProjectMember = (id, member) =>
   callApi(`projects/${id}/members`, schema.PROJECTMEMBER_ARRAY).post(member);
+
+export const deleteProjectMember = (projectId, member) =>
+  callApi(`projects/${projectId}/members/${member}`, schema.PROJECTMEMBER_ARRAY).delete();
+
+export const changeProjectMemberRole = ({ projectId, memberId, roleId }) =>
+  callApi(`projects/${projectId}/members/${memberId}/access`, schema.PROJECTMEMBER_ARRAY).put(
+    roleId
+  );

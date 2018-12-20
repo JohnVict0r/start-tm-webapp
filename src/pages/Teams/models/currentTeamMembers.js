@@ -1,4 +1,9 @@
-import { loadTeamMembers, addTeamMember, deleteTeamMember } from '@/services/teams';
+import {
+  loadTeamMembers,
+  addTeamMember,
+  deleteTeamMember,
+  changeTeamMemberRole,
+} from '@/services/teams';
 import { notification } from 'antd';
 
 export default {
@@ -58,6 +63,25 @@ export default {
         });
 
         notification.success({ message: 'Membro removido com sucesso!' });
+      }
+    },
+    *changeMemberRole({ payload }, { call, put }) {
+      const response = yield call(changeTeamMemberRole, payload);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível alterar o papel do membro!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Papel do membro alterado com sucesso!' });
       }
     },
   },

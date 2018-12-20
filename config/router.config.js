@@ -159,6 +159,28 @@ export default [
         ],
       },
 
+      // teds
+      {
+        path: '/teds',
+        name: 'teds',
+        icon: 'reconciliation',
+        routes: [
+          { path: '/teds', redirect: '/teds/explore' },
+          {
+            path: '/teds/explore',
+            name: 'my-teds',
+            icon: 'reconciliation',
+            component: './Teds/TedsList',
+          },
+          {
+            path: '/teds/new',
+            name: 'new-ted',
+            icon: 'plus',
+            component: './Teds/NewTed',
+          },
+        ],
+      },
+
       // teams
       {
         path: '/teams',

@@ -13,9 +13,6 @@ const plugins = [
       dva: {
         hmr: true,
       },
-      targets: {
-        ie: 11,
-      },
       locale: {
         enable: true, // default false
         default: 'pt-BR', // default pt-BR
@@ -57,12 +54,12 @@ if (process.env.APP_TYPE === 'site') {
 export default {
   // add for transfer to umi
   plugins,
-  targets: {
-    ie: 11,
-  },
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
     API_URL: process.env.API_URL || 'http://localhost:8000/api/',
+  },
+  targets: {
+    ie: 11,
   },
   // 路由配置
   routes: pageRoutes,

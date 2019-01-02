@@ -9,18 +9,12 @@
 const glob = require('glob');
 const prettier = require('prettier');
 const fs = require('fs');
+const getPrettierFiles = require('./getPrettierFiles');
 const prettierConfigPath = require.resolve('../.prettierrc');
 
 let didError = false;
 
-let files = [];
-const jsFiles = glob.sync('src/**/*.js*', { ignore: ['**/node_modules/**', 'build/**'] });
-const tsFiles = glob.sync('src/**/*.ts*', { ignore: ['**/node_modules/**', 'build/**'] });
-files = files.concat(jsFiles);
-files = files.concat(tsFiles);
-if (!files.length) {
-  return;
-}
+const files = getPrettierFiles();
 
 files.forEach(file => {
   const options = prettier.resolveConfig.sync(file, {

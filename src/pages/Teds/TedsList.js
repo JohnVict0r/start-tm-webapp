@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Skeleton } from 'antd';
+import { List, Card, Skeleton } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { exploreProjectsSelector } from '../Projects/selectors/projects';
@@ -27,19 +26,6 @@ class TedsList extends PureComponent {
       loading,
     } = this.props;
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
-          Projeto
-        </Button>
-        <Input.Search
-          className={styles.extraContentSearch}
-          placeholder="Buscar"
-          onSearch={() => ({})}
-        />
-      </div>
-    );
-
     const paginationProps = {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
@@ -53,10 +39,9 @@ class TedsList extends PureComponent {
           <Card
             className={styles.listCard}
             bordered={false}
-            title="Meus projetos"
+            title="Minhas TED's"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
-            extra={extraContent}
           >
             <List
               size="large"

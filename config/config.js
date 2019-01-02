@@ -1,5 +1,6 @@
 // https://umijs.org/config/
 import os from 'os';
+import slash from 'slash2';
 import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
@@ -99,7 +100,7 @@ export default {
       const match = context.resourcePath.match(/src(.*)/);
       if (match && match[1]) {
         const antdProPath = match[1].replace('.less', '');
-        const arr = antdProPath
+        const arr = slash(antdProPath)
           .split('/')
           .map(a => a.replace(/([A-Z])/g, '-$1'))
           .map(a => a.toLowerCase());

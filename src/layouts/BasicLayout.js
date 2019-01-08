@@ -14,7 +14,7 @@ import Header from './Header';
 import Context from './MenuContext';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
-
+import { title } from '../defaultSettings';
 import styles from './BasicLayout.less';
 
 // lazy load SettingDrawer
@@ -97,14 +97,14 @@ class BasicLayout extends React.PureComponent {
     const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
 
     if (!currRouterData) {
-      return 'Produtiivo';
+      return title;
     }
     const pageName = formatMessage({
       id: currRouterData.locale || currRouterData.name,
       defaultMessage: currRouterData.name,
     });
 
-    return `${pageName} - Produtiivo`;
+    return `${pageName} - ${title}`;
   };
 
   getLayoutStyle = () => {

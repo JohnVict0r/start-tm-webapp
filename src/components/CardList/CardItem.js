@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Card, Icon } from 'antd';
+import Link from 'umi/link';
 import Ellipsis from '@/components/Ellipsis';
 import AvatarList from '@/components/AvatarList';
 import timeAgo from '@/utils/timeAgo';
@@ -46,7 +47,7 @@ const Due = ({ date }) => {
 
 const priorityClass = ['lower', 'low', 'normal', 'high', 'higher'];
 
-const CardItem = ({ card, isDragging, provided }) => (
+const CardItem = ({ card, isDragging, provided, boardid }) => (
   <div
     className={styles.cardWrapper}
     ref={provided.innerRef}
@@ -62,6 +63,9 @@ const CardItem = ({ card, isDragging, provided }) => (
     >
       <Ellipsis lines={3}>{card.description}</Ellipsis>
       <div className={styles.cardMetaInfo}>
+        <div className={styles.first}>
+          <Link to={`${boardid}/cardList/${card.cardListId}/cards/${card.id}`}><Icon type="edit" /></Link>
+        </div>
         <div className={styles.left}>
           <Due date={card.due} />
         </div>

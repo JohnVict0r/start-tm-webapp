@@ -152,7 +152,7 @@ class Board extends PureComponent {
   };
 
   render() {
-    const { board, loading } = this.props;
+    const { board, loading, match } = this.props;
     const { cardMap, disabledCardlists } = this.state;
 
     if (!board) {
@@ -169,6 +169,8 @@ class Board extends PureComponent {
                   <CardList
                     key={cardlist.id}
                     cardList={cardlist}
+                    board={board}
+                    projectid={match.params.id}
                     createCard={this.createCard}
                     isDisabled={disabledCardlists[cardlist.id]}
                     items={cardMap[cardlist.id]}

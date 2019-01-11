@@ -8,3 +8,7 @@ export const moveCard = ({ cardId, fromCardListId, toCardListId, position }) =>
     to_card_list_id: toCardListId,
     position,
   });
+export const createCard = ({ cardListId,  card }) =>
+  callApi(`cardlists/${cardListId}/cards`, schema.BOARD).post({...card});
+export const updateCard = ({ id,  card }) =>
+  callApi(`cards/${id}`, schema.BOARD).put({...card});

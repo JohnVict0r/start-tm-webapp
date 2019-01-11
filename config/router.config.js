@@ -276,6 +276,16 @@ export default [
                 component: './Projects/Board',
               },
               {
+                path: '/projects/:projectId/boards/:boardId/cardList/:cardlistId/newcard',
+                name: 'project-boards-card',
+                component: './Cards/NewCard',
+              },
+              {
+                path: '/projects/:projectId/boards/:boardId/cardList/:cardlistId/cards/:id',
+                name: 'project-boards-card-edit',
+                component: './Cards/EditCard',
+              },
+              {
                 path: '/projects/:id/workflows',
                 name: 'project-workflows',
                 component: './Projects/Workflows',

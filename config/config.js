@@ -20,6 +20,7 @@ const plugins = [
       },
       dynamicImport: {
         loadingComponent: './components/PageLoading/index',
+        webpackChunkName: true,
       },
       pwa: {
         workboxPluginMode: 'InjectManifest',
@@ -58,6 +59,7 @@ export default {
     APP_TYPE: process.env.APP_TYPE || '',
     API_URL: process.env.API_URL || 'http://localhost:8000/api/',
   },
+  treeShaking: true,
   targets: {
     ie: 11,
   },

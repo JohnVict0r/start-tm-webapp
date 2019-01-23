@@ -290,6 +290,29 @@ export default [
         ],
       },
 
+      // workflows
+      {
+        path: '/workflows',
+        name: 'workflows',
+        icon: 'fork',
+        hideInBreadcrumb: true,
+        hideInMenu: true,
+        routes: [
+          // { path: '/workflows', redirect: '/workflows/explore' },
+          // {
+          //  path: '/workflows/explore',
+          //  name: 'my-workflows',
+          //  icon: 'fork',
+          //  component: './Workflows/WorkflowsList',
+          // },
+          {
+            path: '/workflows/:id',
+            name: 'workflow',
+            component: './Workflows/ViewWorkflow',
+          },
+        ],
+      },
+
       // demos
       // only show in development
       ...(process.env.NODE_ENV === 'development'

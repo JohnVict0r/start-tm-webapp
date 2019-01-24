@@ -2,17 +2,19 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card } from 'antd';
+import { Popover, Card, Form } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
 import styles from './ViewWorkflow.less';
+import NewWorkflowNode from './NewWorkflowNode';
 
 @connect((state, ownProps) => ({
   workflow: state.entities.workflows[ownProps.match.params.id],
   loading: state.loading.effects['workflows/fetchWorkflow'],
 }))
+@Form.create()
 class ViewWorkflow extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -23,7 +25,7 @@ class ViewWorkflow extends Component {
   }
 
   render() {
-    const { workflow, match } = this.props;
+    const { workflow, match, form } = this.props;
 
     if (!workflow) {
       return <PageLoading />;
@@ -67,14 +69,22 @@ class ViewWorkflow extends Component {
       <Fragment>
         <PageHeaderWrapper hiddenBreadcrumb content={content}>
           <Card
+            bordered={false}
+            title="Adicionar Etapas"
+            style={{ marginTop: 24 }}
+          >
+            <NewWorkflowNode
+              form={form}
+              onSubmit={this.handleSubmit}
+            />
+          </Card>
+          <Card
             className={styles.standardList}
             bordered={false}
             title="Etapas"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
-          >
-            etapas
-          </Card>
+          />
         </PageHeaderWrapper>
       </Fragment>
     );

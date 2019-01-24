@@ -1,18 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { formatMessage } from 'umi/locale';
-import { Card, Form } from 'antd';
+import { Card } from 'antd';
 import CardForm from '@/components/Form/Card';
-import { boardUsersSelector } from '@/selectors/board';
 
 @connect((state, ownProps) => ({
   validation: state.createBoard.validation,
   cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
   submitting: state.loading.effects['saveCard/save'],
-  users:boardUsersSelector(state)
 }))
-@Form.create()
-class NewCard extends PureComponent {
+class ViewCard extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
@@ -57,8 +54,6 @@ class NewCard extends PureComponent {
       form,
       cardList,
       submitting,
-      match,
-      users
     } = this.props;
 
     return (
@@ -66,10 +61,10 @@ class NewCard extends PureComponent {
         <p style={{fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500}}>
           {cardList.name}
         </p>
-        <CardForm form={form} users={users} back={`/projects/${match.params.projectId}/boards/${match.params.boardId}`} onSubmit={this.handleSubmit} submiting={submitting} />
+        <CardForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />
       </Card>
     );
   }
 }
 
-export default NewCard;
+export default ViewCard;

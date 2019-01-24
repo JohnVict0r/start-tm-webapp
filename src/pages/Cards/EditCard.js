@@ -3,12 +3,14 @@ import { connect } from 'dva';
 import { formatMessage } from 'umi/locale';
 import CardForm from '@/components/Form/Card';
 import { Card, Form } from 'antd';
+import { boardUsersSelector } from '@/selectors/board';
 
 @connect((state, ownProps) => ({
   validation: state.createBoard.validation,
   cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
   card: state.entities.cards[ownProps.match.params.id],
   submitting: state.loading.effects['saveCard/save'],
+  users:boardUsersSelector(state)
 }))
 @Form.create()
 class EditCard extends PureComponent {
@@ -56,7 +58,9 @@ class EditCard extends PureComponent {
       form,
       cardList,
       submitting,
-      card
+      card,
+      match,
+      users
     } = this.props;
 
     return (
@@ -64,7 +68,7 @@ class EditCard extends PureComponent {
         <p style={{fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500}}>
           {cardList.name}
         </p>
-        <CardForm form={form} onSubmit={this.handleSubmit} current={card} submiting={submitting} />
+        <CardForm form={form} onSubmit={this.handleSubmit} users={users} back={`/projects/${match.params.projectId}/boards/${match.params.boardId}`} current={card} submiting={submitting} />
       </Card>
     );
   }

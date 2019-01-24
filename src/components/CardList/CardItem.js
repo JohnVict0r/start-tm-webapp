@@ -64,7 +64,7 @@ const CardItem = ({ card, isDragging, provided, boardid }) => (
       <Ellipsis lines={3}>{card.description}</Ellipsis>
       <div className={styles.cardMetaInfo}>
         <div className={styles.first}>
-          <Link to={`${boardid}/cardList/${card.cardListId}/cards/${card.id}`}><Icon type="edit" /></Link>
+          <Link to={`${boardid}/cardList/${card.cardListId}/cards/${card.id}`}><Icon type="eye-o" /></Link>
         </div>
         <div className={styles.left}>
           <Due date={card.due} />

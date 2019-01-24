@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {Button, DatePicker, Form, Input, Select} from 'antd';
+import Link from 'umi/link';
 import moment from 'moment';
 import { formatMessage } from 'umi/locale';
 import {priorities} from '@/utils/labels';
@@ -15,6 +16,8 @@ class CardForm extends PureComponent {
       submitting,
       current,
       onSubmit,
+      users,
+      back
     } = this.props;
 
     const formItemLayout = {
@@ -69,9 +72,23 @@ class CardForm extends PureComponent {
               ))}
             </Select>)}
         </Form.Item>
+        <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labeluser' })}>
+          {getFieldDecorator('user', {
+            initialValue: current.users,
+          })
+          (
+            <Select optionFilterProp='search' mode='multiple' placeholder={formatMessage({ id: 'app.card.labeluser' })}>
+              {users.map(r => (
+                <Select.Option key={r.id} search={r.name}>{r.name}</Select.Option>
+              ))}
+            </Select>)}
+        </Form.Item>
         <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
           <Button type="primary" htmlType="submit" loading={submitting}>
             {formatMessage({ id: current.id ? 'app.card.edit' : 'app.card.new' })}
+          </Button>
+          <Button style={{ marginLeft: '12px' }} type="info" htmlType="button">
+            <Link to={back}>{formatMessage({id:'app.card.back'})}</Link>
           </Button>
         </Form.Item>
       </Form>

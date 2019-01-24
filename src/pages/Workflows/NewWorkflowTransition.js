@@ -1,10 +1,18 @@
 import React, { PureComponent } from 'react';
-import { Input, Form, Button, Row, Col, Checkbox, Select } from 'antd';
+import { Form, Button, Row, Col, Select } from 'antd';
 import { formatMessage } from 'umi/locale';
 
-import styles from './NewWorkflowNode.less';
+import styles from './NewWorkflowTransition.less';
 
-class NewWorkflowNode extends PureComponent {
+const transitions = ['etapa a','etapa b', 'etapa c'];
+
+class NewWorkflowTransition extends PureComponent {
+  state = {
+    selectedNodeOut: false,
+    nodeout:[],
+    nodein:[]
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -36,11 +44,28 @@ class NewWorkflowNode extends PureComponent {
     });
   };
 
+  handleSelectChangeNodeOut = (value) => {
+    if(value) {
+      this.setState({
+        selectedNodeOut: true,
+        nodeout: value
+      })
+    }
+  }
+
+  handleSelectChangeNodeIn= (value) => {
+    if(value){
+      this.setState({nodein: value})
+    }
+  }
+
   render() {
     const {
       form: { getFieldDecorator },
       submitting,
     } = this.props;
+
+    const { nodein, nodeout, selectedNodeOut} = this.state;
 
     const { Option } = Select;
 
@@ -49,7 +74,7 @@ class NewWorkflowNode extends PureComponent {
         <Row gutter={16}>
           <Col lg={9} md={24}>
             <Form.Item>
-              {getFieldDecorator('name', {
+              {getFieldDecorator('nodeout', {
                 rules: [
                   {
                     required: true,
@@ -57,23 +82,22 @@ class NewWorkflowNode extends PureComponent {
                   },
                 ],
               })(
-                <Input
-                  maxLength={255}
-                  placeholder={formatMessage({ id: 'app.workflow.form.node.name' })}
-                />
+                <Select
+                  placeholder={formatMessage({ id: 'app.workflow.form.transition.nodeout' })}
+                  onChange={this.handleSelectChangeNodeOut}
+                >
+                  {transitions.filter(
+                    item => item !== nodein
+                  ).map(node =>
+                    <Option value={node} key={node}>{node}</Option>
+                  )}
+                </Select>
               )}
-            </Form.Item>
-            <Form.Item>
-              <Checkbox
-                onChange={this.handleChange}
-              >
-                {formatMessage({ id: 'app.workflow.form.node.check' })}
-              </Checkbox>
             </Form.Item>
           </Col>
           <Col lg={12} md={24}>
             <Form.Item>
-              {getFieldDecorator('status', {
+              {getFieldDecorator('nodein', {
                 rules: [
                   {
                     required: true,
@@ -82,14 +106,15 @@ class NewWorkflowNode extends PureComponent {
                 ],
               })(
                 <Select
-                  placeholder={formatMessage({ id: 'app.workflow.form.node.status' })}
-                  onChange={this.handleSelectChange}
+                  placeholder={formatMessage({ id: 'app.workflow.form.transition.nodein' })}
+                  onChange={this.handleSelectChangeNodeIn}
+                  disabled={!selectedNodeOut}
                 >
-                  <Option value="a">A fazer</Option>
-                  <Option value="b">Fazendo</Option>
-                  <Option value="c">Feito</Option>
-                  <Option value="d">Pausado</Option>
-                  <Option value="e">Cancelado</Option>
+                  {transitions.filter(
+                    item => item !== nodeout
+                  ).map(node =>
+                    <Option value={node} key={node}>{node}</Option>
+                  )}
                 </Select>
               )}
             </Form.Item>
@@ -107,4 +132,4 @@ class NewWorkflowNode extends PureComponent {
   }
 }
 
-export default NewWorkflowNode;
+export default NewWorkflowTransition;

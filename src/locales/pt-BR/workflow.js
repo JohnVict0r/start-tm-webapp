@@ -6,6 +6,6 @@ export default {
   'app.workflow.form.node.check': 'Pode Criar Card?',
   'app.workflow.form.transition.nodeout': 'Etapa de Saída',
   'app.workflow.form.transition.nodeout-message': 'Por favor escolha uma etapa de saída!',
-  'app.workflow.form.trasition.nodein': 'Etapa de Entrada',
-  'app.workflow.form.trasition.nodein-message': 'Por favor escolha uma etapa de entrada!',
+  'app.workflow.form.transition.nodein': 'Etapa de Entrada',
+  'app.workflow.form.transition.nodein-message': 'Por favor escolha uma etapa de entrada!',
 };

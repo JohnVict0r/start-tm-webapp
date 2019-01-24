@@ -9,6 +9,7 @@ import PageLoading from '@/components/PageLoading';
 
 import styles from './ViewWorkflow.less';
 import NewWorkflowNode from './NewWorkflowNode';
+import NewWorkflowTransition from './NewWorkflowTransition';
 
 @connect((state, ownProps) => ({
   workflow: state.entities.workflows[ownProps.match.params.id],
@@ -42,7 +43,7 @@ class ViewWorkflow extends Component {
               mouseEnterDelay={1}
             >
               <Link to={`${match.url}`}>
-                <Ellipsis lines={1} tooltip>
+                <Ellipsis lines={1}>
                   {workflow.name}
                 </Ellipsis>
               </Link>
@@ -74,6 +75,16 @@ class ViewWorkflow extends Component {
             style={{ marginTop: 24 }}
           >
             <NewWorkflowNode
+              form={form}
+              onSubmit={this.handleSubmit}
+            />
+          </Card>
+          <Card
+            bordered={false}
+            title="Adicionar Transição"
+            style={{ marginTop: 24 }}
+          >
+            <NewWorkflowTransition
               form={form}
               onSubmit={this.handleSubmit}
             />

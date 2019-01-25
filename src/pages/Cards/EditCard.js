@@ -10,7 +10,7 @@ import { boardUsersSelector } from '@/selectors/board';
   cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
   card: state.entities.cards[ownProps.match.params.id],
   submitting: state.loading.effects['saveCard/save'],
-  users:boardUsersSelector(state)
+  users: boardUsersSelector(state),
 }))
 @Form.create()
 class EditCard extends PureComponent {
@@ -36,28 +36,28 @@ class EditCard extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, cardList, dispatch,card,match } = this.props;
+    const { form, cardList, dispatch, card, match } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        values.members.map(r=> {
+        values.members.map(r => {
           if (card.members.indexOf(r) < 0) {
             dispatch({
               type: 'saveCard/assigin',
               payload: {
                 id: card.id,
-                userId:r
+                userId: r,
               },
             });
           }
           return false;
         });
-        card.members.map(r=> {
+        card.members.map(r => {
           if (values.members.indexOf(r) < 0) {
             dispatch({
               type: 'saveCard/unAssigin',
               payload: {
                 id: card.id,
-                userId:r
+                userId: r,
               },
             });
           }
@@ -66,11 +66,11 @@ class EditCard extends PureComponent {
         dispatch({
           type: 'saveCard/save',
           payload: {
-            id:card.id,
+            id: card.id,
             cardListId: cardList.id,
-            boardId:match.params.boardId,
-            projectId:match.params.projectId,
-            card: {...values },
+            boardId: match.params.boardId,
+            projectId: match.params.projectId,
+            card: { ...values },
           },
         });
       }
@@ -78,21 +78,23 @@ class EditCard extends PureComponent {
   };
 
   render() {
-    const {
-      form,
-      cardList,
-      submitting,
-      card,
-      match,
-      users
-    } = this.props;
+    const { form, cardList, submitting, card, match, users } = this.props;
 
     return (
       <Card bordered={false} title={formatMessage({ id: 'app.card.new' })}>
-        <p style={{fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500}}>
+        <p
+          style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500 }}
+        >
           {cardList.name}
         </p>
-        <CardForm form={form} onSubmit={this.handleSubmit} users={users} back={`/projects/${match.params.projectId}/boards/${match.params.boardId}`} current={card} submiting={submitting} />
+        <CardForm
+          form={form}
+          onSubmit={this.handleSubmit}
+          users={users}
+          back={`/projects/${match.params.projectId}/boards/${match.params.boardId}`}
+          current={card}
+          submiting={submitting}
+        />
       </Card>
     );
   }

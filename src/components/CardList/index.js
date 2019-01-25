@@ -7,11 +7,15 @@ import Link from 'umi/link';
 import CardItem from './CardItem';
 import styles from './index.less';
 
-const CardList = ({ cardList, isDisabled, items,board,projectid }) => (
+const CardList = ({ cardList, isDisabled, items, board, projectid }) => (
   <div className={styles.column}>
     <div className={styles.header}>
       <h4 className={styles.title}>{cardList.name}</h4>
-      {cardList.canCreateCard && <Link to={`/projects/${projectid}/boards/${board.id}/cardList/${cardList.id}/newcard`}><Button className={styles.add} icon="plus" size="small" /></Link>}
+      {cardList.canCreateCard && (
+        <Link to={`/projects/${projectid}/boards/${board.id}/cardList/${cardList.id}/newcard`}>
+          <Button className={styles.add} icon="plus" size="small" />
+        </Link>
+      )}
     </div>
     <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
       <List
@@ -46,12 +50,12 @@ const List = ({ cards, listId, listType, isDropDisabled, board }) => (
 
 class InnerCardList extends Component {
   shouldComponentUpdate(nextProps) {
-    const { cards  } = this.props;
+    const { cards } = this.props;
     return nextProps.cards !== cards;
   }
 
   render() {
-    const { cards,board } = this.props;
+    const { cards, board } = this.props;
 
     return cards.map((card, index) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>

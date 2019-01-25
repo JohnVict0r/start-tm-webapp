@@ -70,7 +70,6 @@ export default {
         router.push(`/projects/${payload.projectId}/boards/${payload.boardId}`);
       }
     },
-
   },
 
   reducers: {

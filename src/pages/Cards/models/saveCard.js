@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
-import { createCard, updateCard, assignUser,unAssignUser } from '@/services/cards';
+import { createCard, updateCard, assignUser, unAssignUser } from '@/services/cards';
 
 export default {
   namespace: 'saveCard',
@@ -34,7 +34,6 @@ export default {
       }
     },
     *assigin({ payload }, { call, put }) {
-
       const response = yield call(assignUser, payload);
       if (response.errors) {
         yield put({
@@ -50,7 +49,6 @@ export default {
     },
     *unAssigin({ payload }, { call, put }) {
       const response = yield call(unAssignUser, payload);
-      console.log(response);
       if (response.errors) {
         yield put({
           type: 'handleError',

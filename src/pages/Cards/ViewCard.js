@@ -10,7 +10,6 @@ import CardForm from '@/components/Form/Card';
   submitting: state.loading.effects['saveCard/save'],
 }))
 class ViewCard extends PureComponent {
-
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -33,16 +32,16 @@ class ViewCard extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, cardList, dispatch,match } = this.props;
+    const { form, cardList, dispatch, match } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         dispatch({
           type: 'saveCard/save',
           payload: {
             cardListId: cardList.id,
-            boardId:match.params.boardId,
-            projectId:match.params.projectId,
-            card: {...values},
+            boardId: match.params.boardId,
+            projectId: match.params.projectId,
+            card: { ...values },
           },
         });
       }
@@ -50,15 +49,13 @@ class ViewCard extends PureComponent {
   };
 
   render() {
-    const {
-      form,
-      cardList,
-      submitting,
-    } = this.props;
+    const { form, cardList, submitting } = this.props;
 
     return (
       <Card bordered={false} title={formatMessage({ id: 'app.card.new' })}>
-        <p style={{fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500}}>
+        <p
+          style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500 }}
+        >
           {cardList.name}
         </p>
         <CardForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />

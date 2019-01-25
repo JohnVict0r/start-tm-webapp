@@ -12,6 +12,10 @@ export const createCard = ({ cardListId,  card }) =>
   callApi(`cardlists/${cardListId}/cards`, schema.BOARD).post({...card});
 export const updateCard = ({ id,  card }) =>
   callApi(`cards/${id}`, schema.BOARD).put({...card});
+export const assignUser = ({ id,  userId }) =>
+  callApi(`cards/${id}/members/${userId}`, schema.BOARD).put();
+export const unAssignUser = ({ id,  userId }) =>
+  callApi(`cards/${id}/members/${userId}`, schema.BOARD).delete();
 export const createComment = ({ id,  comment }) =>
   callApi(`cards/${id}/coments`, schema.BOARD).put({'comment':comment});
 export const listComments = ({ id}) =>

@@ -73,13 +73,13 @@ class CardForm extends PureComponent {
             </Select>)}
         </Form.Item>
         <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labeluser' })}>
-          {getFieldDecorator('user', {
-            initialValue: current.users,
+          {getFieldDecorator('members', {
+            initialValue: current.members,
           })
           (
             <Select optionFilterProp='search' mode='multiple' placeholder={formatMessage({ id: 'app.card.labeluser' })}>
               {users.map(r => (
-                <Select.Option key={r.id} search={r.name}>{r.name}</Select.Option>
+                <Select.Option key={r.id} value={r.id} search={r.name}>{r.name}</Select.Option>
               ))}
             </Select>)}
         </Form.Item>

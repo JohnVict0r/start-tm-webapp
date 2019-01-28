@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card, Form } from 'antd';
+import { Popover, Card, Form, Table, Divider, Tag, Icon } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
@@ -10,6 +10,68 @@ import PageLoading from '@/components/PageLoading';
 import styles from './ViewWorkflow.less';
 import NewWorkflowNode from './NewWorkflowNode';
 import NewWorkflowTransition from './NewWorkflowTransition';
+
+const columns = [{
+  title: 'Etapa',
+  dataIndex: 'node',
+  key: 'node'
+}, {
+  title: 'Transições',
+  dataIndex: 'trasitions',
+  key: 'transitions',
+  render: transitions  => (
+    <span>
+      {transitions.map(transition => <Tag color="blue" key={transition}>{'>>>'}{transition}</Tag>)}
+    </span>
+  ),
+}, {
+  title: 'Status',
+  dataIndex: 'status',
+  key: 'status',
+}, {
+  title: 'Criar Card?',
+  key: 'cardManager',
+  dataIndex: 'cardManager',
+  align: 'center',
+  render: cardManager => (
+    (cardManager==='true') ? (
+      <Icon type="check" />
+    ) : (
+      <Icon type="close" />
+    )
+  ),
+}, {
+  title: 'Action',
+  key: 'action',
+  align: 'center',
+  render: () => (
+    <span>
+      <a href="">Editar</a>
+      <Divider type="vertical" />
+      <a href="">Delete</a>
+    </span>
+  ),
+}];
+
+const data = [{
+  key: '1',
+  node: 'em espera',
+  trasitions: ['feito', 'fazendo'],
+  status: 'A fazer',
+  cardManager: 'true',
+}, {
+  key: '2',
+  node: 'fazendo',
+  trasitions: ['em espera', 'feito'],
+  status: 'Fazendo',
+  cardManager: 'true',
+}, {
+  key: '3',
+  node: 'feito',
+  trasitions: [],
+  status: 'Feito',
+  cardManager: 'false',
+}];
 
 @connect((state, ownProps) => ({
   workflow: state.entities.workflows[ownProps.match.params.id],
@@ -95,7 +157,9 @@ class ViewWorkflow extends Component {
             title="Etapas"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
-          />
+          >
+            <Table style={{ marginTop: 24 }} columns={columns} dataSource={data} />
+          </Card>
         </PageHeaderWrapper>
       </Fragment>
     );

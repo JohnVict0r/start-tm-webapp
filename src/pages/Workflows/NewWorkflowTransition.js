@@ -4,14 +4,13 @@ import { formatMessage } from 'umi/locale';
 
 import styles from './NewWorkflowTransition.less';
 
-const transitions = ['etapa a','etapa b', 'etapa c'];
-
+@Form.create()
 class NewWorkflowTransition extends PureComponent {
   state = {
     selectedNodeOut: false,
-    nodeout:[],
-    nodein:[]
-  }
+    nodeout: [],
+    nodein: [],
+  };
 
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
@@ -35,37 +34,45 @@ class NewWorkflowTransition extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, onSubmit } = this.props;
+    const { form, workflowId } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        onSubmit(err, values);
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'workflows/addWorkflowTransition',
+          payload: {
+            id: workflowId,
+            node: values,
+          },
+        });
         form.resetFields();
       }
     });
   };
 
-  handleSelectChangeNodeOut = (value) => {
-    if(value) {
+  handleSelectChangeNodeOut = value => {
+    if (value) {
       this.setState({
         selectedNodeOut: true,
-        nodeout: value
-      })
+        nodeout: value,
+      });
     }
-  }
+  };
 
-  handleSelectChangeNodeIn= (value) => {
-    if(value){
-      this.setState({nodein: value})
+  handleSelectChangeNodeIn = value => {
+    if (value) {
+      this.setState({ nodein: value });
     }
-  }
+  };
 
   render() {
     const {
       form: { getFieldDecorator },
       submitting,
+      nodes,
     } = this.props;
 
-    const { nodein, nodeout, selectedNodeOut} = this.state;
+    const { nodein, nodeout, selectedNodeOut } = this.state;
 
     const { Option } = Select;
 
@@ -86,11 +93,13 @@ class NewWorkflowTransition extends PureComponent {
                   placeholder={formatMessage({ id: 'app.workflow.form.transition.nodeout' })}
                   onChange={this.handleSelectChangeNodeOut}
                 >
-                  {transitions.filter(
-                    item => item !== nodein
-                  ).map(node =>
-                    <Option value={node} key={node}>{node}</Option>
-                  )}
+                  {nodes
+                    .filter(item => item.id !== nodein)
+                    .map(node => (
+                      <Option value={node.id} key={node.id}>
+                        {node.name}
+                      </Option>
+                    ))}
                 </Select>
               )}
             </Form.Item>
@@ -110,11 +119,13 @@ class NewWorkflowTransition extends PureComponent {
                   onChange={this.handleSelectChangeNodeIn}
                   disabled={!selectedNodeOut}
                 >
-                  {transitions.filter(
-                    item => item !== nodeout
-                  ).map(node =>
-                    <Option value={node} key={node}>{node}</Option>
-                  )}
+                  {nodes
+                    .filter(item => item.id !== nodeout)
+                    .map(node => (
+                      <Option value={node.id} key={node.id}>
+                        {node.name}
+                      </Option>
+                    ))}
                 </Select>
               )}
             </Form.Item>

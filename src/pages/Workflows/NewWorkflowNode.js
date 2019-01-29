@@ -4,7 +4,12 @@ import { formatMessage } from 'umi/locale';
 
 import styles from './NewWorkflowNode.less';
 
+@Form.create()
 class NewWorkflowNode extends PureComponent {
+  state = {
+    checkCanCreateCard: false,
+  };
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -27,12 +32,26 @@ class NewWorkflowNode extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, onSubmit } = this.props;
+    const { form, workflowId } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        onSubmit(err, values);
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'workflows/addWorkflowNode',
+          payload: {
+            id: workflowId,
+            node: values,
+          },
+        });
         form.resetFields();
       }
+    });
+  };
+
+  handleChange = () => {
+    const { checkCanCreateCard } = this.state;
+    this.setState({
+      checkCanCreateCard: !checkCanCreateCard,
     });
   };
 
@@ -41,6 +60,8 @@ class NewWorkflowNode extends PureComponent {
       form: { getFieldDecorator },
       submitting,
     } = this.props;
+
+    const { checkCanCreateCard } = this.state;
 
     const { Option } = Select;
 
@@ -64,9 +85,7 @@ class NewWorkflowNode extends PureComponent {
               )}
             </Form.Item>
             <Form.Item>
-              <Checkbox
-                onChange={this.handleChange}
-              >
+              <Checkbox checked={checkCanCreateCard} onChange={this.handleChange}>
                 {formatMessage({ id: 'app.workflow.form.node.check' })}
               </Checkbox>
             </Form.Item>

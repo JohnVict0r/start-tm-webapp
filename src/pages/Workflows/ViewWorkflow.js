@@ -11,6 +11,7 @@ import styles from './ViewWorkflow.less';
 import NewWorkflowNode from './NewWorkflowNode';
 import NewWorkflowTransition from './NewWorkflowTransition';
 import { makeWorkflowsSelector } from './selectors/workflows';
+import { makeStatus } from './selectors/status';
 
 const columns = [
   {
@@ -65,6 +66,7 @@ const columns = [
   return {
     workflow: workflowSelector(state),
     loading: state.loading.effects['workflows/fetchWorkflow'],
+    status: makeStatus(state),
   };
 })
 class ViewWorkflow extends Component {
@@ -75,6 +77,32 @@ class ViewWorkflow extends Component {
       payload: match.params.id,
     });
   }
+
+  handleSubmitWorkflowNode = (err, values) => {
+    if (!err) {
+      const { dispatch, workflow } = this.props;
+      dispatch({
+        type: 'workflows/addWorkflowNode',
+        payload: {
+          id: workflow.id,
+          node: values,
+        },
+      });
+    }
+  };
+
+  handleSubmitWorkflowTransition = (err, values) => {
+    if (!err) {
+      const { dispatch, workflow } = this.props;
+      dispatch({
+        type: 'workflows/addWorkflowNode',
+        payload: {
+          id: workflow.id,
+          node: values,
+        },
+      });
+    }
+  };
 
   render() {
     const { workflow, match } = this.props;
@@ -118,13 +146,13 @@ class ViewWorkflow extends Component {
       <Fragment>
         <PageHeaderWrapper hiddenBreadcrumb content={content}>
           <Card bordered={false} title="Adicionar Etapas" style={{ marginTop: 24 }}>
-            <NewWorkflowNode workflowId={workflow.id} onSubmit={this.handleSubmit} />
+            <NewWorkflowNode onSubmit={this.handleSubmitWorkflowNode} />
           </Card>
           <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
             <NewWorkflowTransition
               workflowId={workflow.id}
               nodes={workflow.nodes}
-              onSubmit={this.handleSubmit}
+              onSubmit={this.handleSubmitWorkflowTransition}
             />
           </Card>
           <Card

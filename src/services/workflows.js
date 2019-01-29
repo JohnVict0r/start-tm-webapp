@@ -16,3 +16,6 @@ export const createWorkflowForTeam = (teamId, { name, description }) =>
 
 export const createWorkflowForProject = (projectId, { name, description }) =>
   callApi(`projects/${projectId}/workflows`, schema.WORKFLOW).post({ name, description });
+
+export const createWorkflowNode = (workflowId, node) =>
+  callApi(`workflows/${workflowId}/wf_nodes`, schema.WORKFLOWNODE).post(node);

@@ -1,4 +1,5 @@
-import { loadWorkflow } from '@/services/workflows';
+import { loadWorkflow, createWorkflowNode } from '@/services/workflows';
+import { notification } from 'antd';
 
 const initialPaginatioState = {
   count: 0,
@@ -35,6 +36,25 @@ export default {
         },
       });
     },
+    *addWorkflowNode({ payload }, { call, put }) {
+      const response = yield call(createWorkflowNode, payload.id, payload.node);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível Adicionar a etapa!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Etapa adicionada com sucesso!' });
+      }
+    }
   },
 
   reducers: {

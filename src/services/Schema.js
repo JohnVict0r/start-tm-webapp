@@ -133,6 +133,8 @@ const Schemas = {
   PROJECTMEMBER_ARRAY: [ProjectMember],
   WORKFLOW: Workflow,
   WORKFLOW_ARRAY: [Workflow],
+  WORKFLOWNODE: WorkflowNode,
+  WORKFLOWNODE_ARRAY: [WorkflowNode],
   PROJECT: Project,
   PROJECT_ARRAY: [Project],
   BOARD: Board,

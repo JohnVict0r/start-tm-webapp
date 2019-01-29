@@ -32,17 +32,10 @@ class NewWorkflowNode extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, workflowId } = this.props;
+    const { form, onSubmit } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch } = this.props;
-        dispatch({
-          type: 'workflows/addWorkflowNode',
-          payload: {
-            id: workflowId,
-            node: values,
-          },
-        });
+        onSubmit(err, values);
         form.resetFields();
       }
     });
@@ -85,14 +78,16 @@ class NewWorkflowNode extends PureComponent {
               )}
             </Form.Item>
             <Form.Item>
-              <Checkbox checked={checkCanCreateCard} onChange={this.handleChange}>
-                {formatMessage({ id: 'app.workflow.form.node.check' })}
-              </Checkbox>
+              {getFieldDecorator('canCreateCard')(
+                <Checkbox checked={checkCanCreateCard} onChange={this.handleChange}>
+                  {formatMessage({ id: 'app.workflow.form.node.check' })}
+                </Checkbox>
+              )}
             </Form.Item>
           </Col>
           <Col lg={12} md={24}>
             <Form.Item>
-              {getFieldDecorator('status', {
+              {getFieldDecorator('status_id', {
                 rules: [
                   {
                     required: true,
@@ -104,11 +99,12 @@ class NewWorkflowNode extends PureComponent {
                   placeholder={formatMessage({ id: 'app.workflow.form.node.status' })}
                   onChange={this.handleSelectChange}
                 >
-                  <Option value="a">A fazer</Option>
-                  <Option value="b">Fazendo</Option>
-                  <Option value="c">Feito</Option>
-                  <Option value="d">Pausado</Option>
-                  <Option value="e">Cancelado</Option>
+                  {/* TODO Buscar status do entities.status */}
+                  <Option value="1">A fazer</Option>
+                  <Option value="2">Fazendo</Option>
+                  <Option value="3">Feito</Option>
+                  <Option value="4">Pausado</Option>
+                  <Option value="5">Cancelado</Option>
                 </Select>
               )}
             </Form.Item>

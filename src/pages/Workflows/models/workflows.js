@@ -1,4 +1,4 @@
-import { loadWorkflow, createWorkflowNode } from '@/services/workflows';
+import { loadWorkflow, createWorkflowNode, createWorkflowTransition } from '@/services/workflows';
 import { notification } from 'antd';
 
 const initialPaginatioState = {
@@ -54,7 +54,26 @@ export default {
 
         notification.success({ message: 'Etapa adicionada com sucesso!' });
       }
-    }
+    },
+    *addWorkflowTransition({ payload }, { call, put }) {
+      const response = yield call(createWorkflowTransition, payload.id, payload.transition);
+      console.log('chegou aqui!');
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível Adicionar a Transição!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Transição adicionada com sucesso!' });
+      }
+    },
   },
 
   reducers: {

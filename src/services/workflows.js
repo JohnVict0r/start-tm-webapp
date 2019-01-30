@@ -19,3 +19,6 @@ export const createWorkflowForProject = (projectId, { name, description }) =>
 
 export const createWorkflowNode = (workflowId, node) =>
   callApi(`workflows/${workflowId}/wf_nodes`, schema.WORKFLOWNODE).post(node);
+
+export const createWorkflowTransition = (workflowId, transition) =>
+  callApi(`workflows/${workflowId}/wf_transitions`, schema.WORKFLOWTRANSITION).post(transition);

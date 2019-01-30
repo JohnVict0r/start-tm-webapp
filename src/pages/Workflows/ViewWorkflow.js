@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card, Table, Divider, Tag, Icon } from 'antd';
+import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
@@ -13,60 +13,12 @@ import NewWorkflowTransition from './NewWorkflowTransition';
 import { makeWorkflowsSelector } from './selectors/workflows';
 import { makeStatus } from './selectors/status';
 
-const columns = [
-  {
-    title: 'Etapa',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Transições',
-    dataIndex: 'trasitions',
-    key: 'transitions',
-    render: transitions => (
-      <span>
-        {transitions.map(transition => (
-          <Tag color="blue" key={transition}>
-            {'>>>'}
-            {transition}
-          </Tag>
-        ))}
-      </span>
-    ),
-  },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
-    render: status => <Tag color={status.color}>{status.displayName}</Tag>,
-  },
-  {
-    title: 'Criar Card?',
-    key: 'canCreateCard',
-    dataIndex: 'canCreateCard',
-    align: 'center',
-    render: canCreateCard => (canCreateCard ? <Icon type="check" /> : <Icon type="close" />),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    align: 'center',
-    render: () => (
-      <span>
-        <a href="">Editar</a>
-        <Divider type="vertical" />
-        <a href="">Delete</a>
-      </span>
-    ),
-  },
-];
-
 @connect((state, ownProps) => {
   const workflowSelector = makeWorkflowsSelector({ workflowId: ownProps.match.params.id });
   return {
     workflow: workflowSelector(state),
-    loading: state.loading.effects['workflows/fetchWorkflow'],
     status: makeStatus(state),
+    loading: state.loading.effects['workflows/fetchWorkflow'],
   };
 })
 class ViewWorkflow extends Component {
@@ -92,16 +44,28 @@ class ViewWorkflow extends Component {
   };
 
   handleSubmitWorkflowTransition = (err, values) => {
+    console.log('chegou no handlesubmit');
     if (!err) {
+      console.log('não teve erros!');
       const { dispatch, workflow } = this.props;
       dispatch({
-        type: 'workflows/addWorkflowNode',
+        type: 'workflows/addWorkflowTransition',
         payload: {
           id: workflow.id,
-          node: values,
+          transition: values,
         },
       });
     }
+  };
+
+  handleDelete = nodeId => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'workflows/deleteWorkflowNode',
+      payload: {
+        id: nodeId,
+      },
+    });
   };
 
   render() {
@@ -129,6 +93,55 @@ class ViewWorkflow extends Component {
       </div>
     );
 
+    const columns = [
+      {
+        title: 'Etapa',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Transições',
+        dataIndex: 'trasitions',
+        key: 'transitions',
+        render: transitions => (
+          <span>
+            {transitions.map(transition => (
+              <Tag color="blue" key={transition}>
+                {'>>>'}
+                {transition}
+              </Tag>
+            ))}
+          </span>
+        ),
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        render: status => <Tag color={status.color}>{status.displayName}</Tag>,
+      },
+      {
+        title: 'Criar Card?',
+        key: 'canCreateCard',
+        dataIndex: 'canCreateCard',
+        align: 'center',
+        render: canCreateCard => (canCreateCard ? <Icon type="check" /> : <Icon type="close" />),
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        align: 'center',
+        render: record => (
+          <span>
+            <a href="">Editar</a>
+            <Divider type="vertical" />
+            <Popconfirm title="Sure to delete?" onConfirm={this.handleDelete(record.id)}>
+              <a>Delete</a>
+            </Popconfirm>
+          </span>
+        ),
+      },
+    ];
     /*
     const extraContent = (
       <div className={styles.extraContent}>
@@ -150,7 +163,6 @@ class ViewWorkflow extends Component {
           </Card>
           <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
             <NewWorkflowTransition
-              workflowId={workflow.id}
               nodes={workflow.nodes}
               onSubmit={this.handleSubmitWorkflowTransition}
             />

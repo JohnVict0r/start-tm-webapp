@@ -34,17 +34,10 @@ class NewWorkflowTransition extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, workflowId } = this.props;
+    const { form, onSubmit } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch } = this.props;
-        dispatch({
-          type: 'workflows/addWorkflowTransition',
-          payload: {
-            id: workflowId,
-            node: values,
-          },
-        });
+        onSubmit(err, values);
         form.resetFields();
       }
     });
@@ -81,7 +74,7 @@ class NewWorkflowTransition extends PureComponent {
         <Row gutter={16}>
           <Col lg={9} md={24}>
             <Form.Item>
-              {getFieldDecorator('nodeout', {
+              {getFieldDecorator('out_workflow_node_id', {
                 rules: [
                   {
                     required: true,
@@ -106,7 +99,7 @@ class NewWorkflowTransition extends PureComponent {
           </Col>
           <Col lg={12} md={24}>
             <Form.Item>
-              {getFieldDecorator('nodein', {
+              {getFieldDecorator('in_workflow_node_id', {
                 rules: [
                   {
                     required: true,

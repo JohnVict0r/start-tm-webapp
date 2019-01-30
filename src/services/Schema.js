@@ -135,6 +135,8 @@ const Schemas = {
   WORKFLOW_ARRAY: [Workflow],
   WORKFLOWNODE: WorkflowNode,
   WORKFLOWNODE_ARRAY: [WorkflowNode],
+  WORKFLOWTRANSITION: WorkflowTransition,
+  WORKFLOWTRANSITION_ARRAY: [WorkflowTransition],
   PROJECT: Project,
   PROJECT_ARRAY: [Project],
   BOARD: Board,

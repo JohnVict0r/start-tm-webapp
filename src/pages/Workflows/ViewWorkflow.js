@@ -135,7 +135,11 @@ class ViewWorkflow extends Component {
           <span>
             <a href="">Editar</a>
             <Divider type="vertical" />
-            <Popconfirm title="Sure to delete?" onConfirm={this.handleDelete(record.id)}>
+            <Popconfirm
+              title="Tem certeza?"
+              icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+              onConfirm={this.handleDelete(record.id)}
+            >
               <a>Delete</a>
             </Popconfirm>
           </span>

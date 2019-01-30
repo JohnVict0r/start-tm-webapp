@@ -1,4 +1,10 @@
-import { loadWorkflow, createWorkflowNode, createWorkflowTransition } from '@/services/workflows';
+import {
+  loadWorkflow,
+  createWorkflowNode,
+  createWorkflowTransition,
+  deleteWorkflowNode,
+} from '@/services/workflows';
+
 import { notification } from 'antd';
 
 const initialPaginatioState = {
@@ -72,6 +78,25 @@ export default {
         });
 
         notification.success({ message: 'Transição adicionada com sucesso!' });
+      }
+    },
+    *deleteWorkflowNode({ payload }, { call, put }) {
+      const response = yield call(deleteWorkflowNode, payload.id);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível deletar a etapa!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Etapa deletada com sucesso!' });
       }
     },
   },

@@ -1,5 +1,4 @@
 import { notification } from 'antd';
-import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
 import { listComments, deleteComment, updateComment, createComment } from '@/services/cards';
 
@@ -7,7 +6,6 @@ export default {
   namespace: 'commentCard',
 
   state: {
-    availableWorkflows: [],
     validation: null,
   },
 
@@ -62,12 +60,6 @@ export default {
           type: 'entities/mergeEntities',
           payload: response.entities,
         });
-        notification.success({
-          message: formatMessage({
-            id: payload.id ? 'app.card.sucess-updated' : 'app.card.sucess-created',
-          }),
-        });
-        router.push(`/projects/${payload.projectId}/boards/${payload.boardId}`);
       }
     },
   },

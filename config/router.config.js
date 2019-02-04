@@ -282,6 +282,11 @@ export default [
               },
               {
                 path: '/projects/:projectId/boards/:boardId/cardList/:cardlistId/cards/:id',
+                name: 'project-boards-card-view',
+                component: './Cards/ViewCard',
+              },
+              {
+                path: '/projects/:projectId/boards/:boardId/cardList/:cardlistId/cards/:id/edit',
                 name: 'project-boards-card-edit',
                 component: './Cards/EditCard',
               },

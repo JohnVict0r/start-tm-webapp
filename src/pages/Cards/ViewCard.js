@@ -1,14 +1,25 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { formatMessage } from 'umi/locale';
-import { Card } from 'antd';
-import CardForm from '@/components/Form/Card';
+import { formatMessage, FormattedMessage } from 'umi/locale';
+import {Card, Collapse, Form} from 'antd';
+import CommentForm from '@/components/Form/Comment';
+import CommentList from '@/components/List/Comment';
+import AvatarList from '@/components/AvatarList';
+import { cardSelectorWithMembers } from "./selectors/members";
+import Link from "umi/link";
+import styles from "./ViewCard.less";
 
-@connect((state, ownProps) => ({
-  validation: state.createBoard.validation,
-  cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
-  submitting: state.loading.effects['saveCard/save'],
-}))
+
+@connect((state, ownProps) => {
+  const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.id });
+  return {
+    validation: state.createBoard.validation,
+    cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
+    card: cardSelector(state),
+    submitting: state.loading.effects['commentCard/save']
+  }
+})
+@Form.create()
 class ViewCard extends PureComponent {
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
@@ -32,33 +43,65 @@ class ViewCard extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, cardList, dispatch, match } = this.props;
+    const { form, card, dispatch } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         dispatch({
-          type: 'saveCard/save',
+          type: 'commentCard/save',
           payload: {
-            cardListId: cardList.id,
-            boardId: match.params.boardId,
-            projectId: match.params.projectId,
-            card: { ...values },
+            cardId: card.id,
+            comment: { ...values },
           },
         });
       }
     });
   };
 
-  render() {
-    const { form, cardList, submitting } = this.props;
 
+  render() {
+    const { cardList, card, form, submitting,match } = this.props;
+    console.log(card);
     return (
-      <Card bordered={false} title={formatMessage({ id: 'app.card.new' })}>
-        <p
-          style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500 }}
-        >
-          {cardList.name}
-        </p>
-        <CardForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />
+      <Card bordered={false} title={cardList.name}>
+        <div>{formatMessage({id:'app.card.members'})}</div>
+        <div>
+          <AvatarList
+            size="large"
+          >
+            {card.members.map(member => (
+              <AvatarList.Item
+                key={`${card.id}-avatar-${member.id}`}
+                src={member.pictureUrl}
+                tips={member.name}
+              />
+            ))}
+          </AvatarList>
+        </div>
+        <div>
+          {card.name}
+        </div>
+        <div>
+          {card.description}
+        </div>
+        <div>
+          <Link to={`/projects/${match.params.projectId}/boards/${match.params.boardId}/cardList/${cardList.id}/cards/${card.id}/edit`}>
+            <FormattedMessage id='app.card.edit' />
+          </Link>
+        </div>
+        <div>
+          <CommentList />
+        </div>
+        <div>
+          <Collapse>
+            <Collapse.Panel header={formatMessage({id:'app.card.comment'})} key="1">
+              <CommentForm
+                form={form}
+                onSubmit={this.handleSubmit}
+                submiting={submitting}
+              />
+            </Collapse.Panel>
+          </Collapse>
+        </div>
       </Card>
     );
   }

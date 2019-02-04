@@ -81,7 +81,7 @@ class EditCard extends PureComponent {
     const { form, cardList, submitting, card, match, users } = this.props;
 
     return (
-      <Card bordered={false} title={formatMessage({ id: 'app.card.new' })}>
+      <Card bordered={false} title={formatMessage({ id: 'app.card.edit' })}>
         <p
           style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500 }}
         >

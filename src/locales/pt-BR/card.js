@@ -10,4 +10,8 @@ export default {
   'app.card.sucess-updated': 'Card atualizado com sucesso',
   'app.card.back': 'Voltar',
   'app.card.labeluser': 'Usuarios',
+  'app.card.members': 'Membros',
+  'menu.card.nocommet':'Sem comentários',
+  'app.card.comment' : 'Comentar',
+  'app.card.commentpalceholder' : 'Escreva um comentário'
 };

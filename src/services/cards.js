@@ -15,9 +15,9 @@ export const assignUser = ({ id, userId }) =>
   callApi(`cards/${id}/members/${userId}`, schema.BOARD).put();
 export const unAssignUser = ({ id, userId }) =>
   callApi(`cards/${id}/members/${userId}`, schema.BOARD).delete();
-export const createComment = ({ id, comment }) =>
-  callApi(`cards/${id}/coments`, schema.BOARD).put({ comment: comment });
+export const createComment = ({ cardId, comment }) =>
+  callApi(`cards/${cardId}/comments`, schema.BOARD).post({ ...comment });
 export const listComments = ({ id }) => callApi(`cards/${id}/comments`, schema.BOARD).get();
 export const updateComment = ({ id, comment }) =>
-  callApi(`cards/${id}`, schema.BOARD).put({ comment: comment });
+  callApi(`comments/${id}`, schema.BOARD).put({ ...comment });
 export const deleteComment = ({ id }) => callApi(`comments/${id}`, schema.BOARD).delete();

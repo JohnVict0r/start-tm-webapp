@@ -14,3 +14,8 @@ export const rolesSelector = createSelector(
       .map(id => roles[id])
       .filter(role => ['Proprietário', 'Gerente', 'Colaborador'].includes(role.name))
 );
+
+export const statusSelector = createSelector(
+  state => state.entities.status,
+  status => status
+);

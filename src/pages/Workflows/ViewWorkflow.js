@@ -11,13 +11,13 @@ import styles from './ViewWorkflow.less';
 import NewWorkflowNode from './NewWorkflowNode';
 import NewWorkflowTransition from './NewWorkflowTransition';
 import { makeWorkflowsSelector } from './selectors/workflows';
-import { makeStatus } from './selectors/status';
+import { statusSelector } from '@/selectors/global';
 
 @connect((state, ownProps) => {
   const workflowSelector = makeWorkflowsSelector({ workflowId: ownProps.match.params.id });
   return {
     workflow: workflowSelector(state),
-    status: makeStatus(state),
+    statusArray: statusSelector(state),
     loading: state.loading.effects['workflows/fetchWorkflow'],
   };
 })
@@ -69,7 +69,7 @@ class ViewWorkflow extends Component {
   };
 
   render() {
-    const { workflow, match } = this.props;
+    const { workflow, statusArray, match } = this.props;
     if (!workflow) {
       return <PageLoading />;
     }
@@ -107,7 +107,7 @@ class ViewWorkflow extends Component {
           <span>
             {transitions.map(transition => (
               <Tag color="blue" key={transition}>
-                {'>>>'}
+                {'>>> '}
                 {transition}
               </Tag>
             ))}
@@ -163,7 +163,7 @@ class ViewWorkflow extends Component {
       <Fragment>
         <PageHeaderWrapper hiddenBreadcrumb content={content}>
           <Card bordered={false} title="Adicionar Etapas" style={{ marginTop: 24 }}>
-            <NewWorkflowNode onSubmit={this.handleSubmitWorkflowNode} />
+            <NewWorkflowNode onSubmit={this.handleSubmitWorkflowNode} status={statusArray} />
           </Card>
           <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
             <NewWorkflowTransition

@@ -138,7 +138,7 @@ class ViewWorkflow extends Component {
             <Popconfirm
               title="Tem certeza?"
               icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-              onConfirm={this.handleDelete(record.id)}
+              onConfirm={() => this.handleDelete(record.id)}
             >
               <a>Delete</a>
             </Popconfirm>

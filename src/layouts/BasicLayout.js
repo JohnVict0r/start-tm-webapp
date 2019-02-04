@@ -14,6 +14,7 @@ import Header from './Header';
 import Context from './MenuContext';
 import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
+import { menu, title } from '../defaultSettings';
 
 import styles from './BasicLayout.less';
 
@@ -47,7 +48,7 @@ const query = {
   },
 };
 
-class BasicLayout extends React.PureComponent {
+class BasicLayout extends React.Component {
   constructor(props) {
     super(props);
     this.getPageTitle = memoizeOne(this.getPageTitle);
@@ -71,15 +72,6 @@ class BasicLayout extends React.PureComponent {
     });
   }
 
-  componentDidUpdate(preProps) {
-    // After changing to phone mode,
-    // if collapsed is true, you need to click twice to display
-    const { collapsed, isMobile } = this.props;
-    if (isMobile && !preProps.isMobile && !collapsed) {
-      this.handleMenuCollapse(false);
-    }
-  }
-
   getContext() {
     const { location, breadcrumbNameMap } = this.props;
     return {
@@ -97,14 +89,16 @@ class BasicLayout extends React.PureComponent {
     const currRouterData = this.matchParamsPath(pathname, breadcrumbNameMap);
 
     if (!currRouterData) {
-      return 'Produtiivo';
+      return title;
     }
-    const pageName = formatMessage({
-      id: currRouterData.locale || currRouterData.name,
-      defaultMessage: currRouterData.name,
-    });
+    const pageName = menu.disableLocal
+      ? currRouterData.name
+      : formatMessage({
+          id: currRouterData.locale || currRouterData.name,
+          defaultMessage: currRouterData.name,
+        });
 
-    return `${pageName} - Produtiivo`;
+    return `${pageName} - ${title}`;
   };
 
   getLayoutStyle = () => {
@@ -196,11 +190,11 @@ class BasicLayout extends React.PureComponent {
   }
 }
 
-export default connect(({ global, setting, menu }) => ({
+export default connect(({ global, setting, menu: menuModel }) => ({
   collapsed: global.collapsed,
   layout: setting.layout,
-  menuData: menu.menuData,
-  breadcrumbNameMap: menu.breadcrumbNameMap,
+  menuData: menuModel.menuData,
+  breadcrumbNameMap: menuModel.breadcrumbNameMap,
   ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">

@@ -3,16 +3,11 @@ import { List, Avatar } from 'antd';
 import { FormattedMessage } from 'umi/locale';
 
 class CommentList extends PureComponent {
-
-
-  componentDidMount() {
-
-  }
-
+  componentDidMount() {}
 
   render() {
     const { data } = this.props;
-    if(data) {
+    if (data) {
       return (
         <List
           className="demo-loadmore-list"
@@ -21,7 +16,9 @@ class CommentList extends PureComponent {
           renderItem={item => (
             <List.Item actions={[<a>edit</a>, <a>more</a>]}>
               <List.Item.Meta
-                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                avatar={
+                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                }
                 title={<a href="https://ant.design">{item.name.last}</a>}
                 description="Ant Design, a design language for background applications, is refined by Ant UED Team"
               />

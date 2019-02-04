@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import {Card, Collapse, Form} from 'antd';
+import { Card, Collapse, Form } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
-import Link from "umi/link";
-import { cardSelectorWithMembers } from "./selectors/members";
-
-
+import Link from 'umi/link';
+import { cardSelectorWithMembers } from './selectors/members';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.id });
@@ -16,8 +14,8 @@ import { cardSelectorWithMembers } from "./selectors/members";
     validation: state.createBoard.validation,
     cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
     card: cardSelector(state),
-    submitting: state.loading.effects['commentCard/save']
-  }
+    submitting: state.loading.effects['commentCard/save'],
+  };
 })
 @Form.create()
 class ViewCard extends PureComponent {
@@ -57,16 +55,13 @@ class ViewCard extends PureComponent {
     });
   };
 
-
   render() {
-    const { cardList, card, form, submitting,match } = this.props;
+    const { cardList, card, form, submitting, match } = this.props;
     return (
       <Card bordered={false} title={cardList.name}>
-        <div>{formatMessage({id:'app.card.members'})}</div>
+        <div>{formatMessage({ id: 'app.card.members' })}</div>
         <div>
-          <AvatarList
-            size="large"
-          >
+          <AvatarList size="large">
             {card.members.map(member => (
               <AvatarList.Item
                 key={`${card.id}-avatar-${member.id}`}
@@ -76,15 +71,15 @@ class ViewCard extends PureComponent {
             ))}
           </AvatarList>
         </div>
+        <div>{card.name}</div>
+        <div>{card.description}</div>
         <div>
-          {card.name}
-        </div>
-        <div>
-          {card.description}
-        </div>
-        <div>
-          <Link to={`/projects/${match.params.projectId}/boards/${match.params.boardId}/cardList/${cardList.id}/cards/${card.id}/edit`}>
-            <FormattedMessage id='app.card.edit' />
+          <Link
+            to={`/projects/${match.params.projectId}/boards/${match.params.boardId}/cardList/${
+              cardList.id
+            }/cards/${card.id}/edit`}
+          >
+            <FormattedMessage id="app.card.edit" />
           </Link>
         </div>
         <div>
@@ -92,12 +87,8 @@ class ViewCard extends PureComponent {
         </div>
         <div>
           <Collapse>
-            <Collapse.Panel header={formatMessage({id:'app.card.comment'})} key="1">
-              <CommentForm
-                form={form}
-                onSubmit={this.handleSubmit}
-                submiting={submitting}
-              />
+            <Collapse.Panel header={formatMessage({ id: 'app.card.comment' })} key="1">
+              <CommentForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />
             </Collapse.Panel>
           </Collapse>
         </div>

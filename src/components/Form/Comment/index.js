@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button, Form, Input } from 'antd';
 import { formatMessage } from 'umi/locale';
-import { priorities } from '@/utils/labels';
 
 class CommentForm extends PureComponent {
   static defaultProps = {

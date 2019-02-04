@@ -5,9 +5,9 @@ import {Card, Collapse, Form} from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
-import { cardSelectorWithMembers } from "./selectors/members";
 import Link from "umi/link";
-import styles from "./ViewCard.less";
+import { cardSelectorWithMembers } from "./selectors/members";
+
 
 
 @connect((state, ownProps) => {
@@ -60,7 +60,6 @@ class ViewCard extends PureComponent {
 
   render() {
     const { cardList, card, form, submitting,match } = this.props;
-    console.log(card);
     return (
       <Card bordered={false} title={cardList.name}>
         <div>{formatMessage({id:'app.card.members'})}</div>

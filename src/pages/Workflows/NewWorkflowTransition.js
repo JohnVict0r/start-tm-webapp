@@ -63,6 +63,7 @@ class NewWorkflowTransition extends PureComponent {
       form: { getFieldDecorator },
       submitting,
       nodes,
+      buttonValue,
     } = this.props;
 
     const { nodein, nodeout, selectedNodeOut } = this.state;
@@ -126,7 +127,7 @@ class NewWorkflowTransition extends PureComponent {
           <Col lg={3} md={24}>
             <Form.Item>
               <Button block type="primary" htmlType="submit" loading={submitting}>
-                {formatMessage({ id: 'form.create' })}
+                {buttonValue}
               </Button>
             </Form.Item>
           </Col>

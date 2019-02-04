@@ -37,6 +37,9 @@ class NewWorkflowNode extends PureComponent {
       if (!err) {
         onSubmit(err, values);
         form.resetFields();
+        this.setState({
+          checkCanCreateCard: false,
+        });
       }
     });
   };
@@ -52,6 +55,8 @@ class NewWorkflowNode extends PureComponent {
     const {
       form: { getFieldDecorator },
       submitting,
+      buttonValue,
+      status,
     } = this.props;
 
     const { checkCanCreateCard } = this.state;
@@ -72,7 +77,7 @@ class NewWorkflowNode extends PureComponent {
                 ],
               })(
                 <Input
-                  maxLength={255}
+                  maxLength={50}
                   placeholder={formatMessage({ id: 'app.workflow.form.node.name' })}
                 />
               )}
@@ -99,12 +104,11 @@ class NewWorkflowNode extends PureComponent {
                   placeholder={formatMessage({ id: 'app.workflow.form.node.status' })}
                   onChange={this.handleSelectChange}
                 >
-                  {/* TODO Buscar status do entities.status */}
-                  <Option value="1">A fazer</Option>
-                  <Option value="2">Fazendo</Option>
-                  <Option value="3">Feito</Option>
-                  <Option value="4">Pausado</Option>
-                  <Option value="5">Cancelado</Option>
+                  {status.map(s => (
+                    <Option value={s.id} key={s.id}>
+                      {s.displayName}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </Form.Item>
@@ -112,7 +116,7 @@ class NewWorkflowNode extends PureComponent {
           <Col lg={3} md={24}>
             <Form.Item>
               <Button block type="primary" htmlType="submit" loading={submitting}>
-                {formatMessage({ id: 'form.create' })}
+                {buttonValue}
               </Button>
             </Form.Item>
           </Col>

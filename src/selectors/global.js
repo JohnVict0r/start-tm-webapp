@@ -17,5 +17,6 @@ export const rolesSelector = createSelector(
 
 export const statusSelector = createSelector(
   state => state.entities.status,
-  status => status
+  state => state.global.status,
+  (status, items) => items.map(i => status[i])
 );

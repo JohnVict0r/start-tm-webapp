@@ -28,6 +28,9 @@ class ViewWorkflow extends Component {
       type: 'workflows/fetchWorkflow',
       payload: match.params.id,
     });
+    dispatch({
+      type: 'global/fetchStatus',
+    });
   }
 
   handleSubmitWorkflowNode = (err, values) => {
@@ -106,10 +109,12 @@ class ViewWorkflow extends Component {
         render: transitions => (
           <span>
             {transitions.map(transition => (
-              <Tag color="blue" key={transition}>
-                {'>>> '}
-                {transition}
-              </Tag>
+              <div key={transition.id}>
+                <Tag color="blue" key={transition.id}>
+                  {'>>> '}
+                  {transition.name}
+                </Tag>
+              </div>
             ))}
           </span>
         ),
@@ -128,7 +133,7 @@ class ViewWorkflow extends Component {
         render: canCreateCard => (canCreateCard ? <Icon type="check" /> : <Icon type="close" />),
       },
       {
-        title: 'Action',
+        title: 'Ação',
         key: 'action',
         align: 'center',
         render: record => (
@@ -163,12 +168,17 @@ class ViewWorkflow extends Component {
       <Fragment>
         <PageHeaderWrapper hiddenBreadcrumb content={content}>
           <Card bordered={false} title="Adicionar Etapas" style={{ marginTop: 24 }}>
-            <NewWorkflowNode onSubmit={this.handleSubmitWorkflowNode} status={statusArray} />
+            <NewWorkflowNode
+              onSubmit={this.handleSubmitWorkflowNode}
+              status={statusArray}
+              buttonValue="Adicionar"
+            />
           </Card>
           <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
             <NewWorkflowTransition
               nodes={workflow.nodes}
               onSubmit={this.handleSubmitWorkflowTransition}
+              buttonValue="Adicionar"
             />
           </Card>
           <Card

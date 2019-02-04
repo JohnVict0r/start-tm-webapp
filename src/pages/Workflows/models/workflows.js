@@ -43,7 +43,17 @@ export default {
       });
     },
     *addWorkflowNode({ payload }, { call, put }) {
-      const response = yield call(createWorkflowNode, payload.id, payload.node);
+      let { node } = payload;
+      if (node.CanCreateCard) {
+        node = {
+          ...node,
+          canCreateCard: 1,
+        };
+      }
+
+      const response = yield call(createWorkflowNode, payload.id, node);
+
+      console.log(payload);
 
       if (response.errors) {
         notification.error({ message: 'Não foi possível Adicionar a etapa!' });
@@ -63,7 +73,7 @@ export default {
     },
     *addWorkflowTransition({ payload }, { call, put }) {
       const response = yield call(createWorkflowTransition, payload.id, payload.transition);
-      console.log('chegou aqui!');
+
       if (response.errors) {
         notification.error({ message: 'Não foi possível Adicionar a Transição!' });
       } else {

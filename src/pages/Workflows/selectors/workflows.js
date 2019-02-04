@@ -16,7 +16,7 @@ export const makeWorkflowsSelector = ({ workflowId }) =>
           ...workflowNodes[item],
           trasitions: transitionsArr
             .filter(trans => trans.outWorkflowNodeId === item)
-            .map(transition => workflowNodes[transition.inWorkflowNodeId].name),
+            .map(transition => workflowNodes[transition.inWorkflowNodeId]),
           status: status[workflowNodes[item].status],
         }));
         return { ...workflow, nodes: nodesArr, list, transitions: transitionsArr };

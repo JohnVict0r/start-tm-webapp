@@ -54,40 +54,37 @@ const CardItem = ({ card, isDragging, provided, boardid }) => (
     {...provided.draggableProps}
     {...provided.dragHandleProps}
   >
-    <Card
-      bordered={false}
-      className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {
-        [styles.dragging]: isDragging,
-      })}
-      bodyStyle={{ padding: '12px' }}
-    >
-      <Ellipsis lines={3}>{card.description}</Ellipsis>
-      <div className={styles.cardMetaInfo}>
-        <div className={styles.first}>
-          <Link to={`${boardid}/cardList/${card.cardListId}/cards/${card.id}`}>
-            <Icon type="eye-o" />
-          </Link>
+    <Link to={`${boardid}/cardList/${card.cardListId}/cards/${card.id}`}>
+      <Card
+        bordered={false}
+        className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {
+          [styles.dragging]: isDragging,
+        })}
+        bodyStyle={{ padding: '12px' }}
+      >
+        <Ellipsis lines={3}>{card.description}</Ellipsis>
+        <div className={styles.cardMetaInfo}>
+          <div className={styles.left}>
+            <Due date={card.due} />
+          </div>
+          <div className={styles.avatarList}>
+            <AvatarList
+              size="mini"
+              maxLength={3}
+              excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+            >
+              {card.members.map(member => (
+                <AvatarList.Item
+                  key={`${card.id}-avatar-${member.id}`}
+                  src={member.pictureUrl}
+                  tips={member.name}
+                />
+              ))}
+            </AvatarList>
+          </div>
         </div>
-        <div className={styles.left}>
-          <Due date={card.due} />
-        </div>
-        <div className={styles.avatarList}>
-          <AvatarList
-            size="mini"
-            maxLength={3}
-            excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-          >
-            {card.members.map(member => (
-              <AvatarList.Item
-                key={`${card.id}-avatar-${member.id}`}
-                src={member.pictureUrl}
-                tips={member.name}
-              />
-            ))}
-          </AvatarList>
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </Link>
   </div>
 );
 

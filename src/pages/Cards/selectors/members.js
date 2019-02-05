@@ -8,7 +8,6 @@ export const cardSelectorWithMembers = ({ cardId }) =>
     (cards, users) => {
       const card = cards[cardId];
       if (card) {
-
         const members = card.members.map(member => users[member]);
         return { ...card, members };
       }

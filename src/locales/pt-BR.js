@@ -43,5 +43,5 @@ export default {
   ...validation,
   ...pwa,
   ...card,
-  ...comment
+  ...comment,
 };

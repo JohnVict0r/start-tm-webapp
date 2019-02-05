@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button, Form, Input } from 'antd';
 import { formatMessage } from 'umi/locale';
-import { priorities } from '@/utils/labels';
 
 class CommentForm extends PureComponent {
   static defaultProps = {
@@ -13,7 +12,7 @@ class CommentForm extends PureComponent {
       form: { getFieldDecorator },
       submitting,
       current,
-      onSubmit
+      onSubmit,
     } = this.props;
 
     const formItemLayout = {
@@ -41,7 +40,10 @@ class CommentForm extends PureComponent {
           {getFieldDecorator('message', {
             initialValue: current.message,
           })(
-            <Input.TextArea placeholder={formatMessage({id:'app.card.commentpalceholder'})} autosize={{ minRows: 2, maxRows: 6 }} />
+            <Input.TextArea
+              placeholder={formatMessage({ id: 'app.card.commentpalceholder' })}
+              autosize={{ minRows: 2, maxRows: 6 }}
+            />
           )}
         </Form.Item>
         <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>

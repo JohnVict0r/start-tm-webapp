@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
-import { Form, Button, Row, Col, Select } from 'antd';
+import _ from 'lodash';
+import fp from 'lodash/fp';
+import { Form, Button, Row, Col, Select, notification } from 'antd';
 import { formatMessage } from 'umi/locale';
 
 import styles from './NewWorkflowTransition.less';
@@ -8,8 +10,7 @@ import styles from './NewWorkflowTransition.less';
 class NewWorkflowTransition extends PureComponent {
   state = {
     selectedNodeOut: false,
-    nodeout: [],
-    nodein: [],
+    inWorkflowNodeOptions: [],
   };
 
   componentDidUpdate(prevProps) {
@@ -44,17 +45,33 @@ class NewWorkflowTransition extends PureComponent {
   };
 
   handleSelectChangeNodeOut = value => {
-    if (value) {
-      this.setState({
-        selectedNodeOut: true,
-        nodeout: value,
-      });
-    }
-  };
+    const { nodes, transitions, form } = this.props;
 
-  handleSelectChangeNodeIn = value => {
-    if (value) {
-      this.setState({ nodein: value });
+    // transição do qual o nó selecionado é o de saída
+    const tts = _.filter(transitions, t => t.outWorkflowNodeId === value);
+
+    // filtra os nós que não tem transição com o nó selecionado
+    const inWorkflowNodeOptions = fp.compose(
+      fp.filter(node => node.id !== value),
+      fp.filter(node => !_.some(tts, { inWorkflowNodeId: node.id }))
+    )(nodes);
+
+    this.setState({
+      selectedNodeOut: true,
+      inWorkflowNodeOptions,
+    });
+
+    form.setFields({
+      in_workflow_node_id: {
+        value: [],
+      },
+    });
+
+    if (tts.length >= 4) {
+      this.setState({
+        selectedNodeOut: false,
+      });
+      notification.warning({ message: 'Esta etapa de saída não possui opções de entrada' });
     }
   };
 
@@ -62,11 +79,11 @@ class NewWorkflowTransition extends PureComponent {
     const {
       form: { getFieldDecorator },
       submitting,
-      nodes,
       buttonValue,
+      nodes,
     } = this.props;
 
-    const { nodein, nodeout, selectedNodeOut } = this.state;
+    const { selectedNodeOut, inWorkflowNodeOptions } = this.state;
 
     const { Option } = Select;
 
@@ -87,13 +104,11 @@ class NewWorkflowTransition extends PureComponent {
                   placeholder={formatMessage({ id: 'app.workflow.form.transition.nodeout' })}
                   onChange={this.handleSelectChangeNodeOut}
                 >
-                  {nodes
-                    .filter(item => item.id !== nodein)
-                    .map(node => (
-                      <Option value={node.id} key={node.id}>
-                        {node.name}
-                      </Option>
-                    ))}
+                  {nodes.map(node => (
+                    <Option value={node.id} key={node.id}>
+                      {node.name}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </Form.Item>
@@ -113,13 +128,11 @@ class NewWorkflowTransition extends PureComponent {
                   onChange={this.handleSelectChangeNodeIn}
                   disabled={!selectedNodeOut}
                 >
-                  {nodes
-                    .filter(item => item.id !== nodeout)
-                    .map(node => (
-                      <Option value={node.id} key={node.id}>
-                        {node.name}
-                      </Option>
-                    ))}
+                  {inWorkflowNodeOptions.map(node => (
+                    <Option value={node.id} key={node.id}>
+                      {node.name}
+                    </Option>
+                  ))}
                 </Select>
               )}
             </Form.Item>

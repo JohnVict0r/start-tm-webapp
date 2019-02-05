@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm } from 'antd';
+import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Alert } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
@@ -47,9 +47,7 @@ class ViewWorkflow extends Component {
   };
 
   handleSubmitWorkflowTransition = (err, values) => {
-    console.log('chegou no handlesubmit');
     if (!err) {
-      console.log('não teve erros!');
       const { dispatch, workflow } = this.props;
       dispatch({
         type: 'workflows/addWorkflowTransition',
@@ -67,6 +65,17 @@ class ViewWorkflow extends Component {
       type: 'workflows/deleteWorkflowNode',
       payload: {
         id: nodeId,
+      },
+    });
+  };
+
+  handleDeleteTransition = transitionId => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'workflows/deleteWorkflowTransition',
+      payload: {
+        id: transitionId,
       },
     });
   };
@@ -110,7 +119,11 @@ class ViewWorkflow extends Component {
           <span>
             {transitions.map(transition => (
               <div key={transition.id}>
-                <Tag color="blue" key={transition.id}>
+                <Tag
+                  closable
+                  onClose={() => this.handleDeleteTransition(transition.id)}
+                  color="blue"
+                >
                   {'>>> '}
                   {transition.name}
                 </Tag>
@@ -127,8 +140,8 @@ class ViewWorkflow extends Component {
       },
       {
         title: 'Criar Card?',
-        key: 'canCreateCard',
         dataIndex: 'canCreateCard',
+        key: 'canCreateCard',
         align: 'center',
         render: canCreateCard => (canCreateCard ? <Icon type="check" /> : <Icon type="close" />),
       },
@@ -151,47 +164,50 @@ class ViewWorkflow extends Component {
         ),
       },
     ];
-    /*
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => router.push(`/workflows/${match.params.id}/step`)}>
-          Etapa
-        </Button>
-        <Button type="primary" icon="plus" onClick={() => router.push(`/workflows/${match.params.id}/transition`)}>
-          Transição
-        </Button>
-      </div>
-    );
-    */
 
     return (
-      <Fragment>
-        <PageHeaderWrapper hiddenBreadcrumb content={content}>
-          <Card bordered={false} title="Adicionar Etapas" style={{ marginTop: 24 }}>
-            <NewWorkflowNode
-              onSubmit={this.handleSubmitWorkflowNode}
-              status={statusArray}
-              buttonValue="Adicionar"
-            />
-          </Card>
+      <PageHeaderWrapper hiddenBreadcrumb content={content}>
+        <Card bordered={false} title="Adicionar Etapas" style={{ marginTop: 24 }}>
+          <NewWorkflowNode
+            onSubmit={this.handleSubmitWorkflowNode}
+            status={statusArray}
+            buttonValue="Adicionar"
+          />
+        </Card>
+        {workflow.nodes.length > 1 ? (
           <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
             <NewWorkflowTransition
               nodes={workflow.nodes}
+              transitions={workflow.transitions}
               onSubmit={this.handleSubmitWorkflowTransition}
               buttonValue="Adicionar"
             />
           </Card>
-          <Card
-            className={styles.standardList}
-            bordered={false}
-            title="Etapas"
-            style={{ marginTop: 24 }}
-            bodyStyle={{ padding: '0 32px 40px 32px' }}
-          >
-            <Table style={{ marginTop: 24 }} columns={columns} dataSource={workflow.list} />
+        ) : (
+          <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
+            <Alert
+              message="Warning"
+              description="Não possui Etapas suficientes para adicionar transição, pois é necessário no mínimo 2 etapas para fazer uma transição."
+              type="warning"
+              showIcon
+            />
           </Card>
-        </PageHeaderWrapper>
-      </Fragment>
+        )}
+        <Card
+          className={styles.standardList}
+          bordered={false}
+          title="Etapas"
+          style={{ marginTop: 24 }}
+          bodyStyle={{ padding: '0 32px 40px 32px' }}
+        >
+          <Table
+            style={{ marginTop: 24 }}
+            columns={columns}
+            dataSource={workflow.list}
+            rowKey={record => record.id}
+          />
+        </Card>
+      </PageHeaderWrapper>
     );
   }
 }

@@ -3,6 +3,7 @@ import {
   createWorkflowNode,
   createWorkflowTransition,
   deleteWorkflowNode,
+  deleteWorkflowTransition,
 } from '@/services/workflows';
 
 import { notification } from 'antd';
@@ -43,17 +44,7 @@ export default {
       });
     },
     *addWorkflowNode({ payload }, { call, put }) {
-      let { node } = payload;
-      if (node.CanCreateCard) {
-        node = {
-          ...node,
-          canCreateCard: 1,
-        };
-      }
-
-      const response = yield call(createWorkflowNode, payload.id, node);
-
-      console.log(payload);
+      const response = yield call(createWorkflowNode, payload.id, payload.node);
 
       if (response.errors) {
         notification.error({ message: 'Não foi possível Adicionar a etapa!' });
@@ -107,6 +98,25 @@ export default {
         });
 
         notification.success({ message: 'Etapa deletada com sucesso!' });
+      }
+    },
+    *deleteWorkflowTransition({ payload }, { call, put }) {
+      const response = yield call(deleteWorkflowTransition, payload.id);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível deletar a transição!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Transição deletada com sucesso!' });
       }
     },
   },

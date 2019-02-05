@@ -83,7 +83,7 @@ class NewWorkflowNode extends PureComponent {
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('canCreateCard')(
+              {getFieldDecorator('can_create_card')(
                 <Checkbox checked={checkCanCreateCard} onChange={this.handleChange}>
                   {formatMessage({ id: 'app.workflow.form.node.check' })}
                 </Checkbox>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Alert } from 'antd';
+import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Modal} from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
@@ -22,6 +22,10 @@ import { statusSelector } from '@/selectors/global';
   };
 })
 class ViewWorkflow extends Component {
+  state = {
+    visible: false
+  }
+
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
@@ -30,6 +34,13 @@ class ViewWorkflow extends Component {
     });
     dispatch({
       type: 'global/fetchStatus',
+    });
+  }
+
+  showModal = (node) => {
+    console.log(node);
+    this.setState({
+      visible: true,
     });
   }
 
@@ -59,7 +70,7 @@ class ViewWorkflow extends Component {
     }
   };
 
-  handleDelete = nodeId => {
+  handleDeleteNode = nodeId => {
     const { dispatch } = this.props;
     dispatch({
       type: 'workflows/deleteWorkflowNode',
@@ -113,7 +124,7 @@ class ViewWorkflow extends Component {
       },
       {
         title: 'Transições',
-        dataIndex: 'trasitions',
+        dataIndex: 'transitions',
         key: 'transitions',
         render: transitions => (
           <span>
@@ -143,7 +154,7 @@ class ViewWorkflow extends Component {
         dataIndex: 'canCreateCard',
         key: 'canCreateCard',
         align: 'center',
-        render: canCreateCard => (canCreateCard ? <Icon type="check" /> : <Icon type="close" />),
+        render: canCreateCard => (canCreateCard ? <Icon type="check" /> : null),
       },
       {
         title: 'Ação',
@@ -151,12 +162,12 @@ class ViewWorkflow extends Component {
         align: 'center',
         render: record => (
           <span>
-            <a href="">Editar</a>
+            <a onClick={() => this.showModal(record)}>Editar</a>
             <Divider type="vertical" />
             <Popconfirm
               title="Tem certeza?"
               icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-              onConfirm={() => this.handleDelete(record.id)}
+              onConfirm={() => this.handleDeleteNode(record.id)}
             >
               <a>Delete</a>
             </Popconfirm>
@@ -183,16 +194,8 @@ class ViewWorkflow extends Component {
               buttonValue="Adicionar"
             />
           </Card>
-        ) : (
-          <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
-            <Alert
-              message="Warning"
-              description="Não possui Etapas suficientes para adicionar transição, pois é necessário no mínimo 2 etapas para fazer uma transição."
-              type="warning"
-              showIcon
-            />
-          </Card>
-        )}
+        ) : null
+        }
         <Card
           className={styles.standardList}
           bordered={false}
@@ -207,6 +210,18 @@ class ViewWorkflow extends Component {
             rowKey={record => record.id}
           />
         </Card>
+        <Modal
+          title="Alterar Etapa"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <NewWorkflowNode
+            onSubmit={this.handleSubmitWorkflowNode}
+            status={statusArray}
+            buttonValue="Adicionar"
+          />
+        </Modal>
       </PageHeaderWrapper>
     );
   }

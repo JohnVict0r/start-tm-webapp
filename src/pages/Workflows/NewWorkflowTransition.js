@@ -40,6 +40,9 @@ class NewWorkflowTransition extends PureComponent {
       if (!err) {
         onSubmit(err, values);
         form.resetFields();
+        this.setState({
+          selectedNodeOut: false,
+        });
       }
     });
   };
@@ -67,7 +70,7 @@ class NewWorkflowTransition extends PureComponent {
       },
     });
 
-    if (tts.length >= 4) {
+    if (inWorkflowNodeOptions.length === 0) {
       this.setState({
         selectedNodeOut: false,
       });

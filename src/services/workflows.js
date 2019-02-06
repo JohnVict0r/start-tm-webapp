@@ -18,13 +18,16 @@ export const createWorkflowForProject = (projectId, { name, description }) =>
   callApi(`projects/${projectId}/workflows`, schema.WORKFLOW).post({ name, description });
 
 export const createWorkflowNode = (workflowId, node) =>
-  callApi(`workflows/${workflowId}/wf_nodes`, schema.WORKFLOWNODE).post(node);
+  callApi(`workflows/${workflowId}/wf_nodes`, schema.WORKFLOW).post(node);
+
+export const updateorkflowNode = (workflowId, node) =>
+  callApi(`wf_nodes/${workflowId}`, schema.WORKFLOW).put(node);
 
 export const deleteWorkflowNode = nodeId =>
-  callApi(`wf_nodes/${nodeId}`, schema.WORKFLOWNODE).delete();
+  callApi(`wf_nodes/${nodeId}`, schema.WORKFLOW).delete();
 
 export const deleteWorkflowTransition = transitionId =>
-  callApi(`wf_transitions/${transitionId}`, schema.WORKFLOWNODE).delete();
+  callApi(`wf_transitions/${transitionId}`, schema.WORKFLOW).delete();
 
 export const createWorkflowTransition = (workflowId, transition) =>
-  callApi(`workflows/${workflowId}/wf_transitions`, schema.WORKFLOWTRANSITION).post(transition);
+  callApi(`workflows/${workflowId}/wf_transitions`, schema.WORKFLOW).post(transition);

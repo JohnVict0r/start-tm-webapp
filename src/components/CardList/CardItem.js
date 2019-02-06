@@ -63,7 +63,7 @@ const CardItem = ({ card, isDragging, provided, match }) => (
         })}
         bodyStyle={{ padding: '12px' }}
       >
-        <Ellipsis lines={3}>{card.description}</Ellipsis>
+        <Ellipsis lines={3}>{card.name}</Ellipsis>
         <div className={styles.cardMetaInfo}>
           <div className={styles.left}>
             <Due date={card.due} />

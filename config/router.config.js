@@ -292,11 +292,6 @@ export default [
                 name: 'project-boards-card-edit',
                 component: './Cards/EditCard',
               },
-              // {
-              //   path: '/projects/:projectId/boards/:boardId/cardList/:cardlistId/cards/:id/edit',
-              //   name: 'project-boards-card-edit',
-              //   component: './Cards/EditCard',
-              // },
               {
                 path: '/projects/:projectId/workflows',
                 name: 'project-workflows',

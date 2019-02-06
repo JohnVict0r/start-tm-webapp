@@ -1,24 +1,25 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Card, Collapse, Form } from 'antd';
+import { Modal, Collapse, Form } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
 import Link from 'umi/link';
 import { cardSelectorWithMembers } from './selectors/members';
 
+import styles from './ViewCardModal.less';
+
 @connect((state, ownProps) => {
-  const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.id });
+  const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
   return {
     validation: state.createBoard.validation,
-    cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
     card: cardSelector(state),
     submitting: state.loading.effects['commentCard/save'],
   };
 })
 @Form.create()
-class ViewCard extends PureComponent {
+class ViewCardModal extends PureComponent {
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -55,10 +56,26 @@ class ViewCard extends PureComponent {
     });
   };
 
+  handleClose = () => {
+    const { match, history } = this.props;
+    const parentRoute = match.url.replace(/\/cards\/[0-9]*/i, '');
+    history.replace(parentRoute);
+  };
+
   render() {
-    const { cardList, card, form, submitting, match } = this.props;
+    const { card, form, submitting, match } = this.props;
     return (
-      <Card bordered={false} title={cardList.name}>
+      <Modal
+        className={styles.modal}
+        maskStyle={{
+          animation: '0',
+        }}
+        title={card.name}
+        footer={null}
+        onCancel={this.handleClose}
+        maskClosable
+        visible
+      >
         <div>{formatMessage({ id: 'app.card.members' })}</div>
         <div>
           <AvatarList size="large">
@@ -74,11 +91,7 @@ class ViewCard extends PureComponent {
         <div>{card.name}</div>
         <div>{card.description}</div>
         <div>
-          <Link
-            to={`/projects/${match.params.projectId}/boards/${match.params.boardId}/cardList/${
-              cardList.id
-            }/cards/${card.id}/edit`}
-          >
+          <Link to={`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`}>
             <FormattedMessage id="app.card.edit" />
           </Link>
         </div>
@@ -92,9 +105,9 @@ class ViewCard extends PureComponent {
             </Collapse.Panel>
           </Collapse>
         </div>
-      </Card>
+      </Modal>
     );
   }
 }
 
-export default ViewCard;
+export default ViewCardModal;

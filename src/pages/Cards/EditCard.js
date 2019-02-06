@@ -1,14 +1,12 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { formatMessage } from 'umi/locale';
 import CardForm from '@/components/Form/Card';
 import { Card, Form } from 'antd';
 import { boardUsersSelector } from '@/selectors/board';
 
 @connect((state, ownProps) => ({
   validation: state.createBoard.validation,
-  cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
-  card: state.entities.cards[ownProps.match.params.id],
+  card: state.entities.cards[ownProps.match.params.cardId],
   submitting: state.loading.effects['saveCard/save'],
   users: boardUsersSelector(state),
 }))
@@ -36,7 +34,7 @@ class EditCard extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, cardList, dispatch, card, match } = this.props;
+    const { form, dispatch, card } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         values.members.map(r => {
@@ -67,9 +65,6 @@ class EditCard extends PureComponent {
           type: 'saveCard/save',
           payload: {
             id: card.id,
-            cardListId: cardList.id,
-            boardId: match.params.boardId,
-            projectId: match.params.projectId,
             card: { ...values },
           },
         });
@@ -78,20 +73,14 @@ class EditCard extends PureComponent {
   };
 
   render() {
-    const { form, cardList, submitting, card, match, users } = this.props;
+    const { form, submitting, card, users } = this.props;
 
     return (
-      <Card bordered={false} title={formatMessage({ id: 'app.card.edit' })}>
-        <p
-          style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500 }}
-        >
-          {cardList.name}
-        </p>
+      <Card bordered={false} title="Editar tarefa">
         <CardForm
           form={form}
           onSubmit={this.handleSubmit}
           users={users}
-          back={`/projects/${match.params.projectId}/boards/${match.params.boardId}`}
           current={card}
           submiting={submitting}
         />

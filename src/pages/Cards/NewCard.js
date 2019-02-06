@@ -1,13 +1,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { formatMessage } from 'umi/locale';
 import { Card, Form } from 'antd';
 import CardForm from '@/components/Form/Card';
 import { boardUsersSelector } from '@/selectors/board';
 
-@connect((state, ownProps) => ({
+@connect(state => ({
   validation: state.createBoard.validation,
-  cardList: state.entities.cardlists[ownProps.match.params.cardlistId],
   submitting: state.loading.effects['saveCard/save'],
   users: boardUsersSelector(state),
 }))
@@ -35,14 +33,19 @@ class NewCard extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, cardList, dispatch, match } = this.props;
+    const {
+      form,
+      location: { state },
+      dispatch,
+      match,
+    } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         dispatch({
           type: 'saveCard/save',
           payload: {
-            cardListId: cardList.id,
-            boardId: match.params.boardId,
+            cardListId: state.cardList.id,
+            boardId: state.board.id,
             projectId: match.params.projectId,
             card: { ...values },
           },
@@ -52,22 +55,33 @@ class NewCard extends PureComponent {
   };
 
   render() {
-    const { form, cardList, submitting, match, users } = this.props;
+    const {
+      form,
+      submitting,
+      users,
+      location: { state },
+    } = this.props;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 7 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 12 },
+        md: { span: 10 },
+      },
+    };
 
     return (
-      <Card bordered={false} title={formatMessage({ id: 'app.card.new' })}>
-        <p
-          style={{ fontSize: 14, color: 'rgba(0, 0, 0, 0.85)', marginBottom: 16, fontWeight: 500 }}
-        >
-          {cardList.name}
-        </p>
-        <CardForm
-          form={form}
-          users={users}
-          back={`/projects/${match.params.projectId}/boards/${match.params.boardId}`}
-          onSubmit={this.handleSubmit}
-          submiting={submitting}
-        />
+      <Card bordered={false} title="Nova tarefa">
+        <Form>
+          <Form.Item label="Quadro" {...formItemLayout}>
+            <span className="ant-form-text">{`${state.board.name} > ${state.cardList.name}`}</span>
+          </Form.Item>
+        </Form>
+        <CardForm form={form} users={users} onSubmit={this.handleSubmit} submiting={submitting} />
       </Card>
     );
   }

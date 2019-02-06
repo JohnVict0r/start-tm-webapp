@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { Card, Icon } from 'antd';
 import Link from 'umi/link';
+import withRouter from 'umi/withRouter';
 import Ellipsis from '@/components/Ellipsis';
 import AvatarList from '@/components/AvatarList';
 import timeAgo from '@/utils/timeAgo';
@@ -47,14 +48,14 @@ const Due = ({ date }) => {
 
 const priorityClass = ['lower', 'low', 'normal', 'high', 'higher'];
 
-const CardItem = ({ card, isDragging, provided, boardid }) => (
+const CardItem = ({ card, isDragging, provided, match }) => (
   <div
     className={styles.cardWrapper}
     ref={provided.innerRef}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
   >
-    <Link to={`${boardid}/cardList/${card.cardListId}/cards/${card.id}`}>
+    <Link to={`${match.url}/cards/${card.id}`}>
       <Card
         bordered={false}
         className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {
@@ -88,4 +89,4 @@ const CardItem = ({ card, isDragging, provided, boardid }) => (
   </div>
 );
 
-export default CardItem;
+export default withRouter(CardItem);

@@ -4,15 +4,21 @@ import { Button } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Link from 'umi/link';
+import withRouter from 'umi/withRouter';
 import CardItem from './CardItem';
 import styles from './index.less';
 
-const CardList = ({ cardList, isDisabled, items, board, projectid }) => (
+const CardList = ({ cardList, isDisabled, items, board, match }) => (
   <div className={styles.column}>
     <div className={styles.header}>
       <h4 className={styles.title}>{cardList.name}</h4>
       {cardList.canCreateCard && (
-        <Link to={`/projects/${projectid}/boards/${board.id}/cardList/${cardList.id}/newcard`}>
+        <Link
+          to={{
+            pathname: `/projects/${match.params.projectId}/cards/new`,
+            state: { board, cardList },
+          }}
+        >
           <Button className={styles.add} icon="plus" size="small" />
         </Link>
       )}
@@ -73,4 +79,4 @@ class InnerCardList extends Component {
   }
 }
 
-export default CardList;
+export default withRouter(CardList);

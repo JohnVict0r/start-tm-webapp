@@ -22,7 +22,7 @@ class Workflows extends PureComponent {
     dispatch({
       type: 'currentProjectWorkflows/fetch',
       payload: {
-        id: match.params.id,
+        id: match.params.projectId,
       },
     });
   }
@@ -35,7 +35,7 @@ class Workflows extends PureComponent {
         payload: {
           owner: {
             type: 'projects',
-            id: match.params.id,
+            id: match.params.projectId,
           },
           values,
         },

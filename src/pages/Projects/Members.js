@@ -19,7 +19,7 @@ class ProjectMembers extends PureComponent {
     dispatch({
       type: 'currentProjectMembers/fetch',
       payload: {
-        id: match.params.id,
+        id: match.params.projectId,
       },
     });
   }
@@ -29,7 +29,7 @@ class ProjectMembers extends PureComponent {
     dispatch({
       type: 'currentProjectMembers/deleteMember',
       payload: {
-        id: match.params.id,
+        id: match.params.projectId,
         member: memberId,
       },
     });
@@ -41,7 +41,7 @@ class ProjectMembers extends PureComponent {
     dispatch({
       type: 'currentProjectMembers/changeMemberRole',
       payload: {
-        projectId: match.params.id,
+        projectId: match.params.projectId,
         member: memberId,
         roleId: role,
       },
@@ -54,7 +54,7 @@ class ProjectMembers extends PureComponent {
     return (
       <React.Fragment>
         <Card bordered={false} title="Adicionar membro" style={{ marginTop: 24 }}>
-          <NewMemberForm projectId={match.params.id} />
+          <NewMemberForm projectId={match.params.projectId} />
         </Card>
         <Card
           className={styles.standardList}

@@ -12,7 +12,7 @@ import { makeProjectSelector } from './selectors/projects';
 import styles from './ViewProject.less';
 
 @connect((state, ownProps) => {
-  const projectSelector = makeProjectSelector({ id: ownProps.match.params.id });
+  const projectSelector = makeProjectSelector({ id: ownProps.match.params.projectId });
   return {
     project: projectSelector(state),
     loading: state.loading.effects['projects/fetchProject'],
@@ -23,7 +23,7 @@ class ViewProject extends Component {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'projects/fetchProject',
-      payload: match.params.id,
+      payload: match.params.projectId,
     });
   }
 
@@ -31,7 +31,7 @@ class ViewProject extends Component {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'projects/favoriteProject',
-      payload: match.params.id,
+      payload: match.params.projectId,
     });
   };
 
@@ -41,7 +41,7 @@ class ViewProject extends Component {
       <Menu selectable>
         {project.boards.map(r => (
           <Menu.Item key={r.id}>
-            <Link to={`/projects/${match.params.id}/boards/${r.id}`}>{r.name}</Link>
+            <Link to={`/projects/${match.params.projectId}/boards/${r.id}`}>{r.name}</Link>
           </Menu.Item>
         ))}
       </Menu>
@@ -141,7 +141,7 @@ class ViewProject extends Component {
         </div>
         <div className={styles.right}>
           {this.renderBoardSelector(selectedBoard)}
-          <Link to={`/projects/${match.params.id}/boards/new`}>
+          <Link to={`/projects/${match.params.projectId}/boards/new`}>
             <Button type="primary">
               <Icon type="plus" />
               <span className={styles.hiddenInMobile}>Quadro</span>

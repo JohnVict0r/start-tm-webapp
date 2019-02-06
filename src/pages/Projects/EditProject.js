@@ -4,7 +4,7 @@ import { Input, Form, Card, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
 
 @connect((state, ownProps) => ({
-  project: state.entities.projects[ownProps.match.params.id],
+  project: state.entities.projects[ownProps.match.params.projectId],
   proejcts: state.saveProject,
   submitting: state.loading.effects['saveProject/save'],
 }))
@@ -38,7 +38,7 @@ class EditProject extends PureComponent {
         dispatch({
           type: 'saveProject/save',
           payload: {
-            id: match.params.id,
+            id: match.params.projectId,
             project: {
               ...values,
             },

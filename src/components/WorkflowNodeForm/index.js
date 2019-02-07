@@ -59,7 +59,7 @@ const WorkflowNodeForm = Form.create({ name: 'form_workflow_node_in_modal' })(
                     message: formatMessage({ id: 'app.workflow.form.node.status-message' }),
                   },
                 ],
-                initialValue: initialValues.statusId,
+                initialValue: initialValues.status && initialValues.status.id,
               })(
                 <Select
                   placeholder={formatMessage({ id: 'app.workflow.form.node.status' })}

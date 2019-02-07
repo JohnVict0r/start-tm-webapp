@@ -40,7 +40,6 @@ class ViewWorkflow extends Component {
   }
 
   showWorkflowNodeFormModal = node => {
-    console.log(node);
     this.setState({
       currentWorkflowNode: node,
       visibleWorkflowNodeModal: true,
@@ -211,6 +210,7 @@ class ViewWorkflow extends Component {
         <Card
           className={styles.standardList}
           bordered={false}
+          extra="oi"
           title="Etapas"
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}

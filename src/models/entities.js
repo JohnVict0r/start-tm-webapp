@@ -43,7 +43,7 @@ export default {
         ...updater({ entity: 'cards' }),
         ...updater({ entity: 'comments' }),
         ...updater({ entity: 'workflows', updateStrategy: assign }),
-        ...updater({ entity: 'workflowNodes'}),
+        ...updater({ entity: 'workflowNodes' }),
         ...updater({ entity: 'workflowTransitions' }),
       };
     },

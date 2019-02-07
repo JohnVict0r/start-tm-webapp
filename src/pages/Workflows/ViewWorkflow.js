@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Modal} from 'antd';
+import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Modal } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
@@ -23,8 +23,8 @@ import { statusSelector } from '@/selectors/global';
 })
 class ViewWorkflow extends Component {
   state = {
-    visible: false
-  }
+    visible: false,
+  };
 
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -37,12 +37,12 @@ class ViewWorkflow extends Component {
     });
   }
 
-  showModal = (node) => {
+  showModal = node => {
     console.log(node);
     this.setState({
       visible: true,
     });
-  }
+  };
 
   handleSubmitWorkflowNode = (err, values) => {
     if (!err) {
@@ -194,8 +194,7 @@ class ViewWorkflow extends Component {
               buttonValue="Adicionar"
             />
           </Card>
-        ) : null
-        }
+        ) : null}
         <Card
           className={styles.standardList}
           bordered={false}

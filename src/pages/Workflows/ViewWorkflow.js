@@ -6,6 +6,7 @@ import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Modal } from 'ant
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
+import WorkflowNodeForm from '@/components/WorkflowNodeForm';
 
 import styles from './ViewWorkflow.less';
 import NewWorkflowNode from './NewWorkflowNode';
@@ -23,7 +24,8 @@ import { statusSelector } from '@/selectors/global';
 })
 class ViewWorkflow extends Component {
   state = {
-    visible: false,
+    visibleWorkflowNodeModal: false,
+    currentWorkflowNode: {},
   };
 
   componentDidMount() {
@@ -37,10 +39,11 @@ class ViewWorkflow extends Component {
     });
   }
 
-  showModal = node => {
+  showWorkflowNodeFormModal = node => {
     console.log(node);
     this.setState({
-      visible: true,
+      currentWorkflowNode: node,
+      visibleWorkflowNodeModal: true,
     });
   };
 
@@ -91,8 +94,18 @@ class ViewWorkflow extends Component {
     });
   };
 
+  saveFormRef = formRef => {
+    this.formRef = formRef;
+  };
+
+  handleCancel = () => {
+    this.setState({ visibleWorkflowNodeModal: false });
+  };
+
   render() {
     const { workflow, statusArray, match } = this.props;
+    const { currentWorkflowNode, visibleWorkflowNodeModal } = this.state;
+
     if (!workflow) {
       return <PageLoading />;
     }
@@ -162,7 +175,7 @@ class ViewWorkflow extends Component {
         align: 'center',
         render: record => (
           <span>
-            <a onClick={() => this.showModal(record)}>Editar</a>
+            <a onClick={() => this.showWorkflowNodeFormModal(record)}>Editar</a>
             <Divider type="vertical" />
             <Popconfirm
               title="Tem certeza?"
@@ -209,18 +222,14 @@ class ViewWorkflow extends Component {
             rowKey={record => record.id}
           />
         </Card>
-        <Modal
-          title="Alterar Etapa"
-          visible={this.state.visible}
-          onOk={this.handleOk}
+        <WorkflowNodeForm
+          status={statusArray}
+          initialValues={currentWorkflowNode}
+          wrappedComponentRef={this.saveFormRef}
+          visible={visibleWorkflowNodeModal}
           onCancel={this.handleCancel}
-        >
-          <NewWorkflowNode
-            onSubmit={this.handleSubmitWorkflowNode}
-            status={statusArray}
-            buttonValue="Adicionar"
-          />
-        </Modal>
+          onCreate={this.handleCreate}
+        />
       </PageHeaderWrapper>
     );
   }

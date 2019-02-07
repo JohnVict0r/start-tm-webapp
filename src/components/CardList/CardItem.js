@@ -66,12 +66,13 @@ const RenderAvatarList = ({ card }) => (
   </div>
 );
 
-const CardItem = ({ card, isDragging, provided, match }) => (
+const CardItem = ({ card, isDragging, provided, style, match }) => (
   <div
     className={styles.cardWrapper}
     ref={provided.innerRef}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
+    style={style}
   >
     <Link to={`${match.url}/cards/${card.id}`}>
       <Card

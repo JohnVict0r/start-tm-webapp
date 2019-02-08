@@ -11,7 +11,7 @@ const avatarSizeToClassName = size =>
     [styles.avatarItemMini]: size === 'mini',
   });
 
-const AvatarList = ({ children, size, maxLength, excessItemsStyle, ...other }) => {
+const AvatarList = ({ children, size, overlap = 8, maxLength, excessItemsStyle, ...other }) => {
   const numOfChildren = React.Children.count(children);
   const numToShow = maxLength >= numOfChildren ? numOfChildren : maxLength;
 
@@ -20,6 +20,7 @@ const AvatarList = ({ children, size, maxLength, excessItemsStyle, ...other }) =
     .map(child =>
       React.cloneElement(child, {
         size,
+        overlap,
       })
     );
 
@@ -35,16 +36,16 @@ const AvatarList = ({ children, size, maxLength, excessItemsStyle, ...other }) =
 
   return (
     <div {...other} className={styles.avatarList}>
-      <ul> {childrenWithProps} </ul>
+      <ul style={{ marginLeft: overlap }}> {childrenWithProps} </ul>
     </div>
   );
 };
 
-const Item = ({ src, size, tips, onClick = () => {} }) => {
+const Item = ({ src, size, overlap, tips, style, onClick = () => {} }) => {
   const cls = avatarSizeToClassName(size);
 
   return (
-    <li className={cls} onClick={onClick}>
+    <li className={cls} style={{ marginLeft: -overlap, ...style }} onClick={onClick}>
       {tips ? (
         <Tooltip title={tips}>
           <Avatar src={src} size={size} style={{ cursor: 'pointer' }} />

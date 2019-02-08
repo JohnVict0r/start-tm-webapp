@@ -28,7 +28,7 @@ const AvatarList = ({ children, size, overlap = 8, maxLength, excessItemsStyle, 
     const cls = avatarSizeToClassName(size);
 
     childrenWithProps.push(
-      <li key="exceed" className={cls}>
+      <li key="exceed" className={cls} style={{ marginLeft: -overlap }}>
         <Avatar size={size} style={excessItemsStyle}>{`+${numOfChildren - maxLength}`}</Avatar>
       </li>
     );

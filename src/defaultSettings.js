@@ -10,4 +10,5 @@ module.exports = {
     disableLocal: false,
   },
   title: 'Produtiivo',
+  pwa: true,
 };

@@ -48,12 +48,31 @@ const Due = ({ date }) => {
 
 const priorityClass = ['lower', 'low', 'normal', 'high', 'higher'];
 
-const CardItem = ({ card, isDragging, provided, match }) => (
+const RenderAvatarList = ({ card }) => (
+  <div className={styles.avatarList}>
+    <AvatarList
+      size="mini"
+      maxLength={3}
+      excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+    >
+      {card.members.map(member => (
+        <AvatarList.Item
+          key={`${card.id}-avatar-${member.id}`}
+          src={member.pictureUrl}
+          tips={member.name}
+        />
+      ))}
+    </AvatarList>
+  </div>
+);
+
+const CardItem = ({ card, isDragging, provided, style, match }) => (
   <div
     className={styles.cardWrapper}
     ref={provided.innerRef}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
+    style={style}
   >
     <Link to={`${match.url}/cards/${card.id}`}>
       <Card
@@ -68,21 +87,7 @@ const CardItem = ({ card, isDragging, provided, match }) => (
           <div className={styles.left}>
             <Due date={card.due} />
           </div>
-          <div className={styles.avatarList}>
-            <AvatarList
-              size="mini"
-              maxLength={3}
-              excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-            >
-              {card.members.map(member => (
-                <AvatarList.Item
-                  key={`${card.id}-avatar-${member.id}`}
-                  src={member.pictureUrl}
-                  tips={member.name}
-                />
-              ))}
-            </AvatarList>
-          </div>
+          {card.members.length > 0 && <RenderAvatarList card={card} />}
         </div>
       </Card>
     </Link>

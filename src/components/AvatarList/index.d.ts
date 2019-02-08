@@ -3,6 +3,7 @@ import AvatarItem from './AvatarItem';
 
 export interface IAvatarListProps {
   size?: 'large' | 'small' | 'mini' | 'default';
+  overlap?: number;
   maxLength?: number;
   excessItemsStyle?: React.CSSProperties;
   style?: React.CSSProperties;

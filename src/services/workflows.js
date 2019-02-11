@@ -20,8 +20,8 @@ export const createWorkflowForProject = (projectId, { name, description }) =>
 export const createWorkflowNode = (workflowId, node) =>
   callApi(`workflows/${workflowId}/wf_nodes`, schema.WORKFLOW).post(node);
 
-export const updateorkflowNode = (workflowId, node) =>
-  callApi(`wf_nodes/${workflowId}`, schema.WORKFLOW).put(node);
+export const updateWorkflowNode = (nodeId, node) =>
+  callApi(`wf_nodes/${nodeId}`, schema.WORKFLOW).put(node);
 
 export const deleteWorkflowNode = nodeId => callApi(`wf_nodes/${nodeId}`, schema.WORKFLOW).delete();
 

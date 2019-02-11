@@ -1,6 +1,7 @@
 import {
   loadWorkflow,
   createWorkflowNode,
+  updateWorkflowNode,
   createWorkflowTransition,
   deleteWorkflowNode,
   deleteWorkflowTransition,
@@ -79,6 +80,25 @@ export default {
         });
 
         notification.success({ message: 'Transição adicionada com sucesso!' });
+      }
+    },
+    *putWorkflowNode({ payload }, { call, put }) {
+      const response = yield call(updateWorkflowNode, payload.id, payload.node);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível Atualizar a etapa!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Etapa atualizada com sucesso!' });
       }
     },
     *deleteWorkflowNode({ payload }, { call, put }) {

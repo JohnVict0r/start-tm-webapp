@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Modal } from 'antd';
+import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Button } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
-import WorkflowNodeForm from '@/components/WorkflowNodeForm';
+import WorkflowNodeForm from '@/components/Modal/WorkflowNodeForm';
+import WorkflowTransitionForm from '@/components/Modal/WorkflowTransitionForm';
 
 import styles from './ViewWorkflow.less';
-import NewWorkflowNode from './NewWorkflowNode';
-import NewWorkflowTransition from './NewWorkflowTransition';
 import { makeWorkflowsSelector } from './selectors/workflows';
 import { statusSelector } from '@/selectors/global';
 
@@ -25,6 +24,7 @@ import { statusSelector } from '@/selectors/global';
 class ViewWorkflow extends Component {
   state = {
     visibleWorkflowNodeModal: false,
+    visibleWorkflowTransitionModal: false,
     currentWorkflowNode: {},
   };
 
@@ -46,9 +46,27 @@ class ViewWorkflow extends Component {
     });
   };
 
+  showWorkflowNodeFormCreateModal = () => {
+    this.setState({
+      visibleWorkflowNodeModal: true,
+    });
+  };
+
+  showWorkflowTransitionFormModal = () => {
+    this.setState({
+      visibleWorkflowTransitionModal: true,
+    });
+  };
+
   handleSubmitWorkflowNode = (err, values) => {
-    if (!err) {
-      const { dispatch, workflow } = this.props;
+    if (err) {
+      return;
+    }
+
+    const { dispatch, workflow } = this.props;
+    const { currentWorkflowNode } = this.state;
+
+    if (!currentWorkflowNode.id) {
       dispatch({
         type: 'workflows/addWorkflowNode',
         payload: {
@@ -56,20 +74,31 @@ class ViewWorkflow extends Component {
           node: values,
         },
       });
-    }
-  };
-
-  handleSubmitWorkflowTransition = (err, values) => {
-    if (!err) {
-      const { dispatch, workflow } = this.props;
+    } else {
       dispatch({
-        type: 'workflows/addWorkflowTransition',
+        type: 'workflows/putWorkflowNode',
         payload: {
-          id: workflow.id,
-          transition: values,
+          id: currentWorkflowNode.id,
+          node: values,
         },
       });
     }
+    this.handleCancelNodeModal();
+  };
+
+  handleSubmitWorkflowTransition = (err, values) => {
+    if (err) {
+      return;
+    }
+    const { dispatch, workflow } = this.props;
+    dispatch({
+      type: 'workflows/addWorkflowTransition',
+      payload: {
+        id: workflow.id,
+        transition: values,
+      },
+    });
+    this.handleCancelTransitionModal();
   };
 
   handleDeleteNode = nodeId => {
@@ -97,13 +126,24 @@ class ViewWorkflow extends Component {
     this.formRef = formRef;
   };
 
-  handleCancel = () => {
-    this.setState({ visibleWorkflowNodeModal: false });
+  handleCancelNodeModal = () => {
+    this.setState({
+      visibleWorkflowNodeModal: false,
+      currentWorkflowNode: {},
+    });
+  };
+
+  handleCancelTransitionModal = () => {
+    this.setState({ visibleWorkflowTransitionModal: false });
   };
 
   render() {
     const { workflow, statusArray, match } = this.props;
-    const { currentWorkflowNode, visibleWorkflowNodeModal } = this.state;
+    const {
+      currentWorkflowNode,
+      visibleWorkflowNodeModal,
+      visibleWorkflowTransitionModal,
+    } = this.state;
 
     if (!workflow) {
       return <PageLoading />;
@@ -188,29 +228,27 @@ class ViewWorkflow extends Component {
       },
     ];
 
+    const extraTableOption = (
+      <div>
+        <Button type="primary" onClick={this.showWorkflowNodeFormCreateModal}>
+          <Icon type="plus" />
+          <span>Etapa</span>
+        </Button>
+        {workflow.nodes.length > 1 ? (
+          <Button type="primary" onClick={this.showWorkflowTransitionFormModal}>
+            <Icon type="plus" />
+            <span>Transição</span>
+          </Button>
+        ) : null}
+      </div>
+    );
+
     return (
       <PageHeaderWrapper hiddenBreadcrumb content={content}>
-        <Card bordered={false} title="Adicionar Etapas" style={{ marginTop: 24 }}>
-          <NewWorkflowNode
-            onSubmit={this.handleSubmitWorkflowNode}
-            status={statusArray}
-            buttonValue="Adicionar"
-          />
-        </Card>
-        {workflow.nodes.length > 1 ? (
-          <Card bordered={false} title="Adicionar Transição" style={{ marginTop: 24 }}>
-            <NewWorkflowTransition
-              nodes={workflow.nodes}
-              transitions={workflow.transitions}
-              onSubmit={this.handleSubmitWorkflowTransition}
-              buttonValue="Adicionar"
-            />
-          </Card>
-        ) : null}
         <Card
           className={styles.standardList}
           bordered={false}
-          extra="oi"
+          extra={extraTableOption}
           title="Etapas"
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
@@ -227,8 +265,16 @@ class ViewWorkflow extends Component {
           initialValues={currentWorkflowNode}
           wrappedComponentRef={this.saveFormRef}
           visible={visibleWorkflowNodeModal}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
+          onCancel={this.handleCancelNodeModal}
+          onCreate={this.handleSubmitWorkflowNode}
+        />
+        <WorkflowTransitionForm
+          nodes={workflow.nodes}
+          transitions={workflow.transitions}
+          wrappedComponentRef={this.saveFormRef}
+          visible={visibleWorkflowTransitionModal}
+          onCancel={this.handleCancelTransitionModal}
+          onCreate={this.handleSubmitWorkflowTransition}
         />
       </PageHeaderWrapper>
     );

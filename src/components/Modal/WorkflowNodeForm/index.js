@@ -16,23 +16,44 @@ const WorkflowNodeForm = Form.create({ name: 'form_workflow_node_in_modal' })(
       });
     };
 
+    handleSubmit = e => {
+      e.preventDefault();
+      const { form, onCreate } = this.props;
+      form.validateFields({ force: true }, (err, values) => {
+        if (err) {
+          return;
+        }
+        onCreate(err, values);
+        form.resetFields();
+        this.setState({
+          checkCanCreateCard: false,
+        });
+      });
+    };
+
     render() {
-      const { visible, onCancel, onCreate, form, status, initialValues } = this.props;
+      const { visible, onCancel, form, status, initialValues } = this.props;
+
+      const { getFieldDecorator } = form;
+
+      const { Option } = Select;
 
       let { checkCanCreateCard } = this.state;
-      const { getFieldDecorator } = form;
 
       if (initialValues.canCreateCard === 1) {
         checkCanCreateCard = true;
       }
 
+      const TitleModal = initialValues.id ? 'Alterar Etapa' : 'Adicionar Etapa';
+      const OkTextModal = initialValues.id ? 'Alterar' : 'Adicionar';
+
       return (
         <Modal
           visible={visible}
-          title={(initialValues.id ? 'Alterar' : 'Adicionar') + ' Etapa'}
-          okText={initialValues.id ? 'Alterar' : 'Adicionar'}
+          title={TitleModal}
+          okText={OkTextModal}
           onCancel={onCancel}
-          onOk={onCreate}
+          onOk={this.handleSubmit}
         >
           <Form layout="vertical">
             <Form.Item label="Nome">

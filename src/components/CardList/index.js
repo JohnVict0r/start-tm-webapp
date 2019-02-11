@@ -71,7 +71,7 @@ class InnerCardList extends Component {
             card={card}
             isDragging={snapshot.isDragging}
             provided={provided}
-            boardid={board.id}
+            board={board}
           />
         )}
       </Draggable>

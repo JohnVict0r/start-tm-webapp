@@ -9,15 +9,15 @@ export const moveCard = ({ cardId, fromCardListId, toCardListId, position }) =>
     position,
   });
 export const createCard = ({ cardListId, card }) =>
-  callApi(`cardlists/${cardListId}/cards`, schema.BOARD).post({ ...card });
-export const updateCard = ({ id, card }) => callApi(`cards/${id}`, schema.BOARD).put({ ...card });
+  callApi(`cardlists/${cardListId}/cards`, schema.CARD).post({ ...card });
+export const updateCard = ({ id, card }) => callApi(`cards/${id}`, schema.CARD).put({ ...card });
 export const assignUser = ({ id, userId }) =>
-  callApi(`cards/${id}/members/${userId}`, schema.BOARD).put();
+  callApi(`cards/${id}/members/${userId}`, schema.CARD).put();
 export const unAssignUser = ({ id, userId }) =>
-  callApi(`cards/${id}/members/${userId}`, schema.BOARD).delete();
+  callApi(`cards/${id}/members/${userId}`, schema.CARD).delete();
 export const createComment = ({ cardId, comment }) =>
-  callApi(`cards/${cardId}/comments`, schema.BOARD).post({ ...comment });
-export const listComments = ({ id }) => callApi(`cards/${id}/comments`, schema.BOARD).get();
+  callApi(`cards/${cardId}/comments`, schema.COMMENT_ARRAY).post({ ...comment });
+export const listComments = ({ id }) => callApi(`cards/${id}/comments`, schema.COMMENT_ARRAY).get();
 export const updateComment = ({ id, comment }) =>
-  callApi(`comments/${id}`, schema.BOARD).put({ ...comment });
-export const deleteComment = ({ id }) => callApi(`comments/${id}`, schema.BOARD).delete();
+  callApi(`comments/${id}`, schema.COMMENT_ARRAY).put({ ...comment });
+export const deleteComment = ({ id }) => callApi(`comments/${id}`, schema.COMMENT_ARRAY).delete();

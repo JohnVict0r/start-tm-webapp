@@ -48,14 +48,18 @@ const Due = ({ date }) => {
 
 const priorityClass = ['lower', 'low', 'normal', 'high', 'higher'];
 
-const CardItem = ({ card, isDragging, provided, match }) => (
+const CardItem = ({ card, isDragging, provided, match,board }) => (
   <div
     className={styles.cardWrapper}
     ref={provided.innerRef}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
   >
-    <Link to={`${match.url}/cards/${card.id}`}>
+    <Link to={{
+      pathname:`${match.url}/cards/${card.id}`,
+      state: { board }
+      }}
+    >
       <Card
         bordered={false}
         className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {

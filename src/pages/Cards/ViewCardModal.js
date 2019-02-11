@@ -7,19 +7,30 @@ import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
 import Link from 'umi/link';
 import { cardSelectorWithMembers } from './selectors/members';
+import { cardCommentSelector } from './selectors/comments';
 
 import styles from './ViewCardModal.less';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
+  const commentSelector = cardCommentSelector({ cardId: ownProps.match.params.cardId });
   return {
     validation: state.createBoard.validation,
     card: cardSelector(state),
+    commments: commentSelector(state),
     submitting: state.loading.effects['commentCard/save'],
   };
 })
 @Form.create()
 class ViewCardModal extends PureComponent {
+  componentDidMount() {
+    const { dispatch,card } = this.props;
+    dispatch({
+      type: 'commentCard/list',
+      payload:{id:card.id}
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -63,7 +74,7 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match } = this.props;
+    const { card, form, submitting, match, location: { state } } = this.props;
     return (
       <Modal
         className={styles.modal}
@@ -88,10 +99,14 @@ class ViewCardModal extends PureComponent {
             ))}
           </AvatarList>
         </div>
-        <div>{card.name}</div>
+        <div className={styles.cardName}>{card.name}</div>
         <div>{card.description}</div>
         <div>
-          <Link to={`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`}>
+          <Link to={{
+            pathname:`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`,
+            state:{ board:state.board }
+          }}
+          >
             <FormattedMessage id="app.card.edit" />
           </Link>
         </div>

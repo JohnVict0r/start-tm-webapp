@@ -11,7 +11,7 @@ export default {
 
   effects: {
     *list({ payload }, { call, put }) {
-      const response = call(listComments, payload);
+      const response = yield call(listComments, payload);
 
       if (response.errors) {
         yield put({
@@ -26,7 +26,7 @@ export default {
       }
     },
     *delete({ payload }, { call, put }) {
-      const response = call(deleteComment, payload);
+      const response = yield call(deleteComment, payload);
 
       if (response.errors) {
         yield put({

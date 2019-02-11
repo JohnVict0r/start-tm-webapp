@@ -1,5 +1,6 @@
 import { queryNotices } from '@/services/api';
 import { fetchRoles } from '@/services/auth';
+import { loadStatus } from '@/services/global';
 import { loadLoggedInUser, loadFavorites } from '@/services/user';
 
 export default {
@@ -7,6 +8,7 @@ export default {
 
   state: {
     roles: [],
+    status: [],
     collapsed: false,
     notices: [],
     favorites: [],
@@ -27,6 +29,7 @@ export default {
         payload: response.result,
       });
     },
+
     *fetchRoles(_, { call, put }) {
       const response = yield call(fetchRoles);
       yield put({
@@ -35,6 +38,18 @@ export default {
       });
       yield put({
         type: 'saveRoles',
+        payload: response.result,
+      });
+    },
+
+    *fetchStatus(_, { call, put }) {
+      const response = yield call(loadStatus);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+      yield put({
+        type: 'saveStatus',
         payload: response.result,
       });
     },
@@ -148,6 +163,12 @@ export default {
       return {
         ...state,
         roles: payload,
+      };
+    },
+    saveStatus(state, { payload }) {
+      return {
+        ...state,
+        status: payload,
       };
     },
     saveNotices(state, { payload }) {

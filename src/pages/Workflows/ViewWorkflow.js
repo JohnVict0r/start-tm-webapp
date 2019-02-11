@@ -229,7 +229,7 @@ class ViewWorkflow extends Component {
     ];
 
     const extraTableOption = (
-      <div>
+      <Button.Group>
         <Button type="primary" onClick={this.showWorkflowNodeFormCreateModal}>
           <Icon type="plus" />
           <span>Etapa</span>
@@ -240,7 +240,7 @@ class ViewWorkflow extends Component {
             <span>Transição</span>
           </Button>
         ) : null}
-      </div>
+      </Button.Group>
     );
 
     return (
@@ -255,6 +255,7 @@ class ViewWorkflow extends Component {
         >
           <Table
             style={{ marginTop: 24 }}
+            pagination={false}
             columns={columns}
             dataSource={workflow.list}
             rowKey={record => record.id}

@@ -178,6 +178,13 @@ export default [
             icon: 'plus',
             component: './Teds/NewTed',
           },
+          {
+            path: '/teds/:id',
+            name: 'view-ted',
+            icon: 'plus',
+            hideInMenu: true,
+            component: './Teds/ViewTed',
+          },
         ],
       },
 

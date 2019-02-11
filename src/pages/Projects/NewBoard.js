@@ -14,7 +14,7 @@ class NewBoard extends PureComponent {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'createBoard/fetchAvailableWorkflows',
-      payload: match.params.id,
+      payload: match.params.projectId,
     });
   }
 
@@ -46,7 +46,7 @@ class NewBoard extends PureComponent {
         dispatch({
           type: 'createBoard/create',
           payload: {
-            projectId: match.params.id,
+            projectId: match.params.projectId,
             board: values,
           },
         });
@@ -95,7 +95,7 @@ class NewBoard extends PureComponent {
             help={
               <span>
                 Você também pode criar um novo fluxo de trabalho{' '}
-                <Link to={`/projects/${match.params.id}/workflows`}>aqui</Link>.
+                <Link to={`/projects/${match.params.projectId}/workflows`}>aqui</Link>.
               </span>
             }
           >

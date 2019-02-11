@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import isEqual from 'lodash/isEqual';
 import { connect } from 'dva';
 import { Spin } from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
@@ -39,7 +40,7 @@ class Board extends PureComponent {
     if (nextProps.board) {
       let newState = {};
 
-      if (nextProps.board.cardMap !== prevState.tmpCardMap) {
+      if (!isEqual(nextProps.board.cardMap, prevState.tmpCardMap)) {
         newState = {
           ...newState,
           tmpCardMap: nextProps.board.cardMap,
@@ -134,25 +135,28 @@ class Board extends PureComponent {
       destination,
     });
 
-    // reordena no backend
-    dispatch({
-      type: 'cards/moveCard',
-      payload: {
-        cardId: cardMap[source.droppableId][source.index].id,
-        fromCardListId: source.droppableId,
-        toCardListId: destination.droppableId,
-        position: destination.index,
+    this.setState(
+      {
+        cardMap: data.cardMap,
+        disabledCardlists: resetDisabledCardlists(cardlists),
       },
-    });
-
-    this.setState({
-      cardMap: data.cardMap,
-      disabledCardlists: resetDisabledCardlists(cardlists),
-    });
+      () => {
+        // reordena no backend
+        dispatch({
+          type: 'cards/moveCard',
+          payload: {
+            cardId: cardMap[source.droppableId][source.index].id,
+            fromCardListId: source.droppableId,
+            toCardListId: destination.droppableId,
+            position: destination.index,
+          },
+        });
+      }
+    );
   };
 
   render() {
-    const { board, loading } = this.props;
+    const { board, loading, match, children } = this.props;
     const { cardMap, disabledCardlists } = this.state;
 
     if (!board) {
@@ -169,6 +173,8 @@ class Board extends PureComponent {
                   <CardList
                     key={cardlist.id}
                     cardList={cardlist}
+                    board={board}
+                    projectid={match.params.projectId}
                     createCard={this.createCard}
                     isDisabled={disabledCardlists[cardlist.id]}
                     items={cardMap[cardlist.id]}
@@ -178,6 +184,7 @@ class Board extends PureComponent {
             </div>
           </Scrollbars>
         </Spin>
+        {children}
       </div>
     );
   }

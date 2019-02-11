@@ -2,28 +2,41 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Button } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Scrollbars } from 'react-custom-scrollbars';
+import Link from 'umi/link';
+import withRouter from 'umi/withRouter';
 import CardItem from './CardItem';
 import styles from './index.less';
 
-const CardList = ({ cardList, isDisabled, items }) => (
+const CardList = ({ cardList, isDisabled, items, board, match }) => (
   <div className={styles.column}>
     <div className={styles.header}>
       <h4 className={styles.title}>{cardList.name}</h4>
-      {cardList.canCreateCard && <Button className={styles.add} icon="plus" size="small" />}
+      {cardList.canCreateCard && (
+        <Link
+          to={{
+            pathname: `/projects/${match.params.projectId}/cards/new`,
+            state: { board, cardList },
+          }}
+        >
+          <Button className={styles.add} icon="plus" size="small" />
+        </Link>
+      )}
     </div>
     <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
       <List
         listId={cardList.id.toString()}
         listType="CARD"
         cards={items}
+        board={board}
         isDropDisabled={isDisabled}
       />
     </Scrollbars>
   </div>
 );
 
-const List = ({ cards, listId, listType, isDropDisabled }) => (
+const List = ({ cards, listId, listType, isDropDisabled, board }) => (
   <Droppable droppableId={listId} type={listType} isDropDisabled={isDropDisabled}>
     {(dropProvided, dropSnapshot) => (
       <div
@@ -34,7 +47,7 @@ const List = ({ cards, listId, listType, isDropDisabled }) => (
         {...dropProvided.droppableProps}
       >
         <div className={styles.dropzone} ref={dropProvided.innerRef}>
-          <InnerCardList cards={cards} />
+          <InnerCardList cards={cards} board={board} />
           {dropProvided.placeholder}
         </div>
       </div>
@@ -49,20 +62,27 @@ class InnerCardList extends Component {
   }
 
   render() {
-    const { cards } = this.props;
+    const { cards, board } = this.props;
+
     return cards.map((card, index) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>
         {(provided, snapshot) => (
-          <CardItem
-            key={card.id}
-            card={card}
-            isDragging={snapshot.isDragging}
-            provided={provided}
-          />
+          <NaturalDragAnimation style={provided.draggableProps.style} snapshot={snapshot}>
+            {style => (
+              <CardItem
+                key={card.id}
+                card={card}
+                isDragging={snapshot.isDragging}
+                style={style}
+                provided={provided}
+                boardid={board.id}
+              />
+            )}
+          </NaturalDragAnimation>
         )}
       </Draggable>
     ));
   }
 }
 
-export default CardList;
+export default withRouter(CardList);

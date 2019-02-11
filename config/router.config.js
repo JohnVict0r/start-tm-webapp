@@ -254,34 +254,51 @@ export default [
             component: './Projects/NewProject',
           },
           {
-            path: '/projects/:id',
+            path: '/projects/:projectId',
             name: 'project',
             component: './Projects/ViewProject',
             hideInMenu: true,
             routes: [
-              { path: '/projects/:id/boards', redirect: '/projects/:id' },
+              { path: '/projects/:projectId/boards', redirect: '/projects/:projectId' },
               {
-                path: '/projects/:id/edit',
+                path: '/projects/:projectId/edit',
                 name: 'edit-project',
                 component: './Projects/EditProject',
               },
               {
-                path: '/projects/:id/boards/new',
+                path: '/projects/:projectId/boards/new',
                 name: 'new-board',
                 component: './Projects/NewBoard',
               },
               {
-                path: '/projects/:id/boards/:boardId',
+                path: '/projects/:projectId/boards/:boardId',
                 name: 'project-boards',
                 component: './Projects/Board',
+                routes: [
+                  {
+                    path: '/projects/:projectId/boards/:boardId/cards/:cardId',
+                    name: 'project-boards-card-view',
+                    component: './Cards/ViewCardModal',
+                  },
+                ],
               },
               {
-                path: '/projects/:id/workflows',
+                path: '/projects/:projectId/cards/new',
+                name: 'project-boards-card',
+                component: './Cards/NewCard',
+              },
+              {
+                path: '/projects/:projectId/cards/:cardId/edit',
+                name: 'project-boards-card-edit',
+                component: './Cards/EditCard',
+              },
+              {
+                path: '/projects/:projectId/workflows',
                 name: 'project-workflows',
                 component: './Projects/Workflows',
               },
               {
-                path: '/projects/:id/members',
+                path: '/projects/:projectId/members',
                 name: 'project-members',
                 component: './Projects/Members',
               },

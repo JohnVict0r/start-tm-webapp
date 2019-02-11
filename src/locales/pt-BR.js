@@ -13,6 +13,8 @@ import result from './pt-BR/result';
 import settingDrawer from './pt-BR/settingDrawer';
 import settings from './pt-BR/settings';
 import team from './pt-BR/team';
+import card from './pt-BR/card';
+import comment from './pt-BR/comment';
 import validation from './pt-BR/validation';
 import pwa from './pt-BR/pwa';
 import workflow from './pt-BR/workflow';
@@ -42,4 +44,6 @@ export default {
   ...team,
   ...validation,
   ...pwa,
+  ...card,
+  ...comment,
 };

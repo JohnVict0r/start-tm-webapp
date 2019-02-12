@@ -179,7 +179,7 @@ export default [
             component: './Teds/NewTed',
           },
           {
-            path: '/teds/:id',
+            path: '/teds/:tedId',
             name: 'view-ted',
             icon: 'plus',
             hideInMenu: true,

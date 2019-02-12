@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 
-// eslint-disable-next-line
 export const exploreTedsSelector = createSelector(
   state => state.teds.explore,
   state => state.entities.teds,
@@ -9,3 +8,20 @@ export const exploreTedsSelector = createSelector(
     pagination: explore.pagination,
   })
 );
+
+export const makeTedSelector = ({ id }) =>
+  createSelector(
+    state => state.entities.teds,
+    state => state.entities.users,
+    (teds, users) => {
+      const ted = teds[id];
+      if (ted) {
+        return {
+          ...ted,
+          creator: users[ted.creator],
+        };
+      }
+
+      return undefined;
+    }
+  );

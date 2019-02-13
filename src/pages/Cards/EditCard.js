@@ -75,7 +75,7 @@ class EditCard extends PureComponent {
   };
 
   render() {
-    const { form, submitting , card, users } = this.props;
+    const { form, submitting , card, users,match, location:{state} } = this.props;
 
     return (
       <Card bordered={false} title="Editar tarefa">
@@ -84,6 +84,10 @@ class EditCard extends PureComponent {
           onSubmit={this.handleSubmit}
           users={users}
           current={card}
+          back={{
+            pathname:`/projects/${match.params.projectId}/boards/${state.board.id}/cards/${match.params.cardId}`,
+            state:{ board:state.board }
+          }}
           submiting={submitting}
         />
       </Card>

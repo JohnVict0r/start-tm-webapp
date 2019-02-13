@@ -1,6 +1,6 @@
 import { notification } from 'antd';
 import { formatMessage } from 'umi/locale';
-import { listComments, deleteComment, updateComment, createComment } from '@/services/cards';
+import { deleteComment, updateComment, createComment } from '@/services/cards';
 
 export default {
   namespace: 'commentCard',
@@ -10,21 +10,6 @@ export default {
   },
 
   effects: {
-    *list({ payload }, { call, put }) {
-      const response = yield call(listComments, payload);
-
-      if (response.errors) {
-        yield put({
-          type: 'handleError',
-          payload: response,
-        });
-      } else {
-        yield put({
-          type: 'entities/mergeEntities',
-          payload: response.entities,
-        });
-      }
-    },
     *delete({ payload }, { call, put }) {
       const response = yield call(deleteComment, payload);
 
@@ -60,18 +45,18 @@ export default {
           type: 'entities/mergeEntities',
           payload: response.entities,
         });
+        yield put({
+          type: 'comments/saveCardComments',
+          payload: {
+            id:payload.cardId,
+            items:response.result
+          },
+        });
       }
     },
   },
 
   reducers: {
-    receiveWorkflows(state, { payload }) {
-      return {
-        ...state,
-        availableWorkflows: payload,
-      };
-    },
-
     handleError(state, { payload }) {
       return {
         ...state,

@@ -7,17 +7,18 @@ import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
 import Link from 'umi/link';
 import { cardSelectorWithMembers } from './selectors/members';
-import { cardCommentSelector } from './selectors/comments';
+import { cardCommentSelectorCreator } from '@/selectors/global';
 
 import styles from './ViewCardModal.less';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
-  const commentSelector = cardCommentSelector({ cardId: ownProps.match.params.cardId });
+  const commentCardSelect = cardCommentSelectorCreator({ cardId: ownProps.match.params.cardId });
   return {
     validation: state.createBoard.validation,
     card: cardSelector(state),
-    commments: commentSelector(state),
+    users:state.entities.users,
+    comments:commentCardSelect(state),
     submitting: state.loading.effects['commentCard/save'],
   };
 })
@@ -26,7 +27,7 @@ class ViewCardModal extends PureComponent {
   componentDidMount() {
     const { dispatch,card } = this.props;
     dispatch({
-      type: 'commentCard/list',
+      type: 'comments/fetchCardComments',
       payload:{id:card.id}
     });
   }
@@ -65,6 +66,7 @@ class ViewCardModal extends PureComponent {
         });
       }
     });
+    form.resetFields();
   };
 
   handleClose = () => {
@@ -74,7 +76,8 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match, location: { state } } = this.props;
+    const { card, form, submitting, match,  location: { state }, comments, users } = this.props;
+
     return (
       <Modal
         className={styles.modal}
@@ -111,7 +114,10 @@ class ViewCardModal extends PureComponent {
           </Link>
         </div>
         <div>
-          <CommentList />
+          <CommentList
+            comments={comments}
+            users={users}
+          />
         </div>
         <div>
           <Collapse>

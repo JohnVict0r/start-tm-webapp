@@ -15,7 +15,6 @@ class CommentList extends PureComponent {
           dataSource={comments}
           renderItem={item => (
             <Comment
-              actions={[<span>Edit</span>]}
               author={users[item.commented].name}
               avatar={(
                 <Avatar

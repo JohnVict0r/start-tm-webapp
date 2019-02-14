@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Modal, Collapse, Form } from 'antd';
+import { Modal, Form } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
 import Link from 'umi/link';
 import { cardSelectorWithMembers } from './selectors/members';
 import { cardCommentSelectorCreator } from '@/selectors/global';
-
 import styles from './ViewCardModal.less';
 
 @connect((state, ownProps) => {
@@ -19,6 +18,7 @@ import styles from './ViewCardModal.less';
     card: cardSelector(state),
     users:state.entities.users,
     comments:commentCardSelect(state),
+    logedUser:state.global.loggedInUser,
     submitting: state.loading.effects['commentCard/save'],
   };
 })
@@ -76,7 +76,7 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match,  location: { state }, comments, users } = this.props;
+    const { card, form, submitting, match,  location: { state }, comments, users,logedUser } = this.props;
 
     return (
       <Modal
@@ -114,18 +114,15 @@ class ViewCardModal extends PureComponent {
           </Link>
         </div>
         <div>
+          <CommentForm form={form} user={users[logedUser]} onSubmit={this.handleSubmit} submiting={submitting} />
+        </div>
+        <div>
           <CommentList
             comments={comments}
             users={users}
           />
         </div>
-        <div>
-          <Collapse>
-            <Collapse.Panel header={formatMessage({ id: 'app.card.comment' })} key="1">
-              <CommentForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />
-            </Collapse.Panel>
-          </Collapse>
-        </div>
+
       </Modal>
     );
   }

@@ -7,8 +7,7 @@ class CommentList extends PureComponent {
 
   render() {
     const { comments,users } = this.props;
-
-    if (comments.length) {
+    if (comments[0]) {
       return (
         <List
           className="demo-loadmore-list"

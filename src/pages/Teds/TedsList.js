@@ -1,30 +1,39 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Skeleton } from 'antd';
+import router from 'umi/router';
+import { List, Card, Skeleton, Button } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import { exploreProjectsSelector } from '../Projects/selectors/projects';
+import { exploreTedsSelector } from '@/selectors/teds';
 
 import styles from './TedsList.less';
 
 @connect(state => ({
-  projects: exploreProjectsSelector(state),
-  loading: state.loading.effects['projects/fetchUserProjects'],
+  teds: exploreTedsSelector(state),
+  loading: state.loading.effects['teds/fetchUserTeds'],
 }))
 class TedsList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'projects/fetchUserProjects',
+      type: 'teds/fetchUserTeds',
     });
   }
 
   render() {
     const {
-      projects: { items, pagination },
+      teds: { items, pagination },
       loading,
     } = this.props;
+
+    const extraContent = (
+      <div className={styles.extraContent}>
+        <Button type="primary" icon="plus" onClick={() => router.push('/teds/new')}>
+          TED
+        </Button>
+      </div>
+    );
 
     const paginationProps = {
       current: pagination.currentPage,
@@ -42,6 +51,7 @@ class TedsList extends PureComponent {
             title="Minhas TED's"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
+            extra={extraContent}
           >
             <List
               size="large"
@@ -53,13 +63,7 @@ class TedsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
-                      title={
-                        <Link to={`/projects/${item.id}`}>
-                          {item.owner.name}
-                          {' / '}
-                          {item.name}
-                        </Link>
-                      }
+                      title={<Link to={`/teds/${item.id}`}>{item.name}</Link>}
                       description={item.description}
                     />
                   </Skeleton>

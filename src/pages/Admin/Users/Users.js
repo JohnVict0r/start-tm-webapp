@@ -1,11 +1,17 @@
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 import { connect } from 'dva';
-import { List, Card, Input, Button } from 'antd';
+import { List, Card, Button, Skeleton, Avatar, Popconfirm, Icon } from 'antd';
+
+import { usersSelector } from '@/selectors/admin';
+import { rolesSelector } from '@/selectors/global';
+import Link from 'umi/link';
+import { Select } from 'antd/lib/select';
 
 import styles from './Users.less';
 
 @connect(state => ({
+  roles: rolesSelector(state),
+  users: usersSelector,
   loading: state.loading.effects['admin/fetchUsers'],
 }))
 class Users extends PureComponent {
@@ -16,45 +22,82 @@ class Users extends PureComponent {
     });
   }
 
-  render() {
-    const { loading } = this.props;
+  handleDelete = userId => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'admin/deleteUser',
+      payload: {
+        user: userId,
+      },
+    });
+  };
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Input.Search
-          className={styles.extraContentSearch}
-          placeholder="Buscar"
-          onSearch={() => ({})}
-        />
-      </div>
-    );
+  handleChangeRole = (userId, role) => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'admin/changeUserRole',
+      payload: {
+        user: userId,
+        roleId: role,
+      },
+    });
+  };
+
+  render() {
+    const { roles, users, loading } = this.props;
 
     return (
-      <div className={styles.standardList}>
+      <React.Fragment>
         <Card
-          className={styles.listCard}
+          className={styles.standardList}
           bordered={false}
-          title="Users"
+          title="Usuários"
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
-          extra={extraContent}
         >
-          <Button
-            type="dashed"
-            style={{ width: '100%', marginBottom: 8 }}
-            icon="plus"
-            onClick={() => {}}
-            ref={component => {
-              /* eslint-disable */
-              this.addBtn = findDOMNode(component);
-              /* eslint-enable */
-            }}
-          >
-            Novo workflow
-          </Button>
-          <List size="large" rowKey="id" loading={loading} />
+          <List
+            rowKey="id"
+            loading={loading}
+            dataSource={users}
+            renderItem={({ user, role }) => (
+              <List.Item
+                actions={[
+                  <Select
+                    defaultValue={role.id}
+                    style={{ width: 140 }}
+                    onChange={roleId => {
+                      this.handleChangeRole(user.id, roleId);
+                    }}
+                  >
+                    {roles.map(r => (
+                      <Select.Option key={r.id} value={r.id}>
+                        {' '}
+                        {r.name}{' '}
+                      </Select.Option>
+                    ))}
+                  </Select>,
+                  <Popconfirm
+                    title="Tem certeza?"
+                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                    onConfirm={() => this.handleDelete(user.id)}
+                  >
+                    <Button type="danger" icon="delete" ghost />
+                  </Popconfirm>,
+                ]}
+              >
+                <Skeleton title={false} loading={loading} active>
+                  <List.Item.Meta
+                    avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
+                    title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
+                    description={user.email}
+                  />
+                </Skeleton>
+              </List.Item>
+            )}
+          />
         </Card>
-      </div>
+      </React.Fragment>
     );
   }
 }

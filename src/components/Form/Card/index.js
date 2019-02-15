@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Button, DatePicker, Form, Input, Select } from 'antd';
+import { Button, DatePicker, Form, Input, Select, Spin } from 'antd';
 import moment from 'moment';
 import { formatMessage } from 'umi/locale';
 import { priorities } from '@/utils/labels';
@@ -17,7 +17,8 @@ class CardForm extends PureComponent {
       current,
       onSubmit,
       users,
-      back
+      back,
+      loading
     } = this.props;
 
     const formItemLayout = {
@@ -78,6 +79,7 @@ class CardForm extends PureComponent {
             <Select
               optionFilterProp="search"
               mode="multiple"
+              notFoundContent={loading ? <Spin size="small" /> : null}
               placeholder={formatMessage({ id: 'app.card.labeluser' })}
             >
               {users.map(r => (

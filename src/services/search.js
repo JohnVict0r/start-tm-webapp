@@ -13,3 +13,4 @@ export const queryUserInProject = ({ id, query }) =>
 
 export const queryUserNotInProject = ({ id, query }) =>
   callApi(`users/search/projects/${id}?${stringify({ query, c: 0 })}`, schema.USER_ARRAY).get();
+

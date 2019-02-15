@@ -184,6 +184,27 @@ export default [
             icon: 'plus',
             hideInMenu: true,
             component: './Teds/ViewTed',
+            routes: [
+              { path: '/teds/:tedId', redirect: '/teds/:tedId/dashboard' },
+              {
+                path: '/teds/:tedId/dashboard',
+                name: 'teds-main',
+                component: './Teds/TedDashboard',
+                routes: [
+                  { path: '/teds/:tedId/dashboard', redirect: '/teds/:tedId/dashboard/goals' },
+                  {
+                    path: '/teds/:tedId/dashboard/goals',
+                    name: 'teds-goals',
+                    component: './Teds/GoalsList',
+                  },
+                ],
+              },
+              {
+                path: '/teds/:tedId/goals/new',
+                name: 'goals-new',
+                component: './Teds/NewGoal',
+              },
+            ],
           },
         ],
       },

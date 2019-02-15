@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Modal, Form } from 'antd';
+import { Modal, Row, Col, Form } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
@@ -81,6 +81,7 @@ class ViewCardModal extends PureComponent {
     return (
       <Modal
         className={styles.modal}
+        width={768}
         maskStyle={{
           animation: '0',
         }}
@@ -90,20 +91,24 @@ class ViewCardModal extends PureComponent {
         maskClosable
         visible
       >
-        <div>{formatMessage({ id: 'app.card.members' })}</div>
-        <div>
-          <AvatarList size="large">
-            {card.members.map(member => (
-              <AvatarList.Item
-                key={`${card.id}-avatar-${member.id}`}
-                src={member.pictureUrl}
-                tips={member.name}
-              />
-            ))}
-          </AvatarList>
-        </div>
-        <div className={styles.cardName}>{card.name}</div>
-        <div>{card.description}</div>
+        <Row>
+          <Col span={24}>{formatMessage({ id: 'app.card.members' })}:</Col>
+          <Col span={24}>
+            <AvatarList size="mini" overlap={0}>
+              {card.members.map(member => (
+                <AvatarList.Item
+                  key={`${card.id}-avatar-${member.id}`}
+                  src={member.pictureUrl}
+                  tips={member.name}
+                />
+              ))}
+            </AvatarList>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>Descrição:</Col>
+          <Col span={24}>{card.description}</Col>
+        </Row>
         <div>
           <Link to={{
             pathname:`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`,
@@ -122,7 +127,6 @@ class ViewCardModal extends PureComponent {
             users={users}
           />
         </div>
-
       </Modal>
     );
   }

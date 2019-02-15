@@ -10,11 +10,12 @@ A list of user's avatar for project or group member list frequently. If a large 
 
 ### AvatarList
 
-| Property         | Description           | Type                               | Default   |
-| ---------------- | --------------------- | ---------------------------------- | --------- |
-| size             | size of list          | `large`、`small` 、`mini`, `default` | `default` |
-| maxLength        | max items to show     | number                             | -         |
-| excessItemsStyle | the excess item style | CSSProperties                      | -         |
+| Property         | Description             | Type                               | Default   |
+| ---------------- | ----------------------- | ---------------------------------- | --------- |
+| size             | size of list            | `large`、`small` 、`mini`, `default` | `default` |
+| overlap          | overlap items in pixels | number                             | 8         |
+| maxLength        | max items to show       | number                             | -         |
+| excessItemsStyle | the excess item style   | CSSProperties                      | -         |
 
 ### AvatarList.Item
 

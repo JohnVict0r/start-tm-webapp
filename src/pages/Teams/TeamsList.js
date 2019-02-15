@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { List, Card, Input, Button, Skeleton } from 'antd';
-import { FormattedMessage, formatMessage } from 'umi/locale';
+import { formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import router from 'umi/router';
 import { exploreTeamsSelector } from './selectors/teams';
@@ -30,7 +30,7 @@ class TeamsList extends PureComponent {
     const extraContent = (
       <div className={styles.extraContent}>
         <Button type="primary" icon="plus" onClick={() => router.push('/teams/new')}>
-          <FormattedMessage id="menu.admin.teams" />
+          Equipe
         </Button>
         <Input.Search
           className={styles.extraContentSearch}

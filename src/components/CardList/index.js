@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 import { Button } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Link from 'umi/link';
 import withRouter from 'umi/withRouter';
@@ -66,13 +67,18 @@ class InnerCardList extends Component {
     return cards.map((card, index) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>
         {(provided, snapshot) => (
-          <CardItem
-            key={card.id}
-            card={card}
-            isDragging={snapshot.isDragging}
-            provided={provided}
-            board={board}
-          />
+          <NaturalDragAnimation style={provided.draggableProps.style} snapshot={snapshot}>
+            {style => (
+              <CardItem
+                key={card.id}
+                card={card}
+                isDragging={snapshot.isDragging}
+                style={style}
+                provided={provided}
+                board={board}
+              />
+            )}
+          </NaturalDragAnimation>
         )}
       </Draggable>
     ));

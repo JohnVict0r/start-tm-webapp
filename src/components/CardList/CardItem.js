@@ -48,15 +48,34 @@ const Due = ({ date }) => {
 
 const priorityClass = ['lower', 'low', 'normal', 'high', 'higher'];
 
-const CardItem = ({ card, isDragging, provided, match,board }) => (
+const RenderAvatarList = ({ card }) => (
+  <div className={styles.avatarList}>
+    <AvatarList
+      size="mini"
+      maxLength={3}
+      excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+    >
+      {card.members.map(member => (
+        <AvatarList.Item
+          key={`${card.id}-avatar-${member.id}`}
+          src={member.pictureUrl}
+          tips={member.name}
+        />
+      ))}
+    </AvatarList>
+  </div>
+);
+
+const CardItem = ({ card, isDragging, provided, style, match, board }) => (
   <div
     className={styles.cardWrapper}
     ref={provided.innerRef}
     {...provided.draggableProps}
     {...provided.dragHandleProps}
+    style={style}
   >
     <Link to={{
-      pathname:`${match.url}/cards/${card.id}`,
+      pathname:`/projects/${match.params.projectId}/boards/${match.params.boardId}/cards/${card.id}`,
       state: { board }
       }}
     >
@@ -67,26 +86,12 @@ const CardItem = ({ card, isDragging, provided, match,board }) => (
         })}
         bodyStyle={{ padding: '12px' }}
       >
-        <Ellipsis lines={3}>{card.description}</Ellipsis>
+        <Ellipsis lines={3}>{card.name}</Ellipsis>
         <div className={styles.cardMetaInfo}>
           <div className={styles.left}>
             <Due date={card.due} />
           </div>
-          <div className={styles.avatarList}>
-            <AvatarList
-              size="mini"
-              maxLength={3}
-              excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-            >
-              {card.members.map(member => (
-                <AvatarList.Item
-                  key={`${card.id}-avatar-${member.id}`}
-                  src={member.pictureUrl}
-                  tips={member.name}
-                />
-              ))}
-            </AvatarList>
-          </div>
+          {card.members.length > 0 && <RenderAvatarList card={card} />}
         </div>
       </Card>
     </Link>

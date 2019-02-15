@@ -178,6 +178,13 @@ export default [
             icon: 'plus',
             component: './Teds/NewTed',
           },
+          {
+            path: '/teds/:tedId',
+            name: 'view-ted',
+            icon: 'plus',
+            hideInMenu: true,
+            component: './Teds/ViewTed',
+          },
         ],
       },
 
@@ -303,6 +310,29 @@ export default [
                 component: './Projects/Members',
               },
             ],
+          },
+        ],
+      },
+
+      // workflows
+      {
+        path: '/workflows',
+        name: 'workflows',
+        icon: 'fork',
+        hideInBreadcrumb: true,
+        hideInMenu: true,
+        routes: [
+          // { path: '/workflows', redirect: '/workflows/explore' },
+          // {
+          //  path: '/workflows/explore',
+          //  name: 'my-workflows',
+          //  icon: 'fork',
+          //  component: './Workflows/WorkflowsList',
+          // },
+          {
+            path: '/workflows/:id',
+            name: 'workflow',
+            component: './Workflows/ViewWorkflow',
           },
         ],
       },

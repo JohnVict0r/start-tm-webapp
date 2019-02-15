@@ -21,3 +21,9 @@ export const cardCommentSelectorCreator = ({ cardId }) =>
     state => state.entities.comments,
     (collection, roles) => collection.map(id => roles[id])
   );
+
+export const statusSelector = createSelector(
+  state => state.entities.status,
+  state => state.global.status,
+  (status, items) => items.map(i => status[i])
+);

@@ -1,0 +1,101 @@
+@import '~antd/lib/style/themes/default.less';
+
+.descriptionPopover {
+  :global {
+    .ant-popover-inner-content {
+      max-height: 290px;
+      overflow: auto;
+      max-width: 256px;
+    }
+  }
+}
+
+.action {
+  cursor: pointer;
+  display: inline-block;
+  transition: all 0.3s;
+
+  :global {
+    .ant-rate-star {
+      margin-right: 0;
+    }
+  }
+}
+
+.selector {
+  display: flex;
+  align-items: flex-end;
+  .placeholder {
+    flex: 1;
+    white-space: normal;
+    text-align: left;
+  }
+  .boardIcon {
+    font-size: @font-size-base !important;
+    transform: none !important;
+  }
+}
+
+.optionsBar {
+  display: flex;
+  flex-direction: column;
+
+  .left {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+
+    .title {
+      flex: 1;
+      display: flex;
+      padding: 0 12px;
+    }
+
+    .settings {
+      padding: 0 8px;
+    }
+  }
+
+  .right {
+    flex: 0 0 auto;
+    display: flex;
+
+    :global {
+      .ant-btn:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: @screen-lg) {
+  .optionsBar {
+    flex-direction: row;
+
+    .right {
+      padding-left: 8px;
+      margin-left: 8px;
+      border-left: 1px solid @border-color-base;
+    }
+  }
+
+  .selector {
+    max-width: 500px;
+  }
+}
+
+@media screen and (max-width: @screen-md-max) {
+  .optionsBar {
+    .left {
+      margin-bottom: 16px;
+    }
+  }
+
+  .selector {
+    flex: 1;
+  }
+
+  .hiddenInMobile {
+    display: none !important;
+  }
+}

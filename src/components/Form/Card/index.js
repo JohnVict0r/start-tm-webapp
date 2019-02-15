@@ -58,7 +58,7 @@ class CardForm extends PureComponent {
           {getFieldDecorator('due', {
             rules: [{ required: true, message: 'Por favor informe o prazo do card!' }],
             initialValue: current.due ? moment(current.due):null,
-          })(<DatePicker format="DD/MM/YYYY" />)}
+          })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labelpriority' })}>
           {getFieldDecorator('priority', {

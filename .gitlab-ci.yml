@@ -84,7 +84,6 @@ deploy_review:
 
       echo -e "--->  Colocando nova release em produção\n" &&
       PREVIOUS_RELEASE_DIR=$(cd $(readlink '"'$REMOTE_DEV_APP_DIR'"'/current); cd ..; pwd;) &&
-      echo -e $PREVIOUS_RELEASE_DIR &&
       ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_DEV_APP_DIR'"'/current' &&
       rm -rf $PREVIOUS_RELEASE_DIR
   #when: manual

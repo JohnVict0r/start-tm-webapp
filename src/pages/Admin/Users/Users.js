@@ -11,7 +11,7 @@ import styles from './Users.less';
 
 @connect(state => ({
   roles: rolesSelector(state),
-  users: usersSelector,
+  users: usersSelector(state),
   loading: state.loading.effects['admin/fetchUsers'],
 }))
 class Users extends PureComponent {
@@ -19,6 +19,9 @@ class Users extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'admin/fetchUsers',
+    });
+    dispatch({
+      type: 'global/fetchStatus',
     });
   }
 
@@ -45,7 +48,18 @@ class Users extends PureComponent {
   };
 
   render() {
-    const { roles, users, loading } = this.props;
+    const {
+      roles,
+      users: { items, pagination },
+      loading,
+    } = this.props;
+
+    const paginationProps = {
+      current: pagination.currentPage,
+      pageSize: pagination.perPage,
+      total: pagination.total,
+      hideOnSinglePage: true,
+    };
 
     return (
       <React.Fragment>
@@ -59,7 +73,8 @@ class Users extends PureComponent {
           <List
             rowKey="id"
             loading={loading}
-            dataSource={users}
+            pagination={paginationProps}
+            dataSource={items}
             renderItem={({ user, role }) => (
               <List.Item
                 actions={[
@@ -89,7 +104,7 @@ class Users extends PureComponent {
                 <Skeleton title={false} loading={loading} active>
                   <List.Item.Meta
                     avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
-                    title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
+                    title={<Link to={`/users/${user.id}`}>{user.name}</Link>}
                     description={user.email}
                   />
                 </Skeleton>

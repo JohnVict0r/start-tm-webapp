@@ -12,10 +12,8 @@ const initialPaginatioState = {
 export default {
   namespace: 'admin',
   state: {
-    users: {
-      items: [],
-      pagination: initialPaginatioState,
-    },
+    items: [],
+    pagination: initialPaginatioState,
   },
 
   effects: {
@@ -28,7 +26,7 @@ export default {
       });
 
       yield put({
-        type: 'receiveUsers',
+        type: 'receiveItems',
         payload: {
           items: response.result,
           pagination: response.pagination,
@@ -38,14 +36,11 @@ export default {
   },
 
   reducers: {
-    receiveUsers(state, { payload }) {
+    receiveItems(state, { payload }) {
       return {
         ...state,
-        users: {
-          ...state.users,
-          items: payload.items,
-          pagination: payload.pagination,
-        },
+        items: payload.items,
+        pagination: payload.pagination,
       };
     },
   },

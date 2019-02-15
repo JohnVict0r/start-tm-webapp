@@ -83,7 +83,9 @@ deploy_review:
       ln -nfs '"'$REMOTE_DEV_APP_DIR'"'/.htaccess '"'$NEW_RELEASE_DIR'"'/dist/.htaccess &&
 
       echo -e "--->  Colocando nova release em produção\n" &&
-      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_DEV_APP_DIR'"'/current'
+      PREVIOUS_RELEASE_DIR=$(cd $(readlink '"'$REMOTE_DEV_APP_DIR'"'/current); cd ..; pwd;) &&
+      ln -nfs '"'$NEW_RELEASE_DIR'"'/dist '"'$REMOTE_DEV_APP_DIR'"'/current' &&
+      rm -rf $PREVIOUS_RELEASE_DIR
   #when: manual
   only:
     - master

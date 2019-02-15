@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
+
 import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Button } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
@@ -12,6 +15,35 @@ import WorkflowTransitionForm from '@/components/Modal/WorkflowTransitionForm';
 import styles from './ViewWorkflow.less';
 import { makeWorkflowsSelector } from './selectors/workflows';
 import { statusSelector } from '@/selectors/global';
+
+const DrappableBody = ({ children, ...rest }) => (
+  <Droppable droppableId="NODE" type="NODE">
+    {dropProvided => (
+      <tbody {...dropProvided.droppableProps} ref={dropProvided.innerRef} {...rest}>
+        {React.Children.map(children, child => child)}
+        {dropProvided.placeholder}
+      </tbody>
+    )}
+  </Droppable>
+);
+
+const DraggableRow = ({ node, index, ...rest }) => (
+  <Draggable key={node.id} draggableId={node.id} index={index}>
+    {(provided, snapshot) => (
+      <NaturalDragAnimation style={provided.draggableProps.style} snapshot={snapshot}>
+        {style => (
+          <tr
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            {...rest}
+            style={style}
+          />
+        )}
+      </NaturalDragAnimation>
+    )}
+  </Draggable>
+);
 
 @connect((state, ownProps) => {
   const workflowSelector = makeWorkflowsSelector({ workflowId: ownProps.match.params.id });
@@ -26,6 +58,13 @@ class ViewWorkflow extends Component {
     visibleWorkflowNodeModal: false,
     visibleWorkflowTransitionModal: false,
     currentWorkflowNode: {},
+  };
+
+  components = {
+    body: {
+      wrapper: DrappableBody,
+      row: DraggableRow,
+    },
   };
 
   componentDidMount() {
@@ -135,6 +174,11 @@ class ViewWorkflow extends Component {
 
   handleCancelTransitionModal = () => {
     this.setState({ visibleWorkflowTransitionModal: false });
+  };
+
+  onDragEnd = result => {
+    console.log('passou em onDragEnd');
+    console.log(result);
   };
 
   render() {
@@ -253,13 +297,20 @@ class ViewWorkflow extends Component {
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
         >
-          <Table
-            style={{ marginTop: 24 }}
-            pagination={false}
-            columns={columns}
-            dataSource={workflow.list}
-            rowKey={record => record.id}
-          />
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <Table
+              style={{ marginTop: 24 }}
+              pagination={false}
+              columns={columns}
+              components={this.components}
+              onRow={(record, index) => ({
+                index,
+                node: record,
+              })}
+              dataSource={workflow.list}
+              rowKey={record => record.id}
+            />
+          </DragDropContext>
         </Card>
         <WorkflowNodeForm
           status={statusArray}

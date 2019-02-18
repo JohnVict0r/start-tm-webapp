@@ -1,4 +1,5 @@
-import { loadUsers } from '@/services/admin';
+import { loadUsers, deleteUser, putUserRole } from '@/services/admin';
+import { notification } from 'antd';
 
 const initialPaginatioState = {
   count: 0,
@@ -12,8 +13,10 @@ const initialPaginatioState = {
 export default {
   namespace: 'admin',
   state: {
-    items: [],
-    pagination: initialPaginatioState,
+    users: {
+      items: [],
+      pagination: initialPaginatioState,
+    },
   },
 
   effects: {
@@ -33,14 +36,55 @@ export default {
         },
       });
     },
+    *softDeleteUser({ payload }, { call, put }) {
+      const response = yield call(deleteUser, payload);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível remover o usuário!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Usuário removido com sucesso!' });
+      }
+    },
+    *changeUserRole({ payload }, { call, put }) {
+      const response = yield call(putUserRole, payload);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível alterar o papel do usuário!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        notification.success({ message: 'Papel do usuário alterado com sucesso!' });
+      }
+    },
   },
 
   reducers: {
     receiveItems(state, { payload }) {
       return {
         ...state,
-        items: payload.items,
-        pagination: payload.pagination,
+        users: {
+          ...state.users,
+          items: payload.items,
+          pagination: payload.pagination,
+        },
       };
     },
   },

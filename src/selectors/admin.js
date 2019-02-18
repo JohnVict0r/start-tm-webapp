@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 // eslint-disable-next-line
 export const usersSelector = createSelector(
-  state => state.admin,
+  state => state.admin.users,
   state => state.entities.users,
   state => state.entities.roles,
   (collection, users, roles) => {

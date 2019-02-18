@@ -1,16 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { List, Card, Button, Skeleton, Avatar, Popconfirm, Icon } from 'antd';
+import { List, Card, Button, Skeleton, Avatar, Select, Popconfirm, Icon } from 'antd';
 
 import { usersSelector } from '@/selectors/admin';
-import { rolesSelector } from '@/selectors/global';
+import { systemRolesSelector } from '@/selectors/global';
 import Link from 'umi/link';
-import { Select } from 'antd/lib/select';
 
 import styles from './Users.less';
 
 @connect(state => ({
-  roles: rolesSelector(state),
+  roles: systemRolesSelector(state),
   users: usersSelector(state),
   loading: state.loading.effects['admin/fetchUsers'],
 }))
@@ -21,28 +20,28 @@ class Users extends PureComponent {
       type: 'admin/fetchUsers',
     });
     dispatch({
-      type: 'global/fetchStatus',
+      type: 'global/fetchRoles',
     });
   }
 
   handleDelete = userId => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'admin/deleteUser',
+      type: 'admin/softDeleteUser',
       payload: {
-        user: userId,
+        userId,
       },
     });
   };
 
-  handleChangeRole = (userId, role) => {
+  handleChangeRole = (userId, roleId) => {
     const { dispatch } = this.props;
 
     dispatch({
       type: 'admin/changeUserRole',
       payload: {
-        user: userId,
-        roleId: role,
+        userId,
+        roleId,
       },
     });
   };
@@ -50,31 +49,48 @@ class Users extends PureComponent {
   render() {
     const {
       roles,
-      users: { items, pagination },
+      users: { items },
       loading,
     } = this.props;
 
+    /*
+    TODO Implementar o searchUsers
+    
+    const extraContent = (
+      <div className={styles.extraContent}>
+        <Input.Search
+          className={styles.extraContentSearch}
+          placeholder="Buscar"
+          onSearch={() => ({})}
+        />
+      </div>
+    ); 
+    
+    TODO Verificar porque a paginação não está funcionando
     const paginationProps = {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
       total: pagination.total,
       hideOnSinglePage: true,
-    };
+    }; 
+    */
 
     return (
-      <React.Fragment>
+      <div className={styles.standardList}>
         <Card
-          className={styles.standardList}
+          className={styles.listCard}
           bordered={false}
-          title="Usuários"
           style={{ marginTop: 24 }}
           bodyStyle={{ padding: '0 32px 40px 32px' }}
+          /* extra={extraContent} */
         >
           <List
+            size="large"
             rowKey="id"
             loading={loading}
-            pagination={paginationProps}
             dataSource={items}
+            /* pagination={paginationProps} */
+
             renderItem={({ user, role }) => (
               <List.Item
                 actions={[
@@ -104,7 +120,7 @@ class Users extends PureComponent {
                 <Skeleton title={false} loading={loading} active>
                   <List.Item.Meta
                     avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
-                    title={<Link to={`/users/${user.id}`}>{user.name}</Link>}
+                    title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
                     description={user.email}
                   />
                 </Skeleton>
@@ -112,7 +128,7 @@ class Users extends PureComponent {
             )}
           />
         </Card>
-      </React.Fragment>
+      </div>
     );
   }
 }

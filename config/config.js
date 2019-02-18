@@ -24,6 +24,7 @@ const plugins = [
       dynamicImport: {
         loadingComponent: './components/PageLoading/index',
         webpackChunkName: true,
+        level: 3,
       },
       pwa: pwa
         ? {
@@ -78,10 +79,7 @@ export default {
   },
   externals: {
     '@antv/data-set': 'DataSet',
-    // if is production externals react react-dom and bizcharts
-    ...(NODE_ENV === 'production'
-      ? { react: 'React', 'react-dom': 'ReactDOM', bizcharts: 'BizCharts' }
-      : {}),
+    bizcharts: 'BizCharts',
   },
   // proxy: {
   //   '/server/api/': {

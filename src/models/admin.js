@@ -1,4 +1,4 @@
-import { loadUsers, deleteUser, putUserRole } from '@/services/admin';
+import { loadUsers, removeUser, changeUserRole } from '@/services/admin';
 import { notification } from 'antd';
 
 const initialPaginatioState = {
@@ -36,8 +36,8 @@ export default {
         },
       });
     },
-    *softDeleteUser({ payload }, { call, put }) {
-      const response = yield call(deleteUser, payload);
+    *deleteUser({ payload }, { call, put }) {
+      const response = yield call(removeUser, payload);
 
       if (response.errors) {
         notification.error({ message: 'Não foi possível remover o usuário!' });
@@ -55,8 +55,8 @@ export default {
         notification.success({ message: 'Usuário removido com sucesso!' });
       }
     },
-    *changeUserRole({ payload }, { call, put }) {
-      const response = yield call(putUserRole, payload);
+    *updateUserRole({ payload }, { call, put }) {
+      const response = yield call(changeUserRole, payload);
 
       if (response.errors) {
         notification.error({ message: 'Não foi possível alterar o papel do usuário!' });

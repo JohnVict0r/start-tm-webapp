@@ -27,7 +27,7 @@ class Users extends PureComponent {
   handleDelete = userId => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'admin/softDeleteUser',
+      type: 'admin/deleteUser',
       payload: {
         userId,
       },
@@ -38,7 +38,7 @@ class Users extends PureComponent {
     const { dispatch } = this.props;
 
     dispatch({
-      type: 'admin/changeUserRole',
+      type: 'admin/updateUserRole',
       payload: {
         userId,
         roleId,

@@ -66,7 +66,7 @@ class NewTed extends PureComponent {
             </Form.Item>
             <Form.Item label="Prazos" {...formItemLayout}>
               {getFieldDecorator('duration', {
-                rules: [{ required: true, message: 'Por favor informe um nome!' }],
+                rules: [{ required: true, message: 'Por favor informe os prazos!' }],
               })(<DatePicker.RangePicker format="DD/MM/YYYY" />)}
             </Form.Item>
             <Form.Item {...formItemLayout} label="Descrição">

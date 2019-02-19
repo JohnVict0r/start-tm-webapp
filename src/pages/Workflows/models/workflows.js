@@ -5,9 +5,10 @@ import {
   createWorkflowTransition,
   deleteWorkflowNode,
   deleteWorkflowTransition,
+  reorderWorkflowNodes,
 } from '@/services/workflows';
 
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 
 const initialPaginatioState = {
   count: 0,
@@ -44,6 +45,7 @@ export default {
         },
       });
     },
+
     *addWorkflowNode({ payload }, { call, put }) {
       const response = yield call(createWorkflowNode, payload.id, payload.node);
 
@@ -63,6 +65,7 @@ export default {
         notification.success({ message: 'Etapa adicionada com sucesso!' });
       }
     },
+
     *addWorkflowTransition({ payload }, { call, put }) {
       const response = yield call(createWorkflowTransition, payload.id, payload.transition);
 
@@ -82,6 +85,7 @@ export default {
         notification.success({ message: 'Transição adicionada com sucesso!' });
       }
     },
+
     *putWorkflowNode({ payload }, { call, put }) {
       const response = yield call(updateWorkflowNode, payload.id, payload.node);
 
@@ -101,6 +105,7 @@ export default {
         notification.success({ message: 'Etapa atualizada com sucesso!' });
       }
     },
+
     *deleteWorkflowNode({ payload }, { call, put }) {
       const response = yield call(deleteWorkflowNode, payload.id);
 
@@ -120,6 +125,7 @@ export default {
         notification.success({ message: 'Etapa deletada com sucesso!' });
       }
     },
+
     *deleteWorkflowTransition({ payload }, { call, put }) {
       const response = yield call(deleteWorkflowTransition, payload.id);
 
@@ -137,6 +143,26 @@ export default {
         });
 
         notification.success({ message: 'Transição deletada com sucesso!' });
+      }
+    },
+
+    *moveWorkflowNode({ payload }, { call, put }) {
+      const response = yield call(reorderWorkflowNodes, payload);
+
+      if (response.errors) {
+        notification.error({ message: 'Não foi possível mover a etapa!' });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'receiveItems',
+          payload: response.result,
+        });
+
+        message.success('Etapa movida com sucesso!');
       }
     },
   },

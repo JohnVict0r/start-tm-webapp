@@ -11,21 +11,6 @@ import { makeTedSelector } from '@/selectors/teds';
 
 const { Description } = DescriptionList;
 
-const tabList = [
-  {
-    key: 'metas',
-    tab: 'Metas',
-  },
-  {
-    key: 'atividades',
-    tab: 'Atividades',
-  },
-  {
-    key: 'acoes',
-    tab: 'Ações',
-  },
-];
-
 const menu = (
   <Menu>
     <Menu.Item key="1">Editar TED</Menu.Item>
@@ -88,7 +73,7 @@ class ViewTed extends PureComponent {
     );
 
     return (
-      <PageHeaderWrapper title={ted.name} tabList={tabList} action={action} content={description}>
+      <PageHeaderWrapper title={ted.name} action={action} content={description}>
         {children}
       </PageHeaderWrapper>
     );

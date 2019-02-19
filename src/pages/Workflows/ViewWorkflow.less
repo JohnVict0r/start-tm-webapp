@@ -99,3 +99,28 @@
     display: none !important;
   }
 }
+
+.container {
+  margin: -24px -50vw;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  position: relative;
+  transition: 0.3s;
+  background: white;
+}
+
+.scroll {
+  display: flex;
+  overflow: hidden;
+  height: ~'calc(100vh - @{layout-header-height} - 65px)' !important;
+}
+
+.nodeList {
+  display: flex;
+  align-items: flex-start;
+  overflow-x: visible;
+  overflow-y: hidden;
+  transition: 0.3s;
+  max-height: 100%;
+}

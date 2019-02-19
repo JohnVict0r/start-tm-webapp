@@ -9,6 +9,7 @@ const User = new schema.Entity('users');
 const Status = new schema.Entity('status');
 const Role = new schema.Entity('roles');
 const Ted = new schema.Entity('teds');
+const Goal = new schema.Entity('goals');
 const Team = new schema.Entity('teams');
 const UserMember = new schema.Object({
   user: User,
@@ -56,6 +57,10 @@ User.define({
 });
 
 Ted.define({
+  creator: User,
+});
+
+Goal.define({
   creator: User,
 });
 
@@ -136,6 +141,8 @@ const Schemas = {
   ROLE_ARRAY: [Role],
   TED: Ted,
   TED_ARRAY: [Ted],
+  GOAL: Goal,
+  GOAL_ARRAY: [Goal],
   TEAM: Team,
   TEAM_ARRAY: [Team],
   TEAMMEMBER: TeamMember,

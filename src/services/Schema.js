@@ -109,7 +109,7 @@ CardList.define({
 Card.define({
   creator: User,
   members: [User],
-  comments: [Comment]
+  comments: [Comment],
 });
 
 Comment.define({

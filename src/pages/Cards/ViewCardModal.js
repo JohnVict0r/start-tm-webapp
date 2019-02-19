@@ -16,19 +16,19 @@ import styles from './ViewCardModal.less';
   return {
     validation: state.createBoard.validation,
     card: cardSelector(state),
-    users:state.entities.users,
-    comments:commentCardSelect(state),
-    logedUser:state.global.loggedInUser,
+    users: state.entities.users,
+    comments: commentCardSelect(state),
+    logedUser: state.global.loggedInUser,
     submitting: state.loading.effects['commentCard/save'],
   };
 })
 @Form.create()
 class ViewCardModal extends PureComponent {
   componentDidMount() {
-    const { dispatch,card } = this.props;
+    const { dispatch, card } = this.props;
     dispatch({
       type: 'comments/fetchCardComments',
-      payload:{id:card.id}
+      payload: { id: card.id },
     });
   }
 
@@ -76,7 +76,16 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match,  location: { state }, comments, users,logedUser } = this.props;
+    const {
+      card,
+      form,
+      submitting,
+      match,
+      location: { state },
+      comments,
+      users,
+      logedUser,
+    } = this.props;
 
     return (
       <Modal
@@ -110,22 +119,25 @@ class ViewCardModal extends PureComponent {
           <Col span={24}>{card.description}</Col>
         </Row>
         <div>
-          <Link to={{
-            pathname:`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`,
-            state:{ board:state.board }
-          }}
+          <Link
+            to={{
+              pathname: `/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`,
+              state: { board: state.board },
+            }}
           >
             <FormattedMessage id="app.card.edit" />
           </Link>
         </div>
         <div>
-          <CommentForm form={form} user={users[logedUser]} onSubmit={this.handleSubmit} submiting={submitting} />
+          <CommentForm
+            form={form}
+            user={users[logedUser]}
+            onSubmit={this.handleSubmit}
+            submiting={submitting}
+          />
         </div>
         <div>
-          <CommentList
-            comments={comments}
-            users={users}
-          />
+          <CommentList comments={comments} users={users} />
         </div>
       </Modal>
     );

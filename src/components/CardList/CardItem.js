@@ -74,9 +74,12 @@ const CardItem = ({ card, isDragging, provided, style, match, board }) => (
     {...provided.dragHandleProps}
     style={style}
   >
-    <Link to={{
-      pathname:`/projects/${match.params.projectId}/boards/${match.params.boardId}/cards/${card.id}`,
-      state: { board }
+    <Link
+      to={{
+        pathname: `/projects/${match.params.projectId}/boards/${match.params.boardId}/cards/${
+          card.id
+        }`,
+        state: { board },
       }}
     >
       <Card

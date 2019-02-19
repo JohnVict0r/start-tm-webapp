@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import CardForm from '@/components/Form/Card';
 import { Card, Form } from 'antd';
-import { usersSelector } from "@/selectors/search";
+import { usersSelector } from '@/selectors/search';
 
 @connect((state, ownProps) => ({
   validation: state.createBoard.validation,
@@ -37,20 +37,26 @@ class EditCard extends PureComponent {
     }
   }
 
-  fetchUser = (value)=>{
+  fetchUser = value => {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'search/searchUserInProject',
       payload: {
         id: match.params.projectId,
-        query:value
+        query: value,
       },
     });
-  }
+  };
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, dispatch, card, location:{state},match } = this.props;
+    const {
+      form,
+      dispatch,
+      card,
+      location: { state },
+      match,
+    } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         values.members.map(r => {
@@ -91,7 +97,15 @@ class EditCard extends PureComponent {
   };
 
   render() {
-    const { form, submitting , card, users,match, location:{state}, loading } = this.props;
+    const {
+      form,
+      submitting,
+      card,
+      users,
+      match,
+      location: { state },
+      loading,
+    } = this.props;
 
     return (
       <Card bordered={false} title="Editar tarefa">
@@ -102,8 +116,10 @@ class EditCard extends PureComponent {
           loading={loading}
           current={card}
           back={{
-            pathname:`/projects/${match.params.projectId}/boards/${state.board.id}/cards/${match.params.cardId}`,
-            state:{ board:state.board }
+            pathname: `/projects/${match.params.projectId}/boards/${state.board.id}/cards/${
+              match.params.cardId
+            }`,
+            state: { board: state.board },
           }}
           submiting={submitting}
         />

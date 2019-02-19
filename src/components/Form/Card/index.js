@@ -18,7 +18,7 @@ class CardForm extends PureComponent {
       onSubmit,
       users,
       back,
-      loading
+      loading,
     } = this.props;
 
     const formItemLayout = {
@@ -57,7 +57,7 @@ class CardForm extends PureComponent {
         <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labeldue' })}>
           {getFieldDecorator('due', {
             rules: [{ required: true, message: 'Por favor informe o prazo do card!' }],
-            initialValue: current.due ? moment(current.due):null,
+            initialValue: current.due ? moment(current.due) : null,
           })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labelpriority' })}>
@@ -67,7 +67,9 @@ class CardForm extends PureComponent {
           })(
             <Select placeholder={formatMessage({ id: 'app.card.labelpriority' })}>
               {priorities.map(r => (
-                <Select.Option value={r.value} key={r.value}>{r.label}</Select.Option>
+                <Select.Option value={r.value} key={r.value}>
+                  {r.label}
+                </Select.Option>
               ))}
             </Select>
           )}
@@ -94,9 +96,9 @@ class CardForm extends PureComponent {
           <Button type="primary" htmlType="submit" loading={submitting}>
             {formatMessage({ id: current.id ? 'app.card.edit' : 'app.card.new' })}
           </Button>
-          <Link to={back} style={{marginLeft:5}}>
+          <Link to={back} style={{ marginLeft: 5 }}>
             <Button type="default" htmlType="button">
-              {formatMessage({ id:  'app.card.back' })}
+              {formatMessage({ id: 'app.card.back' })}
             </Button>
           </Link>
         </Form.Item>

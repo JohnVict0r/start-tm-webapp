@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Card, Form } from 'antd';
 import CardForm from '@/components/Form/Card';
-import {usersSelector} from "@/selectors/search";
+import { usersSelector } from '@/selectors/search';
 
 @connect(state => ({
   validation: state.createBoard.validation,
@@ -18,7 +18,6 @@ class NewCard extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
-
 
     if (prevProps.validation !== validation) {
       const { errors } = validation;
@@ -37,16 +36,16 @@ class NewCard extends PureComponent {
     }
   }
 
-  fetchUser = (value)=>{
+  fetchUser = value => {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'search/searchUserInProject',
       payload: {
         id: match.params.projectId,
-        query:value
+        query: value,
       },
     });
-  }
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -54,7 +53,7 @@ class NewCard extends PureComponent {
       form,
       location: { state },
       dispatch,
-      match
+      match,
     } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
@@ -78,7 +77,7 @@ class NewCard extends PureComponent {
       location: { state },
       match,
       members,
-      loading
+      loading,
     } = this.props;
 
     const formItemLayout = {

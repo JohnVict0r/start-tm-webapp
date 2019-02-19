@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
-import { List, Avatar,Comment } from 'antd';
+import { List, Avatar, Comment } from 'antd';
 import { FormattedMessage } from 'umi/locale';
 
 class CommentList extends PureComponent {
   componentDidMount() {}
 
   render() {
-    const { comments,users } = this.props;
+    const { comments, users } = this.props;
     if (comments[0]) {
       return (
         <List
@@ -16,11 +16,7 @@ class CommentList extends PureComponent {
           renderItem={item => (
             <Comment
               author={users[item.commented].name}
-              avatar={(
-                <Avatar
-                  src={users[item.commented].pictureUrl}
-                />
-              )}
+              avatar={<Avatar src={users[item.commented].pictureUrl} />}
               content={item.comment}
             />
           )}

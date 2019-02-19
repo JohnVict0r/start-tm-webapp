@@ -17,7 +17,7 @@ export const rolesSelector = createSelector(
 
 export const cardCommentSelectorCreator = ({ cardId }) =>
   createSelector(
-    state => state.comments.cards[cardId]?state.comments.cards[cardId]:[],
+    state => (state.comments.cards[cardId] ? state.comments.cards[cardId] : []),
     state => state.entities.comments,
     (collection, roles) => collection.map(id => roles[id])
   );

@@ -8,7 +8,7 @@ export const cardCommentSelector = ({ cardId }) =>
     (cards, comments) => {
       const card = cards[cardId];
 
-      if (card&&comments.length) {
+      if (card && comments.length) {
         return { ...card, comments };
       }
 

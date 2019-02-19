@@ -6,5 +6,3 @@ export const usersSelector = createSelector(
   state => state.entities.users,
   (collection, users) => collection.map(id => users[id])
 );
-
-

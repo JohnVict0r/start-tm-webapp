@@ -48,8 +48,8 @@ export default {
         yield put({
           type: 'comments/saveCardComments',
           payload: {
-            id:payload.cardId,
-            items:response.result
+            id: payload.cardId,
+            items: response.result,
           },
         });
       }

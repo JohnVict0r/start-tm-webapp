@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
+import isEqual from 'lodash/isEqual';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { Popover, Card, Table, Divider, Tag, Icon, Popconfirm, Button } from 'antd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+
+import { Popover, Button } from 'antd';
+import { Scrollbars } from 'react-custom-scrollbars';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import WorkflowNodeForm from '@/components/Modal/WorkflowNodeForm';
 import WorkflowTransitionForm from '@/components/Modal/WorkflowTransitionForm';
+import WorkflowNode from '@/components/Workflow/WorkflowNode';
+import { reorder } from '@/utils/reorder';
 
 import styles from './ViewWorkflow.less';
 import { makeWorkflowsSelector } from './selectors/workflows';
@@ -26,7 +33,24 @@ class ViewWorkflow extends Component {
     visibleWorkflowNodeModal: false,
     visibleWorkflowTransitionModal: false,
     currentWorkflowNode: {},
+    // tmpNodes é necessário pois nodes é alterado
+    // tanto por novas props como com o setState
+    tmpNodes: [],
+    nodes: [],
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.workflow) {
+      if (!isEqual(nextProps.workflow.list, prevState.tmpNodes)) {
+        return {
+          tmpNodes: nextProps.workflow.list,
+          nodes: nextProps.workflow.list,
+        };
+      }
+    }
+
+    return null;
+  }
 
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -137,9 +161,45 @@ class ViewWorkflow extends Component {
     this.setState({ visibleWorkflowTransitionModal: false });
   };
 
+  onDragEnd = result => {
+    // soltou fora da lista
+    if (!result.destination) {
+      return;
+    }
+
+    // sem movimento
+    if (result.destination.index === result.source.index) {
+      return;
+    }
+
+    const { dispatch, match } = this.props;
+    const { nodes } = this.state;
+    const { source, destination } = result;
+
+    // reordena local
+    const orderedNodes = reorder(nodes, source.index, destination.index);
+
+    this.setState(
+      {
+        nodes: orderedNodes,
+      },
+      () => {
+        // reordena no backend
+        dispatch({
+          type: 'workflows/moveWorkflowNode',
+          payload: {
+            workflowId: match.params.id,
+            nodes: orderedNodes.map(item => item.id),
+          },
+        });
+      }
+    );
+  };
+
   render() {
     const { workflow, statusArray, match } = this.props;
     const {
+      nodes,
       currentWorkflowNode,
       visibleWorkflowNodeModal,
       visibleWorkflowTransitionModal,
@@ -164,119 +224,63 @@ class ViewWorkflow extends Component {
               </Link>
             </Popover>
           </div>
+          <Button type="primary" icon="plus" onClick={this.showWorkflowNodeFormCreateModal}>
+            Etapa
+          </Button>
         </div>
       </div>
     );
 
-    const columns = [
-      {
-        title: 'Etapa',
-        dataIndex: 'name',
-        key: 'name',
-      },
-      {
-        title: 'Transições',
-        dataIndex: 'transitions',
-        key: 'transitions',
-        render: transitions => (
-          <span>
-            {transitions.map(transition => (
-              <div key={transition.id}>
-                <Tag
-                  closable
-                  onClose={() => this.handleDeleteTransition(transition.id)}
-                  color="blue"
-                >
-                  {'>>> '}
-                  {transition.name}
-                </Tag>
-              </div>
-            ))}
-          </span>
-        ),
-      },
-      {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        render: status => <Tag color={status.color}>{status.displayName}</Tag>,
-      },
-      {
-        title: 'Criar Card?',
-        dataIndex: 'canCreateCard',
-        key: 'canCreateCard',
-        align: 'center',
-        render: canCreateCard => (canCreateCard ? <Icon type="check" /> : null),
-      },
-      {
-        title: 'Ação',
-        key: 'action',
-        align: 'center',
-        render: record => (
-          <span>
-            <a onClick={() => this.showWorkflowNodeFormModal(record)}>Editar</a>
-            <Divider type="vertical" />
-            <Popconfirm
-              title="Tem certeza?"
-              icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-              onConfirm={() => this.handleDeleteNode(record.id)}
-            >
-              <a>Delete</a>
-            </Popconfirm>
-          </span>
-        ),
-      },
-    ];
-
-    const extraTableOption = (
-      <Button.Group>
-        <Button type="primary" onClick={this.showWorkflowNodeFormCreateModal}>
-          <Icon type="plus" />
-          <span>Etapa</span>
-        </Button>
-        {workflow.nodes.length > 1 ? (
-          <Button type="primary" onClick={this.showWorkflowTransitionFormModal}>
-            <Icon type="plus" />
-            <span>Transição</span>
-          </Button>
-        ) : null}
-      </Button.Group>
-    );
-
     return (
       <PageHeaderWrapper hiddenBreadcrumb content={content}>
-        <Card
-          className={styles.standardList}
-          bordered={false}
-          extra={extraTableOption}
-          title="Etapas"
-          style={{ marginTop: 24 }}
-          bodyStyle={{ padding: '0 32px 40px 32px' }}
-        >
-          <Table
-            style={{ marginTop: 24 }}
-            pagination={false}
-            columns={columns}
-            dataSource={workflow.list}
-            rowKey={record => record.id}
+        <div className={styles.container}>
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <Scrollbars className={styles.scroll}>
+              <Droppable direction="horizontal" droppableId="NODE" type="NODE">
+                {(dropProvided, dropSnapshot) => (
+                  <div
+                    className={classNames(styles.nodeList, {
+                      [styles.dragging]: dropSnapshot.isDraggingOver,
+                    })}
+                    {...dropProvided.droppableProps}
+                    ref={dropProvided.innerRef}
+                  >
+                    {nodes.map((node, index) => {
+                      return (
+                        <WorkflowNode
+                          key={node.id}
+                          index={index}
+                          node={node}
+                          onEdit={() => this.showWorkflowNodeFormModal(node)}
+                          onDelete={() => this.handleDeleteNode(node.id)}
+                          onAddTransation={this.showWorkflowTransitionFormModal}
+                          onDeleteTransition={this.handleDeleteTransition}
+                        />
+                      );
+                    })}
+                    {dropProvided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </Scrollbars>
+          </DragDropContext>
+          <WorkflowNodeForm
+            status={statusArray}
+            initialValues={currentWorkflowNode}
+            wrappedComponentRef={this.saveFormRef}
+            visible={visibleWorkflowNodeModal}
+            onCancel={this.handleCancelNodeModal}
+            onCreate={this.handleSubmitWorkflowNode}
           />
-        </Card>
-        <WorkflowNodeForm
-          status={statusArray}
-          initialValues={currentWorkflowNode}
-          wrappedComponentRef={this.saveFormRef}
-          visible={visibleWorkflowNodeModal}
-          onCancel={this.handleCancelNodeModal}
-          onCreate={this.handleSubmitWorkflowNode}
-        />
-        <WorkflowTransitionForm
-          nodes={workflow.nodes}
-          transitions={workflow.transitions}
-          wrappedComponentRef={this.saveFormRef}
-          visible={visibleWorkflowTransitionModal}
-          onCancel={this.handleCancelTransitionModal}
-          onCreate={this.handleSubmitWorkflowTransition}
-        />
+          <WorkflowTransitionForm
+            nodes={workflow.nodes}
+            transitions={workflow.transitions}
+            wrappedComponentRef={this.saveFormRef}
+            visible={visibleWorkflowTransitionModal}
+            onCancel={this.handleCancelTransitionModal}
+            onCreate={this.handleSubmitWorkflowTransition}
+          />
+        </div>
       </PageHeaderWrapper>
     );
   }

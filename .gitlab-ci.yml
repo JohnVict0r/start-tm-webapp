@@ -6,8 +6,8 @@ services:
 stages:
   - build
   - test
-  - release
   - review
+  - release
 #  - deploy
 
 variables:
@@ -63,8 +63,6 @@ deploy_review:
   script:
     - ssh-add <(echo "$SSH_PRIVATE_KEY");
     - ssh -o StrictHostKeyChecking=no developer@"$REVIEW_SERVER" '[ -d '"'$RELEASE_DIR'"' ] || mkdir '"'$RELEASE_DIR'"' &&
-
-      rm -rf '"'$REMOTE_DEV_APP_DIR'"'/releases &&
 
       echo -e "--->  Clonando o repositório\n" &&
       git clone --depth 1 -b '"'$CI_COMMIT_REF_NAME'"' '"'$CI_REPOSITORY_URL'"' '"'$NEW_RELEASE_DIR'"' &&

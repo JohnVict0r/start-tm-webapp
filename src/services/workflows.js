@@ -30,3 +30,6 @@ export const deleteWorkflowTransition = transitionId =>
 
 export const createWorkflowTransition = (workflowId, transition) =>
   callApi(`workflows/${workflowId}/wf_transitions`, schema.WORKFLOW).post(transition);
+
+export const reorderWorkflowNodes = ({ workflowId, nodes }) =>
+  callApi(`workflows/${workflowId}/wf_nodes/reorder`, schema.WORKFLOW).put({ nodes });

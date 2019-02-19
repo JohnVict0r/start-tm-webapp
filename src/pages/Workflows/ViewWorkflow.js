@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import isEqual from 'lodash/isEqual';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
@@ -12,8 +13,8 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import WorkflowNodeForm from '@/components/Modal/WorkflowNodeForm';
 import WorkflowTransitionForm from '@/components/Modal/WorkflowTransitionForm';
-
 import WorkflowNode from '@/components/Workflow/WorkflowNode';
+import { reorder } from '@/utils/reorder';
 
 import styles from './ViewWorkflow.less';
 import { makeWorkflowsSelector } from './selectors/workflows';
@@ -32,7 +33,24 @@ class ViewWorkflow extends Component {
     visibleWorkflowNodeModal: false,
     visibleWorkflowTransitionModal: false,
     currentWorkflowNode: {},
+    // tmpNodes é necessário pois nodes é alterado
+    // tanto por novas props como com o setState
+    tmpNodes: [],
+    nodes: [],
   };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.workflow) {
+      if (!isEqual(nextProps.workflow.list, prevState.tmpNodes)) {
+        return {
+          tmpNodes: nextProps.workflow.list,
+          nodes: nextProps.workflow.list,
+        };
+      }
+    }
+
+    return null;
+  }
 
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -144,13 +162,44 @@ class ViewWorkflow extends Component {
   };
 
   onDragEnd = result => {
-    console.log('passou em onDragEnd');
-    console.log(result);
+    // soltou fora da lista
+    if (!result.destination) {
+      return;
+    }
+
+    // sem movimento
+    if (result.destination.index === result.source.index) {
+      return;
+    }
+
+    const { dispatch, match } = this.props;
+    const { nodes } = this.state;
+    const { source, destination } = result;
+
+    // reordena local
+    const orderedNodes = reorder(nodes, source.index, destination.index);
+
+    this.setState(
+      {
+        nodes: orderedNodes,
+      },
+      () => {
+        // reordena no backend
+        dispatch({
+          type: 'workflows/moveWorkflowNode',
+          payload: {
+            workflowId: match.params.id,
+            nodes: orderedNodes.map(item => item.id),
+          },
+        });
+      }
+    );
   };
 
   render() {
     const { workflow, statusArray, match } = this.props;
     const {
+      nodes,
       currentWorkflowNode,
       visibleWorkflowNodeModal,
       visibleWorkflowTransitionModal,
@@ -196,7 +245,7 @@ class ViewWorkflow extends Component {
                     {...dropProvided.droppableProps}
                     ref={dropProvided.innerRef}
                   >
-                    {workflow.list.map((node, index) => {
+                    {nodes.map((node, index) => {
                       return (
                         <WorkflowNode
                           key={node.id}

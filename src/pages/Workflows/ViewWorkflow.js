@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import { connect } from 'dva';
 import Link from 'umi/link';
 
-import { DragDropContext } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import { Popover, Button } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -186,23 +187,32 @@ class ViewWorkflow extends Component {
         <div className={styles.container}>
           <DragDropContext onDragEnd={this.onDragEnd}>
             <Scrollbars className={styles.scroll}>
-              <div className={styles.nodeList}>
-                {workflow.list.map(node => {
-                  return (
-                    <WorkflowNode
-                      key={node.id}
-                      name={node.name}
-                      status={node.status}
-                      canCreateCard={node.canCreateCard}
-                      transitions={node.transitions}
-                      onEdit={() => this.showWorkflowNodeFormModal(node)}
-                      onDelete={() => this.handleDeleteNode(node.id)}
-                      onAddTransation={this.showWorkflowTransitionFormModal}
-                      onDeleteTransition={this.handleDeleteTransition}
-                    />
-                  );
-                })}
-              </div>
+              <Droppable direction="horizontal" droppableId="NODE" type="NODE">
+                {(dropProvided, dropSnapshot) => (
+                  <div
+                    className={classNames(styles.nodeList, {
+                      [styles.dragging]: dropSnapshot.isDraggingOver,
+                    })}
+                    {...dropProvided.droppableProps}
+                    ref={dropProvided.innerRef}
+                  >
+                    {workflow.list.map((node, index) => {
+                      return (
+                        <WorkflowNode
+                          key={node.id}
+                          index={index}
+                          node={node}
+                          onEdit={() => this.showWorkflowNodeFormModal(node)}
+                          onDelete={() => this.handleDeleteNode(node.id)}
+                          onAddTransation={this.showWorkflowTransitionFormModal}
+                          onDeleteTransition={this.handleDeleteTransition}
+                        />
+                      );
+                    })}
+                    {dropProvided.placeholder}
+                  </div>
+                )}
+              </Droppable>
             </Scrollbars>
           </DragDropContext>
           <WorkflowNodeForm

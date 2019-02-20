@@ -3,7 +3,6 @@ import { Button, DatePicker, Form, Input, Select, Spin } from 'antd';
 import moment from 'moment';
 import { formatMessage } from 'umi/locale';
 import { priorities } from '@/utils/labels';
-import Link from 'umi/link';
 
 class CardForm extends PureComponent {
   static defaultProps = {
@@ -96,11 +95,9 @@ class CardForm extends PureComponent {
           <Button type="primary" htmlType="submit" loading={submitting}>
             {formatMessage({ id: current.id ? 'app.card.edit' : 'app.card.new' })}
           </Button>
-          <Link to={back} style={{ marginLeft: 5 }}>
-            <Button type="default" htmlType="button">
-              {formatMessage({ id: 'app.card.back' })}
-            </Button>
-          </Link>
+          <Button type="default" htmlType="button" onClick={back} style={{ marginLeft: 5 }}>
+            {formatMessage({ id: 'app.card.back' })}
+          </Button>
         </Form.Item>
       </Form>
     );

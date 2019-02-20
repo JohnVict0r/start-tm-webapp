@@ -53,7 +53,6 @@ class NewCard extends PureComponent {
       form,
       location: { state },
       dispatch,
-      match,
     } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
@@ -61,8 +60,6 @@ class NewCard extends PureComponent {
           type: 'saveCard/save',
           payload: {
             cardListId: state.cardList.id,
-            boardId: state.board.id,
-            projectId: match.params.projectId,
             card: { ...values },
           },
         });
@@ -75,7 +72,7 @@ class NewCard extends PureComponent {
       form,
       submitting,
       location: { state },
-      match,
+      history,
       members,
       loading,
     } = this.props;
@@ -100,7 +97,7 @@ class NewCard extends PureComponent {
           </Form.Item>
         </Form>
         <CardForm
-          back={`/projects/${match.params.projectId}/boards/${state.board.id}`}
+          back={() => history.goBack()}
           loading={loading}
           form={form}
           users={members}

@@ -76,16 +76,7 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const {
-      card,
-      form,
-      submitting,
-      match,
-      location: { state },
-      comments,
-      users,
-      logedUser,
-    } = this.props;
+    const { card, form, submitting, match, comments, users, logedUser } = this.props;
 
     return (
       <Modal
@@ -119,12 +110,7 @@ class ViewCardModal extends PureComponent {
           <Col span={24}>{card.description}</Col>
         </Row>
         <div>
-          <Link
-            to={{
-              pathname: `/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`,
-              state: { board: state.board },
-            }}
-          >
+          <Link to={`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`}>
             <FormattedMessage id="app.card.edit" />
           </Link>
         </div>

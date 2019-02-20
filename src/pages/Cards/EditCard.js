@@ -50,13 +50,7 @@ class EditCard extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const {
-      form,
-      dispatch,
-      card,
-      location: { state },
-      match,
-    } = this.props;
+    const { form, dispatch, card, match } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         values.members.map(r => {
@@ -87,7 +81,6 @@ class EditCard extends PureComponent {
           type: 'saveCard/save',
           payload: {
             id: card.id,
-            boardId: state.board.id,
             projectId: match.params.projectId,
             card: { ...values },
           },
@@ -97,15 +90,7 @@ class EditCard extends PureComponent {
   };
 
   render() {
-    const {
-      form,
-      submitting,
-      card,
-      users,
-      match,
-      location: { state },
-      loading,
-    } = this.props;
+    const { form, submitting, card, users, history, loading } = this.props;
 
     return (
       <Card bordered={false} title="Editar tarefa">
@@ -115,12 +100,7 @@ class EditCard extends PureComponent {
           users={users}
           loading={loading}
           current={card}
-          back={{
-            pathname: `/projects/${match.params.projectId}/boards/${state.board.id}/cards/${
-              match.params.cardId
-            }`,
-            state: { board: state.board },
-          }}
+          back={() => history.goBack()}
           submiting={submitting}
         />
       </Card>

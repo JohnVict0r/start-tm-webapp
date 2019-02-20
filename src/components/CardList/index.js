@@ -29,14 +29,13 @@ const CardList = ({ cardList, isDisabled, items, board, match }) => (
         listId={cardList.id.toString()}
         listType="CARD"
         cards={items}
-        board={board}
         isDropDisabled={isDisabled}
       />
     </Scrollbars>
   </div>
 );
 
-const List = ({ cards, listId, listType, isDropDisabled, board }) => (
+const List = ({ cards, listId, listType, isDropDisabled }) => (
   <Droppable droppableId={listId} type={listType} isDropDisabled={isDropDisabled}>
     {(dropProvided, dropSnapshot) => (
       <div
@@ -47,7 +46,7 @@ const List = ({ cards, listId, listType, isDropDisabled, board }) => (
         {...dropProvided.droppableProps}
       >
         <div className={styles.dropzone} ref={dropProvided.innerRef}>
-          <InnerCardList cards={cards} board={board} />
+          <InnerCardList cards={cards} />
           {dropProvided.placeholder}
         </div>
       </div>
@@ -62,7 +61,7 @@ class InnerCardList extends Component {
   }
 
   render() {
-    const { cards, board } = this.props;
+    const { cards } = this.props;
 
     return cards.map((card, index) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>
@@ -75,7 +74,6 @@ class InnerCardList extends Component {
                 isDragging={snapshot.isDragging}
                 style={style}
                 provided={provided}
-                boardid={board.id}
               />
             )}
           </NaturalDragAnimation>

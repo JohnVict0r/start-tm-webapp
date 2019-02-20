@@ -2,15 +2,20 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Card, Form } from 'antd';
 import CardForm from '@/components/Form/Card';
-import { boardUsersSelector } from '@/selectors/board';
+import { usersSelector } from '@/selectors/search';
 
 @connect(state => ({
   validation: state.createBoard.validation,
   submitting: state.loading.effects['saveCard/save'],
-  users: boardUsersSelector(state),
+  members: usersSelector(state),
+  loading: state.loading.effects['search/searchUserInProject'],
 }))
 @Form.create()
 class NewCard extends PureComponent {
+  componentDidMount() {
+    this.fetchUser();
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -31,13 +36,23 @@ class NewCard extends PureComponent {
     }
   }
 
+  fetchUser = value => {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'search/searchUserInProject',
+      payload: {
+        id: match.params.projectId,
+        query: value,
+      },
+    });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
     const {
       form,
       location: { state },
       dispatch,
-      match,
     } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
@@ -45,8 +60,6 @@ class NewCard extends PureComponent {
           type: 'saveCard/save',
           payload: {
             cardListId: state.cardList.id,
-            boardId: state.board.id,
-            projectId: match.params.projectId,
             card: { ...values },
           },
         });
@@ -58,8 +71,10 @@ class NewCard extends PureComponent {
     const {
       form,
       submitting,
-      users,
       location: { state },
+      history,
+      members,
+      loading,
     } = this.props;
 
     const formItemLayout = {
@@ -81,7 +96,14 @@ class NewCard extends PureComponent {
             <span className="ant-form-text">{`${state.board.name} > ${state.cardList.name}`}</span>
           </Form.Item>
         </Form>
-        <CardForm form={form} users={users} onSubmit={this.handleSubmit} submiting={submitting} />
+        <CardForm
+          back={() => history.goBack()}
+          loading={loading}
+          form={form}
+          users={members}
+          onSubmit={this.handleSubmit}
+          submiting={submitting}
+        />
       </Card>
     );
   }

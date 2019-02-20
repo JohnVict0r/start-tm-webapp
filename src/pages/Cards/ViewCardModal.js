@@ -1,25 +1,37 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Modal, Collapse, Form, Row, Col } from 'antd';
+import { Modal, Row, Col, Form } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
 import Link from 'umi/link';
 import { cardSelectorWithMembers } from './selectors/members';
-
+import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
+  const commentCardSelect = makeCardCommentsSelector({ cardId: ownProps.match.params.cardId });
   return {
     validation: state.createBoard.validation,
     card: cardSelector(state),
+    users: state.entities.users,
+    comments: commentCardSelect(state),
+    logedUser: state.global.loggedInUser,
     submitting: state.loading.effects['commentCard/save'],
   };
 })
 @Form.create()
 class ViewCardModal extends PureComponent {
+  componentDidMount() {
+    const { dispatch, card } = this.props;
+    dispatch({
+      type: 'comments/fetchCardComments',
+      payload: { id: card.id },
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -54,6 +66,7 @@ class ViewCardModal extends PureComponent {
         });
       }
     });
+    form.resetFields();
   };
 
   handleClose = () => {
@@ -63,7 +76,8 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match } = this.props;
+    const { card, form, submitting, match, comments, users, logedUser } = this.props;
+
     return (
       <Modal
         className={styles.modal}
@@ -78,7 +92,7 @@ class ViewCardModal extends PureComponent {
         visible
       >
         <Row>
-          <Col span={24}>Participantes:</Col>
+          <Col span={24}>{formatMessage({ id: 'app.card.members' })}:</Col>
           <Col span={24}>
             <AvatarList size="mini" overlap={0}>
               {card.members.map(member => (
@@ -101,14 +115,15 @@ class ViewCardModal extends PureComponent {
           </Link>
         </div>
         <div>
-          <CommentList />
+          <CommentForm
+            form={form}
+            user={users[logedUser]}
+            onSubmit={this.handleSubmit}
+            submiting={submitting}
+          />
         </div>
         <div>
-          <Collapse>
-            <Collapse.Panel header={formatMessage({ id: 'app.card.comment' })} key="1">
-              <CommentForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />
-            </Collapse.Panel>
-          </Collapse>
+          <CommentList comments={comments} users={users} />
         </div>
       </Modal>
     );

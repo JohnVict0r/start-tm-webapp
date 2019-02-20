@@ -2,16 +2,21 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import CardForm from '@/components/Form/Card';
 import { Card, Form } from 'antd';
-import { boardUsersSelector } from '@/selectors/board';
+import { usersSelector } from '@/selectors/search';
 
 @connect((state, ownProps) => ({
   validation: state.createBoard.validation,
   card: state.entities.cards[ownProps.match.params.cardId],
   submitting: state.loading.effects['saveCard/save'],
-  users: boardUsersSelector(state),
+  users: usersSelector(state),
+  loading: state.loading.effects['search/searchUserInProject'],
 }))
 @Form.create()
 class EditCard extends PureComponent {
+  componentDidMount() {
+    this.fetchUser();
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -32,9 +37,20 @@ class EditCard extends PureComponent {
     }
   }
 
+  fetchUser = value => {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'search/searchUserInProject',
+      payload: {
+        id: match.params.projectId,
+        query: value,
+      },
+    });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    const { form, dispatch, card } = this.props;
+    const { form, dispatch, card, match } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         values.members.map(r => {
@@ -65,6 +81,7 @@ class EditCard extends PureComponent {
           type: 'saveCard/save',
           payload: {
             id: card.id,
+            projectId: match.params.projectId,
             card: { ...values },
           },
         });
@@ -73,7 +90,7 @@ class EditCard extends PureComponent {
   };
 
   render() {
-    const { form, submitting, card, users } = this.props;
+    const { form, submitting, card, users, history, loading } = this.props;
 
     return (
       <Card bordered={false} title="Editar tarefa">
@@ -81,7 +98,9 @@ class EditCard extends PureComponent {
           form={form}
           onSubmit={this.handleSubmit}
           users={users}
+          loading={loading}
           current={card}
+          back={() => history.goBack()}
           submiting={submitting}
         />
       </Card>

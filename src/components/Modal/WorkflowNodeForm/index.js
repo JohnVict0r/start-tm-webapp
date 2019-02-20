@@ -3,19 +3,7 @@ import { formatMessage } from 'umi/locale';
 import React from 'react';
 
 const WorkflowNodeForm = Form.create({ name: 'form_workflow_node_in_modal' })(
-  // eslint-disable-next-line
   class extends React.Component {
-    state = {
-      checkCanCreateCard: false,
-    };
-
-    handleChange = () => {
-      const { checkCanCreateCard } = this.state;
-      this.setState({
-        checkCanCreateCard: !checkCanCreateCard,
-      });
-    };
-
     handleSubmit = e => {
       e.preventDefault();
       const { form, onCreate } = this.props;
@@ -25,9 +13,6 @@ const WorkflowNodeForm = Form.create({ name: 'form_workflow_node_in_modal' })(
         }
         onCreate(err, values);
         form.resetFields();
-        this.setState({
-          checkCanCreateCard: false,
-        });
       });
     };
 
@@ -37,12 +22,6 @@ const WorkflowNodeForm = Form.create({ name: 'form_workflow_node_in_modal' })(
       const { getFieldDecorator } = form;
 
       const { Option } = Select;
-
-      let { checkCanCreateCard } = this.state;
-
-      if (initialValues.canCreateCard === 1) {
-        checkCanCreateCard = true;
-      }
 
       const TitleModal = initialValues.id ? 'Alterar Etapa' : 'Adicionar Etapa';
       const OkTextModal = initialValues.id ? 'Alterar' : 'Adicionar';
@@ -95,11 +74,10 @@ const WorkflowNodeForm = Form.create({ name: 'form_workflow_node_in_modal' })(
               )}
             </Form.Item>
             <Form.Item>
-              {getFieldDecorator('can_create_card')(
-                <Checkbox checked={checkCanCreateCard} onChange={this.handleChange}>
-                  {formatMessage({ id: 'app.workflow.form.node.check' })}
-                </Checkbox>
-              )}
+              {getFieldDecorator('can_create_card', {
+                initialValue: initialValues.canCreateCard,
+                valuePropName: 'checked',
+              })(<Checkbox>{formatMessage({ id: 'app.workflow.form.node.check' })}</Checkbox>)}
             </Form.Item>
           </Form>
         </Modal>

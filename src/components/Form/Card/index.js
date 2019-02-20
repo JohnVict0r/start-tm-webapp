@@ -18,7 +18,7 @@ class CardForm extends PureComponent {
       users,
       back,
       loading,
-      handleChange
+      handleChange,
     } = this.props;
 
     const formItemLayout = {

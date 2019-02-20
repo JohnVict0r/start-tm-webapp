@@ -9,7 +9,6 @@ import withRouter from 'umi/withRouter';
 import CardItem from './CardItem';
 import styles from './index.less';
 
-// <div className={styles.column}>
 const CardList = ({ cardList, isDisabled, items, board, match }) => (
   <div
     className={classNames(styles.column, {

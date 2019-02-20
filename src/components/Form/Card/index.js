@@ -74,7 +74,7 @@ class CardForm extends PureComponent {
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labeluser' })}>
-          {getFieldDecorator('members', {
+          {getFieldDecorator('assigned_users', {
             initialValue: current.members,
           })(
             <Select

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Button } from 'antd';
+import { Button, List } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -25,7 +25,7 @@ const CardList = ({ cardList, isDisabled, items, board, match }) => (
       )}
     </div>
     <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
-      <List
+      <DroppableList
         listId={cardList.id.toString()}
         listType="CARD"
         cards={items}
@@ -35,7 +35,7 @@ const CardList = ({ cardList, isDisabled, items, board, match }) => (
   </div>
 );
 
-const List = ({ cards, listId, listType, isDropDisabled }) => (
+const DroppableList = ({ cards, listId, listType, isDropDisabled }) => (
   <Droppable droppableId={listId} type={listType} isDropDisabled={isDropDisabled}>
     {(dropProvided, dropSnapshot) => (
       <div
@@ -62,6 +62,10 @@ class InnerCardList extends Component {
 
   render() {
     const { cards } = this.props;
+
+    if (cards.length === 0) {
+      return <List dataSource={[]} />;
+    }
 
     return cards.map((card, index) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>

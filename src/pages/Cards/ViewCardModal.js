@@ -7,12 +7,12 @@ import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
 import Link from 'umi/link';
 import { cardSelectorWithMembers } from './selectors/members';
-import { cardCommentSelectorCreator } from '@/selectors/global';
+import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
-  const commentCardSelect = cardCommentSelectorCreator({ cardId: ownProps.match.params.cardId });
+  const commentCardSelect = makeCardCommentsSelector({ cardId: ownProps.match.params.cardId });
   return {
     validation: state.createBoard.validation,
     card: cardSelector(state),

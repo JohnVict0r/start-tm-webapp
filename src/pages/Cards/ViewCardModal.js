@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Modal, Row, Col, Form } from 'antd';
+import { Button, Modal, Row, Col, Form, List } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
-import Link from 'umi/link';
+import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
 import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
@@ -85,46 +85,85 @@ class ViewCardModal extends PureComponent {
         maskStyle={{
           animation: '0',
         }}
-        title={card.name}
         footer={null}
         onCancel={this.handleClose}
         maskClosable
         visible
       >
-        <Row>
-          <Col span={24}>{formatMessage({ id: 'app.card.members' })}:</Col>
-          <Col span={24}>
-            <AvatarList size="mini" overlap={0}>
-              {card.members.map(member => (
-                <AvatarList.Item
-                  key={`${card.id}-avatar-${member.id}`}
-                  src={member.pictureUrl}
-                  tips={member.name}
-                />
-              ))}
-            </AvatarList>
+        <Row className={styles.cardTitle}>{card.name}</Row>
+        <Row gutter={24}>
+          <Col xs={24} sm={18}>
+            <Row>
+              {'Participantes: '}
+              <AvatarList size="mini" overlap={0}>
+                {card.members.map(member => (
+                  <AvatarList.Item
+                    key={`${card.id}-avatar-${member.id}`}
+                    src={member.pictureUrl}
+                    tips={member.name}
+                  />
+                ))}
+              </AvatarList>
+            </Row>
+            <Row>
+              {'Data de entrega: '}
+              {moment(card.due).format('LLL')}
+            </Row>
+            <Row>
+              <Col span={24}>Descrição:</Col>
+              <Col span={24}>{card.description}</Col>
+            </Row>
+            <div>
+              <CommentForm
+                form={form}
+                user={users[logedUser]}
+                onSubmit={this.handleSubmit}
+                submiting={submitting}
+              />
+            </div>
+            <div>
+              <CommentList comments={comments} users={users} />
+            </div>
+          </Col>
+
+          <Col xs={24} sm={6}>
+            <List size="small" bordered={false}>
+              <List.Item>
+                <Button
+                  block
+                  icon="edit"
+                  onClick={() =>
+                    router.push(
+                      `/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`
+                    )
+                  }
+                >
+                  Editar
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="team">
+                  Participantes
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="flag">
+                  Prioridade
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="schedule">
+                  Data entrega
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="paper-clip">
+                  Anexo
+                </Button>
+              </List.Item>
+            </List>
           </Col>
         </Row>
-        <Row>
-          <Col span={24}>Descrição:</Col>
-          <Col span={24}>{card.description}</Col>
-        </Row>
-        <div>
-          <Link to={`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`}>
-            <FormattedMessage id="app.card.edit" />
-          </Link>
-        </div>
-        <div>
-          <CommentForm
-            form={form}
-            user={users[logedUser]}
-            onSubmit={this.handleSubmit}
-            submiting={submitting}
-          />
-        </div>
-        <div>
-          <CommentList comments={comments} users={users} />
-        </div>
       </Modal>
     );
   }

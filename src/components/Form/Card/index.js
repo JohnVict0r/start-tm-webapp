@@ -18,6 +18,7 @@ class CardForm extends PureComponent {
       users,
       back,
       loading,
+      handleChange,
     } = this.props;
 
     const formItemLayout = {
@@ -74,7 +75,7 @@ class CardForm extends PureComponent {
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labeluser' })}>
-          {getFieldDecorator('members', {
+          {getFieldDecorator('assigned_users', {
             initialValue: current.members,
           })(
             <Select
@@ -82,6 +83,7 @@ class CardForm extends PureComponent {
               mode="multiple"
               notFoundContent={loading ? <Spin size="small" /> : null}
               placeholder={formatMessage({ id: 'app.card.labeluser' })}
+              onSearch={handleChange}
             >
               {users.map(r => (
                 <Select.Option key={r.id} value={r.id} search={r.name}>
@@ -95,7 +97,7 @@ class CardForm extends PureComponent {
           <Button type="primary" htmlType="submit" loading={submitting}>
             {formatMessage({ id: current.id ? 'app.card.edit' : 'app.card.new' })}
           </Button>
-          <Button type="default" htmlType="button" onClick={back} style={{ marginLeft: 5 }}>
+          <Button onClick={back} style={{ marginLeft: 5 }} type="default" htmlType="button">
             {formatMessage({ id: 'app.card.back' })}
           </Button>
         </Form.Item>

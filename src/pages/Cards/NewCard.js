@@ -103,6 +103,7 @@ class NewCard extends PureComponent {
           users={members}
           onSubmit={this.handleSubmit}
           submiting={submitting}
+          handleChange={this.fetchUser}
         />
       </Card>
     );

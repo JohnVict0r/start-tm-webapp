@@ -53,8 +53,8 @@ class EditCard extends PureComponent {
     const { form, dispatch, card, match } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        values.members.map(r => {
-          if (card.members.indexOf(r) < 0) {
+        values.assigned_users.map(r => {
+          if (card.assigned_users.indexOf(r) < 0) {
             dispatch({
               type: 'saveCard/assigin',
               payload: {
@@ -65,8 +65,8 @@ class EditCard extends PureComponent {
           }
           return false;
         });
-        card.members.map(r => {
-          if (values.members.indexOf(r) < 0) {
+        card.assigned_users.map(r => {
+          if (values.assigned_users.indexOf(r) < 0) {
             dispatch({
               type: 'saveCard/unAssigin',
               payload: {
@@ -102,6 +102,7 @@ class EditCard extends PureComponent {
           current={card}
           back={() => history.goBack()}
           submiting={submitting}
+          handleChange={this.fetchUser}
         />
       </Card>
     );

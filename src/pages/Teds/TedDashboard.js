@@ -44,13 +44,12 @@ class TedDashboard extends PureComponent {
 
   render() {
     const { location, match, children } = this.props;
-
     return (
       <Card
         className={styles.tabsCard}
         bordered={false}
         tabList={tabList}
-        tabActiveKey={location.pathname.replace(`${match.path}/`, '')}
+        activeTabKey={location.pathname.replace(`${match.url}/`, '')}
         onTabChange={this.handleTabChange}
       >
         {children}

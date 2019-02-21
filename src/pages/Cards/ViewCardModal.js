@@ -94,40 +94,50 @@ class ViewCardModal extends PureComponent {
         <Row gutter={24}>
           <Col xs={24} sm={18}>
             <Row>
-              {'Participantes: '}
-              <AvatarList size="mini" overlap={0}>
-                {card.members.map(member => (
-                  <AvatarList.Item
-                    key={`${card.id}-avatar-${member.id}`}
-                    src={member.pictureUrl}
-                    tips={member.name}
-                  />
-                ))}
-              </AvatarList>
+              <Col span={24} className={styles.cardListInfo}>
+                <Row gutter={12}>
+                  <Col xs={24} sm={12}>
+                    <Row className={styles.label}>Participantes</Row>
+                    <Row>
+                      <AvatarList size="mini" overlap={0}>
+                        {card.members.map(member => (
+                          <AvatarList.Item
+                            key={`${card.id}-avatar-${member.id}`}
+                            src={member.pictureUrl}
+                            tips={member.name}
+                          />
+                        ))}
+                      </AvatarList>
+                    </Row>
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <Row className={styles.label}>Data de entrega</Row>
+                    <Row>{moment(card.due).format('LLL')}</Row>
+                  </Col>
+                </Row>
+                {card.description && (
+                  <Row>
+                    <Col className={styles.label} span={24}>
+                      Descrição
+                    </Col>
+                    <Col span={24}>{card.description}</Col>
+                  </Row>
+                )}
+              </Col>
+              <Col className={styles.commentsContainer} span={24}>
+                <CommentForm
+                  form={form}
+                  user={users[logedUser]}
+                  onSubmit={this.handleSubmit}
+                  submiting={submitting}
+                />
+                <CommentList comments={comments} users={users} />
+              </Col>
             </Row>
-            <Row>
-              {'Data de entrega: '}
-              {moment(card.due).format('LLL')}
-            </Row>
-            <Row>
-              <Col span={24}>Descrição:</Col>
-              <Col span={24}>{card.description}</Col>
-            </Row>
-            <div>
-              <CommentForm
-                form={form}
-                user={users[logedUser]}
-                onSubmit={this.handleSubmit}
-                submiting={submitting}
-              />
-            </div>
-            <div>
-              <CommentList comments={comments} users={users} />
-            </div>
           </Col>
 
           <Col xs={24} sm={6}>
-            <List size="small" bordered={false}>
+            <List header="Ações" className={styles.actionList} size="small" bordered={false}>
               <List.Item>
                 <Button
                   block

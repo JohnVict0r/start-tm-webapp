@@ -5,3 +5,47 @@
   animation: 0s !important;
   transition: none;
 }
+
+.cardTitle {
+  padding-right: 32px;
+  margin-bottom: 12px;
+  font-size: @font-size-lg;
+  line-height: 22px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.cardListInfo {
+  margin-bottom: 12px;
+
+  & > :global(.ant-row) {
+    margin-bottom: 8px;
+  }
+
+  .label {
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: 500;
+  }
+}
+
+.actionList {
+  :global {
+    .ant-list-header {
+      padding-top: 0;
+      padding-bottom: 4px;
+      border-bottom: none;
+      color: rgba(0, 0, 0, 0.4);
+      font-weight: 500;
+    }
+
+    .ant-list-item {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      border-bottom: none;
+    }
+  }
+}
+
+.commentsContainer {
+  border-top: 1px solid @border-color-split;
+}

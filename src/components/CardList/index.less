@@ -7,6 +7,10 @@
   background: #fafafa;
   border: @border-width-base @border-style-base @border-color-split;
   border-radius: 4px;
+
+  &.disabled {
+    opacity: 0.5;
+  }
 }
 
 .header {
@@ -60,11 +64,7 @@
   height: 100%;
 
   &.dragging {
-    //background-color: rgba(240, 244, 247, 0.4);
-  }
-
-  &.disabled {
-    opacity: 0.5;
+    background-color: rgba(240, 244, 247, 0.4);
   }
 }
 

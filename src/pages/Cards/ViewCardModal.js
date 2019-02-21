@@ -1,25 +1,37 @@
 import React, { PureComponent } from 'react';
+import moment from 'moment';
 import { connect } from 'dva';
-import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Modal, Collapse, Form, Row, Col } from 'antd';
+import { Button, Modal, Row, Col, Form, List } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
-import Link from 'umi/link';
+import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
-
+import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
+  const commentCardSelect = makeCardCommentsSelector({ cardId: ownProps.match.params.cardId });
   return {
     validation: state.createBoard.validation,
     card: cardSelector(state),
+    users: state.entities.users,
+    comments: commentCardSelect(state),
+    logedUser: state.global.loggedInUser,
     submitting: state.loading.effects['commentCard/save'],
   };
 })
 @Form.create()
 class ViewCardModal extends PureComponent {
+  componentDidMount() {
+    const { dispatch, card } = this.props;
+    dispatch({
+      type: 'comments/fetchCardComments',
+      payload: { id: card.id },
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -54,6 +66,7 @@ class ViewCardModal extends PureComponent {
         });
       }
     });
+    form.resetFields();
   };
 
   handleClose = () => {
@@ -63,7 +76,8 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match } = this.props;
+    const { card, form, submitting, match, comments, users, logedUser } = this.props;
+
     return (
       <Modal
         className={styles.modal}
@@ -71,45 +85,95 @@ class ViewCardModal extends PureComponent {
         maskStyle={{
           animation: '0',
         }}
-        title={card.name}
         footer={null}
         onCancel={this.handleClose}
         maskClosable
         visible
       >
-        <Row>
-          <Col span={24}>Participantes:</Col>
-          <Col span={24}>
-            <AvatarList size="mini" overlap={0}>
-              {card.members.map(member => (
-                <AvatarList.Item
-                  key={`${card.id}-avatar-${member.id}`}
-                  src={member.pictureUrl}
-                  tips={member.name}
+        <Row className={styles.cardTitle}>{card.name}</Row>
+        <Row gutter={24}>
+          <Col xs={24} sm={18}>
+            <Row>
+              <Col span={24} className={styles.cardListInfo}>
+                <Row gutter={12}>
+                  <Col xs={24} sm={12}>
+                    <Row className={styles.label}>Participantes</Row>
+                    <Row>
+                      <AvatarList size="mini" overlap={0}>
+                        {card.members.map(member => (
+                          <AvatarList.Item
+                            key={`${card.id}-avatar-${member.id}`}
+                            src={member.pictureUrl}
+                            tips={member.name}
+                          />
+                        ))}
+                      </AvatarList>
+                    </Row>
+                  </Col>
+                  <Col xs={24} sm={12}>
+                    <Row className={styles.label}>Data de entrega</Row>
+                    <Row>{moment(card.due).format('LLL')}</Row>
+                  </Col>
+                </Row>
+                {card.description && (
+                  <Row>
+                    <Col className={styles.label} span={24}>
+                      Descrição
+                    </Col>
+                    <Col span={24}>{card.description}</Col>
+                  </Row>
+                )}
+              </Col>
+              <Col className={styles.commentsContainer} span={24}>
+                <CommentForm
+                  form={form}
+                  user={users[logedUser]}
+                  onSubmit={this.handleSubmit}
+                  submiting={submitting}
                 />
-              ))}
-            </AvatarList>
+                <CommentList comments={comments} users={users} />
+              </Col>
+            </Row>
+          </Col>
+
+          <Col xs={24} sm={6}>
+            <List header="Ações" className={styles.actionList} size="small" bordered={false}>
+              <List.Item>
+                <Button
+                  block
+                  icon="edit"
+                  onClick={() =>
+                    router.push(
+                      `/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`
+                    )
+                  }
+                >
+                  Editar
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="team">
+                  Participantes
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="flag">
+                  Prioridade
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="schedule">
+                  Data entrega
+                </Button>
+              </List.Item>
+              <List.Item>
+                <Button block icon="paper-clip">
+                  Anexo
+                </Button>
+              </List.Item>
+            </List>
           </Col>
         </Row>
-        <Row>
-          <Col span={24}>Descrição:</Col>
-          <Col span={24}>{card.description}</Col>
-        </Row>
-        <div>
-          <Link to={`/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`}>
-            <FormattedMessage id="app.card.edit" />
-          </Link>
-        </div>
-        <div>
-          <CommentList />
-        </div>
-        <div>
-          <Collapse>
-            <Collapse.Panel header={formatMessage({ id: 'app.card.comment' })} key="1">
-              <CommentForm form={form} onSubmit={this.handleSubmit} submiting={submitting} />
-            </Collapse.Panel>
-          </Collapse>
-        </div>
       </Modal>
     );
   }

@@ -9,32 +9,6 @@ import timeAgo from '@/utils/timeAgo';
 
 import styles from './CardItem.less';
 
-// const CardItem = ({ card, isDragging, provided, match }) => {
-//   // const priority = priorityFilter(card.priority)
-//   // const due = timeAgo(card.due)
-//
-//   return (
-//     <Link
-//       // to={`${match.url}/cards/${card.id}`}
-//       to={`/cards/${card.id}`}
-//       className={classNames(styles.carditem, { [styles.carditem.dragging]: isDragging })}
-//       innerRef={provided.innerRef}
-//       {...provided.draggableProps}
-//       {...provided.dragHandleProps}
-//     >
-//       <div className={styles.carditemSubheader}>
-//         {card.name}
-//         {/* <AvatarMembers members={card.members} compact />
-//         <div className='card-status'>
-//           <Due due={due} />
-//           <Icon name={priority.icon} style={{ color: priority.color }} />
-//         </div> */}
-//       </div>
-//       {/* <Header content={card.name} /> */}
-//     </Link>
-//   )
-// }
-
 const Due = ({ date }) => {
   const due = timeAgo(date);
   return (
@@ -74,7 +48,9 @@ const CardItem = ({ card, isDragging, provided, style, match }) => (
     {...provided.dragHandleProps}
     style={style}
   >
-    <Link to={`${match.url}/cards/${card.id}`}>
+    <Link
+      to={`/projects/${match.params.projectId}/boards/${match.params.boardId}/cards/${card.id}`}
+    >
       <Card
         bordered={false}
         className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {

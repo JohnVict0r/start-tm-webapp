@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Button } from 'antd';
+import { Button, List } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -10,7 +10,11 @@ import CardItem from './CardItem';
 import styles from './index.less';
 
 const CardList = ({ cardList, isDisabled, items, board, match }) => (
-  <div className={styles.column}>
+  <div
+    className={classNames(styles.column, {
+      [styles.disabled]: isDisabled,
+    })}
+  >
     <div className={styles.header}>
       <h4 className={styles.title}>{cardList.name}</h4>
       {cardList.canCreateCard && (
@@ -25,18 +29,17 @@ const CardList = ({ cardList, isDisabled, items, board, match }) => (
       )}
     </div>
     <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
-      <List
+      <DroppableList
         listId={cardList.id.toString()}
         listType="CARD"
         cards={items}
-        board={board}
         isDropDisabled={isDisabled}
       />
     </Scrollbars>
   </div>
 );
 
-const List = ({ cards, listId, listType, isDropDisabled, board }) => (
+const DroppableList = ({ cards, listId, listType, isDropDisabled }) => (
   <Droppable droppableId={listId} type={listType} isDropDisabled={isDropDisabled}>
     {(dropProvided, dropSnapshot) => (
       <div
@@ -47,7 +50,7 @@ const List = ({ cards, listId, listType, isDropDisabled, board }) => (
         {...dropProvided.droppableProps}
       >
         <div className={styles.dropzone} ref={dropProvided.innerRef}>
-          <InnerCardList cards={cards} board={board} />
+          <InnerCardList cards={cards} />
           {dropProvided.placeholder}
         </div>
       </div>
@@ -62,7 +65,11 @@ class InnerCardList extends Component {
   }
 
   render() {
-    const { cards, board } = this.props;
+    const { cards } = this.props;
+
+    if (cards.length === 0) {
+      return <List dataSource={[]} />;
+    }
 
     return cards.map((card, index) => (
       <Draggable key={card.id} draggableId={card.id} index={index}>
@@ -75,7 +82,6 @@ class InnerCardList extends Component {
                 isDragging={snapshot.isDragging}
                 style={style}
                 provided={provided}
-                boardid={board.id}
               />
             )}
           </NaturalDragAnimation>

@@ -28,3 +28,6 @@ export const updateComment = ({ id, comment }) =>
   callApi(`comments/${id}`, schema.COMMENT_ARRAY).put({ ...comment });
 
 export const deleteComment = ({ id }) => callApi(`comments/${id}`, schema.COMMENT_ARRAY).delete();
+
+export const updateDueCard = ({ cardId, due }) =>
+  callApi(`cards/${cardId}/due`, schema.CARD).put({ ...due });

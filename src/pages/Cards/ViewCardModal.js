@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Button, Modal, Row, Col, Form, List } from 'antd';
+import { Button, Modal, Row, Col, Form, List, Popover } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
@@ -9,6 +9,7 @@ import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
 import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
+import DueForm from '@/components/Form/Card/Due';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
@@ -24,6 +25,10 @@ import styles from './ViewCardModal.less';
 })
 @Form.create()
 class ViewCardModal extends PureComponent {
+  state = {
+    visibleFormDue: false,
+  };
+
   componentDidMount() {
     const { dispatch, card } = this.props;
     dispatch({
@@ -69,6 +74,29 @@ class ViewCardModal extends PureComponent {
     form.resetFields();
   };
 
+  handleVisibleChange = visibleFormDue => {
+    this.setState({ visibleFormDue });
+  };
+
+  handleSubmitDueForm = () => {
+    const { form, card, dispatch } = this.props;
+    form.validateFields({ force: true }, (err, values) => {
+      if (!err) {
+        dispatch({
+          type: 'updateCard/updateDue',
+          payload: {
+            cardId: card.id,
+            due: { ...values },
+          },
+        });
+      }
+    });
+    this.setState({
+      visibleFormDue: false,
+    });
+    form.resetFields();
+  };
+
   handleClose = () => {
     const { match, history } = this.props;
     const parentRoute = match.url.replace(/\/cards\/[0-9]*/i, '');
@@ -77,6 +105,10 @@ class ViewCardModal extends PureComponent {
 
   render() {
     const { card, form, submitting, match, comments, users, logedUser } = this.props;
+
+    const { visibleFormDue } = this.state;
+
+    const text = <span>Alterar prazo de entrega</span>;
 
     return (
       <Modal
@@ -162,9 +194,18 @@ class ViewCardModal extends PureComponent {
                 </Button>
               </List.Item>
               <List.Item>
-                <Button block icon="schedule">
-                  Data entrega
-                </Button>
+                <Popover
+                  visible={visibleFormDue}
+                  onVisibleChange={this.handleVisibleChange}
+                  title={text}
+                  content={<DueForm current={card} />}
+                  onSubmit={() => this.handleSubmitDueForm}
+                  trigger="click"
+                >
+                  <Button block icon="schedule">
+                    Data entrega
+                  </Button>
+                </Popover>
               </List.Item>
               <List.Item>
                 <Button block icon="paper-clip">

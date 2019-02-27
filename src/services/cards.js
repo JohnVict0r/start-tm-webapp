@@ -30,7 +30,7 @@ export const updateComment = ({ id, comment }) =>
 export const deleteComment = ({ id }) => callApi(`comments/${id}`, schema.COMMENT_ARRAY).delete();
 
 export const updateDueCard = ({ cardId, due }) =>
-  callApi(`cards/${cardId}/due`, schema.CARD).patch({ ...due });
+  callApi(`cards/${cardId}/due`, schema.CARD).put({ ...due });
 
 export const updatePriorityCard = ({ cardId, priority }) =>
-  callApi(`cards/${cardId}/priority`, schema.CARD).patch({ ...priority });
+  callApi(`cards/${cardId}/priority`, schema.CARD).put({ ...priority });

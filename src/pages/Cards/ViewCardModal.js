@@ -9,7 +9,7 @@ import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
 import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
-import DueForm from '@/components/Form/Card/Due';
+import { DueForm, PriorityForm } from '@/components/Form/Card';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
@@ -27,6 +27,7 @@ import DueForm from '@/components/Form/Card/Due';
 class ViewCardModal extends PureComponent {
   state = {
     visibleFormDue: false,
+    visibleFormPriority: false,
   };
 
   componentDidMount() {
@@ -74,7 +75,7 @@ class ViewCardModal extends PureComponent {
     form.resetFields();
   };
 
-  handleVisibleChange = visibleFormDue => {
+  handleVisibleDueChange = visibleFormDue => {
     this.setState({ visibleFormDue });
   };
 
@@ -97,6 +98,29 @@ class ViewCardModal extends PureComponent {
     form.resetFields();
   };
 
+  handleVisiblePriorityChange = visibleFormPriority => {
+    this.setState({ visibleFormPriority });
+  };
+
+  handleSubmitPriorityForm = () => {
+    const { form, card, dispatch } = this.props;
+    form.validateFields({ force: true }, (err, values) => {
+      if (!err) {
+        dispatch({
+          type: 'updateCard/updatePriority',
+          payload: {
+            cardId: card.id,
+            priority: { ...values },
+          },
+        });
+      }
+    });
+    this.setState({
+      visibleFormPriority: false,
+    });
+    form.resetFields();
+  };
+
   handleClose = () => {
     const { match, history } = this.props;
     const parentRoute = match.url.replace(/\/cards\/[0-9]*/i, '');
@@ -106,9 +130,11 @@ class ViewCardModal extends PureComponent {
   render() {
     const { card, form, submitting, match, comments, users, logedUser } = this.props;
 
-    const { visibleFormDue } = this.state;
+    const { visibleFormDue, visibleFormPriority } = this.state;
 
-    const text = <span>Alterar prazo de entrega</span>;
+    const textTitleDueForm = <span>Alterar prazo de entrega</span>;
+
+    const textTitlePriorityForm = <span>Alterar prioridade</span>;
 
     return (
       <Modal
@@ -189,15 +215,24 @@ class ViewCardModal extends PureComponent {
                 </Button>
               </List.Item>
               <List.Item>
-                <Button block icon="flag">
-                  Prioridade
-                </Button>
+                <Popover
+                  visible={visibleFormPriority}
+                  onVisibleChange={this.handleVisiblePriorityChange}
+                  title={textTitlePriorityForm}
+                  content={<PriorityForm current={card} />}
+                  onSubmit={() => this.handleSubmitPriorityForm}
+                  trigger="click"
+                >
+                  <Button block icon="flag">
+                    Prioridade
+                  </Button>
+                </Popover>
               </List.Item>
               <List.Item>
                 <Popover
                   visible={visibleFormDue}
-                  onVisibleChange={this.handleVisibleChange}
-                  title={text}
+                  onVisibleChange={this.handleVisibleDueChange}
+                  title={textTitleDueForm}
                   content={<DueForm current={card} />}
                   onSubmit={() => this.handleSubmitDueForm}
                   trigger="click"

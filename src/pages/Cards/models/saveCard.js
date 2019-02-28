@@ -33,7 +33,9 @@ export default {
           })
         );
 
-        router.goBack();
+        if (!payload.id) {
+          router.goBack();
+        }
       }
     },
 

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Button, Modal, Row, Col, Form, List } from 'antd';
+import { Button, Modal, Row, Col, Form, List, Popover } from 'antd';
 import CommentForm from '@/components/Form/Comment';
 import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
@@ -9,6 +9,7 @@ import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
 import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
+import { DueForm, PriorityForm } from '@/components/Form/Card';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
@@ -24,6 +25,11 @@ import styles from './ViewCardModal.less';
 })
 @Form.create()
 class ViewCardModal extends PureComponent {
+  state = {
+    visibleFormDue: false,
+    visibleFormPriority: false,
+  };
+
   componentDidMount() {
     const { dispatch, card } = this.props;
     dispatch({
@@ -69,6 +75,50 @@ class ViewCardModal extends PureComponent {
     form.resetFields();
   };
 
+  handleVisibleDueChange = visibleFormDue => {
+    this.setState({ visibleFormDue });
+  };
+
+  handleSubmitDueForm = (err, values) => {
+    if (!err) {
+      const { dispatch, card } = this.props;
+
+      dispatch({
+        type: 'saveCard/save',
+        payload: {
+          id: card.id,
+          card: { ...values },
+        },
+      });
+
+      this.setState({
+        visibleFormDue: false,
+      });
+    }
+  };
+
+  handleVisiblePriorityChange = visibleFormPriority => {
+    this.setState({ visibleFormPriority });
+  };
+
+  handleSubmitPriorityForm = (err, values) => {
+    if (!err) {
+      const { dispatch, card } = this.props;
+
+      dispatch({
+        type: 'saveCard/save',
+        payload: {
+          id: card.id,
+          card: { ...values },
+        },
+      });
+
+      this.setState({
+        visibleFormPriority: false,
+      });
+    }
+  };
+
   handleClose = () => {
     const { match, history } = this.props;
     const parentRoute = match.url.replace(/\/cards\/[0-9]*/i, '');
@@ -77,6 +127,12 @@ class ViewCardModal extends PureComponent {
 
   render() {
     const { card, form, submitting, match, comments, users, logedUser } = this.props;
+
+    const { visibleFormDue, visibleFormPriority } = this.state;
+
+    const textTitleDueForm = <span>Alterar prazo de entrega</span>;
+
+    const textTitlePriorityForm = <span>Alterar prioridade</span>;
 
     return (
       <Modal
@@ -157,14 +213,30 @@ class ViewCardModal extends PureComponent {
                 </Button>
               </List.Item>
               <List.Item>
-                <Button block icon="flag">
-                  Prioridade
-                </Button>
+                <Popover
+                  visible={visibleFormPriority}
+                  onVisibleChange={this.handleVisiblePriorityChange}
+                  title={textTitlePriorityForm}
+                  content={<PriorityForm current={card} onSubmit={this.handleSubmitPriorityForm} />}
+                  trigger="click"
+                >
+                  <Button block icon="flag">
+                    Prioridade
+                  </Button>
+                </Popover>
               </List.Item>
               <List.Item>
-                <Button block icon="schedule">
-                  Data entrega
-                </Button>
+                <Popover
+                  visible={visibleFormDue}
+                  onVisibleChange={this.handleVisibleDueChange}
+                  title={textTitleDueForm}
+                  content={<DueForm current={card} onSubmit={this.handleSubmitDueForm} />}
+                  trigger="click"
+                >
+                  <Button block icon="schedule">
+                    Data entrega
+                  </Button>
+                </Popover>
               </List.Item>
               <List.Item>
                 <Button block icon="paper-clip">

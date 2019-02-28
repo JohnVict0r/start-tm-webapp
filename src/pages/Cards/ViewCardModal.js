@@ -78,23 +78,22 @@ class ViewCardModal extends PureComponent {
     this.setState({ visibleFormDue });
   };
 
-  handleSubmitDueForm = () => {
-    const { form, card, dispatch } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (!err) {
-        dispatch({
-          type: 'updateCard/updateDue',
-          payload: {
-            cardId: card.id,
-            due: { ...values },
-          },
-        });
-      }
-    });
-    this.setState({
-      visibleFormDue: false,
-    });
-    form.resetFields();
+  handleSubmitDueForm = (err, values) => {
+    if (!err) {
+      const { dispatch, card } = this.props;
+
+      dispatch({
+        type: 'saveCard/save',
+        payload: {
+          id: card.id,
+          card: { ...values },
+        },
+      });
+
+      this.setState({
+        visibleFormDue: false,
+      });
+    }
   };
 
   handleClose = () => {
@@ -198,8 +197,7 @@ class ViewCardModal extends PureComponent {
                   visible={visibleFormDue}
                   onVisibleChange={this.handleVisibleChange}
                   title={text}
-                  content={<DueForm current={card} />}
-                  onSubmit={() => this.handleSubmitDueForm}
+                  content={<DueForm current={card} onSubmit={this.handleSubmitDueForm} />}
                   trigger="click"
                 >
                   <Button block icon="schedule">

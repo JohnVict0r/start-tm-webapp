@@ -8,12 +8,19 @@ class DueForm extends PureComponent {
     current: {},
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    const { form, onSubmit } = this.props;
+    form.validateFields({ force: true }, (err, values) => {
+      onSubmit(err, values);
+    });
+  };
+
   render() {
     const {
       form: { getFieldDecorator },
       submitting,
       current,
-      onSubmit,
     } = this.props;
 
     const formItemLayout = {
@@ -23,10 +30,10 @@ class DueForm extends PureComponent {
     };
 
     return (
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={this.handleSubmit}>
         <Form.Item {...formItemLayout}>
           {getFieldDecorator('due', {
-            rules: [{ message: 'Por favor informe o prazo do card!' }],
+            rules: [{ required: true, message: 'Por favor informe o prazo do card!' }],
             initialValue: current.due ? moment(current.due) : null,
           })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" />)}
         </Form.Item>

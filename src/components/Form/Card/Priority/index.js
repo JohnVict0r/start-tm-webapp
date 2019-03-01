@@ -3,6 +3,8 @@ import { Button, Form, Select } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { priorities } from '@/utils/labels';
 
+import styles from './index.less';
+
 @Form.create()
 class PriorityForm extends PureComponent {
   static defaultProps = {
@@ -31,7 +33,7 @@ class PriorityForm extends PureComponent {
     };
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form className={styles.form} onSubmit={this.handleSubmit}>
         <Form.Item {...formItemLayout}>
           {getFieldDecorator('priority', {
             rules: [{ required: true }],

@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { Button, DatePicker, Form } from 'antd';
 import moment from 'moment';
 
+import styles from './index.less';
+
 @Form.create()
 class DueForm extends PureComponent {
   static defaultProps = {
@@ -30,7 +32,7 @@ class DueForm extends PureComponent {
     };
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form className={styles.form} onSubmit={this.handleSubmit}>
         <Form.Item {...formItemLayout}>
           {getFieldDecorator('due', {
             rules: [{ required: true, message: 'Por favor informe o prazo do card!' }],

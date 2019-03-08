@@ -3,7 +3,7 @@ version: "3.5"
 services:
   ant-design-pro_dev:
     ports:
-      - 8000:8000
+      - ${PORT}:${PORT}
     build:
       context: ../
       dockerfile: Dockerfile.dev

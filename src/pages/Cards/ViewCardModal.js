@@ -168,7 +168,7 @@ class ViewCardModal extends PureComponent {
                   </Col>
                   <Col xs={24} sm={12}>
                     <Row className={styles.label}>Data de entrega</Row>
-                    <Row>{moment(card.due).format('LLL')}</Row>
+                    <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
                   </Col>
                 </Row>
                 {card.description && (

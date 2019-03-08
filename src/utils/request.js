@@ -2,7 +2,13 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
+import moment from 'moment';
 import { isAntdPro } from './utils';
+
+// When converting moment objects to JSON use format()
+moment.fn.toJSON = function() {
+  return this.format();
+};
 
 const codeMessage = {
   200: 'O servidor retornou com sucesso os dados solicitados.',

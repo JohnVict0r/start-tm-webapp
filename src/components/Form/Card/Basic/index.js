@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Button, DatePicker, Form, Input, Select, Spin } from 'antd';
 import moment from 'moment';
-import { formatMessage } from 'umi/locale';
 import { priorities } from '@/utils/labels';
 
 class CardForm extends PureComponent {
@@ -41,31 +40,31 @@ class CardForm extends PureComponent {
     };
 
     return (
-      <Form onSubmit={onSubmit}>
-        <Form.Item label={formatMessage({ id: 'app.card.labelname' })} {...formItemLayout}>
+      <Form onSubmit={onSubmit} hideRequiredMark>
+        <Form.Item label="Nome" {...formItemLayout}>
           {getFieldDecorator('name', {
-            rules: [{ required: true, message: 'Por favor informe o nome do card!' }],
+            rules: [{ required: true, message: 'Por favor informe o nome da tarefa!' }],
             initialValue: current.name,
-          })(<Input maxLength={255} placeholder="Insita o nome do quadro" />)}
+          })(<Input maxLength={255} placeholder="Insira o nome da tarefa" />)}
         </Form.Item>
-        <Form.Item label={formatMessage({ id: 'app.card.labeldescription' })} {...formItemLayout}>
+        <Form.Item label="Descrição" {...formItemLayout}>
           {getFieldDecorator('description', {
-            rules: [{ required: true, message: 'Por favor informe o descricao do card!' }],
+            rules: [{ required: true, message: 'Por favor informe o descrição da tarefa!' }],
             initialValue: current.description,
-          })(<Input.TextArea maxLength={255} placeholder="Insita a descricão do card" />)}
+          })(<Input.TextArea maxLength={255} placeholder="Insira a descricão da tarefa" />)}
         </Form.Item>
-        <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labeldue' })}>
+        <Form.Item {...formItemLayout} label="Data de entrega">
           {getFieldDecorator('due', {
-            rules: [{ required: true, message: 'Por favor informe o prazo do card!' }],
+            rules: [{ required: true, message: 'Por favor informe a data de entrega!' }],
             initialValue: current.due ? moment(current.due) : null,
           })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" />)}
         </Form.Item>
-        <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labelpriority' })}>
+        <Form.Item {...formItemLayout} label="Prioridade">
           {getFieldDecorator('priority', {
-            rules: [{ required: true, message: 'Por favor informe uma prioridade para o card!' }],
+            rules: [{ required: true, message: 'Qual a prioridade para a tarefa?' }],
             initialValue: current.priority,
           })(
-            <Select placeholder={formatMessage({ id: 'app.card.labelpriority' })}>
+            <Select placeholder="Selecione uma prioridade">
               {priorities.map(r => (
                 <Select.Option value={r.value} key={r.value}>
                   {r.label}
@@ -74,7 +73,7 @@ class CardForm extends PureComponent {
             </Select>
           )}
         </Form.Item>
-        <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.card.labeluser' })}>
+        <Form.Item {...formItemLayout} label="Participantes">
           {getFieldDecorator('assigned_users', {
             initialValue: current.members,
           })(
@@ -82,7 +81,7 @@ class CardForm extends PureComponent {
               optionFilterProp="search"
               mode="multiple"
               notFoundContent={loading ? <Spin size="small" /> : null}
-              placeholder={formatMessage({ id: 'app.card.labeluser' })}
+              placeholder="Usuários participantes da tarefa"
               onSearch={handleChange}
             >
               {users.map(r => (
@@ -95,10 +94,10 @@ class CardForm extends PureComponent {
         </Form.Item>
         <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
           <Button type="primary" htmlType="submit" loading={submitting}>
-            {formatMessage({ id: current.id ? 'app.card.edit' : 'app.card.new' })}
+            {current.id ? 'Alterar tarefa' : 'Criar tarefa'}
           </Button>
           <Button onClick={back} style={{ marginLeft: 5 }} type="default" htmlType="button">
-            {formatMessage({ id: 'app.card.back' })}
+            Voltar
           </Button>
         </Form.Item>
       </Form>

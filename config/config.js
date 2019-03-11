@@ -4,7 +4,6 @@ import slash from 'slash2';
 import pageRoutes from './router.config';
 import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
-import slash from 'slash2';
 
 const { pwa, primaryColor } = defaultSettings;
 

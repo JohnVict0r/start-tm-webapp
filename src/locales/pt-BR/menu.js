@@ -28,6 +28,9 @@ export default {
   'menu.demos.result.fail': 'Falha',
 
   'menu.home': 'Início',
+  'menu.login': 'Login',
+  'menu.register': 'Registro',
+  'menu.register.result': 'Resultado de registro',
   'menu.exception': 'Exceção',
   'menu.exception.not-permission': '403',
   'menu.exception.not-find': '404',

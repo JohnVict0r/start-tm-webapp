@@ -501,6 +501,12 @@ export default [
                       component: './Profile/BasicProfile',
                     },
                     {
+                      path: '/demos/profile/basic/:id',
+                      name: 'basic',
+                      hideInMenu: true,
+                      component: './Profile/BasicProfile',
+                    },
+                    {
                       path: '/demos/profile/advanced',
                       name: 'advanced',
                       authority: ['admin'],

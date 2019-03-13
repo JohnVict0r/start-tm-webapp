@@ -77,10 +77,6 @@ export default {
     'primary-color': primaryColor,
     'layout-header-height': '48px',
   },
-  externals: {
-    '@antv/data-set': 'DataSet',
-    bizcharts: 'BizCharts',
-  },
   // proxy: {
   //   '/server/api/': {
   //     target: 'https://preview.pro.ant.design/',

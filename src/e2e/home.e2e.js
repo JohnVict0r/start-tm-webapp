@@ -1,3 +1,5 @@
+import defaultSettings from '../defaultSettings';
+
 const BASE_URL = `http://localhost:${process.env.PORT || 8000}`;
 
 describe('Homepage', () => {
@@ -24,6 +26,6 @@ describe('Homepage', () => {
       timeout: 5000,
     });
     const text = await page.evaluate(() => document.getElementsByTagName('h1')[0].innerText);
-    expect(text).toContain('Produtiivo');
+    expect(text).toContain(defaultSettings.title);
   });
 });

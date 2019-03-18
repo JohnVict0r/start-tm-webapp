@@ -6,7 +6,7 @@ import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 
 const { pwa, primaryColor } = defaultSettings;
-const { NODE_ENV, API_URL, APP_TYPE, TEST } = process.env;
+const { API_URL, APP_TYPE, TEST } = process.env;
 
 const plugins = [
   [
@@ -33,7 +33,7 @@ const plugins = [
               importWorkboxFrom: 'local',
             },
           }
-        : {},
+        : false,
       ...(!TEST && os.platform() === 'darwin'
         ? {
             dll: {
@@ -76,10 +76,6 @@ export default {
   theme: {
     'primary-color': primaryColor,
     'layout-header-height': '48px',
-  },
-  externals: {
-    '@antv/data-set': 'DataSet',
-    bizcharts: 'BizCharts',
   },
   // proxy: {
   //   '/server/api/': {

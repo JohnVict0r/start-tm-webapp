@@ -28,6 +28,11 @@ export default {
   'menu.demos.result.fail': 'Falha',
 
   'menu.home': 'Início',
+  'menu.login': 'Login',
+  'menu.register': 'Registro',
+  'menu.register.result': 'Resultado de registro',
+  'menu.forgot-password': 'Recuperar senha',
+  'menu.reset-password': 'Alterar senha',
   'menu.exception': 'Exceção',
   'menu.exception.not-permission': '403',
   'menu.exception.not-find': '404',

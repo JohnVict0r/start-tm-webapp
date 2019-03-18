@@ -1,18 +1,18 @@
 @import '~antd/lib/style/themes/default.less';
 
 .descriptionIcon {
-  cursor: pointer;
-  color: @text-color-secondary;
   margin-left: 12px;
+  color: @text-color-secondary;
   font-style: normal;
+  cursor: pointer;
 }
 
 .descriptionPopover {
   :global {
     .ant-popover-inner-content {
+      max-width: 256px;
       max-height: 290px;
       overflow: auto;
-      max-width: 256px;
     }
   }
 }
@@ -22,13 +22,13 @@
   flex-direction: column;
 
   .left {
-    flex: 1 1 auto;
     display: flex;
+    flex: 1 1 auto;
     align-items: center;
 
     .title {
-      flex: 1;
       display: flex;
+      flex: 1;
       padding: 0 12px;
     }
 
@@ -38,8 +38,8 @@
   }
 
   .right {
-    flex: 0 0 auto;
     display: flex;
+    flex: 0 0 auto;
 
     :global {
       .ant-btn:not(:last-child) {

@@ -5,10 +5,18 @@ export default [
     component: '../layouts/UserLayout',
     routes: [
       { path: '/auth', redirect: '/auth/login' },
-      { path: '/auth/login', component: './Auth/Login' },
-      { path: '/auth/forgot-password', component: './Auth/ForgotPassword' },
-      { path: '/auth/reset-password/:token', component: './Auth/RedefinePassword' },
-      { path: '/auth/register', component: './Auth/Register' },
+      { path: '/auth/login', name: 'login', component: './Auth/Login' },
+      {
+        path: '/auth/forgot-password',
+        name: 'forgot-password',
+        component: './Auth/ForgotPassword',
+      },
+      {
+        path: '/auth/reset-password/:token',
+        name: 'reset-password',
+        component: './Auth/RedefinePassword',
+      },
+      { path: '/auth/register', name: 'register', component: './Auth/Register' },
     ],
   },
 
@@ -498,6 +506,12 @@ export default [
                     {
                       path: '/demos/profile/basic',
                       name: 'basic',
+                      component: './Profile/BasicProfile',
+                    },
+                    {
+                      path: '/demos/profile/basic/:id',
+                      name: 'basic',
+                      hideInMenu: true,
                       component: './Profile/BasicProfile',
                     },
                     {

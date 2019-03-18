@@ -18,6 +18,7 @@ import comment from './pt-BR/comment';
 import validation from './pt-BR/validation';
 import pwa from './pt-BR/pwa';
 import workflow from './pt-BR/workflow';
+import component from './pt-BR/component';
 
 export default {
   'navBar.lang': 'Idiomas',
@@ -46,4 +47,5 @@ export default {
   ...pwa,
   ...card,
   ...comment,
+  ...component,
 };

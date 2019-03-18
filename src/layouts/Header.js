@@ -173,7 +173,7 @@ export default connect(state => {
     collapsed: global.collapsed,
     fetchingMoreNotices: loading.effects['global/fetchMoreNotices'],
     fetchingNotices: loading.effects['global/fetchNotices'],
-    loadedAllNotices: global.loadedAllNotices,
+
     notices: global.notices,
     fetchingFavorites: loading.effects['global/fetchFavorites'],
     favorites: global.favorites,

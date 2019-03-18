@@ -1,27 +1,27 @@
 @import '~antd/lib/style/themes/default.less';
 
 .container {
-  margin: -24px -50vw;
-  width: 100vw;
-  left: 50%;
-  right: 50%;
   position: relative;
-  transition: 0.3s;
+  right: 50%;
+  left: 50%;
+  width: 100vw;
+  margin: -24px -50vw;
   background: white;
+  transition: 0.3s;
 }
 
 .board {
   display: flex;
+  height: 100%;
   overflow-x: visible;
   overflow-y: hidden;
   transition: 0.3s;
-  height: 100%;
 }
 
 .scroll {
   display: flex;
-  overflow: hidden;
   height: ~'calc(100vh - @{layout-header-height} - 65px)' !important;
+  overflow: hidden;
 }
 
 @media screen and (max-width: @screen-md-max) {

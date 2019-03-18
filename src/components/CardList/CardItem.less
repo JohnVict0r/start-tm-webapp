@@ -22,24 +22,24 @@
 }
 
 .card {
-  user-select: none;
+  border-top: 2px solid transparent;
   border-radius: 4px;
   box-shadow: 0 1px 2px @shadow-color;
-  border-top: 2px solid transparent;
+  user-select: none;
 
   :global {
     .ant-card-meta-title {
       margin-bottom: 4px;
       & > a {
-        color: @heading-color;
         display: inline-block;
         max-width: 100%;
+        color: @heading-color;
       }
     }
     .ant-card-meta-description {
       height: 44px;
-      line-height: 22px;
       overflow: hidden;
+      line-height: 22px;
     }
   }
 
@@ -58,10 +58,10 @@
 
 .cardMetaInfo {
   display: flex;
+  flex-wrap: wrap;
+  min-height: 20px;
   margin-top: 12px;
   line-height: 20px;
-  min-height: 20px;
-  flex-wrap: wrap;
 
   .left {
     display: flex;
@@ -74,11 +74,11 @@
 }
 
 .due {
-  font-size: 12px;
-  font-weight: bold;
-  background: @red-4;
-  color: white;
   padding: 0 8px;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  background: @red-4;
   border-radius: 4px;
 }
 

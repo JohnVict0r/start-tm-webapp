@@ -1,7 +1,13 @@
 import { message } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
-import { createCard, updateCard, assignUser, unAssignUser } from '@/services/cards';
+import {
+  createCard,
+  updateCard,
+  assignUser,
+  unAssignUser,
+  createAttachment,
+} from '@/services/cards';
 
 export default {
   namespace: 'saveCard',
@@ -67,6 +73,14 @@ export default {
           payload: response.entities,
         });
       }
+    },
+
+    *uploadAttachment({ payload }, { call, put }) {
+      const response = yield call(createAttachment, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
     },
   },
 

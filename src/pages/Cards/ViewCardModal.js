@@ -10,6 +10,7 @@ import { cardSelectorWithMembers } from './selectors/members';
 import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
 import { DueForm, PriorityForm } from '@/components/Form/Card';
+import Attachment from '@/components/Upload/Attachment';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
@@ -117,6 +118,17 @@ class ViewCardModal extends PureComponent {
         visibleFormPriority: false,
       });
     }
+  };
+
+  onUploadAttachment = file => {
+    const { dispatch, card } = this.props;
+    return dispatch({
+      type: 'saveCard/uploadAttachment',
+      payload: {
+        file,
+        cardId: card.id,
+      },
+    });
   };
 
   handleClose = () => {
@@ -239,9 +251,7 @@ class ViewCardModal extends PureComponent {
                 </Popover>
               </List.Item>
               <List.Item>
-                <Button block icon="paper-clip">
-                  Anexo
-                </Button>
+                <Attachment name="file_url" onUpload={this.onUploadAttachment} />
               </List.Item>
             </List>
           </Col>

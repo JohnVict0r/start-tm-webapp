@@ -69,6 +69,7 @@ export default {
   'menu.projects.project': 'Projeto',
   'menu.projects.new-project': 'Novo Projeto',
   'menu.projects.project.new-board': 'Novo quadro',
-  'menu.projects.project.project-boards': 'Quadros de projeto',
+  'menu.projects.project.edit-project': 'Editar Projeto',
+  'menu.projects.project.board': 'Quadro',
   'menu.workflows': 'Fluxos de Trabalho',
 };

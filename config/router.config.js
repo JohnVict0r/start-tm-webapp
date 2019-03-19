@@ -302,13 +302,13 @@ export default [
                 component: './Projects/EditProject',
               },
               {
-                path: '/projects/:projectId/boards/new',
+                path: '/projects/:projectId/new-board',
                 name: 'new-board',
                 component: './Projects/NewBoard',
               },
               {
                 path: '/projects/:projectId/boards/:boardId',
-                name: 'project-boards',
+                name: 'board',
                 component: './Projects/Board',
                 routes: [
                   {

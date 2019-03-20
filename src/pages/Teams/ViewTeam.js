@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { FormattedMessage } from 'umi/locale';
-import { Button, Dropdown, Icon, Menu, Popover } from 'antd';
+import Link from 'umi/link';
+import router from 'umi/router';
+import { Button, Dropdown, Icon, Menu } from 'antd';
 import Ellipsis from '@/components/Ellipsis';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import { FavoriteIcon } from '@/components/Favorite';
-import Link from 'umi/link';
 
 import styles from './ViewTeam.less';
 
@@ -62,37 +63,36 @@ class ViewTeam extends Component {
       </Menu>
     );
 
-    const content = (
-      <div className={styles.optionsBar}>
-        <div className={styles.left}>
-          <FavoriteIcon onClick={this.handleFavorite} favorited={team.favorited} />
-          <div className={styles.title}>
-            <Popover
-              title="Descrição da equipe"
-              content={team.description}
-              overlayClassName={styles.descriptionPopover}
-              trigger="click"
-            >
-              <Link to={`${match.url}`}>
-                <Ellipsis lines={1} tooltip>
-                  {team.name}
-                </Ellipsis>
-              </Link>
-            </Popover>
-          </div>
+    const action = (
+      <div>
+        <FavoriteIcon
+          className={styles.action}
+          onClick={this.handleFavorite}
+          favorited={team.favorited}
+        />
+        <Button.Group>
+          <Button onClick={() => router.push(`${match.url}/members`)}>Membros</Button>
           <Dropdown overlay={teamOptionsMenu} placement="bottomRight">
-            <Button className={styles.settings}>
-              <span>
-                <Icon type="setting" />
-              </span>
+            <Button>
+              <Icon type="ellipsis" />
             </Button>
           </Dropdown>
-        </div>
+        </Button.Group>
       </div>
     );
 
     return (
-      <PageHeaderWrapper hiddenBreadcrumb content={content}>
+      <PageHeaderWrapper
+        logo={
+          <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />
+        }
+        title={
+          <Link to={match.url}>
+            <Ellipsis lines={1}>{team.name}</Ellipsis>
+          </Link>
+        }
+        action={action}
+      >
         {children}
       </PageHeaderWrapper>
     );

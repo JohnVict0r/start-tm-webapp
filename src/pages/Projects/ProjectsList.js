@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Skeleton } from 'antd';
+import { Avatar, List, Card, Button, Skeleton } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { exploreProjectsSelector } from './selectors/projects';
@@ -27,19 +27,6 @@ class ProjectsList extends PureComponent {
       loading,
     } = this.props;
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
-          Projeto
-        </Button>
-        <Input.Search
-          className={styles.extraContentSearch}
-          placeholder="Buscar"
-          onSearch={() => ({})}
-        />
-      </div>
-    );
-
     const paginationProps = {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
@@ -48,16 +35,16 @@ class ProjectsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper>
+      <PageHeaderWrapper
+        title="Meus projetos"
+        action={[
+          <Button key="1" type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
+            Projeto
+          </Button>,
+        ]}
+      >
         <div className={styles.standardList}>
-          <Card
-            className={styles.listCard}
-            bordered={false}
-            title="Meus projetos"
-            style={{ marginTop: 24 }}
-            bodyStyle={{ padding: '0 32px 40px 32px' }}
-            extra={extraContent}
-          >
+          <Card className={styles.listCard} bordered={false}>
             <List
               size="large"
               rowKey="id"
@@ -68,6 +55,12 @@ class ProjectsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
+                      avatar={
+                        <Avatar
+                          shape="square"
+                          src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
+                        />
+                      }
                       title={
                         <Link to={`/projects/${item.id}`}>
                           {item.owner.name}

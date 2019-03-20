@@ -222,7 +222,6 @@ export default [
         path: '/teams',
         name: 'teams',
         icon: 'team',
-        hideInBreadcrumb: true,
         routes: [
           { path: '/teams', redirect: '/teams/explore' },
           {
@@ -274,7 +273,6 @@ export default [
         path: '/projects',
         name: 'projects',
         icon: 'project',
-        hideInBreadcrumb: true,
         routes: [
           { path: '/projects', redirect: '/projects/explore' },
           {

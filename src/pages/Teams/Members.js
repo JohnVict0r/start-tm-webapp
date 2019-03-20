@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Button, Avatar, Skeleton, Select, Popconfirm, Icon } from 'antd';
+import { List, Card, Button, Avatar, Select, Popconfirm, Icon } from 'antd';
 import NewMemberForm from './NewMember';
 import { teamMembersSelector } from './selectors/members';
 import { rolesSelector } from '@/selectors/global';
@@ -93,13 +93,11 @@ class TeamMembers extends PureComponent {
                   </Popconfirm>,
                 ]}
               >
-                <Skeleton title={false} loading={loading} active>
-                  <List.Item.Meta
-                    avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
-                    title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
-                    description={user.email}
-                  />
-                </Skeleton>
+                <List.Item.Meta
+                  avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
+                  title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
+                  description={user.email}
+                />
               </List.Item>
             )}
           />

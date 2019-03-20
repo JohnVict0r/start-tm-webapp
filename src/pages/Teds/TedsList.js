@@ -27,14 +27,6 @@ class TedsList extends PureComponent {
       loading,
     } = this.props;
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => router.push('/teds/new')}>
-          TED
-        </Button>
-      </div>
-    );
-
     const paginationProps = {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
@@ -43,16 +35,16 @@ class TedsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper>
+      <PageHeaderWrapper
+        title="Minhas TED's"
+        action={[
+          <Button key="1" type="primary" icon="plus" onClick={() => router.push('/teds/new')}>
+            TED
+          </Button>,
+        ]}
+      >
         <div className={styles.standardList}>
-          <Card
-            className={styles.listCard}
-            bordered={false}
-            title="Minhas TED's"
-            style={{ marginTop: 24 }}
-            bodyStyle={{ padding: '0 32px 40px 32px' }}
-            extra={extraContent}
-          >
+          <Card className={styles.listCard} bordered={false}>
             <List
               size="large"
               rowKey="id"

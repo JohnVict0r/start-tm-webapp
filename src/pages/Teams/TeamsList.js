@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Input, Button, Skeleton } from 'antd';
+import { List, Card, Button, Skeleton } from 'antd';
 import { formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import router from 'umi/router';
@@ -27,19 +27,6 @@ class TeamsList extends PureComponent {
       loading,
     } = this.props;
 
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Button type="primary" icon="plus" onClick={() => router.push('/teams/new')}>
-          Equipe
-        </Button>
-        <Input.Search
-          className={styles.extraContentSearch}
-          placeholder="Buscar"
-          onSearch={() => ({})}
-        />
-      </div>
-    );
-
     const paginationProps = {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
@@ -48,16 +35,16 @@ class TeamsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper>
+      <PageHeaderWrapper
+        title={formatMessage({ id: 'menu.teams.my-teams' })}
+        action={[
+          <Button key="1" type="primary" icon="plus" onClick={() => router.push('/teams/new')}>
+            Equipe
+          </Button>,
+        ]}
+      >
         <div className={styles.standardList}>
-          <Card
-            className={styles.listCard}
-            title={formatMessage({ id: 'menu.teams.my-teams' })}
-            bordered={false}
-            style={{ marginTop: 24 }}
-            bodyStyle={{ padding: '0 32px 40px 32px' }}
-            extra={extraContent}
-          >
+          <Card className={styles.listCard} bordered={false}>
             <List
               size="large"
               rowKey="id"

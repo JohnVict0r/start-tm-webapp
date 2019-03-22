@@ -8,7 +8,6 @@ import Media from 'react-media';
 import logo from '../assets/logo.svg';
 import Header from './Header';
 import Context from './MenuContext';
-import PageLoading from '@/components/PageLoading';
 import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
 
@@ -153,7 +152,7 @@ class BasicLayout extends React.Component {
             )}
           </ContainerQuery>
         </DocumentTitle>
-        <Suspense fallback={<PageLoading />}>{this.renderSettingDrawer()}</Suspense>
+        <Suspense fallback={null}>{this.renderSettingDrawer()}</Suspense>
       </React.Fragment>
     );
   }

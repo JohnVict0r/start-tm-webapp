@@ -69,6 +69,7 @@
     "umi": "^2.6.2"
   },
   "devDependencies": {
+    "@types/history": "^4.7.2",
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.2",
     "antd-pro-merge-less": "^1.0.0",

@@ -26,6 +26,10 @@ export default {
   'menu.demos.result': 'Resultado',
   'menu.demos.result.success': 'Sucesso',
   'menu.demos.result.fail': 'Falha',
+  'menu.demos.editor': 'Editor',
+  'menu.demos.editor.flow': 'Flow Editor',
+  'menu.demos.editor.mind': 'Mind Editor',
+  'menu.demos.editor.koni': 'Koni Editor',
 
   'menu.home': 'Início',
   'menu.login': 'Login',

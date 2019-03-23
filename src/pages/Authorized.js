@@ -4,8 +4,9 @@ import pathToRegexp from 'path-to-regexp';
 import { connect } from 'dva';
 import Authorized from '@/utils/Authorized';
 import { getAuthToken } from '@/utils/authentication';
+import Exception403 from '@/pages/Exception/403';
 
-function AuthComponent({ children, location, routerData, status }) {
+function AuthComponent({ children, location, routerData }) {
   const isLogin = !!getAuthToken();
   const getRouteAuthority = (path, routeData) => {
     let authorities;
@@ -22,17 +23,15 @@ function AuthComponent({ children, location, routerData, status }) {
     });
     return authorities;
   };
-
   return (
     <Authorized
       authority={getRouteAuthority(location.pathname, routerData)}
-      noMatch={isLogin ? <Redirect to="/exception/403" /> : <Redirect to="/auth/login" />}
+      noMatch={isLogin ? <Exception403 /> : <Redirect to="/auth/login" />}
     >
       {children}
     </Authorized>
   );
 }
-export default connect(({ menu: menuModel, login: loginModel }) => ({
+export default connect(({ menu: menuModel }) => ({
   routerData: menuModel.routerData,
-  status: loginModel.status,
 }))(AuthComponent);

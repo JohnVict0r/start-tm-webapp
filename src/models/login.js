@@ -74,14 +74,17 @@ export default {
       removeAuthToken();
       setAuthority('');
       reloadAuthorized();
-      yield put(
-        routerRedux.push({
-          pathname: '/auth/login',
-          search: stringify({
-            redirect: window.location.href,
-          }),
-        })
-      );
+      // redirect
+      if (window.location.pathname !== '/auth/login') {
+        yield put(
+          routerRedux.push({
+            pathname: '/auth/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          })
+        );
+      }
     },
   },
 

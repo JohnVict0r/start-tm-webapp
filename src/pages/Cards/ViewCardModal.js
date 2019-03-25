@@ -34,10 +34,16 @@ class ViewCardModal extends PureComponent {
   };
 
   componentDidMount() {
-    const { dispatch, card } = this.props;
+    const { dispatch, card, match } = this.props;
     dispatch({
       type: 'comments/fetchCardComments',
       payload: { id: card.id },
+    });
+    dispatch({
+      type: 'currentProjectMembers/fetch',
+      payload: {
+        id: match.params.projectId,
+      },
     });
   }
 
@@ -126,14 +132,16 @@ class ViewCardModal extends PureComponent {
     }
   };
 
-  handleAssignMember = values => {
+  handleAssignMember = value => {
     const { dispatch, card } = this.props;
+
+    console.log(value);
 
     dispatch({
       type: 'saveCard/assigin',
       payload: {
         id: card.id,
-        card: { ...values },
+        userId: value.key,
       },
     });
 

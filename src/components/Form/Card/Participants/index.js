@@ -2,16 +2,19 @@ import React, { PureComponent } from 'react';
 import { Select, Badge, Icon, Avatar, Tooltip } from 'antd';
 
 class ParticipantsForm extends PureComponent {
-  handleChange = userId => {
+  handleChange = value => {
     const { onSubmit } = this.props;
-    this.value = null;
-    onSubmit(userId);
+    onSubmit(value);
   };
 
   render() {
     const { participants, projectMembers, onRemove } = this.props;
 
     const { Option } = Select;
+
+    console.log(projectMembers);
+
+    const filteredOptions = projectMembers.filter(o => !participants.includes(o));
 
     return (
       <div>
@@ -24,8 +27,8 @@ class ParticipantsForm extends PureComponent {
           onChange={this.handleChange}
           style={{ width: '100%' }}
         >
-          {projectMembers &&
-            projectMembers.map(d => <Option key={d.user.id}>{d.user.name}</Option>)}
+          {filteredOptions &&
+            filteredOptions.map(d => <Option key={d.user.id}>{d.user.name}</Option>)}
         </Select>
         {participants &&
           participants.map(p => (

@@ -10,6 +10,7 @@ import { cardSelectorWithMembers } from './selectors/members';
 import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
 import { DueForm, PriorityForm, ParticipantsForm } from '@/components/Form/Card';
+import { projectMembersSelector } from '../Projects/selectors/members';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
@@ -18,6 +19,7 @@ import { DueForm, PriorityForm, ParticipantsForm } from '@/components/Form/Card'
     validation: state.createBoard.validation,
     card: cardSelector(state),
     users: state.entities.users,
+    projectMembers: projectMembersSelector(state),
     comments: commentCardSelect(state),
     logedUser: state.global.loggedInUser,
     submitting: state.loading.effects['commentCard/save'],
@@ -124,22 +126,36 @@ class ViewCardModal extends PureComponent {
     }
   };
 
-  handleSubmitParticipantsForm = (err, values) => {
-    if (!err) {
-      const { dispatch, card } = this.props;
+  handleAssignMember = values => {
+    const { dispatch, card } = this.props;
 
-      dispatch({
-        type: 'saveCard/save',
-        payload: {
-          id: card.id,
-          card: { ...values },
-        },
-      });
+    dispatch({
+      type: 'saveCard/assigin',
+      payload: {
+        id: card.id,
+        card: { ...values },
+      },
+    });
 
-      this.setState({
-        visibleFormParticipants: false,
-      });
-    }
+    this.setState({
+      visibleFormParticipants: false,
+    });
+  };
+
+  handleUnAssignMember = userId => {
+    const { dispatch, card } = this.props;
+
+    dispatch({
+      type: 'saveCard/unAssigin',
+      payload: {
+        id: card.id,
+        userId,
+      },
+    });
+
+    this.setState({
+      visibleFormParticipants: false,
+    });
   };
 
   handleClose = () => {
@@ -149,7 +165,16 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match, comments, users, logedUser } = this.props;
+    const {
+      card,
+      form,
+      submitting,
+      match,
+      comments,
+      users,
+      projectMembers,
+      logedUser,
+    } = this.props;
 
     const { visibleFormDue, visibleFormPriority, visibleFormParticipants } = this.state;
 
@@ -240,7 +265,9 @@ class ViewCardModal extends PureComponent {
                   content={
                     <ParticipantsForm
                       participants={card.members}
-                      onSubmit={this.handleSubmitParticipantsForm}
+                      onSubmit={this.handleAssignMember}
+                      onRemove={this.handleUnAssignMember}
+                      projectMembers={projectMembers}
                     />
                   }
                   trigger="click"

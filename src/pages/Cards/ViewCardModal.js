@@ -135,8 +135,6 @@ class ViewCardModal extends PureComponent {
   handleAssignMember = value => {
     const { dispatch, card } = this.props;
 
-    console.log(value);
-
     dispatch({
       type: 'saveCard/assigin',
       payload: {
@@ -145,9 +143,9 @@ class ViewCardModal extends PureComponent {
       },
     });
 
-    this.setState({
-      visibleFormParticipants: false,
-    });
+    // this.setState({
+    //   visibleFormParticipants: false,
+    // });
   };
 
   handleUnAssignMember = userId => {
@@ -159,10 +157,6 @@ class ViewCardModal extends PureComponent {
         id: card.id,
         userId,
       },
-    });
-
-    this.setState({
-      visibleFormParticipants: false,
     });
   };
 

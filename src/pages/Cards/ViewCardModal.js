@@ -139,13 +139,9 @@ class ViewCardModal extends PureComponent {
       type: 'saveCard/assigin',
       payload: {
         id: card.id,
-        userId: value.key,
+        userId: value,
       },
     });
-
-    // this.setState({
-    //   visibleFormParticipants: false,
-    // });
   };
 
   handleUnAssignMember = userId => {

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Row, Col, Select, Badge, Icon, Avatar, Tooltip } from 'antd';
+import { Row, Select, Badge, Icon, Avatar, Tooltip } from 'antd';
+import styles from './index.less';
 
 class ParticipantsForm extends PureComponent {
   state = {
@@ -21,7 +22,7 @@ class ParticipantsForm extends PureComponent {
     const filteredOptions = projectMembers.filter(m => !participantsIds.includes(m.user.id));
 
     return (
-      <div>
+      <div style={{ width: '200px' }}>
         <Row>
           <Select
             value={selected}
@@ -30,33 +31,35 @@ class ParticipantsForm extends PureComponent {
             filterOption={false}
             onSearch={this.fetchUser}
             onChange={this.handleChange}
-            style={{ width: '100%' }}
+            style={{ width: '200px' }}
           >
             {filteredOptions &&
               filteredOptions.map(d => <Option key={d.user.id}>{d.user.name}</Option>)}
           </Select>
         </Row>
-        <Row>
-          {participants &&
+        <Row className={participants.length > 0 ? styles.listParticipants : styles.noParticipants}>
+          {participants.length > 0 ? (
             participants.map(p => (
-              <Col span={6}>
-                <Badge
-                  key={p.id}
-                  count={
-                    <Icon
-                      onClick={() => onRemove(p.id)}
-                      type="close-circle"
-                      theme="filled"
-                      style={{ color: '#f5222d' }}
-                    />
-                  }
-                >
-                  <Tooltip key={p.id} placement="topLeft" title={p.name}>
-                    <Avatar size="mini" src={p.pictureUrl} />
-                  </Tooltip>
-                </Badge>
-              </Col>
-            ))}
+              <Badge
+                key={p.id}
+                className={styles.participant}
+                count={
+                  <Icon
+                    onClick={() => onRemove(p.id)}
+                    type="close-circle"
+                    theme="filled"
+                    style={{ color: '#f5222d' }}
+                  />
+                }
+              >
+                <Tooltip key={p.id} placement="bottom" title={p.name}>
+                  <Avatar size="mini" src={p.pictureUrl} />
+                </Tooltip>
+              </Badge>
+            ))
+          ) : (
+            <span>Não existem participantes</span>
+          )}
         </Row>
       </div>
     );

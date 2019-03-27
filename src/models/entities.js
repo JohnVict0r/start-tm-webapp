@@ -44,7 +44,7 @@ export default {
         ...updater({ entity: 'projects' }),
         ...updater({ entity: 'boards', updateStrategy: assign }),
         ...updater({ entity: 'cardlists', updateStrategy: assign }),
-        ...updater({ entity: 'cards' }),
+        ...updater({ entity: 'cards', updateStrategy: assign }),
         ...updater({ entity: 'comments' }),
         ...updater({ entity: 'workflows', updateStrategy: assign }),
         ...updater({ entity: 'workflowNodes' }),

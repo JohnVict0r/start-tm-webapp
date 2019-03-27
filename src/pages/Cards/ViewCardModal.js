@@ -9,7 +9,8 @@ import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
 import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
-import { DueForm, PriorityForm } from '@/components/Form/Card';
+import { DueForm, PriorityForm, ParticipantsForm } from '@/components/Form/Card';
+import { projectMembersSelector } from '../Projects/selectors/members';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
@@ -18,6 +19,7 @@ import { DueForm, PriorityForm } from '@/components/Form/Card';
     validation: state.createBoard.validation,
     card: cardSelector(state),
     users: state.entities.users,
+    projectMembers: projectMembersSelector(state),
     comments: commentCardSelect(state),
     logedUser: state.global.loggedInUser,
     submitting: state.loading.effects['commentCard/save'],
@@ -28,13 +30,20 @@ class ViewCardModal extends PureComponent {
   state = {
     visibleFormDue: false,
     visibleFormPriority: false,
+    visibleFormParticipants: false,
   };
 
   componentDidMount() {
-    const { dispatch, card } = this.props;
+    const { dispatch, card, match } = this.props;
     dispatch({
       type: 'comments/fetchCardComments',
       payload: { id: card.id },
+    });
+    dispatch({
+      type: 'currentProjectMembers/fetch',
+      payload: {
+        id: match.params.projectId,
+      },
     });
   }
 
@@ -101,6 +110,10 @@ class ViewCardModal extends PureComponent {
     this.setState({ visibleFormPriority });
   };
 
+  handleVisibleParticipantsChange = visibleFormParticipants => {
+    this.setState({ visibleFormParticipants });
+  };
+
   handleSubmitPriorityForm = (err, values) => {
     if (!err) {
       const { dispatch, card } = this.props;
@@ -119,6 +132,30 @@ class ViewCardModal extends PureComponent {
     }
   };
 
+  handleAssignMember = value => {
+    const { dispatch, card } = this.props;
+
+    dispatch({
+      type: 'saveCard/assigin',
+      payload: {
+        id: card.id,
+        userId: value,
+      },
+    });
+  };
+
+  handleUnAssignMember = userId => {
+    const { dispatch, card } = this.props;
+
+    dispatch({
+      type: 'saveCard/unAssigin',
+      payload: {
+        id: card.id,
+        userId,
+      },
+    });
+  };
+
   handleClose = () => {
     const { match, history } = this.props;
     const parentRoute = match.url.replace(/\/cards\/[0-9]*/i, '');
@@ -126,13 +163,24 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const { card, form, submitting, match, comments, users, logedUser } = this.props;
+    const {
+      card,
+      form,
+      submitting,
+      match,
+      comments,
+      users,
+      projectMembers,
+      logedUser,
+    } = this.props;
 
-    const { visibleFormDue, visibleFormPriority } = this.state;
+    const { visibleFormDue, visibleFormPriority, visibleFormParticipants } = this.state;
 
     const textTitleDueForm = <span>Alterar prazo de entrega</span>;
 
     const textTitlePriorityForm = <span>Alterar prioridade</span>;
+
+    const textTitleParticipantsForm = <span>Participantes</span>;
 
     return (
       <Modal
@@ -208,9 +256,24 @@ class ViewCardModal extends PureComponent {
                 </Button>
               </List.Item>
               <List.Item>
-                <Button block icon="team">
-                  Participantes
-                </Button>
+                <Popover
+                  visible={visibleFormParticipants}
+                  onVisibleChange={this.handleVisibleParticipantsChange}
+                  title={textTitleParticipantsForm}
+                  content={
+                    <ParticipantsForm
+                      participants={card.members}
+                      onSubmit={this.handleAssignMember}
+                      onRemove={this.handleUnAssignMember}
+                      projectMembers={projectMembers}
+                    />
+                  }
+                  trigger="click"
+                >
+                  <Button block icon="team">
+                    Participantes
+                  </Button>
+                </Popover>
               </List.Item>
               <List.Item>
                 <Popover

@@ -1,9 +1,4 @@
-import {
-  queryUserInTeam,
-  queryUserNotInTeam,
-  queryUserInProject,
-  queryUserNotInProject,
-} from '@/services/search';
+import { queryUserInProject, queryUserNotInProject } from '@/services/search';
 
 export default {
   namespace: 'search',
@@ -13,35 +8,6 @@ export default {
   },
 
   effects: {
-    *searchUserInTeam({ payload }, { call, put }) {
-      yield put({ type: 'clearUserQuery' });
-      const response = yield call(queryUserInTeam, payload);
-
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
-      });
-
-      yield put({
-        type: 'saveUsers',
-        payload: response.result,
-      });
-    },
-
-    *searchUserNotInTeam({ payload }, { call, put }) {
-      yield put({ type: 'clearUserQuery' });
-      const response = yield call(queryUserNotInTeam, payload);
-
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
-      });
-
-      yield put({
-        type: 'saveUsers',
-        payload: response.result,
-      });
-    },
     *searchUserInProject({ payload }, { call, put }) {
       yield put({ type: 'clearUserQuery' });
       const response = yield call(queryUserInProject, payload);

@@ -61,13 +61,7 @@ class ProjectsList extends PureComponent {
                           src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
                         />
                       }
-                      title={
-                        <Link to={`/projects/${item.id}`}>
-                          {item.owner.name}
-                          {' / '}
-                          {item.name}
-                        </Link>
-                      }
+                      title={<Link to={`/projects/${item.id}`}>{item.name}</Link>}
                       description={item.description}
                     />
                   </Skeleton>

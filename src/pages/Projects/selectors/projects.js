@@ -3,16 +3,9 @@ import { createSelector } from 'reselect';
 export const exploreProjectsSelector = createSelector(
   state => state.projects.explore,
   state => state.entities.projects,
-  state => state.entities.teams,
   state => state.entities.users,
-  (explore, projects, teams, users) => ({
-    items: explore.items.map(id => {
-      const project = projects[id];
-      const owner =
-        project.owner.schema === 'teams' ? teams[project.owner.id] : users[project.owner.id];
-
-      return { ...project, owner };
-    }),
+  (explore, projects) => ({
+    items: explore.items.map(id => projects[id]),
     pagination: explore.pagination,
   })
 );
@@ -26,17 +19,13 @@ export const projectBoardsSelector = createSelector(
 export const makeProjectSelector = ({ id }) =>
   createSelector(
     state => state.entities.projects,
-    state => state.entities.teams,
     state => state.entities.users,
     state => state.entities.boards,
     state => state.entities.cardlists,
     state => state.entities.cards,
-    (projects, teams, users, boards, cardlists, cards) => {
+    (projects, users, boards, cardlists, cards) => {
       const project = projects[id];
       if (project && project.boards) {
-        const { schema, id: ownerId } = project.owner;
-        const owner = schema === 'teams' ? teams[ownerId] : users[ownerId];
-
         const projectBoards = project.boards
           .map(i => boards[i])
           .map(board => {
@@ -58,7 +47,7 @@ export const makeProjectSelector = ({ id }) =>
             return { ...board, cardlists: cardlistsArr, cardMap };
           });
 
-        return { ...project, owner, boards: projectBoards };
+        return { ...project, boards: projectBoards };
       }
 
       return undefined;

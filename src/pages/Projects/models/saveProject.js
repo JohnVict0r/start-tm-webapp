@@ -1,7 +1,6 @@
 import { createProject, updateProject } from '@/services/projects';
 import router from 'umi/router';
 import { notification } from 'antd';
-import { formatMessage } from 'umi/locale';
 
 export default {
   namespace: 'saveProject',
@@ -26,9 +25,7 @@ export default {
           payload: response.entities,
         });
         notification.success({
-          message: formatMessage({
-            id: payload.id ? 'app.team.sucess-updated' : 'app.team.sucess-created',
-          }),
+          message: payload.id ? 'Projeto atualizado' : 'Projeto criado',
         });
         router.push(`/projects/${response.result}`);
       }

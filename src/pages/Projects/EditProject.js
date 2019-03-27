@@ -39,9 +39,7 @@ class EditProject extends PureComponent {
           type: 'saveProject/save',
           payload: {
             id: match.params.projectId,
-            project: {
-              ...values,
-            },
+            ...values,
           },
         });
       }

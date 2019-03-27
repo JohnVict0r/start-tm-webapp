@@ -10,12 +10,7 @@ const Status = new schema.Entity('status');
 const Role = new schema.Entity('roles');
 const Ted = new schema.Entity('teds');
 const Goal = new schema.Entity('goals');
-const Team = new schema.Entity('teams');
 const UserMember = new schema.Object({
-  user: User,
-  role: Role,
-});
-const TeamMember = new schema.Object({
   user: User,
   role: Role,
 });
@@ -26,31 +21,11 @@ const ProjectMember = new schema.Object({
 const Workflow = new schema.Entity('workflows');
 const WorkflowNode = new schema.Entity('workflowNodes');
 const WorkflowTransition = new schema.Entity('workflowTransitions');
-const Project = new schema.Entity(
-  'projects',
-  {},
-  {
-    processStrategy: entity => ({
-      ...entity,
-      owner: {
-        type: entity.owner.type,
-        ...entity.owner.model,
-      },
-    }),
-  }
-);
+const Project = new schema.Entity('projects');
 const Board = new schema.Entity('boards');
 const CardList = new schema.Entity('cardlists');
 const Card = new schema.Entity('cards');
 const Comment = new schema.Entity('comments');
-
-const UserOrTeams = new schema.Union(
-  {
-    users: User,
-    teams: Team,
-  },
-  entity => entity.type
-);
 
 User.define({
   role: Role,
@@ -64,19 +39,7 @@ Goal.define({
   creator: User,
 });
 
-Team.define({
-  creator: User,
-  loggedInUser: {
-    role: Role,
-  },
-});
-
 UserMember.define({
-  user: User,
-  role: Role,
-});
-
-TeamMember.define({
   user: User,
   role: Role,
 });
@@ -103,7 +66,6 @@ WorkflowTransition.define({
 
 Project.define({
   creator: User,
-  owner: UserOrTeams,
   loggedInUser: {
     role: Role,
   },
@@ -144,10 +106,6 @@ const Schemas = {
   TED_ARRAY: [Ted],
   GOAL: Goal,
   GOAL_ARRAY: [Goal],
-  TEAM: Team,
-  TEAM_ARRAY: [Team],
-  TEAMMEMBER: TeamMember,
-  TEAMMEMBER_ARRAY: [TeamMember],
   PROJECTMEMBER: ProjectMember,
   PROJECTMEMBER_ARRAY: [ProjectMember],
   WORKFLOW: Workflow,

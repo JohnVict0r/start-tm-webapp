@@ -217,57 +217,6 @@ export default [
         ],
       },
 
-      // teams
-      {
-        path: '/teams',
-        name: 'teams',
-        icon: 'team',
-        routes: [
-          { path: '/teams', redirect: '/teams/explore' },
-          {
-            path: '/teams/explore',
-            name: 'my-teams',
-            icon: 'team',
-            component: './Teams/TeamsList',
-          },
-          {
-            path: '/teams/new',
-            name: 'new-team',
-            icon: 'plus',
-            component: './Teams/NewTeam',
-          },
-          {
-            path: '/teams/:id',
-            name: 'team',
-            component: './Teams/ViewTeam',
-            hideInMenu: true,
-            routes: [
-              { path: '/teams/:id', redirect: '/teams/:id/projects' },
-              {
-                path: '/teams/:id/projects',
-                name: 'projects',
-                component: './Teams/Projects',
-              },
-              {
-                path: '/teams/:id/workflows',
-                name: 'workflows',
-                component: './Teams/Workflows',
-              },
-              {
-                path: '/teams/:id/edit',
-                name: 'team-edit',
-                component: './Teams/EditTeam',
-              },
-              {
-                path: '/teams/:id/members',
-                name: 'members',
-                component: './Teams/Members',
-              },
-            ],
-          },
-        ],
-      },
-
       // projects
       {
         path: '/projects',

@@ -168,54 +168,54 @@ export default [
       },
 
       // teds
-      {
-        path: '/teds',
-        name: 'teds',
-        icon: 'reconciliation',
-        routes: [
-          { path: '/teds', redirect: '/teds/explore' },
-          {
-            path: '/teds/explore',
-            name: 'my-teds',
-            icon: 'reconciliation',
-            component: './Teds/TedsList',
-          },
-          {
-            path: '/teds/new',
-            name: 'new-ted',
-            icon: 'plus',
-            component: './Teds/NewTed',
-          },
-          {
-            path: '/teds/:tedId',
-            name: 'view-ted',
-            icon: 'plus',
-            hideInMenu: true,
-            component: './Teds/ViewTed',
-            routes: [
-              { path: '/teds/:tedId', redirect: '/teds/:tedId/dashboard' },
-              {
-                path: '/teds/:tedId/dashboard',
-                name: 'teds-main',
-                component: './Teds/TedDashboard',
-                routes: [
-                  { path: '/teds/:tedId/dashboard', redirect: '/teds/:tedId/dashboard/goals' },
-                  {
-                    path: '/teds/:tedId/dashboard/goals',
-                    name: 'teds-goals',
-                    component: './Teds/GoalsList',
-                  },
-                ],
-              },
-              {
-                path: '/teds/:tedId/goals/new',
-                name: 'goals-new',
-                component: './Teds/NewGoal',
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   path: '/teds',
+      //   name: 'teds',
+      //   icon: 'reconciliation',
+      //   routes: [
+      //     { path: '/teds', redirect: '/teds/explore' },
+      //     {
+      //       path: '/teds/explore',
+      //       name: 'my-teds',
+      //       icon: 'reconciliation',
+      //       component: './Teds/TedsList',
+      //     },
+      //     {
+      //       path: '/teds/new',
+      //       name: 'new-ted',
+      //       icon: 'plus',
+      //       component: './Teds/NewTed',
+      //     },
+      //     {
+      //       path: '/teds/:tedId',
+      //       name: 'view-ted',
+      //       icon: 'plus',
+      //       hideInMenu: true,
+      //       component: './Teds/ViewTed',
+      //       routes: [
+      //         { path: '/teds/:tedId', redirect: '/teds/:tedId/dashboard' },
+      //         {
+      //           path: '/teds/:tedId/dashboard',
+      //           name: 'teds-main',
+      //           component: './Teds/TedDashboard',
+      //           routes: [
+      //             { path: '/teds/:tedId/dashboard', redirect: '/teds/:tedId/dashboard/goals' },
+      //             {
+      //               path: '/teds/:tedId/dashboard/goals',
+      //               name: 'teds-goals',
+      //               component: './Teds/GoalsList',
+      //             },
+      //           ],
+      //         },
+      //         {
+      //           path: '/teds/:tedId/goals/new',
+      //           name: 'goals-new',
+      //           component: './Teds/NewGoal',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
 
       // projects
       {

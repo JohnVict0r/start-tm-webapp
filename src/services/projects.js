@@ -5,7 +5,7 @@ import schema from './Schema';
 export const loadUserProjects = page =>
   callApi(`me/projects?${stringify({ page })}`, schema.PROJECT_ARRAY).get();
 
-export const loadProject = id => callApi(`projects/${id}?include=boards`, schema.PROJECT).get();
+export const loadProject = id => callApi(`projects/${id}`, schema.PROJECT).get();
 
 export const createProject = project => callApi(`projects`, schema.PROJECT).post(project);
 

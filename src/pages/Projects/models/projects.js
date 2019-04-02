@@ -44,11 +44,6 @@ export default {
     *fetchProject({ payload }, { call, put }) {
       const response = yield call(loadProject, payload);
 
-      // yield put({
-      //   type: 'fetchProjectBoards',
-      //   payload,
-      // });
-
       yield put({
         type: 'entities/mergeEntities',
         payload: response.entities,

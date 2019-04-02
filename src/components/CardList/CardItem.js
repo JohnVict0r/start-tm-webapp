@@ -49,7 +49,7 @@ const CardItem = ({ card, isDragging, provided, style, match }) => (
     style={style}
   >
     <Link
-      to={`/projects/${match.params.projectId}/boards/${match.params.boardId}/cards/${card.id}`}
+      to={`${match.url}/cards/${card.id}`}
     >
       <Card
         bordered={false}

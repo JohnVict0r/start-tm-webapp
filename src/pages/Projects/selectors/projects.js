@@ -19,67 +19,41 @@ export const projectBoardsSelector = createSelector(
 export const makeProjectSelector = ({ id }) =>
   createSelector(
     state => state.entities.projects,
-    state => state.entities.users,
-    state => state.entities.boards,
-    state => state.entities.cardlists,
-    state => state.entities.cards,
-    (projects, users, boards, cardlists, cards) => {
-      const project = projects[id];
-      if (project && project.boards) {
-        const projectBoards = project.boards
-          .map(i => boards[i])
-          .map(board => {
-            const cardlistsArr = board.cardlists.map(item => cardlists[item]);
-            const cardMap = cardlistsArr.reduce(
-              (previous, cardlist) => ({
-                ...previous,
-                [cardlist.id]: cardlist.cards.map(item => {
-                  const members = cards[item].members.map(member => users[member]);
-                  return {
-                    ...cards[item],
-                    members,
-                  };
-                }),
-              }),
-              {}
-            );
-
-            return { ...board, cardlists: cardlistsArr, cardMap };
-          });
-
-        return { ...project, boards: projectBoards };
-      }
-
-      return undefined;
-    }
+    (projects) => projects[id]
   );
 
 export const makeBoardSelector = ({ boardId }) =>
   createSelector(
     state => state.entities.boards,
-    state => state.entities.cardlists,
-    state => state.entities.cards,
-    state => state.entities.users,
-    (boards, cardlists, cards, users) => {
-      const board = boards[boardId];
-      if (board) {
-        const cardlistsArr = board.cardlists.map(item => cardlists[item]);
-        const cardMap = cardlistsArr.reduce(
-          (previous, cardlist) => ({
-            ...previous,
-            [cardlist.id]: cardlist.cards.map(item => {
-              const members = cards[item].members.map(member => users[member]);
-              return {
-                ...cards[item],
-                members,
-              };
-            }),
-          }),
-          {}
-        );
-        return { ...board, cardlists: cardlistsArr, cardMap };
-      }
-
-      return undefined;
-    }
+    (boards) => boards[boardId]
   );
+
+// export const makeBoardSelector = ({ boardId }) =>
+//   createSelector(
+//     state => state.entities.boards,
+//     state => state.entities.cardlists,
+//     state => state.entities.cards,
+//     state => state.entities.users,
+//     (boards, cardlists, cards, users) => {
+//       const board = boards[boardId];
+//       if (board) {
+//         const cardlistsArr = board.cardlists.map(item => cardlists[item]);
+//         const cardMap = cardlistsArr.reduce(
+//           (previous, cardlist) => ({
+//             ...previous,
+//             [cardlist.id]: cardlist.cards.map(item => {
+//               const members = cards[item].members.map(member => users[member]);
+//               return {
+//                 ...cards[item],
+//                 members,
+//               };
+//             }),
+//           }),
+//           {}
+//         );
+//         return { ...board, cardlists: cardlistsArr, cardMap };
+//       }
+//
+//       return undefined;
+//     }
+//   );

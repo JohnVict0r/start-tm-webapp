@@ -239,10 +239,15 @@ export default [
           {
             path: '/projects/:projectId',
             name: 'project',
-            component: './Projects/ViewProject',
+            component: './Projects/ProjectView',
             hideInMenu: true,
             routes: [
-              { path: '/projects/:projectId/boards', redirect: '/projects/:projectId' },
+              { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
+              {
+                path: '/projects/:projectId/details',
+                name: 'details',
+                component: './Projects/ProjectDetails',
+              },
               {
                 path: '/projects/:projectId/edit',
                 name: 'edit-project',
@@ -253,6 +258,7 @@ export default [
                 name: 'new-board',
                 component: './Projects/NewBoard',
               },
+              //
               {
                 path: '/projects/:projectId/boards/:boardId',
                 name: 'board',
@@ -288,6 +294,38 @@ export default [
             ],
           },
         ],
+      },
+
+      // board
+      {
+        path: '/boards',
+        name: 'boards',
+        icon: 'team',
+        hideInBreadcrumb: true,
+        hideInMenu: true,
+        routes: [
+          // { path: '/boards', redirect: '/boards' },
+          {
+            path: '/boards/:boardId',
+            name: 'board',
+            component: './Boards/BoardView',
+            routes: [
+              { path: '/boards/:boardId', redirect: '/boards/:boardId/board' },
+              {
+                path: '/boards/:boardId/board',
+                name: 'board',
+                component: './Boards/Board',
+                routes: [
+                  {
+                    path: '/boards/:boardId/board/cards/:cardId',
+                    name: 'project-boards-card-view',
+                    component: './Cards/ViewCardModal',
+                  }
+                ]
+              }
+            ]
+          },
+        ]
       },
 
       // workflows

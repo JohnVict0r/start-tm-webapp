@@ -1,6 +1,6 @@
 {
   "name": "ant-design-pro",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "private": true,
   "description": "An out-of-box UI solution for enterprise applications",
   "scripts": {
@@ -14,6 +14,9 @@
     "docker:dev": "docker-compose -f ./docker/docker-compose.dev.yml up",
     "docker:push": "npm run docker-hub:build && npm run docker:tag && docker push antdesign/ant-design-pro",
     "docker:tag": "docker tag ant-design-pro antdesign/ant-design-pro",
+    "functions:build": "npm run generateMock && netlify-lambda build ./lambda",
+    "functions:run": "npm run generateMock && cross-env NODE_ENV=dev netlify-lambda serve ./lambda",
+    "generateMock": "node ./scripts/generateMock",
     "lint": "eslint --ext .js src mock tests && npm run lint:style && npm run lint:prettier",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js",
@@ -21,8 +24,6 @@
     "lint:prettier": "check-prettier lint",
     "lint:style": "stylelint 'src/**/*.less' --syntax less",
     "prettier": "node ./scripts/prettier.js",
-    "presite": "cd functions && npm install",
-    "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
     "start": "cross-env APP_TYPE=site umi dev",
     "start:no-mock": "cross-env MOCK=none umi dev",
     "test": "umi test",
@@ -31,6 +32,27 @@
     "tslint": "npm run tslint:fix",
     "tslint:fix": "tslint --fix 'src/**/*.ts*'"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged",
+      "pre-push": "npm run lint-staged && npm test",
+      "post-merge": "npm install"
+    }
+  },
+  "lint-staged": {
+    "**/*.less": "stylelint --syntax less",
+    "**/*.{js,jsx}": "npm run lint-staged:js",
+    "**/*.{js,ts,tsx,json,jsx,less}": [
+      "node ./scripts/lint-prettier.js",
+      "git add"
+    ]
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 11",
+    "not dead"
+  ],
   "dependencies": {
     "@antv/data-set": "^0.10.1",
     "@babel/runtime": "^7.3.4",
@@ -40,6 +62,7 @@
     "classnames": "^2.2.6",
     "dva": "^2.4.1",
     "enquire-js": "^0.2.1",
+    "express": "^4.16.4",
     "gg-editor": "^2.0.2",
     "humps": "^2.0.1",
     "lodash": "^4.17.11",
@@ -47,6 +70,7 @@
     "memoize-one": "^5.0.0",
     "moment": "^2.24.0",
     "natural-drag-animation-rbdnd": "^2.0.1",
+    "netlify-lambda": "^1.4.3",
     "normalizr": "^3.2.4",
     "numeral": "^2.0.6",
     "nzh": "^1.0.4",
@@ -65,6 +89,7 @@
     "react-media": "^1.9.2",
     "react-text-mask": "^5.4.3",
     "reselect": "^4.0.0",
+    "serverless-http": "^1.9.1",
     "umi": "^2.6.2",
     "umi-plugin-react": "^1.7.2",
     "umi-request": "^1.0.5"
@@ -117,27 +142,6 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-staged",
-      "pre-push": "npm run lint-staged && npm test",
-      "post-merge": "npm install"
-    }
-  },
-  "lint-staged": {
-    "**/*.less": "stylelint --syntax less",
-    "**/*.{js,jsx}": "npm run lint-staged:js",
-    "**/*.{js,ts,tsx,json,jsx,less}": [
-      "node ./scripts/lint-prettier.js",
-      "git add"
-    ]
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 11",
-    "not dead"
-  ],
   "checkFiles": [
     "src/**/*.js*",
     "src/**/*.ts*",

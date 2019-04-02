@@ -258,19 +258,6 @@ export default [
                 name: 'new-board',
                 component: './Projects/NewBoard',
               },
-              //
-              {
-                path: '/projects/:projectId/boards/:boardId',
-                name: 'board',
-                component: './Projects/Board',
-                routes: [
-                  {
-                    path: '/projects/:projectId/boards/:boardId/cards/:cardId',
-                    name: 'project-boards-card-view',
-                    component: './Cards/ViewCardModal',
-                  },
-                ],
-              },
               {
                 path: '/projects/:projectId/cards/new',
                 name: 'project-boards-card',
@@ -318,7 +305,7 @@ export default [
                 routes: [
                   {
                     path: '/boards/:boardId/board/cards/:cardId',
-                    name: 'project-boards-card-view',
+                    name: 'card-view',
                     component: './Cards/ViewCardModal',
                   }
                 ]

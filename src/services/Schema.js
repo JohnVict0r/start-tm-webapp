@@ -88,8 +88,7 @@ Card.define({
 });
 
 Comment.define({
-  commented: User,
-  commentable: Card,
+  commented: User
 });
 
 const Schemas = {

@@ -2,27 +2,18 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import { Button, Modal, Row, Col, Form, List, Popover } from 'antd';
-import CommentForm from '@/components/Form/Comment';
-import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
 import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
-import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
-import { DueForm, PriorityForm, ParticipantsForm } from '@/components/Form/Card';
-import { projectMembersSelector } from '../Projects/selectors/members';
+import { DueForm, PriorityForm } from '@/components/Form/Card';
+import CommentSection from '../Comments/CommentSection';
+import ParticipantsForm from './Participants';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
-  const commentCardSelect = makeCardCommentsSelector({ cardId: ownProps.match.params.cardId });
   return {
-    validation: state.createBoard.validation,
-    card: cardSelector(state),
-    users: state.entities.users,
-    projectMembers: projectMembersSelector(state),
-    comments: commentCardSelect(state),
-    logedUser: state.global.loggedInUser,
-    submitting: state.loading.effects['commentCard/save'],
+    card: cardSelector(state)
   };
 })
 @Form.create()
@@ -31,57 +22,6 @@ class ViewCardModal extends PureComponent {
     visibleFormDue: false,
     visibleFormPriority: false,
     visibleFormParticipants: false,
-  };
-
-  componentDidMount() {
-    const { dispatch, card, match } = this.props;
-    dispatch({
-      type: 'comments/fetchCardComments',
-      payload: { id: card.id },
-    });
-    dispatch({
-      type: 'currentProjectMembers/fetch',
-      payload: {
-        id: match.params.projectId,
-      },
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { form, validation } = this.props;
-
-    if (prevProps.validation !== validation) {
-      const { errors } = validation;
-      const mapErrors = Object.keys(errors).reduce(
-        (accum, key) => ({
-          ...accum,
-          [key]: {
-            value: form.getFieldValue(key),
-            errors: errors[key].map(err => new Error(err)),
-          },
-        }),
-        {}
-      );
-
-      form.setFields(mapErrors);
-    }
-  }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const { form, card, dispatch } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (!err) {
-        dispatch({
-          type: 'commentCard/save',
-          payload: {
-            cardId: card.id,
-            comment: { ...values },
-          },
-        });
-      }
-    });
-    form.resetFields();
   };
 
   handleVisibleDueChange = visibleFormDue => {
@@ -165,13 +105,7 @@ class ViewCardModal extends PureComponent {
   render() {
     const {
       card,
-      form,
-      submitting,
       match,
-      comments,
-      users,
-      projectMembers,
-      logedUser,
     } = this.props;
 
     const { visibleFormDue, visibleFormPriority, visibleFormParticipants } = this.state;
@@ -229,13 +163,10 @@ class ViewCardModal extends PureComponent {
                 )}
               </Col>
               <Col className={styles.commentsContainer} span={24}>
-                <CommentForm
-                  form={form}
-                  user={users[logedUser]}
-                  onSubmit={this.handleSubmit}
-                  submiting={submitting}
+                <CommentSection
+                  commentableType='cards'
+                  commentableId={card.id}
                 />
-                <CommentList comments={comments} users={users} />
               </Col>
             </Row>
           </Col>
@@ -262,10 +193,10 @@ class ViewCardModal extends PureComponent {
                   title={textTitleParticipantsForm}
                   content={
                     <ParticipantsForm
+                      projectId={card.projectId}
                       participants={card.members}
                       onSubmit={this.handleAssignMember}
                       onRemove={this.handleUnAssignMember}
-                      projectMembers={projectMembers}
                     />
                   }
                   trigger="click"

@@ -67,7 +67,6 @@ export default {
   'menu.projects.project.new-board': 'Novo quadro',
   'menu.projects.project.edit-project': 'Editar Projeto',
   'menu.projects.project.board': 'Quadro',
-  'menu.projects.project.board.project-boards-card-view': 'Visualizar Tarefa',
   'menu.projects.project.project-members': 'Membros',
   'menu.projects.project.project-workflows': 'Fluxos de Trabalho',
   'menu.projects.project.project-boards-card': 'Nova Tarefa',
@@ -75,6 +74,7 @@ export default {
   'menu.boards': 'Quadros',
   'menu.boards.board': 'Quadro',
   'menu.boards.board.board': 'Visualizar',
+  'menu.boards.board.board.card-view': 'Visualizar Tarefa',
   'menu.workflows': 'Fluxos de Trabalho',
   'menu.workflows.workflow': 'Visualizar Fluxo de Trabalho',
 };

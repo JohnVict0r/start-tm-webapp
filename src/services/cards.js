@@ -18,13 +18,3 @@ export const assignUser = ({ id, userId }) =>
 
 export const unAssignUser = ({ id, userId }) =>
   callApi(`cards/${id}/members/${userId}`, schema.CARD).delete();
-
-export const createComment = ({ cardId, comment }) =>
-  callApi(`cards/${cardId}/comments`, schema.COMMENT_ARRAY).post({ ...comment });
-
-export const listComments = ({ id }) => callApi(`cards/${id}/comments`, schema.COMMENT_ARRAY).get();
-
-export const updateComment = ({ id, comment }) =>
-  callApi(`comments/${id}`, schema.COMMENT_ARRAY).put({ ...comment });
-
-export const deleteComment = ({ id }) => callApi(`comments/${id}`, schema.COMMENT_ARRAY).delete();

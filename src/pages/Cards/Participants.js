@@ -1,7 +1,14 @@
 import React, { PureComponent } from 'react';
-import { Row, Select, Badge, Icon, Avatar, Tooltip } from 'antd';
-import styles from './index.less';
+import { connect } from 'dva';
+import {Row, Select, Badge, Icon, Avatar, Tooltip, Spin} from 'antd';
+import { usersSelector } from '@/selectors/search';
 
+import styles from './Participants.less';
+
+@connect((state) => ({
+  users: usersSelector(state),
+  searching: state.loading.effects['search/searchUserInProject'],
+}))
 class ParticipantsForm extends PureComponent {
   state = {
     selected: '',
@@ -12,14 +19,25 @@ class ParticipantsForm extends PureComponent {
     onSubmit(value);
   };
 
+  handleSearch = value => {
+    const { dispatch, projectId } = this.props;
+    dispatch({
+      type: 'search/searchUserInProject',
+      payload: {
+        id: projectId,
+        query: value,
+      },
+    });
+  };
+
   render() {
-    const { participants, projectMembers, onRemove } = this.props;
+    const { participants, users, onRemove, searching } = this.props;
     const { selected } = this.state;
 
     const { Option } = Select;
 
     const participantsIds = participants.map(i => i.id);
-    const filteredOptions = projectMembers.filter(m => !participantsIds.includes(m.user.id));
+    const filteredOptions = users.filter(user => !participantsIds.includes(user.id));
 
     return (
       <div style={{ width: '200px' }}>
@@ -27,14 +45,17 @@ class ParticipantsForm extends PureComponent {
           <Select
             value={selected}
             showSearch
-            placeholder="Select users"
+            placeholder="Selecione"
+            notFoundContent={searching ? <Spin size="small" /> : null}
+            showArrow={false}
+            defaultActiveFirstOption={false}
             filterOption={false}
-            onSearch={this.fetchUser}
+            onSearch={this.handleSearch}
             onChange={this.handleChange}
             style={{ width: '200px' }}
           >
             {filteredOptions &&
-              filteredOptions.map(d => <Option key={d.user.id}>{d.user.name}</Option>)}
+              filteredOptions.map(user => <Option key={user.id}>{user.name}</Option>)}
           </Select>
         </Row>
         <Row className={participants.length > 0 ? styles.listParticipants : styles.noParticipants}>

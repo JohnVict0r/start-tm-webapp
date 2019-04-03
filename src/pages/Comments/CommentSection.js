@@ -99,6 +99,7 @@ class CommentSection extends PureComponent {
 
         <List
           itemLayout="horizontal"
+          loading={loading}
           dataSource={comments}
           renderItem={item => (
             <Skeleton loading={loading} active avatar>

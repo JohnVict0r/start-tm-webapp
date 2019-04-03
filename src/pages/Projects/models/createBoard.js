@@ -1,6 +1,5 @@
-import { notification } from 'antd';
+import { message } from 'antd';
 import router from 'umi/router';
-import { formatMessage } from 'umi/locale';
 import { loadAvailableWorkflowsForProject } from '@/services/workflows';
 import { createBoard } from '@/services/boards';
 
@@ -41,12 +40,10 @@ export default {
           payload: response.entities,
         });
 
-        notification.success({
-          message: formatMessage({ id: 'app.result.created.success' }, { name: 'Quadro' }),
-        });
+        message.success('Quadro criado com sucesso!');
 
         // TODO não está indo para a rota
-        router.push(`/projects/${payload.projectId}/boards/${response.result}`);
+        router.push(`/boards/${response.result}`);
       }
     },
   },

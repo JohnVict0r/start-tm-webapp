@@ -1,7 +1,7 @@
 import React from 'react';
 import pathToRegexp from 'path-to-regexp';
 import Link from 'umi/link';
-import { FormattedMessage } from 'umi-plugin-react/locale';
+import { formatMessage } from 'umi-plugin-react/locale';
 import { urlToList } from '../_utils/pathTools';
 
 // 渲染Breadcrumb 子节点
@@ -20,7 +20,7 @@ const renderItemLocal = item => {
     return item.customBreadcrumbName;
   }
   if (item.locale) {
-    return <FormattedMessage id={item.locale} defaultMessage={item.name} />;
+    return formatMessage({ id: item.locale, defaultMessage: item.name });
   }
   return item.name;
 };

@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import CardForm from '@/components/Form/Card';
-import { Card, Form } from 'antd';
+import { Card } from 'antd';
 
 @connect((state, ownProps) => ({
   validation: state.saveCard.validation,
   card: state.entities.cards[ownProps.match.params.cardId],
   submitting: state.loading.effects['saveCard/save'],
 }))
-@Form.create()
 class EditCard extends PureComponent {
   handleSubmit = (err, values) => {
     if (!err) {
@@ -25,7 +24,6 @@ class EditCard extends PureComponent {
 
   render() {
     const {
-      form,
       submitting,
       card,
       history,
@@ -35,7 +33,6 @@ class EditCard extends PureComponent {
     return (
       <Card bordered={false} title="Editar tarefa">
         <CardForm
-          form={form}
           onSubmit={this.handleSubmit}
           current={card}
           back={() => history.goBack()}

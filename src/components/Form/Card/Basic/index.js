@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Button, DatePicker, Form, Input } from 'antd';
 import moment from 'moment';
 
+@Form.create()
 class CardForm extends PureComponent {
   static defaultProps = {
     current: {},

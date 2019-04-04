@@ -7,7 +7,6 @@ import CardForm from '@/components/Form/Card';
   validation: state.saveCard.validation,
   submitting: state.loading.effects['saveCard/save'],
 }))
-@Form.create()
 class NewCard extends PureComponent {
   handleSubmit = (err, values) => {
     if (!err) {
@@ -24,7 +23,6 @@ class NewCard extends PureComponent {
 
   render() {
     const {
-      form,
       submitting,
       location: { state },
       history,
@@ -52,7 +50,6 @@ class NewCard extends PureComponent {
         </Form>
         <CardForm
           back={() => history.goBack()}
-          form={form}
           onSubmit={this.handleSubmit}
           submitting={submitting}
           validation={validation}

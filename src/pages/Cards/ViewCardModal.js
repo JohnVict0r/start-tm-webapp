@@ -194,11 +194,11 @@ class ViewCardModal extends PureComponent {
                   </Button>
                 </Popover>
               </List.Item>
-              <List.Item>
+              {/* <List.Item>
                 <Button block icon="paper-clip">
                   Anexo
                 </Button>
-              </List.Item>
+              </List.Item> */}
             </List>
           </Col>
         </Row>

@@ -174,7 +174,6 @@ class Board extends PureComponent {
                   <CardList
                     key={cardlist.id}
                     cardList={cardlist}
-                    board={board}
                     projectid={match.params.projectId}
                     createCard={this.createCard}
                     isDisabled={disabledCardlists[cardlist.id]}

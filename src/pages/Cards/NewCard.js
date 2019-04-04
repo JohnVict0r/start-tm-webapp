@@ -2,69 +2,24 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Card, Form } from 'antd';
 import CardForm from '@/components/Form/Card';
-import { usersSelector } from '@/selectors/search';
 
 @connect(state => ({
-  validation: state.createBoard.validation,
+  validation: state.saveCard.validation,
   submitting: state.loading.effects['saveCard/save'],
-  members: usersSelector(state),
-  loading: state.loading.effects['search/searchUserInProject'],
 }))
 @Form.create()
 class NewCard extends PureComponent {
-  componentDidMount() {
-    this.fetchUser();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { form, validation } = this.props;
-
-    if (prevProps.validation !== validation) {
-      const { errors } = validation;
-      const mapErrors = Object.keys(errors).reduce(
-        (accum, key) => ({
-          ...accum,
-          [key]: {
-            value: form.getFieldValue(key),
-            errors: errors[key].map(err => new Error(err)),
-          },
-        }),
-        {}
-      );
-
-      form.setFields(mapErrors);
+  handleSubmit = (err, values) => {
+    if (!err) {
+      const { location: { state }, dispatch } = this.props;
+      dispatch({
+        type: 'saveCard/save',
+        payload: {
+          cardListId: state.cardList.id,
+          card: { ...values },
+        },
+      });
     }
-  }
-
-  fetchUser = value => {
-    const { dispatch, match } = this.props;
-    dispatch({
-      type: 'search/searchUserInProject',
-      payload: {
-        id: match.params.projectId,
-        query: value,
-      },
-    });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const {
-      form,
-      location: { state },
-      dispatch,
-    } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (!err) {
-        dispatch({
-          type: 'saveCard/save',
-          payload: {
-            cardListId: state.cardList.id,
-            card: { ...values },
-          },
-        });
-      }
-    });
   };
 
   render() {
@@ -73,8 +28,7 @@ class NewCard extends PureComponent {
       submitting,
       location: { state },
       history,
-      members,
-      loading,
+      validation,
     } = this.props;
 
     const formItemLayout = {
@@ -92,18 +46,16 @@ class NewCard extends PureComponent {
     return (
       <Card bordered={false} title="Nova tarefa">
         <Form>
-          <Form.Item label="Quadro" {...formItemLayout}>
-            <span className="ant-form-text">{`${state.board.name} > ${state.cardList.name}`}</span>
+          <Form.Item label="Lista" {...formItemLayout}>
+            <span className="ant-form-text">{state.cardList.name}</span>
           </Form.Item>
         </Form>
         <CardForm
           back={() => history.goBack()}
-          loading={loading}
           form={form}
-          users={members}
           onSubmit={this.handleSubmit}
-          submiting={submitting}
-          handleChange={this.fetchUser}
+          submitting={submitting}
+          validation={validation}
         />
       </Card>
     );

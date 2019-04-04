@@ -259,16 +259,6 @@ export default [
                 component: './Projects/NewBoard',
               },
               {
-                path: '/projects/:projectId/cards/new',
-                name: 'project-boards-card',
-                component: './Cards/NewCard',
-              },
-              {
-                path: '/projects/:projectId/cards/:cardId/edit',
-                name: 'project-boards-card-edit',
-                component: './Cards/EditCard',
-              },
-              {
                 path: '/projects/:projectId/workflows',
                 name: 'project-workflows',
                 component: './Projects/Workflows',
@@ -309,7 +299,17 @@ export default [
                     component: './Cards/ViewCardModal',
                   }
                 ]
-              }
+              },
+              {
+                path: '/boards/:boardId/cards/new',
+                name: 'new-card',
+                component: './Cards/NewCard',
+              },
+              {
+                path: '/boards/:boardId/cards/:cardId/edit',
+                name: 'edit-card',
+                component: './Cards/EditCard',
+              },
             ]
           },
         ]

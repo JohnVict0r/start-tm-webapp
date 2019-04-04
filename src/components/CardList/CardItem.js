@@ -20,8 +20,6 @@ const Due = ({ date }) => {
   );
 };
 
-const priorityClass = ['lower', 'low', 'normal', 'high', 'higher'];
-
 const RenderAvatarList = ({ card }) => (
   <div className={styles.avatarList}>
     <AvatarList
@@ -53,7 +51,7 @@ const CardItem = ({ card, isDragging, provided, style, match }) => (
     >
       <Card
         bordered={false}
-        className={classNames(styles.card, styles[priorityClass[card.priority - 1]], {
+        className={classNames(styles.card, {
           [styles.dragging]: isDragging,
         })}
         bodyStyle={{ padding: '12px' }}

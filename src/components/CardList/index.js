@@ -9,7 +9,7 @@ import withRouter from 'umi/withRouter';
 import CardItem from './CardItem';
 import styles from './index.less';
 
-const CardList = ({ cardList, isDisabled, items, board, match }) => (
+const CardList = ({ cardList, isDisabled, items, match }) => (
   <div
     className={classNames(styles.column, {
       [styles.disabled]: isDisabled,
@@ -20,8 +20,8 @@ const CardList = ({ cardList, isDisabled, items, board, match }) => (
       {cardList.canCreateCard && (
         <Link
           to={{
-            pathname: `/projects/${match.params.projectId}/cards/new`,
-            state: { board, cardList },
+            pathname: `/boards/${match.params.boardId}/cards/new`,
+            state: { cardList },
           }}
         >
           <Button className={styles.add} icon="plus" size="small" />

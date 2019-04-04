@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {Row, Select, Badge, Icon, Avatar, Tooltip, Spin} from 'antd';
+import { Empty, Row, Select, Badge, Icon, Avatar, Tooltip, Spin } from 'antd';
 import { usersSelector } from '@/selectors/search';
 
 import styles from './Participants.less';
@@ -79,7 +79,7 @@ class ParticipantsForm extends PureComponent {
               </Badge>
             ))
           ) : (
-            <span>Não existem participantes</span>
+            <Empty style={{ paddingTop: '8px' }} description='Adiciona participantes' />
           )}
         </Row>
       </div>

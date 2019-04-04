@@ -1,11 +1,38 @@
 import React, { PureComponent } from 'react';
-import { Button, DatePicker, Form, Input, Select, Spin } from 'antd';
+import { Button, DatePicker, Form, Input } from 'antd';
 import moment from 'moment';
-import { priorities } from '@/utils/labels';
 
 class CardForm extends PureComponent {
   static defaultProps = {
     current: {},
+  };
+
+  componentDidUpdate(prevProps) {
+    const { form, validation } = this.props;
+
+    if (prevProps.validation !== validation) {
+      const { errors } = validation;
+      const mapErrors = Object.keys(errors).reduce(
+        (accum, key) => ({
+          ...accum,
+          [key]: {
+            value: form.getFieldValue(key),
+            errors: errors[key].map(err => new Error(err)),
+          },
+        }),
+        {}
+      );
+
+      form.setFields(mapErrors);
+    }
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    const { form, onSubmit } = this.props;
+    form.validateFields({ force: true }, (err, values) => {
+      onSubmit(err, values);
+    });
   };
 
   render() {
@@ -13,11 +40,7 @@ class CardForm extends PureComponent {
       form: { getFieldDecorator },
       submitting,
       current,
-      onSubmit,
-      users,
       back,
-      loading,
-      handleChange,
     } = this.props;
 
     const formItemLayout = {
@@ -40,7 +63,7 @@ class CardForm extends PureComponent {
     };
 
     return (
-      <Form onSubmit={onSubmit} hideRequiredMark>
+      <Form onSubmit={this.handleSubmit} hideRequiredMark>
         <Form.Item label="Nome" {...formItemLayout}>
           {getFieldDecorator('name', {
             rules: [{ required: true, message: 'Por favor informe o nome da tarefa!' }],
@@ -58,39 +81,6 @@ class CardForm extends PureComponent {
             rules: [{ required: true, message: 'Por favor informe a data de entrega!' }],
             initialValue: current.due ? moment(current.due) : null,
           })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" />)}
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Prioridade">
-          {getFieldDecorator('priority', {
-            rules: [{ required: true, message: 'Qual a prioridade para a tarefa?' }],
-            initialValue: current.priority,
-          })(
-            <Select placeholder="Selecione uma prioridade">
-              {priorities.map(r => (
-                <Select.Option value={r.value} key={r.value}>
-                  {r.label}
-                </Select.Option>
-              ))}
-            </Select>
-          )}
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Participantes">
-          {getFieldDecorator('assigned_users', {
-            initialValue: current.members,
-          })(
-            <Select
-              optionFilterProp="search"
-              mode="multiple"
-              notFoundContent={loading ? <Spin size="small" /> : null}
-              placeholder="Usuários participantes da tarefa"
-              onSearch={handleChange}
-            >
-              {users.map(r => (
-                <Select.Option key={r.id} value={r.id} search={r.name}>
-                  {r.name}
-                </Select.Option>
-              ))}
-            </Select>
-          )}
         </Form.Item>
         <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
           <Button type="primary" htmlType="submit" loading={submitting}>

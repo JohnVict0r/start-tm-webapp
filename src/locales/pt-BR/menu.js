@@ -72,9 +72,10 @@ export default {
   'menu.boards': 'Quadros',
   'menu.boards.board': 'Quadro',
   'menu.boards.board.board': 'Visualizar',
+  'menu.boards.board.milestones': 'Entregáveis',
   'menu.boards.board.board.card-view': 'Visualizar Tarefa',
-  'menu.boards.new-card': 'Nova Tarefa',
-  'menu.boards.edit-card': 'Editar tarefa',
+  'menu.boards.board.new-card': 'Nova Tarefa',
+  'menu.boards.board.edit-card': 'Editar tarefa',
   'menu.workflows': 'Fluxos de Trabalho',
   'menu.workflows.workflow': 'Visualizar Fluxo de Trabalho',
 };

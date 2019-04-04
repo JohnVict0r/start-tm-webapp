@@ -89,6 +89,22 @@ class NewBoard extends PureComponent {
               rules: [{ required: true, message: 'Por favor informe o nome do quadro!' }],
             })(<Input maxLength={255} placeholder="Insita o nome do quadro" />)}
           </Form.Item>
+          <Form.Item {...formItemLayout} label="Descrição">
+            {getFieldDecorator('description', {
+              rules: [
+                {
+                  message: 'Por favor, insira uma descrição com pelo menos 5 caracteres',
+                  min: 5,
+                },
+              ],
+            })(
+              <Input.TextArea
+                maxLength={255}
+                rows={4}
+                placeholder="Por favor, insira uma descrição para o quadro"
+              />
+            )}
+          </Form.Item>
           <Form.Item
             label="Fluxo de trabalho"
             {...formItemLayout}

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import {Card, List, Skeleton} from 'antd';
+import {Avatar, Card, List, Skeleton} from 'antd';
 import { projectBoardsSelector } from './selectors/projects';
 
 @connect((state) => {
@@ -37,6 +37,12 @@ class ProjectDetails extends Component {
               <List.Item>
                 <Skeleton title={false} loading={loadingBoards} active>
                   <List.Item.Meta
+                    avatar={
+                      <Avatar
+                        shape="square"
+                        src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
+                      />
+                    }
                     title={<Link to={`/boards/${item.id}`}>{item.name}</Link>}
                     description={item.description}
                   />

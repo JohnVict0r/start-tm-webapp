@@ -35,7 +35,7 @@ class BoardView extends Component {
     const boardOptionsMenu = (
       <Menu>
         <Menu.Item key="1">
-          <Link to={`${match.url}/milestones`}>Entregáveis</Link>
+          <Link to={`${match.url}/members`}>Membros</Link>
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="2">
@@ -52,7 +52,7 @@ class BoardView extends Component {
           favorited={project.favorited}
         /> */}
         <Button.Group>
-          <Button onClick={() => router.push(`${match.url}/members`)}>Membros</Button>
+          <Button icon='clock-circle' onClick={() => router.push(`${match.url}/milestones`)}>Entregáveis</Button>
           <Dropdown overlay={boardOptionsMenu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />

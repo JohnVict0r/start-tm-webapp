@@ -301,6 +301,11 @@ export default [
                 ]
               },
               {
+                path: '/boards/:boardId/milestones',
+                name: 'milestones',
+                component: './Boards/Milestone',
+              },
+              {
                 path: '/boards/:boardId/cards/new',
                 name: 'new-card',
                 component: './Cards/NewCard',

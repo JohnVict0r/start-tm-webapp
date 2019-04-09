@@ -154,7 +154,7 @@ class ViewCardModal extends PureComponent {
                   icon="edit"
                   onClick={() =>
                     router.push(
-                      `/boards/${match.params.boardId}/cards/${match.params.cardId}/edit`
+                      `/teams/${match.params.teamId}/cards/${match.params.cardId}/edit`
                     )
                   }
                 >

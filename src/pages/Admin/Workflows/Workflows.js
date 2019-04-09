@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import { List, Card, Input, Skeleton, Form } from 'antd';
-import { workflowsSelector } from './selectors/workflows';
+import { workflowsSelector } from '@/selectors/workflows';
 
 import NewWorkflow from '@/components/NewWorkflow';
 
@@ -19,7 +19,7 @@ class Workflows extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'currentWorkflows/fetchCurrentWorkflows',
+      type: 'workflows/fetchCurrentWorkflows',
     });
   }
 

@@ -8,7 +8,7 @@ import PageLoading from '@/components/PageLoading';
 import CardList from '@/components/CardList';
 import { reorderCardMap } from '@/utils/reorder';
 
-import { makeBoardWithWorkflowSelector } from './selectors/boards';
+import { boardSelector } from './selectors/boards';
 import styles from './Board.less';
 
 const resetDisabledCardlists = (cardlists, value) =>
@@ -20,13 +20,10 @@ const resetDisabledCardlists = (cardlists, value) =>
     {}
   );
 
-@connect((state, ownProps) => {
-  const boardSelector = makeBoardWithWorkflowSelector({ boardId: ownProps.match.params.boardId });
-  return {
-    board: boardSelector(state),
-    loading: state.loading.effects['boards/fetchBoard']
-  };
-})
+@connect(state => ({
+  board: boardSelector(state),
+  loading: state.loading.effects['teams/fetchBoard']
+}))
 class Board extends PureComponent {
   // tmpCardMap é necessário pois cardMap é alterado
   // tanto por novas props como com o setState
@@ -66,8 +63,8 @@ class Board extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'boards/fetchBoard',
-      payload: match.params.boardId,
+      type: 'teams/fetchBoard',
+      payload: match.params.teamId,
     });
   }
 

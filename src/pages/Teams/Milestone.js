@@ -18,7 +18,7 @@ class Milestone extends Component {
     dispatch({
       type: 'milestones/fetch',
       payload: {
-        boardId: match.params.boardId,
+        teamId: match.params.teamId,
       },
     });
   }
@@ -33,7 +33,7 @@ class Milestone extends Component {
         dispatch({
           type: 'milestones/save',
           payload: {
-            boardId: match.params.boardId,
+            teamId: match.params.teamId,
             milestone: {
               ...values,
               startline,

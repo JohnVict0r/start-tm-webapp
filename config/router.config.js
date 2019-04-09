@@ -254,9 +254,9 @@ export default [
                 component: './Projects/EditProject',
               },
               {
-                path: '/projects/:projectId/new-board',
-                name: 'new-board',
-                component: './Projects/NewBoard',
+                path: '/projects/:projectId/new-team',
+                name: 'new-team',
+                component: './Projects/NewTeam',
               },
               {
                 path: '/projects/:projectId/workflows',
@@ -273,45 +273,45 @@ export default [
         ],
       },
 
-      // board
+      // teams
       {
-        path: '/boards',
-        name: 'boards',
+        path: '/teams',
+        name: 'teams',
         icon: 'team',
         hideInBreadcrumb: true,
         hideInMenu: true,
         routes: [
           // { path: '/boards', redirect: '/boards' },
           {
-            path: '/boards/:boardId',
-            name: 'board',
-            component: './Boards/BoardView',
+            path: '/teams/:teamId',
+            name: 'team',
+            component: './Teams/TeamView',
             routes: [
-              { path: '/boards/:boardId', redirect: '/boards/:boardId/board' },
+              { path: '/teams/:teamId', redirect: '/teams/:teamId/board' },
               {
-                path: '/boards/:boardId/board',
+                path: '/teams/:teamId/board',
                 name: 'board',
-                component: './Boards/Board',
+                component: './Teams/Board',
                 routes: [
                   {
-                    path: '/boards/:boardId/board/cards/:cardId',
+                    path: '/teams/:teamId/board/cards/:cardId',
                     name: 'card-view',
                     component: './Cards/ViewCardModal',
                   }
                 ]
               },
               {
-                path: '/boards/:boardId/milestones',
+                path: '/teams/:teamId/milestones',
                 name: 'milestones',
-                component: './Boards/Milestone',
+                component: './Teams/Milestone',
               },
               {
-                path: '/boards/:boardId/cards/new',
+                path: '/teams/:teamId/cards/new',
                 name: 'new-card',
                 component: './Cards/NewCard',
               },
               {
-                path: '/boards/:boardId/cards/:cardId/edit',
+                path: '/teams/:teamId/cards/:cardId/edit',
                 name: 'edit-card',
                 component: './Cards/EditCard',
               },

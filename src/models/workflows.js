@@ -1,5 +1,6 @@
 import {
   loadWorkflow,
+  loadWorkFlows,
   createWorkflowNode,
   updateWorkflowNode,
   createWorkflowTransition,
@@ -27,9 +28,30 @@ export default {
       items: [],
       pagination: initialPaginatioState,
     },
+    workflows: {
+      items: [],
+      pagination: initialPaginatioState,
+    },
   },
 
   effects: {
+    *fetchCurrentWorkflows(_, { call, put }) {
+      const response = yield call(loadWorkFlows);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveWorkflows',
+        payload: {
+          items: response.result,
+          pagination: response.pagination,
+        },
+      });
+    },
+
     *fetchWorkflow({ payload }, { call, put }) {
       const response = yield call(loadWorkflow, payload);
 
@@ -168,6 +190,16 @@ export default {
   },
 
   reducers: {
+    receiveWorkflows(state, { payload }) {
+      return {
+        ...state,
+        workflows: {
+          ...state.workflows,
+          items: payload.items,
+          pagination: payload.pagination,
+        },
+      };
+    },
     receiveItems(state, { payload }) {
       return {
         ...state,

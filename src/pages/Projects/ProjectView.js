@@ -69,9 +69,9 @@ class ProjectView extends Component {
         <Button
           type="primary"
           icon="plus"
-          onClick={() => router.push(`${match.url}/new-board`)}
+          onClick={() => router.push(`${match.url}/new-team`)}
         >
-         Quadro
+         Equipe
         </Button>
       </div>
     );

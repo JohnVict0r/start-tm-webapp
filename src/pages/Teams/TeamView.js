@@ -6,33 +6,33 @@ import { Button, Dropdown, Icon, Menu } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
-import { makeBoardSelector } from './selectors/boards';
+import { makeTeamSelector } from './selectors/teams';
 
 
 @connect((state, ownProps) => {
-  const boardSelector = makeBoardSelector({ id: ownProps.match.params.boardId });
+  const teamSelector = makeTeamSelector({ id: ownProps.match.params.teamId });
   return {
-    board: boardSelector(state),
-    loading: state.loading.effects['boards/fetchBoard'],
+    team: teamSelector(state),
+    loading: state.loading.effects['teams/fetchTeam'],
   };
 })
-class BoardView extends Component {
+class TeamView extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'boards/fetchBoard',
-      payload: match.params.boardId,
+      type: 'teams/fetchTeam',
+      payload: match.params.teamId,
     });
   }
 
   render() {
-    const { board, children, match } = this.props;
+    const { team, children, match } = this.props;
 
-    if (!board) {
+    if (!team) {
       return <PageLoading />;
     }
 
-    const boardOptionsMenu = (
+    const teamOptionsMenu = (
       <Menu>
         <Menu.Item key="1">
           <Link to={`${match.url}/members`}>Membros</Link>
@@ -53,7 +53,7 @@ class BoardView extends Component {
         /> */}
         <Button.Group>
           <Button icon='clock-circle' onClick={() => router.push(`${match.url}/milestones`)}>Entregáveis</Button>
-          <Dropdown overlay={boardOptionsMenu} placement="bottomRight">
+          <Dropdown overlay={teamOptionsMenu} placement="bottomRight">
             <Button>
               <Icon type="ellipsis" />
             </Button>
@@ -69,9 +69,9 @@ class BoardView extends Component {
         }
         title={(
           <span>
-            <Link to={`/projects/${board.project.id}`}>{board.project.name}</Link>
+            <Link to={`/projects/${team.project.id}`}>{team.project.name}</Link>
             <span style={{ fontWeight: '300' }}>{' > '}</span>
-            {board.name}
+            {team.name}
           </span>
         )}
         action={action}
@@ -82,4 +82,4 @@ class BoardView extends Component {
   }
 }
 
-export default BoardView;
+export default TeamView;

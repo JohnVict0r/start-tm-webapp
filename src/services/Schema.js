@@ -22,6 +22,7 @@ const Workflow = new schema.Entity('workflows');
 const WorkflowNode = new schema.Entity('workflowNodes');
 const WorkflowTransition = new schema.Entity('workflowTransitions');
 const Project = new schema.Entity('projects');
+const Team = new schema.Entity('teams');
 const Board = new schema.Entity('boards');
 const Milestone = new schema.Entity('milestones');
 const CardList = new schema.Entity('cardlists');
@@ -72,6 +73,10 @@ Project.define({
   },
 });
 
+Team.define({
+  creator: User
+});
+
 Board.define({
   creator: User,
   cardlists: [CardList],
@@ -119,6 +124,8 @@ const Schemas = {
   WORKFLOWTRANSITION_ARRAY: [WorkflowTransition],
   PROJECT: Project,
   PROJECT_ARRAY: [Project],
+  TEAM: Team,
+  TEAM_ARRAY: [Team],
   BOARD: Board,
   BOARD_ARRAY: [Board],
   MILESTONE: Milestone,

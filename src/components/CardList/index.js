@@ -20,7 +20,7 @@ const CardList = ({ cardList, isDisabled, items, match }) => (
       {cardList.canCreateCard && (
         <Link
           to={{
-            pathname: `/boards/${match.params.boardId}/cards/new`,
+            pathname: `/teams/${match.params.teamId}/cards/new`,
             state: { cardList },
           }}
         >

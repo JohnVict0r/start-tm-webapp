@@ -2,19 +2,19 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, Card, Form, Input, Select } from 'antd';
 import Link from 'umi/link';
+import { workflowsSelector } from '@/selectors/workflows';
 
 @connect(state => ({
-  workflows: state.createBoard.availableWorkflows.map(id => state.entities.workflows[id]),
-  validation: state.createBoard.validation,
-  submitting: state.loading.effects['createBoard/create'],
+  workflows: workflowsSelector(state),
+  validation: state.createTeam.validation,
+  submitting: state.loading.effects['createTeam/create'],
 }))
 @Form.create()
-class NewBoard extends PureComponent {
+class NewTeam extends PureComponent {
   componentDidMount() {
-    const { dispatch, match } = this.props;
+    const { dispatch } = this.props;
     dispatch({
-      type: 'createBoard/fetchAvailableWorkflows',
-      payload: match.params.projectId,
+      type: 'workflows/fetchCurrentWorkflows',
     });
   }
 
@@ -44,10 +44,10 @@ class NewBoard extends PureComponent {
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         dispatch({
-          type: 'createBoard/create',
+          type: 'createTeam/create',
           payload: {
             projectId: match.params.projectId,
-            board: values,
+            team: values,
           },
         });
       }
@@ -82,12 +82,12 @@ class NewBoard extends PureComponent {
     };
 
     return (
-      <Card bordered={false} title="Novo Quadro">
+      <Card bordered={false} title="Nova Equipe">
         <Form onSubmit={this.handleSubmit} hideRequiredMark>
-          <Form.Item label="Nome do quadro" {...formItemLayout}>
+          <Form.Item label="Nome da equipe" {...formItemLayout}>
             {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Por favor informe o nome do quadro!' }],
-            })(<Input maxLength={255} placeholder="Insita o nome do quadro" />)}
+              rules: [{ required: true, message: 'Por favor informe o nome da equipe!' }],
+            })(<Input maxLength={255} placeholder="Insita o nome da equipe" />)}
           </Form.Item>
           <Form.Item {...formItemLayout} label="Descrição">
             {getFieldDecorator('description', {
@@ -101,7 +101,7 @@ class NewBoard extends PureComponent {
               <Input.TextArea
                 maxLength={255}
                 rows={4}
-                placeholder="Por favor, insira uma descrição para o quadro"
+                placeholder="Por favor, insira uma descrição para a equipe"
               />
             )}
           </Form.Item>
@@ -115,11 +115,9 @@ class NewBoard extends PureComponent {
               </span>
             }
           >
-            {getFieldDecorator('workflow_id', {
-              rules: [{ required: true, message: 'Por favor selecione um fluxo de trabalho!' }],
-            })(
+            {getFieldDecorator('workflow_id')(
               <Select placeholder="Selecione um fluxo de trabalho" disabled={false}>
-                {workflows.map(r => (
+                {workflows.items.map(r => (
                   <Select.Option key={r.id}>{r.name}</Select.Option>
                 ))}
               </Select>
@@ -127,7 +125,7 @@ class NewBoard extends PureComponent {
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" disabled={submitting} loading={submitting}>
-              Criar Quadro
+              Criar Equipe
             </Button>
           </Form.Item>
         </Form>
@@ -136,4 +134,4 @@ class NewBoard extends PureComponent {
   }
 }
 
-export default NewBoard;
+export default NewTeam;

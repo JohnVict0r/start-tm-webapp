@@ -1,10 +1,9 @@
 import { message } from 'antd';
 import router from 'umi/router';
-import { loadAvailableWorkflowsForProject } from '@/services/workflows';
-import { createBoard } from '@/services/boards';
+import { createTeam } from '@/services/teams';
 
 export default {
-  namespace: 'createBoard',
+  namespace: 'createTeam',
 
   state: {
     availableWorkflows: [],
@@ -12,22 +11,8 @@ export default {
   },
 
   effects: {
-    *fetchAvailableWorkflows({ payload }, { call, put }) {
-      const response = yield call(loadAvailableWorkflowsForProject, payload);
-
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
-      });
-
-      yield put({
-        type: 'receiveWorkflows',
-        payload: response.result,
-      });
-    },
-
     *create({ payload }, { call, put }) {
-      const response = yield call(createBoard, payload);
+      const response = yield call(createTeam, payload);
 
       if (response.errors) {
         yield put({
@@ -40,10 +25,10 @@ export default {
           payload: response.entities,
         });
 
-        message.success('Quadro criado com sucesso!');
+        message.success('Equipe criada com sucesso!');
 
         // TODO não está indo para a rota
-        router.push(`/boards/${response.result}`);
+        router.push(`/teams/${response.result}`);
       }
     },
   },

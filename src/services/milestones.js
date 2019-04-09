@@ -1,7 +1,7 @@
 import callApi from '@/utils/callApi';
 import schema from './Schema';
 
-export const loadMilestones = ({ boardId }) => callApi(`boards/${boardId}/milestones`, schema.MILESTONE_ARRAY).get();
+export const loadMilestones = ({ teamId }) => callApi(`teams/${teamId}/milestones`, schema.MILESTONE_ARRAY).get();
 
-export const createMilestone = ({ boardId, milestone }) =>
-  callApi(`boards/${boardId}/milestones`, schema.MILESTONE).post(milestone);
+export const createMilestone = ({ teamId, milestone }) =>
+  callApi(`teams/${teamId}/milestones`, schema.MILESTONE).post(milestone);

@@ -1,8 +1,6 @@
 import callApi from '@/utils/callApi';
 import schema from './Schema';
 
-export const loadWorkFlows = () => callApi('workflows', schema.WORKFLOW_ARRAY).get();
-
 export const loadWorkflow = id => callApi(`workflows/${id}`, schema.WORKFLOW).get();
 
 export const createWorkflow = ({ name, description }) =>

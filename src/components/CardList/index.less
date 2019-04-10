@@ -1,44 +1,7 @@
 @import '~antd/lib/style/themes/default.less';
 
-.column {
-  display: flex;
-  flex-direction: column;
-  margin: 8px;
-  background: #fafafa;
-  border: @border-width-base @border-style-base @border-color-split;
-  border-radius: 4px;
-
-  &.disabled {
-    opacity: 0.5;
-  }
-}
-
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px;
-  border-bottom: @border-width-base @border-style-base @border-color-split;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  transition: background-color 0.1s ease;
-
-  .add {
-    padding: 0 4px !important;
-  }
-}
-
-.title {
-  position: relative;
-  flex-grow: 1;
-  margin: 0;
-  font-weight: 600;
-  transition: background-color ease 0.2s;
-  user-select: none;
-  &:focus {
-    outline: 2px solid purple;
-    outline-offset: 2px;
-  }
+.add {
+  padding: 0 4px !important;
 }
 
 .dropzone {

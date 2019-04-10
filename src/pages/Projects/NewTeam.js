@@ -1,23 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Button, Card, Form, Input, Select } from 'antd';
-import Link from 'umi/link';
-import { workflowsSelector } from '@/selectors/workflows';
+import { Button, Card, Form, Input } from 'antd';
 
 @connect(state => ({
-  workflows: workflowsSelector(state),
   validation: state.createTeam.validation,
   submitting: state.loading.effects['createTeam/create'],
 }))
 @Form.create()
 class NewTeam extends PureComponent {
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'workflows/fetchCurrentWorkflows',
-    });
-  }
-
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
 
@@ -57,9 +47,7 @@ class NewTeam extends PureComponent {
   render() {
     const {
       form: { getFieldDecorator },
-      workflows,
       submitting,
-      match,
     } = this.props;
 
     const formItemLayout = {
@@ -103,24 +91,6 @@ class NewTeam extends PureComponent {
                 rows={4}
                 placeholder="Por favor, insira uma descrição para a equipe"
               />
-            )}
-          </Form.Item>
-          <Form.Item
-            label="Fluxo de trabalho"
-            {...formItemLayout}
-            help={
-              <span>
-                Você também pode criar um novo fluxo de trabalho{' '}
-                <Link to={`/projects/${match.params.projectId}/workflows`}>aqui</Link>.
-              </span>
-            }
-          >
-            {getFieldDecorator('workflow_id')(
-              <Select placeholder="Selecione um fluxo de trabalho" disabled={false}>
-                {workflows.items.map(r => (
-                  <Select.Option key={r.id}>{r.name}</Select.Option>
-                ))}
-              </Select>
             )}
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>

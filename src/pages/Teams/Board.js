@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'dva';
+import router from 'umi/router';
 import { Spin } from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -8,6 +9,7 @@ import PageLoading from '@/components/PageLoading';
 import CardList from '@/components/CardList';
 import { reorderCardMap } from '@/utils/reorder';
 
+import NewCardList from './NewCardList';
 import { boardSelector } from './selectors/boards';
 import styles from './Board.less';
 
@@ -22,7 +24,7 @@ const resetDisabledCardlists = (cardlists, value) =>
 
 @connect(state => ({
   board: boardSelector(state),
-  loading: state.loading.effects['teams/fetchBoard']
+  loading: state.loading.effects['boards/fetchBoard']
 }))
 class Board extends PureComponent {
   // tmpCardMap é necessário pois cardMap é alterado
@@ -63,7 +65,7 @@ class Board extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'teams/fetchBoard',
+      type: 'boards/fetchBoard',
       payload: match.params.teamId,
     });
   }
@@ -167,17 +169,25 @@ class Board extends PureComponent {
           <Scrollbars className={styles.scroll}>
             <div className={styles.board}>
               <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-                {board.cardlists.map(cardlist => (
+                {board.cardlists.map(cardList => (
                   <CardList
-                    key={cardlist.id}
-                    cardList={cardlist}
+                    key={cardList.id}
+                    cardList={cardList}
                     projectid={match.params.projectId}
                     createCard={this.createCard}
-                    isDisabled={disabledCardlists[cardlist.id]}
-                    items={cardMap[cardlist.id]}
+                    isDisabled={disabledCardlists[cardList.id]}
+                    items={cardMap[cardList.id]}
+                    onClickNewCard={() => router.push({
+                      pathname: `/teams/${match.params.teamId}/cards/new`,
+                      state: { cardList },
+                    })}
                   />
                 ))}
               </DragDropContext>
+              <NewCardList
+                status={[]}
+                initialValues={{}}
+              />
             </div>
           </Scrollbars>
         </Spin>

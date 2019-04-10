@@ -1,46 +1,52 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Button, List } from 'antd';
+import { Button, Icon, List } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Scrollbars } from 'react-custom-scrollbars';
-import Link from 'umi/link';
 import withRouter from 'umi/withRouter';
+
+import ColumnList from '../ColumnList';
 import CardItem from './CardItem';
 import styles from './index.less';
 
-const CardList = ({ cardList, isDisabled, items, match }) => (
-  <div
-    className={classNames(styles.column, {
-      [styles.disabled]: isDisabled,
-    })}
-  >
-    <div className={styles.header}>
-      <h4 className={styles.title}>{cardList.name}</h4>
-      {cardList.canCreateCard && (
-        <Link
-          to={{
-            pathname: `/teams/${match.params.teamId}/cards/new`,
-            state: { cardList },
-          }}
-        >
-          <Button className={styles.add} icon="plus" size="small" />
-        </Link>
-      )}
-    </div>
+
+const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => (
+  <ColumnList isDisabled={isDisabled}>
+    <ColumnList.Header
+      title={cardList.name}
+      action={[
+        <Icon key='1' type="ellipsis" />
+      ]}
+    />
     <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
-      <DroppableList
-        listId={cardList.id.toString()}
-        listType="CARD"
-        cards={items}
+      <DroppableZone
+        droppableId={cardList.id.toString()}
+        type="CARD"
         isDropDisabled={isDisabled}
-      />
+      >
+        <InnerCardList cards={items} />
+      </DroppableZone>
     </Scrollbars>
-  </div>
+    { cardList.canCreateCard && (
+      <ColumnList.Footer
+        action={(
+          <Button
+            onClick={onClickNewCard}
+            icon="plus"
+            size="small"
+            block
+          >
+            Adicionar Tarefa
+          </Button>
+        )}
+      />
+    )}
+  </ColumnList>
 );
 
-const DroppableList = ({ cards, listId, listType, isDropDisabled }) => (
-  <Droppable droppableId={listId} type={listType} isDropDisabled={isDropDisabled}>
+const DroppableZone = ({ children, droppableId, type, isDropDisabled }) => (
+  <Droppable droppableId={droppableId} type={type} isDropDisabled={isDropDisabled}>
     {(dropProvided, dropSnapshot) => (
       <div
         className={classNames(styles.listWrapper, {
@@ -50,7 +56,7 @@ const DroppableList = ({ cards, listId, listType, isDropDisabled }) => (
         {...dropProvided.droppableProps}
       >
         <div className={styles.dropzone} ref={dropProvided.innerRef}>
-          <InnerCardList cards={cards} />
+          {children}
           {dropProvided.placeholder}
         </div>
       </div>

@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 //eslint-disable-next-line
 export const boardSelector = createSelector(
-  state => state.teams.currentBoard,
+  state => state.boards.currentBoard,
   state => state.entities.boards,
   state => state.entities.cardlists,
   state => state.entities.cards,

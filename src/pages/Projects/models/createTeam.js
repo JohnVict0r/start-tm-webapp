@@ -6,7 +6,6 @@ export default {
   namespace: 'createTeam',
 
   state: {
-    availableWorkflows: [],
     validation: null,
   },
 
@@ -34,13 +33,6 @@ export default {
   },
 
   reducers: {
-    receiveWorkflows(state, { payload }) {
-      return {
-        ...state,
-        availableWorkflows: payload,
-      };
-    },
-
     handleError(state, { payload }) {
       return {
         ...state,

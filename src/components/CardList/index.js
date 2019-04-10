@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Button, Icon, List } from 'antd';
+import { Button, Icon, List, Tag } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -16,7 +16,8 @@ const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => (
     <ColumnList.Header
       title={cardList.name}
       action={[
-        <Icon key='1' type="ellipsis" />
+        <Tag key='1' color={cardList.status.color}>{cardList.status.displayName}</Tag>,
+        <Icon key='2' type="ellipsis" />
       ]}
     />
     <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>

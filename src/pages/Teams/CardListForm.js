@@ -25,6 +25,7 @@ class CardListForm extends Component {
             initialValue: initialValues.name,
           })(
             <Input
+              autoFocus
               maxLength={50}
               placeholder={formatMessage({ id: 'app.workflow.form.node.name' })}
             />

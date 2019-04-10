@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Button, Spin } from 'antd';
+import { Spin, Button, Icon } from 'antd';
 import withRouter from 'umi/withRouter';
 import ColumnList from '@/components/ColumnList';
 import { statusSelector } from '@/selectors/global';
@@ -12,6 +12,10 @@ import styles from './NewCardList.less'
   submitting: state.loading.effects['boards/saveCardList'],
 }))
 class NewCardList extends Component {
+  state = {
+    showForm: true
+  };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -19,7 +23,7 @@ class NewCardList extends Component {
     });
   }
 
-  handleSubmit = e => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     const { form } = this.form.props;
     form.validateFields({ force: true }, (err, values) => {
@@ -32,11 +36,16 @@ class NewCardList extends Component {
             teamId: match.params.teamId,
             cardList: values,
           },
+        }).then(() => {
+          this.setState({ showForm: true });
+          form.resetFields();
         });
-
-        form.resetFields();
       }
     });
+  };
+
+  handleCancel = () => {
+    this.setState({ showForm: true });
   };
 
   saveFormRef = form => {
@@ -45,30 +54,57 @@ class NewCardList extends Component {
 
   render() {
     const { status, submitting } = this.props;
+    const { showForm } = this.state;
+
     return (
-      <ColumnList
-        className={styles.list}
-      >
-        <Spin spinning={!!submitting}>
-          <CardListForm
-            className={styles.form}
-            onSubmit={this.handleSubmit}
-            status={status}
-            initialValues={{}}
-            wrappedComponentRef={this.saveFormRef}
-          />
-        </Spin>
-        <ColumnList.Footer
-          action={(
-            <Button
-              block
-              onClick={this.handleSubmit}
-              disabled={submitting}
+      <ColumnList>
+        {showForm ? (
+          <div className={styles.content}>
+            <div
+              className={styles.plusIcon}
+              onClick={() => this.setState({ showForm: false })}
             >
-              Adicionar
-            </Button>
-          )}
-        />
+              <Icon type='plus' />
+              <div>Nova Lista</div>
+            </div>
+          </div>
+        ) : [
+          <ColumnList.Header
+            title='Nova Lista'
+          />,
+          <div className={styles.content}>
+            <Spin spinning={!!submitting}>
+              <CardListForm
+                className={styles.form}
+                onSubmit={this.handleSubmit}
+                status={status}
+                initialValues={{}}
+                wrappedComponentRef={this.saveFormRef}
+              />
+            </Spin>
+          </div>,
+          <ColumnList.Footer
+            action={[
+              <Button
+                key='1'
+                type='primary'
+                block
+                onClick={this.handleSubmit}
+                disabled={submitting}
+              >
+                Adicionar
+              </Button>,
+              <Button
+                key='2'
+                block
+                onClick={this.handleCancel}
+                disabled={submitting}
+              >
+                Cancelar
+              </Button>
+            ]}
+          />
+        ]}
       </ColumnList>
     );
   }

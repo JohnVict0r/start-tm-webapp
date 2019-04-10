@@ -81,27 +81,21 @@ class Board extends PureComponent {
       const { board } = this.props;
 
       /*
-       * transições possíveis a partir do cardlist `source.droppableId`
+       * transições não permitidas a partir do cardlist `source.droppableId`
        */
-      const possibleTransitions = board.transitions
-        .filter(t => t.outCardListId.toString() === droppableId)
-        .map(t => t.inCardListId);
-
-      /*
-       * o cardlist source também deve ser uma transição possível
-       */
-      possibleTransitions.push(droppableId);
+      const sourceCardList = board.cardlists.find(c => c.id.toString() === droppableId);
+      const disabledTransitions = sourceCardList.unallowedCardLists.map(c => c.unallowedCardListId)
 
       /*
        * desabilita todos os cardlists que não podem
        * ser transicionados a partir de `source.droppableId`
        */
-      const disabledCardlists = possibleTransitions.reduce(
+      const disabledCardlists = disabledTransitions.reduce(
         (prev, transition) => ({
           ...prev,
-          [transition]: false,
+          [transition]: true,
         }),
-        resetDisabledCardlists(cardlists, true)
+        resetDisabledCardlists(cardlists, false)
       );
 
       this.setState({ disabledCardlists });

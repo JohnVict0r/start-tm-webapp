@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import Link from 'umi/link';
-import {Avatar, Card, List, Skeleton} from 'antd';
+import {Avatar, Button, Card, List, Skeleton} from 'antd';
 import { projectTeamsSelector } from './selectors/projects';
 
 @connect((state) => {
@@ -20,13 +21,22 @@ class ProjectDetails extends Component {
   }
 
   render() {
-    const { teams, loadingTeams } = this.props;
+    const { teams, loadingTeams, match } = this.props;
 
     return (
       <Fragment>
         <Card
           bordered={false}
           title="Equipes"
+          extra={
+            <Button
+              type="primary"
+              icon="plus"
+              onClick={() => router.push(`/projects/${match.params.projectId}/new-team`)}
+            >
+              Equipe
+            </Button>
+          }
         >
           <List
             size="large"

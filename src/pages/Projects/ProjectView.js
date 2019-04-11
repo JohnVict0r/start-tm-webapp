@@ -66,13 +66,6 @@ class ProjectView extends Component {
             </Button>
           </Dropdown>
         </Button.Group>
-        <Button
-          type="primary"
-          icon="plus"
-          onClick={() => router.push(`${match.url}/new-team`)}
-        >
-         Equipe
-        </Button>
       </div>
     );
 

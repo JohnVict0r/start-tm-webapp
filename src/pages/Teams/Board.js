@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Spin } from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { Scrollbars } from 'react-custom-scrollbars';
 import PageLoading from '@/components/PageLoading';
 import CardList from '@/components/CardList';
 import { reorderCardMap } from '@/utils/reorder';
@@ -160,30 +159,28 @@ class Board extends PureComponent {
     return (
       <div className={styles.container}>
         <Spin spinning={loading}>
-          <Scrollbars className={styles.scroll}>
-            <div className={styles.board}>
-              <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-                {board.cardlists.map(cardList => (
-                  <CardList
-                    key={cardList.id}
-                    cardList={cardList}
-                    projectid={match.params.projectId}
-                    createCard={this.createCard}
-                    isDisabled={disabledCardlists[cardList.id]}
-                    items={cardMap[cardList.id]}
-                    onClickNewCard={() => router.push({
-                      pathname: `/teams/${match.params.teamId}/cards/new`,
-                      state: { cardList },
-                    })}
-                  />
-                ))}
-              </DragDropContext>
-              <NewCardList
-                status={[]}
-                initialValues={{}}
-              />
-            </div>
-          </Scrollbars>
+          <div className={styles.board}>
+            <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+              {board.cardlists.map(cardList => (
+                <CardList
+                  key={cardList.id}
+                  cardList={cardList}
+                  projectid={match.params.projectId}
+                  createCard={this.createCard}
+                  isDisabled={disabledCardlists[cardList.id]}
+                  items={cardMap[cardList.id]}
+                  onClickNewCard={() => router.push({
+                    pathname: `/teams/${match.params.teamId}/cards/new`,
+                    state: { cardList },
+                  })}
+                />
+              ))}
+            </DragDropContext>
+            <NewCardList
+              status={[]}
+              initialValues={{}}
+            />
+          </div>
         </Spin>
         {children}
       </div>

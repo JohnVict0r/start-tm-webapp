@@ -74,7 +74,6 @@ export default {
   'menu.teams.team.board': 'Visualizar',
   'menu.teams.team.milestones': 'Entregáveis',
   'menu.teams.team.board.card-view': 'Visualizar Tarefa',
-  'menu.teams.team.new-card': 'Nova Tarefa',
   'menu.teams.team.edit-card': 'Editar tarefa',
   'menu.workflows': 'Fluxos de Trabalho',
   'menu.workflows.workflow': 'Visualizar Fluxo de Trabalho',

@@ -171,10 +171,6 @@ class Board extends PureComponent {
                   createCard={this.createCard}
                   isDisabled={disabledCardlists[cardList.id]}
                   items={cardMap[cardList.id]}
-                  onClickNewCard={() => router.push({
-                    pathname: `/teams/${match.params.teamId}/cards/new`,
-                    state: { cardList },
-                  })}
                 />
               ))}
             </DragDropContext>

@@ -3,12 +3,11 @@ import moment from 'moment';
 import { connect } from 'dva';
 import { Button, Modal, Row, Col, Form, List, Popover } from 'antd';
 import AvatarList from '@/components/AvatarList';
-import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
 import styles from './ViewCardModal.less';
-import { DueForm } from '@/components/Form/Card';
 import CommentSection from '../Comments/CommentSection';
 import ParticipantsForm from './Participants';
+import Due from './Due';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
@@ -25,24 +24,6 @@ class ViewCardModal extends PureComponent {
 
   handleVisibleDueChange = visibleFormDue => {
     this.setState({ visibleFormDue });
-  };
-
-  handleSubmitDueForm = (err, values) => {
-    if (!err) {
-      const { dispatch, card } = this.props;
-
-      dispatch({
-        type: 'saveCard/save',
-        payload: {
-          id: card.id,
-          card: { ...values },
-        },
-      });
-
-      this.setState({
-        visibleFormDue: false,
-      });
-    }
   };
 
   handleVisibleParticipantsChange = visibleFormParticipants => {
@@ -87,8 +68,6 @@ class ViewCardModal extends PureComponent {
 
     const { visibleFormDue, visibleFormParticipants } = this.state;
 
-    const textTitleDueForm = <span>Alterar prazo de entrega</span>;
-
     const textTitleParticipantsForm = <span>Participantes</span>;
 
     return (
@@ -112,15 +91,17 @@ class ViewCardModal extends PureComponent {
                   <Col xs={24} sm={12}>
                     <Row className={styles.label}>Participantes</Row>
                     <Row>
-                      <AvatarList size="mini" overlap={0}>
-                        {card.members.map(member => (
-                          <AvatarList.Item
-                            key={`${card.id}-avatar-${member.id}`}
-                            src={member.pictureUrl}
-                            tips={member.name}
-                          />
-                        ))}
-                      </AvatarList>
+                      {card.members && card.members.length > 0 ? (
+                        <AvatarList size="mini" overlap={0}>
+                          {card.members.map(member => (
+                            <AvatarList.Item
+                              key={`${card.id}-avatar-${member.id}`}
+                              src={member.pictureUrl}
+                              tips={member.name}
+                            />
+                          ))}
+                        </AvatarList>
+                      ) : '--'}
                     </Row>
                   </Col>
                   <Col xs={24} sm={12}>
@@ -148,7 +129,7 @@ class ViewCardModal extends PureComponent {
 
           <Col xs={24} sm={6}>
             <List header="Ações" className={styles.actionList} size="small" bordered={false}>
-              <List.Item>
+              {/* <List.Item>
                 <Button
                   block
                   icon="edit"
@@ -160,7 +141,7 @@ class ViewCardModal extends PureComponent {
                 >
                   Editar
                 </Button>
-              </List.Item>
+              </List.Item> */}
               <List.Item>
                 <Popover
                   visible={visibleFormParticipants}
@@ -185,8 +166,12 @@ class ViewCardModal extends PureComponent {
                 <Popover
                   visible={visibleFormDue}
                   onVisibleChange={this.handleVisibleDueChange}
-                  title={textTitleDueForm}
-                  content={<DueForm current={card} onSubmit={this.handleSubmitDueForm} />}
+                  title={<span>Alterar prazo de entrega</span>}
+                  content={
+                    <Due
+                      current={card}
+                      onClose={() => this.handleVisibleDueChange(false)}
+                    />}
                   trigger="click"
                 >
                   <Button block icon="schedule">

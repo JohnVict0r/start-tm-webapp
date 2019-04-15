@@ -7,16 +7,27 @@ import ColumnList from '@/components/ColumnList';
 import { DroppableZone, InnerCardList }  from './InnerCardList';
 import styles from './CardList.less';
 import SaveCardList from "./SaveCardList";
+import NewCard from "./NewCard";
 
-const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => {
+const CardList = ({ cardList, isDisabled, items }) => {
 
   const [ showEdit, setShowEdit ] = useState(false);
+  const [ newCard, setNewCard ] = useState(false);
 
   if (showEdit) {
     return (
       <SaveCardList
         current={cardList}
         onClose={() => setShowEdit(false)}
+      />
+    );
+  }
+
+  if (newCard) {
+    return (
+      <NewCard
+        cardListId={cardList.id}
+        onClose={() => setNewCard(false)}
       />
     );
   }
@@ -48,7 +59,7 @@ const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => {
           key='1'
           icon="plus"
           size="small"
-          onClick={onClickNewCard}
+          onClick={() => setNewCard(true)}
         />
       )}
       <Dropdown key='2' overlay={menuOptions} trigger={['click']} placement="bottomRight">

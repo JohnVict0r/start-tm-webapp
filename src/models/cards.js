@@ -1,11 +1,41 @@
-import { moveCard } from '@/services/cards';
+import { message } from 'antd';
+import { formatMessage } from 'umi/locale';
+import { createCard, updateCard, moveCard, assignUser, unAssignUser } from '@/services/cards';
 
 export default {
   namespace: 'cards',
 
-  state: {},
+  state: {
+    validation: null,
+  },
 
   effects: {
+    *save({ payload }, { call, put, select }) {
+      const response = payload.id
+        ? yield call(updateCard, payload)
+        : yield call(createCard, payload);
+
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+
+        return yield select(state => state.saveCard.validation);
+      }
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      message.success(
+        formatMessage({
+          id: payload.id ? 'app.card.sucess-updated' : 'app.card.sucess-created',
+        })
+      );
+    },
+
     *moveCard({ payload }, { call, put }) {
       const response = yield call(moveCard, payload);
 
@@ -13,6 +43,36 @@ export default {
         type: 'entities/mergeEntities',
         payload: response.entities,
       });
+    },
+
+    *assigin({ payload }, { call, put }) {
+      const response = yield call(assignUser, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
+    },
+
+    *unAssigin({ payload }, { call, put }) {
+      const response = yield call(unAssignUser, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
     },
   },
 

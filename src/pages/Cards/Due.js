@@ -1,9 +1,13 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'dva';
 import { Button, DatePicker, Form } from 'antd';
 import moment from 'moment';
 
-import styles from './index.less';
+import styles from './Due.less';
 
+@connect(state => ({
+  submitting: state.loading.effects['cards/save'],
+}))
 @Form.create()
 class DueForm extends PureComponent {
   static defaultProps = {
@@ -12,9 +16,24 @@ class DueForm extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, onSubmit } = this.props;
+    const { form } = this.props;
     form.validateFields({ force: true }, (err, values) => {
-      onSubmit(err, values);
+      if (!err) {
+        const {dispatch, current, onClose} = this.props;
+
+        dispatch({
+          type: 'cards/save',
+          payload: {
+            id: current.id,
+            card: {...values},
+          },
+        }).then((data) => {
+          if (!data || !data.errors) {
+            onClose();
+            form.resetFields();
+          }
+        });
+      }
     });
   };
 

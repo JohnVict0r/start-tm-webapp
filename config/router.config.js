@@ -305,16 +305,6 @@ export default [
                 name: 'milestones',
                 component: './Teams/Milestone',
               },
-              {
-                path: '/teams/:teamId/cards/new',
-                name: 'new-card',
-                component: './Cards/NewCard',
-              },
-              {
-                path: '/teams/:teamId/cards/:cardId/edit',
-                name: 'edit-card',
-                component: './Cards/EditCard',
-              },
             ]
           },
         ]

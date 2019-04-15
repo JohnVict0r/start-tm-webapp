@@ -20,6 +20,9 @@ const PageHeaderWrapper = ({ children, contentWidth, wrapperClassName, top, ...r
           {...restProps}
           linkElement={Link}
           itemRender={item => {
+            if (item.customBreadcrumbName) {
+              return item.customBreadcrumbName;
+            }
             if (item.locale) {
               return <FormattedMessage id={item.locale} defaultMessage={item.title} />;
             }

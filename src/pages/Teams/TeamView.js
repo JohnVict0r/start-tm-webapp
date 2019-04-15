@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { Button, Dropdown, Icon, Menu } from 'antd';
+import { Avatar, Breadcrumb, Button, Dropdown, Menu } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
@@ -54,26 +54,35 @@ class TeamView extends Component {
         <Button.Group>
           <Button icon='clock-circle' onClick={() => router.push(`${match.url}/milestones`)}>Entregáveis</Button>
           <Dropdown overlay={teamOptionsMenu} placement="bottomRight">
-            <Button>
-              <Icon type="ellipsis" />
-            </Button>
+            <Button icon='menu-fold'>Menu</Button>
           </Dropdown>
         </Button.Group>
       </div>
     );
 
+    const overrideMap = {
+      '/teams/:teamId': (
+        <>
+          <Breadcrumb.Item>
+            <Avatar
+              style={{ marginRight: '8px' }}
+              src='https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png'
+              shape="square"
+              size="small"
+              icon="user"
+            />
+            {team.project.name}
+          </Breadcrumb.Item>
+          {team.name}
+        </>
+      )
+    };
+
     return (
       <PageHeaderWrapper
-        logo={
-          <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />
-        }
-        title={(
-          <span>
-            <Link to={`/projects/${team.project.id}`}>{team.project.name}</Link>
-            <span style={{ fontWeight: '300' }}>{' > '}</span>
-            {team.name}
-          </span>
-        )}
+        home={null}
+        title={team.name}
+        overrideBreadcrumbNameMap={overrideMap}
         action={action}
       >
         {children}

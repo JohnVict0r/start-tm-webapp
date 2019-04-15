@@ -126,7 +126,7 @@ export default class BreadcrumbView extends PureComponent {
    * Convert parameters into breadcrumbs
    */
   conversionBreadcrumbList = () => {
-    const { breadcrumbList, breadcrumbSeparator } = this.props;
+    const { breadcrumbList, breadcrumbSeparator, overrideBreadcrumbNameMap } = this.props;
     const { routes, params, routerLocation, breadcrumbNameMap } = this.getBreadcrumbProps();
     if (breadcrumbList && breadcrumbList.length) {
       return this.conversionFromProps();
@@ -147,7 +147,10 @@ export default class BreadcrumbView extends PureComponent {
     // 根据 location 生成 面包屑
     // Generate breadcrumbs based on location
     if (routerLocation && routerLocation.pathname) {
-      return this.conversionFromLocation(routerLocation, breadcrumbNameMap);
+      return this.conversionFromLocation(
+        routerLocation,
+        this.overrideBreadcrumbNameMap(breadcrumbNameMap, overrideBreadcrumbNameMap)
+      );
     }
     return null;
   };
@@ -169,6 +172,21 @@ export default class BreadcrumbView extends PureComponent {
         route.breadcrumbName
       )
     );
+  };
+
+  overrideBreadcrumbNameMap = (breadcrumbNameMap, overrideMap) => {
+    if (overrideMap) {
+      return Object.keys(overrideMap).reduce(
+        (accum, key) => ({
+          ...accum,
+          [key]: {
+            ...accum[key],
+            customBreadcrumbName: overrideMap[key],
+          }
+        }), breadcrumbNameMap);
+    }
+
+    return breadcrumbNameMap;
   };
 
   render() {

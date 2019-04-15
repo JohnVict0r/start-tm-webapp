@@ -291,7 +291,7 @@ export default [
               {
                 path: '/teams/:teamId/board',
                 name: 'board',
-                component: './Teams/Board',
+                component: './Boards/Board',
                 routes: [
                   {
                     path: '/teams/:teamId/board/cards/:cardId',

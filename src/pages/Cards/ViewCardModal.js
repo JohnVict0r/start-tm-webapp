@@ -34,7 +34,7 @@ class ViewCardModal extends PureComponent {
     const { dispatch, card } = this.props;
 
     dispatch({
-      type: 'saveCard/assigin',
+      type: 'cards/assigin',
       payload: {
         id: card.id,
         userId: value,
@@ -46,7 +46,7 @@ class ViewCardModal extends PureComponent {
     const { dispatch, card } = this.props;
 
     dispatch({
-      type: 'saveCard/unAssigin',
+      type: 'cards/unAssigin',
       payload: {
         id: card.id,
         userId,

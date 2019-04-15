@@ -54,7 +54,7 @@ class DueForm extends PureComponent {
       <Form className={styles.form} onSubmit={this.handleSubmit}>
         <Form.Item {...formItemLayout}>
           {getFieldDecorator('due', {
-            rules: [{ required: true, message: 'Por favor informe o prazo do card!' }],
+            // rules: [{required: true, message: 'Por favor informe o prazo do card!' }],
             initialValue: current.due ? moment(current.due) : null,
           })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" />)}
         </Form.Item>

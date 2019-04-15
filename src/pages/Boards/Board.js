@@ -5,9 +5,9 @@ import router from 'umi/router';
 import { Spin } from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
 import PageLoading from '@/components/PageLoading';
-import CardList from '@/components/CardList';
 import { reorderCardMap } from '@/utils/reorder';
 
+import CardList from './CardList';
 import NewCardList from './NewCardList';
 import { boardSelector } from './selectors/boards';
 import styles from './Board.less';

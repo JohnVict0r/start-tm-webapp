@@ -1,67 +1,13 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Badge, Button, Icon, List, Tooltip } from 'antd';
+import { List } from 'antd';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
-import { Scrollbars } from 'react-custom-scrollbars';
-import withRouter from 'umi/withRouter';
 
-import ColumnList from '../ColumnList';
 import CardItem from './CardItem';
-import styles from './index.less';
+import styles from './CardList.less';
 
-
-const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => {
-
-  const title = (
-    <>
-      <Tooltip
-        title={`Status: ${cardList.status.displayName}`}
-        arrowPointAtCenter
-        mouseEnterDelay={1}
-      >
-        <Badge color={cardList.status.color} />
-      </Tooltip>
-      {cardList.name}
-    </>
-  );
-
-  return (
-    <ColumnList isDisabled={isDisabled}>
-      <ColumnList.Header
-        title={title}
-        action={[
-          <Icon key='1' type="ellipsis" />
-        ]}
-      />
-      <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
-        <DroppableZone
-          droppableId={cardList.id.toString()}
-          type="CARD"
-          isDropDisabled={isDisabled}
-        >
-          <InnerCardList cards={items} />
-        </DroppableZone>
-      </Scrollbars>
-      { cardList.canCreateCard && (
-        <ColumnList.Footer
-          action={(
-            <Button
-              onClick={onClickNewCard}
-              icon="plus"
-              size="small"
-              block
-            >
-              Adicionar Tarefa
-            </Button>
-          )}
-        />
-      )}
-    </ColumnList>
-  );
-}
-
-const DroppableZone = ({ children, droppableId, type, isDropDisabled }) => (
+export const DroppableZone = ({ children, droppableId, type, isDropDisabled }) => (
   <Droppable droppableId={droppableId} type={type} isDropDisabled={isDropDisabled}>
     {(dropProvided, dropSnapshot) => (
       <div
@@ -80,7 +26,7 @@ const DroppableZone = ({ children, droppableId, type, isDropDisabled }) => (
   </Droppable>
 );
 
-class InnerCardList extends Component {
+export class InnerCardList extends Component {
   shouldComponentUpdate(nextProps) {
     const { cards } = this.props;
     return nextProps.cards !== cards;
@@ -112,5 +58,3 @@ class InnerCardList extends Component {
     ));
   }
 }
-
-export default withRouter(CardList);

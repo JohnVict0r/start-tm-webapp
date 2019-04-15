@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Badge, Button, Dropdown, Menu, Tooltip} from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import withRouter from 'umi/withRouter';
@@ -6,8 +6,20 @@ import ColumnList from '@/components/ColumnList';
 
 import { DroppableZone, InnerCardList }  from './InnerCardList';
 import styles from './CardList.less';
+import SaveCardList from "./SaveCardList";
 
 const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => {
+
+  const [ showEdit, setShowEdit ] = useState(false);
+
+  if (showEdit) {
+    return (
+      <SaveCardList
+        current={cardList}
+        onClose={() => setShowEdit(false)}
+      />
+    );
+  }
 
   const title = (
     <>
@@ -24,20 +36,32 @@ const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => {
 
   const menuOptions = (
     <Menu>
-      <Menu.Item key="1">Editar lista</Menu.Item>
-      <Menu.Item key="2">Desabilitar transições</Menu.Item>
+      <Menu.Item key="1" onClick={() => setShowEdit(true)}>Editar lista</Menu.Item>
+      {/* <Menu.Item key="2">Desabilitar transições</Menu.Item> */}
     </Menu>
+  );
+
+  const actions = (
+    <span>
+      {cardList.canCreateCard && (
+        <Button
+          key='1'
+          icon="plus"
+          size="small"
+          onClick={onClickNewCard}
+        />
+      )}
+      <Dropdown key='2' overlay={menuOptions} trigger={['click']} placement="bottomRight">
+        <Button size='small' icon='ellipsis' />
+      </Dropdown>
+    </span>
   );
 
   return (
     <ColumnList isDisabled={isDisabled}>
       <ColumnList.Header
         title={title}
-        action={(
-          <Dropdown overlay={menuOptions} trigger={['click']} placement="bottomRight">
-            <Button size='small' icon='ellipsis' />
-          </Dropdown>
-        )}
+        actions={actions}
       />
       <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
         <DroppableZone
@@ -48,20 +72,6 @@ const CardList = ({ cardList, isDisabled, items, onClickNewCard }) => {
           <InnerCardList cards={items} />
         </DroppableZone>
       </Scrollbars>
-      { cardList.canCreateCard && (
-        <ColumnList.Footer
-          action={(
-            <Button
-              onClick={onClickNewCard}
-              icon="plus"
-              size="small"
-              block
-            >
-              Adicionar Tarefa
-            </Button>
-          )}
-        />
-      )}
     </ColumnList>
   );
 }

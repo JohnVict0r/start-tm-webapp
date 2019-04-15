@@ -19,6 +19,13 @@
   align-items: center;
   padding: 8px;
   transition: background-color 0.1s ease;
+
+  :global {
+    .ant-btn-group:not(:last-child),
+    .ant-btn:not(:last-child) {
+      margin-right: 8px;
+    }
+  }
 }
 
 .header {
@@ -27,12 +34,6 @@
 
 .footer {
   border-top: @border-width-base @border-style-base @border-color-split;
-
-  :global {
-    .ant-btn-group:not(:last-child), .ant-btn:not(:last-child) {
-      margin-right: 8px;
-    }
-  }
 }
 
 .title {

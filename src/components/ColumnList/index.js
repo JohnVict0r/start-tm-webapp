@@ -13,16 +13,16 @@ const ColumnList = ({ children, isDisabled, className, ...rest }) => (
   </div>
 );
 
-const Header = ({ title, action}) => (
+const Header = ({ title, actions}) => (
   <div className={styles.header}>
     <h4 className={styles.title}>{title}</h4>
-    {action}
+    {actions}
   </div>
 );
 
-const Footer = ({ action}) => (
+const Footer = ({ actions}) => (
   <div className={styles.footer}>
-    {action}
+    {actions}
   </div>
 );
 

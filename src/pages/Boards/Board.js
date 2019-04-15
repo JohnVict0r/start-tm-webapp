@@ -2,13 +2,14 @@ import React, { PureComponent } from 'react';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'dva';
 import router from 'umi/router';
-import { Spin } from 'antd';
+import {Icon, Spin} from 'antd';
 import { DragDropContext } from 'react-beautiful-dnd';
 import PageLoading from '@/components/PageLoading';
+import ColumnList from '@/components/ColumnList';
 import { reorderCardMap } from '@/utils/reorder';
 
 import CardList from './CardList';
-import NewCardList from './NewCardList';
+import SaveCardList from './SaveCardList';
 import { boardSelector } from './selectors/boards';
 import styles from './Board.less';
 
@@ -29,6 +30,7 @@ class Board extends PureComponent {
   // tmpCardMap é necessário pois cardMap é alterado
   // tanto por novas props como com o setState
   state = {
+    showNewCardListForm: false,
     tmpCardMap: [],
     cardMap: [],
     cardlists: [],
@@ -150,7 +152,7 @@ class Board extends PureComponent {
 
   render() {
     const { board, loading, match, children } = this.props;
-    const { cardMap, disabledCardlists } = this.state;
+    const { cardMap, disabledCardlists, showNewCardListForm } = this.state;
 
     if (!board) {
       return <PageLoading />;
@@ -176,10 +178,23 @@ class Board extends PureComponent {
                 />
               ))}
             </DragDropContext>
-            <NewCardList
-              status={[]}
-              initialValues={{}}
-            />
+            {showNewCardListForm ? (
+              <SaveCardList
+                onClose={() => this.setState({ showNewCardListForm: false })}
+              />
+            ) : (
+              <ColumnList>
+                <div className={styles.newCardListToogle}>
+                  <div
+                    className={styles.plusIcon}
+                    onClick={() => this.setState({ showNewCardListForm: true })}
+                  >
+                    <Icon type='plus' />
+                    <div>Nova Lista</div>
+                  </div>
+                </div>
+              </ColumnList>
+            )}
           </div>
         </Spin>
         {children}

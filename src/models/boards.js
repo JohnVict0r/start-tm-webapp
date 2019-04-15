@@ -8,6 +8,7 @@ import {
 import {
   loadBoard,
   createCardList,
+  updateCardList,
 } from '@/services/boards';
 
 import { notification, message } from 'antd';
@@ -34,6 +35,7 @@ export default {
       items: [],
       pagination: initialPaginatioState,
     },
+    validation: null
   },
 
   effects: {
@@ -52,17 +54,22 @@ export default {
     },
 
     *saveCardList({ payload }, { call, put }) {
-      const response = yield call(createCardList, payload);
+      const response = payload.id
+        ? yield call(updateCardList, payload)
+        : yield call(createCardList, payload);
 
       if (response.errors) {
-        notification.error({ message: 'Não foi possível adicionar lista!' });
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
       } else {
         yield put({
           type: 'entities/mergeEntities',
           payload: response.entities,
         });
 
-        notification.success({ message: 'Lista adicionada com sucesso!' });
+        message.success('Lista adicionada com sucesso!');
       }
     },
 
@@ -201,6 +208,12 @@ export default {
           ...state.explore,
           items: [...state.explore.items, payload.item],
         },
+      };
+    },
+    handleError(state, { payload }) {
+      return {
+        ...state,
+        validation: payload,
       };
     },
   },

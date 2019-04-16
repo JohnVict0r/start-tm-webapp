@@ -5,7 +5,7 @@ import ColumnList from '@/components/ColumnList';
 import styles from "./SaveCardList.less";
 
 @connect(state => ({
-  validation: state.saveCard.validation,
+  validation: state.cards.validation,
   submitting: state.loading.effects['cards/save'],
 }))
 @Form.create()

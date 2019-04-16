@@ -21,7 +21,7 @@ export default {
           payload: response,
         });
 
-        return yield select(state => state.saveCard.validation);
+        return yield select(state => state.cards.validation);
       }
 
       yield put({

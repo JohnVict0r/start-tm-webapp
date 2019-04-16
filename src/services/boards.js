@@ -8,3 +8,6 @@ export const createCardList = ({ teamId, cardList }) =>
 
 export const updateCardList = ({ id, cardList }) =>
   callApi(`cardlists/${id}`, schema.BOARD).put(cardList);
+
+export const updateTransition = ({ teamId, transition }) =>
+  callApi(`teams/${teamId}/board/transition`, schema.BOARD).put(transition);

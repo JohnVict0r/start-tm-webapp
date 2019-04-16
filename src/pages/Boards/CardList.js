@@ -6,13 +6,15 @@ import ColumnList from '@/components/ColumnList';
 
 import { DroppableZone, InnerCardList }  from './InnerCardList';
 import styles from './CardList.less';
-import SaveCardList from "./SaveCardList";
-import NewCard from "./NewCard";
+import SaveCardList from './SaveCardList';
+import NewCard from './NewCard';
+import Transitions from './Transitions';
 
-const CardList = ({ cardList, isDisabled, items }) => {
+const CardList = ({ cardList, board, isDisabled, items }) => {
 
   const [ showEdit, setShowEdit ] = useState(false);
   const [ newCard, setNewCard ] = useState(false);
+  const [ showTransitions, setShowTransitions ] = useState(false);
 
   if (showEdit) {
     return (
@@ -28,6 +30,16 @@ const CardList = ({ cardList, isDisabled, items }) => {
       <NewCard
         cardListId={cardList.id}
         onClose={() => setNewCard(false)}
+      />
+    );
+  }
+
+  if (showTransitions) {
+    return (
+      <Transitions
+        cardLists={board.cardlists}
+        currentCardList={cardList}
+        onClose={() => setShowTransitions(false)}
       />
     );
   }
@@ -48,7 +60,7 @@ const CardList = ({ cardList, isDisabled, items }) => {
   const menuOptions = (
     <Menu>
       <Menu.Item key="1" onClick={() => setShowEdit(true)}>Editar lista</Menu.Item>
-      {/* <Menu.Item key="2">Desabilitar transições</Menu.Item> */}
+      <Menu.Item key="2" onClick={() => setShowTransitions(true)}>Transições</Menu.Item>
     </Menu>
   );
 

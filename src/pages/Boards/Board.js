@@ -85,7 +85,7 @@ class Board extends PureComponent {
        * transições não permitidas a partir do cardlist `source.droppableId`
        */
       const sourceCardList = board.cardlists.find(c => c.id.toString() === droppableId);
-      const disabledTransitions = sourceCardList.unallowedCardLists.map(c => c.unallowedCardListId)
+      const disabledTransitions = sourceCardList.disabledTransitions.map(c => c.disabledCardListId)
 
       /*
        * desabilita todos os cardlists que não podem
@@ -151,7 +151,7 @@ class Board extends PureComponent {
   };
 
   render() {
-    const { board, loading, match, children } = this.props;
+    const { board, loading, children } = this.props;
     const { cardMap, disabledCardlists, showNewCardListForm } = this.state;
 
     if (!board) {
@@ -166,9 +166,8 @@ class Board extends PureComponent {
               {board.cardlists.map(cardList => (
                 <CardList
                   key={cardList.id}
+                  board={board}
                   cardList={cardList}
-                  projectid={match.params.projectId}
-                  createCard={this.createCard}
                   isDisabled={disabledCardlists[cardList.id]}
                   items={cardMap[cardList.id]}
                 />

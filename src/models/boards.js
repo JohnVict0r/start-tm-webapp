@@ -9,6 +9,7 @@ import {
   loadBoard,
   createCardList,
   updateCardList,
+  updateTransition,
 } from '@/services/boards';
 
 import { notification, message } from 'antd';
@@ -71,6 +72,15 @@ export default {
 
         message.success('Lista adicionada com sucesso!');
       }
+    },
+
+    *toggleTransition({ payload }, { call, put }) {
+      const response = yield call(updateTransition, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
     },
 
     *addWorkflowTransition({ payload }, { call, put }) {

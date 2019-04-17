@@ -302,7 +302,7 @@ export default [
               },
               {
                 path: '/teams/:teamId/members',
-                name: 'team-members',
+                name: 'members',
                 component: './Teams/Members',
               },
               {

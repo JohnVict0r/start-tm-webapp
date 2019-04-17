@@ -71,6 +71,7 @@ export default {
   'menu.projects.project.project-workflows': 'Fluxos de Trabalho',
   'menu.teams': 'Equipes',
   'menu.teams.team': 'Equipe',
+  'menu.teams.team.members': 'Membros',
   'menu.teams.team.board': 'Visualizar',
   'menu.teams.team.milestones': 'Entregáveis',
   'menu.teams.team.board.card-view': 'Visualizar Tarefa',

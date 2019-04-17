@@ -71,6 +71,7 @@ class TeamMembers extends PureComponent {
               <List.Item
                 actions={[
                   <Select
+                    disabled={role.name === 'Proprietário'}
                     defaultValue={role.id}
                     style={{ width: 140 }}
                     onChange={roleId => {
@@ -84,13 +85,18 @@ class TeamMembers extends PureComponent {
                       </Select.Option>
                     ))}
                   </Select>,
-                  <Popconfirm
-                    title="Tem certeza?"
-                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                    onConfirm={() => this.handleDelete(user.id)}
-                  >
-                    <Button type="danger" icon="delete" ghost />
-                  </Popconfirm>,
+                  <>
+                    {role.name !== 'Proprietário' && (
+                      <Popconfirm
+                        disabled
+                        title="Tem certeza?"
+                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                        onConfirm={() => this.handleDelete(user.id)}
+                      >
+                        <Button type="danger" icon="delete" ghost />
+                      </Popconfirm>
+                    )}
+                  </>,
                 ]}
               >
                 <List.Item.Meta

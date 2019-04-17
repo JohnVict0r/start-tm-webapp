@@ -52,16 +52,21 @@ class ProjectMembers extends PureComponent {
             rowKey="id"
             loading={loading}
             dataSource={members}
-            renderItem={({ user }) => (
+            renderItem={({ user, role }) => (
               <List.Item
                 actions={[
-                  <Popconfirm
-                    title="Tem certeza?"
-                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                    onConfirm={() => this.handleDelete(user.id)}
-                  >
-                    <Button type="danger" icon="delete" ghost />
-                  </Popconfirm>,
+                  <>
+                    {role.name !== 'Proprietário' && (
+                      <Popconfirm
+                        disabled
+                        title="Tem certeza?"
+                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                        onConfirm={() => this.handleDelete(user.id)}
+                      >
+                        <Button type="danger" icon="delete" ghost />
+                      </Popconfirm>
+                    )}
+                  </>,
                 ]}
               >
                 <List.Item.Meta

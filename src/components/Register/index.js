@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import classNames from 'classnames';
-import { Form, Input, Button } from 'antd';
+import MaskedInput from 'react-text-mask'
+import { Form, Input,  Button } from 'antd';
 import PasswordForce from '../PasswordForce';
 
 import styles from './index.less';
@@ -76,6 +77,39 @@ class Register extends Component {
     }
   };
 
+  validadeCpf = (rule, value, callback) => {
+    const TestaCPF = (strCPF) => {
+      let Soma;
+      let Resto;
+      let i;
+      Soma = 0;
+      if(strCPF === "00000000000") {
+        return false;
+      }
+
+      for(i=1; i<=9; i+=1) {Soma += parseInt(strCPF.substring(i - 1, i),10) * (11 - i);}
+      Resto = (Soma * 10) % 11;
+
+      if ((Resto === 10) || (Resto === 11)){  Resto = 0;}
+      if (Resto !== parseInt(strCPF.substring(9, 10),10)){ return false;}
+
+      Soma = 0;
+      for (i = 1; i <= 10; i+=1){ Soma +=  parseInt(strCPF.substring(i-1, i),10) * (12 - i);}
+      Resto = (Soma * 10) % 11;
+
+      if ((Resto === 10) || (Resto === 11)){  Resto = 0};
+      if (Resto !== parseInt(strCPF.substring(10, 11),10 )){ return false;}
+      return true;
+    }
+
+    if(value&&!TestaCPF(value.replace(/\./gi,'').replace(/-/gi,''))){
+      callback(formatMessage({ id: 'validation.cpf.wrong-format' }));
+    }
+    else{
+      callback();
+    }
+  }
+
   checkPassword = (rule, value, callback) => {
     const { confirmDirty } = this.state;
     if (!value) {
@@ -116,7 +150,22 @@ class Register extends Component {
                 size="large"
                 name="name"
                 maxLength={255}
+
                 placeholder={formatMessage({ id: 'form.user-name.placeholder' })}
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('cpf', {
+              rules: [
+                { required: true, message: formatMessage({ id: 'validation.cpf.required' }) },
+                { validator:this.validadeCpf },
+              ],
+            })(
+              <MaskedInput
+                mask={[/\d/,/\d/,/\d/,'.',/\d/,/\d/,/\d/,'.',/\d/,/\d/,/\d/,'-',/\d/,/\d/]}
+                class="ant-input ant-input-lg"
+                placeholder={formatMessage({ id: 'form.cpf.placeholder' })}
               />
             )}
           </Form.Item>

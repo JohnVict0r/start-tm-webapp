@@ -3,6 +3,7 @@ export default {
   'form.captcha': 'Get Captcha',
   'form.captcha.second': 'sec',
   'form.email.placeholder': 'Email',
+  'form.cpf.placeholder' : 'XXX.XXX.XXX-XX',
   'form.email.recoverplaceholder': 'Email cadastrado',
   'form.password.placeholder': 'Senha',
   'form.confirm-password.placeholder': 'Confirme a senha',

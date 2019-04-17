@@ -1,5 +1,7 @@
 export default {
   'validation.name.required': 'Por favor insira um nome!',
+  'validation.cpf.required' : 'Por favor insira o cpf',
+  'validation.cpf.wrong-format' : 'O CPF é inválido',
   'validation.email.required': 'Por favor insira seu email!',
   'validation.email.wrong-format': 'O email está errado!',
   'validation.password.required': 'Por favor insira sua senha!',

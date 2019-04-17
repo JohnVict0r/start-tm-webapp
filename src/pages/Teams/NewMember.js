@@ -1,31 +1,41 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
+import Link from 'umi/link';
 import { Button, Col, Form, Icon, Row, Spin, Select } from 'antd';
 import { usersSelector } from '@/selectors/search';
+import { rolesSelector } from '@/selectors/global';
 
 @connect(state => ({
   users: usersSelector(state),
-  submitting: state.loading.effects['currentProjectMembers/addMember'],
+  roles: rolesSelector(state),
+  submitting: state.loading.effects['currentTeamMembers/addMember'],
   searching: state.loading.effects['search/searchUser'],
 }))
 @Form.create()
 class NewMember extends PureComponent {
   static propTypes = {
-    projectId: PropTypes.string,
+    teamId: PropTypes.string,
   };
 
   static defaultProps = {
-    projectId: null,
+    teamId: null,
   };
 
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'global/fetchRoles',
+    });
+  }
+
   handleSearchUser = value => {
-    const { dispatch, projectId } = this.props;
+    const { dispatch, teamId } = this.props;
     dispatch({
       type: 'search/searchUser',
       payload: {
-        model: 'projects',
-        id: projectId,
+        model: 'teams',
+        id: teamId,
         c: 0,
         query: value,
       },
@@ -34,14 +44,14 @@ class NewMember extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, projectId } = this.props;
+    const { form, teamId } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         const { dispatch } = this.props;
         dispatch({
-          type: 'currentProjectMembers/addMember',
+          type: 'currentTeamMembers/addMember',
           payload: {
-            id: projectId,
+            id: teamId,
             member: values,
           },
         });
@@ -53,6 +63,7 @@ class NewMember extends PureComponent {
   render() {
     const {
       users,
+      roles,
       searching,
       submitting,
       form: { getFieldDecorator },
@@ -61,7 +72,7 @@ class NewMember extends PureComponent {
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark>
         <Row gutter={16}>
-          <Col lg={21} md={24}>
+          <Col lg={15} md={24}>
             <Form.Item help="Busque por nome ou email">
               {getFieldDecorator('user_id', {
                 rules: [{ required: true, message: 'Informe o nome ou email do usuário!' }],
@@ -80,6 +91,25 @@ class NewMember extends PureComponent {
                 >
                   {users.map(u => (
                     <Select.Option key={u.id}>{u.name}</Select.Option>
+                  ))}
+                </Select>
+              )}
+            </Form.Item>
+          </Col>
+          <Col lg={6} md={24}>
+            <Form.Item
+              help={
+                <span>
+                  <Link to="/">Leia mais</Link> sobre permissões de papéis.
+                </span>
+              }
+            >
+              {getFieldDecorator('role', {
+                rules: [{ required: true, message: 'Selecione um papel!' }],
+              })(
+                <Select placeholder="Papel">
+                  {roles.map(r => (
+                    <Select.Option key={r.name}>{r.name}</Select.Option>
                   ))}
                 </Select>
               )}

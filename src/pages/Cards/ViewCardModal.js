@@ -149,7 +149,7 @@ class ViewCardModal extends PureComponent {
                   title={textTitleParticipantsForm}
                   content={
                     <ParticipantsForm
-                      projectId={card.projectId}
+                      teamId={card.teamId}
                       participants={card.members}
                       onSubmit={this.handleAssignMember}
                       onRemove={this.handleUnAssignMember}

@@ -301,6 +301,11 @@ export default [
                 ]
               },
               {
+                path: '/teams/:teamId/members',
+                name: 'team-members',
+                component: './Teams/Members',
+              },
+              {
                 path: '/teams/:teamId/milestones',
                 name: 'milestones',
                 component: './Teams/Milestone',

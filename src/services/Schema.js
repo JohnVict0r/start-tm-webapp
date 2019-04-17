@@ -18,6 +18,10 @@ const ProjectMember = new schema.Object({
   user: User,
   role: Role,
 });
+const TeamMember = new schema.Object({
+  user: User,
+  role: Role,
+});
 const Workflow = new schema.Entity('workflows');
 const WorkflowNode = new schema.Entity('workflowNodes');
 const WorkflowTransition = new schema.Entity('workflowTransitions');
@@ -47,6 +51,11 @@ UserMember.define({
 });
 
 ProjectMember.define({
+  user: User,
+  role: Role,
+});
+
+TeamMember.define({
   user: User,
   role: Role,
 });
@@ -116,6 +125,8 @@ const Schemas = {
   GOAL_ARRAY: [Goal],
   PROJECTMEMBER: ProjectMember,
   PROJECTMEMBER_ARRAY: [ProjectMember],
+  TEAMMEMBER: TeamMember,
+  TEAMMEMBER_ARRAY: [TeamMember],
   WORKFLOW: Workflow,
   WORKFLOW_ARRAY: [Workflow],
   WORKFLOWNODE: WorkflowNode,

@@ -7,7 +7,7 @@ import styles from './Participants.less';
 
 @connect((state) => ({
   users: usersSelector(state),
-  searching: state.loading.effects['search/searchUserInProject'],
+  searching: state.loading.effects['search/searchUser'],
 }))
 class ParticipantsForm extends PureComponent {
   state = {
@@ -20,11 +20,13 @@ class ParticipantsForm extends PureComponent {
   };
 
   handleSearch = value => {
-    const { dispatch, projectId } = this.props;
+    const { dispatch, teamId } = this.props;
     dispatch({
-      type: 'search/searchUserInProject',
+      type: 'search/searchUser',
       payload: {
-        id: projectId,
+        model: 'teams',
+        id: teamId,
+        c: 1,
         query: value,
       },
     });

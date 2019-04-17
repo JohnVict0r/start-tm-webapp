@@ -10,3 +10,17 @@ export const loadBoard = teamId => callApi(`teams/${teamId}/board`, schema.BOARD
 
 export const createTeam = ({ projectId, team }) =>
   callApi(`projects/${projectId}/teams`, schema.TEAM).post(team);
+
+export const loadTeamMembers = ({ id }) =>
+  callApi(`teams/${id}/members`, schema.TEAMMEMBER_ARRAY).get();
+
+export const addTeamMember = (id, member) =>
+  callApi(`teams/${id}/members`, schema.TEAMMEMBER_ARRAY).post(member);
+
+export const deleteTeamMember = (teamId, member) =>
+  callApi(`teams/${teamId}/members/${member}`, schema.TEAMMEMBER_ARRAY).delete();
+
+export const changeTeamMemberRole = ({ teamId, memberId, roleId }) =>
+  callApi(`teams/${teamId}/members/${memberId}/access`, schema.TEAMMEMBER_ARRAY).put(
+    roleId
+  );

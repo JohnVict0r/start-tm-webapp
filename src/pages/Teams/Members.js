@@ -1,23 +1,25 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Button, Avatar, Popconfirm, Icon } from 'antd';
+import { List, Card, Button, Avatar, Select, Popconfirm, Icon } from 'antd';
 import NewMemberForm from './NewMember';
-import { projectMembersSelector } from './selectors/members';
+import { teamMembersSelector } from './selectors/members';
+import { rolesSelector } from '@/selectors/global';
 
 import styles from './Members.less';
 
 @connect(state => ({
-  members: projectMembersSelector(state),
-  loading: state.loading.effects['currentProjectMembers/fetch'],
+  roles: rolesSelector(state),
+  members: teamMembersSelector(state),
+  loading: state.loading.effects['currentTeamMembers/fetch'],
 }))
-class ProjectMembers extends PureComponent {
+class TeamMembers extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'currentProjectMembers/fetch',
+      type: 'currentTeamMembers/fetch',
       payload: {
-        id: match.params.projectId,
+        id: match.params.teamId,
       },
     });
   }
@@ -25,21 +27,34 @@ class ProjectMembers extends PureComponent {
   handleDelete = memberId => {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'currentProjectMembers/deleteMember',
+      type: 'currentTeamMembers/deleteMember',
       payload: {
-        id: match.params.projectId,
+        id: match.params.teamId,
         member: memberId,
       },
     });
   };
 
+  handleChangeRole = (memberId, role) => {
+    const { dispatch, match } = this.props;
+
+    dispatch({
+      type: 'currentTeamMembers/changeMemberRole',
+      payload: {
+        teamId: match.params.teamId,
+        member: memberId,
+        roleId: role,
+      },
+    });
+  };
+
   render() {
-    const { members, loading, match } = this.props;
+    const { roles, members, loading, match } = this.props;
 
     return (
       <React.Fragment>
         <Card bordered={false} title="Adicionar membro" style={{ marginTop: 24 }}>
-          <NewMemberForm projectId={match.params.projectId} />
+          <NewMemberForm teamId={match.params.teamId} />
         </Card>
         <Card
           className={styles.standardList}
@@ -52,9 +67,23 @@ class ProjectMembers extends PureComponent {
             rowKey="id"
             loading={loading}
             dataSource={members}
-            renderItem={({ user }) => (
+            renderItem={({ user, role }) => (
               <List.Item
                 actions={[
+                  <Select
+                    defaultValue={role.id}
+                    style={{ width: 140 }}
+                    onChange={roleId => {
+                      this.handleChangeRole(user.id, roleId);
+                    }}
+                  >
+                    {roles.map(r => (
+                      <Select.Option key={r.id} value={r.id}>
+                        {' '}
+                        {r.name}{' '}
+                      </Select.Option>
+                    ))}
+                  </Select>,
                   <Popconfirm
                     title="Tem certeza?"
                     icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
@@ -78,4 +107,4 @@ class ProjectMembers extends PureComponent {
   }
 }
 
-export default ProjectMembers;
+export default TeamMembers;

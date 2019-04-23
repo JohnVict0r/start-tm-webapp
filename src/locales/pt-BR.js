@@ -12,7 +12,6 @@ import register from './pt-BR/register';
 import result from './pt-BR/result';
 import settingDrawer from './pt-BR/settingDrawer';
 import settings from './pt-BR/settings';
-import team from './pt-BR/team';
 import card from './pt-BR/card';
 import comment from './pt-BR/comment';
 import validation from './pt-BR/validation';
@@ -42,7 +41,6 @@ export default {
   ...result,
   ...settingDrawer,
   ...settings,
-  ...team,
   ...validation,
   ...pwa,
   ...card,

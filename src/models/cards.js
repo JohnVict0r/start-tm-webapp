@@ -1,0 +1,104 @@
+import { message } from 'antd';
+import { formatMessage } from 'umi/locale';
+import {
+  createCard,
+  updateCard,
+  moveCard,
+  assignUser,
+  unAssignUser,
+  createAttachment,
+} from '@/services/cards';
+
+export default {
+  namespace: 'cards',
+
+  state: {
+    validation: null,
+  },
+
+  effects: {
+    *save({ payload }, { call, put, select }) {
+      const response = payload.id
+        ? yield call(updateCard, payload)
+        : yield call(createCard, payload);
+
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+
+        return yield select(state => state.cards.validation);
+      }
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      message.success(
+        formatMessage({
+          id: payload.id ? 'app.card.sucess-updated' : 'app.card.sucess-created',
+        })
+      );
+
+      return null;
+    },
+
+    *moveCard({ payload }, { call, put }) {
+      const response = yield call(moveCard, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+    },
+
+    *assigin({ payload }, { call, put }) {
+      const response = yield call(assignUser, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
+    },
+
+    *unAssigin({ payload }, { call, put }) {
+      const response = yield call(unAssignUser, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
+    },
+
+    *uploadAttachment({ payload }, { call, put }) {
+      const response = yield call(createAttachment, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+    },
+  },
+
+  reducers: {
+    handleError(state, { payload }) {
+      return {
+        ...state,
+        validation: payload,
+      };
+    },
+  },
+};

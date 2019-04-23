@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Button, Avatar, Skeleton, Select, Popconfirm, Icon } from 'antd';
+import { List, Card, Button, Avatar, Select, Popconfirm, Icon } from 'antd';
 import NewMemberForm from './NewMember';
 import { teamMembersSelector } from './selectors/members';
 import { rolesSelector } from '@/selectors/global';
@@ -19,7 +19,7 @@ class TeamMembers extends PureComponent {
     dispatch({
       type: 'currentTeamMembers/fetch',
       payload: {
-        id: match.params.id,
+        id: match.params.teamId,
       },
     });
   }
@@ -29,7 +29,7 @@ class TeamMembers extends PureComponent {
     dispatch({
       type: 'currentTeamMembers/deleteMember',
       payload: {
-        id: match.params.id,
+        id: match.params.teamId,
         member: memberId,
       },
     });
@@ -41,20 +41,52 @@ class TeamMembers extends PureComponent {
     dispatch({
       type: 'currentTeamMembers/changeMemberRole',
       payload: {
-        teamId: match.params.id,
+        teamId: match.params.teamId,
         member: memberId,
         roleId: role,
       },
     });
   };
 
+  renderItemActions = (user, role) => {
+    if (role.name === 'Proprietário') {
+      return [<span>Proprietário</span>];
+    }
+
+    const { roles } = this.props;
+
+    return [
+      <Select
+        defaultValue={role.id}
+        style={{ width: 140 }}
+        onChange={roleId => {
+          this.handleChangeRole(user.id, roleId);
+        }}
+      >
+        {roles.map(r => (
+          <Select.Option key={r.id} value={r.id}>
+            {` ${r.name} `}
+          </Select.Option>
+        ))}
+      </Select>,
+      <Popconfirm
+        disabled
+        title="Tem certeza?"
+        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+        onConfirm={() => this.handleDelete(user.id)}
+      >
+        <Button type="danger" icon="delete" ghost />
+      </Popconfirm>,
+    ];
+  };
+
   render() {
-    const { roles, members, loading, match } = this.props;
+    const { members, loading, match } = this.props;
 
     return (
       <React.Fragment>
         <Card bordered={false} title="Adicionar membro" style={{ marginTop: 24 }}>
-          <NewMemberForm teamId={match.params.id} />
+          <NewMemberForm teamId={match.params.teamId} />
         </Card>
         <Card
           className={styles.standardList}
@@ -68,38 +100,12 @@ class TeamMembers extends PureComponent {
             loading={loading}
             dataSource={members}
             renderItem={({ user, role }) => (
-              <List.Item
-                actions={[
-                  <Select
-                    defaultValue={role.id}
-                    style={{ width: 140 }}
-                    onChange={roleId => {
-                      this.handleChangeRole(user.id, roleId);
-                    }}
-                  >
-                    {roles.map(r => (
-                      <Select.Option key={r.id} value={r.id}>
-                        {' '}
-                        {r.name}{' '}
-                      </Select.Option>
-                    ))}
-                  </Select>,
-                  <Popconfirm
-                    title="Tem certeza?"
-                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                    onConfirm={() => this.handleDelete(user.id)}
-                  >
-                    <Button type="danger" icon="delete" ghost />
-                  </Popconfirm>,
-                ]}
-              >
-                <Skeleton title={false} loading={loading} active>
-                  <List.Item.Meta
-                    avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
-                    title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
-                    description={user.email}
-                  />
-                </Skeleton>
+              <List.Item actions={this.renderItemActions(user, role)}>
+                <List.Item.Meta
+                  avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
+                  title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
+                  description={user.email}
+                />
               </List.Item>
             )}
           />

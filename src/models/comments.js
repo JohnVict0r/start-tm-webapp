@@ -1,38 +1,61 @@
-import { listComments } from '@/services/cards';
+import { createComment, listComments } from '@/services/comments';
 
 export default {
   namespace: 'comments',
 
   state: {
-    cards: {},
-    metas: {},
+    items: [],
+    validation: null,
   },
 
   effects: {
-    *fetchCardComments({ payload }, { call, put }) {
+    *save({ payload }, { call, put }) {
+      const response = yield call(createComment, payload);
+
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+        yield put({
+          type: 'saveComments',
+          payload: response.result,
+        });
+      }
+    },
+
+    *fetchComments({ payload }, { call, put }) {
       const response = yield call(listComments, payload);
-      yield put({
-        type: 'saveCardComments',
-        payload: {
-          ...payload,
-          items: response.result,
-        },
-      });
+
       yield put({
         type: 'entities/mergeEntities',
         payload: response.entities,
+      });
+
+      yield put({
+        type: 'saveComments',
+        payload: response.result,
       });
     },
   },
 
   reducers: {
-    saveCardComments(state, { payload }) {
+    saveComments(state, { payload }) {
       return {
         ...state,
-        cards: {
-          ...state.cards,
-          [payload.id]: [...payload.items],
-        },
+        items: payload,
+      };
+    },
+
+    handleError(state, { payload }) {
+      return {
+        ...state,
+        validation: payload,
       };
     },
   },

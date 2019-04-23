@@ -1,5 +1,5 @@
 import { loadUserProjects, loadProject, favoriteProject } from '@/services/projects';
-import { loadProjectBoards } from '@/services/boards';
+import { loadProjectTeams } from '@/services/teams';
 
 const initialPaginatioState = {
   count: 0,
@@ -15,7 +15,7 @@ export default {
 
   state: {
     currentProject: {
-      boards: [],
+      teams: [],
     },
     explore: {
       items: [],
@@ -44,11 +44,6 @@ export default {
     *fetchProject({ payload }, { call, put }) {
       const response = yield call(loadProject, payload);
 
-      // yield put({
-      //   type: 'fetchProjectBoards',
-      //   payload,
-      // });
-
       yield put({
         type: 'entities/mergeEntities',
         payload: response.entities,
@@ -62,8 +57,8 @@ export default {
       });
     },
 
-    *fetchProjectBoards({ payload }, { call, put }) {
-      const response = yield call(loadProjectBoards, payload);
+    *fetchProjectTeams({ payload }, { call, put }) {
+      const response = yield call(loadProjectTeams, payload);
 
       yield put({
         type: 'entities/mergeEntities',
@@ -71,7 +66,7 @@ export default {
       });
 
       yield put({
-        type: 'receiveBoards',
+        type: 'receiveTeams',
         payload: response.result,
       });
     },
@@ -106,12 +101,12 @@ export default {
         },
       };
     },
-    receiveBoards(state, { payload }) {
+    receiveTeams(state, { payload }) {
       return {
         ...state,
         currentProject: {
           ...state.currentProject,
-          boards: payload,
+          teams: payload,
         },
       };
     },

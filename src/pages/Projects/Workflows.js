@@ -12,7 +12,7 @@ import styles from './Workflows.less';
 @connect(state => ({
   workflows: projectWorkflowsSelector(state),
   createWorkflow: state.createWorkflow,
-  loading: state.loading.effects['currentTeamWorkflows/fetch'],
+  loading: state.loading.effects['currentProjectWorkflows/fetch'],
   submitting: state.loading.effects['createWorkflow/create'],
 }))
 @Form.create()

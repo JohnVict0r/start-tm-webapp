@@ -10,7 +10,7 @@ import { rolesSelector } from '@/selectors/global';
   users: usersSelector(state),
   roles: rolesSelector(state),
   submitting: state.loading.effects['currentTeamMembers/addMember'],
-  searching: state.loading.effects['search/searchUserNotInTeam'],
+  searching: state.loading.effects['search/searchUser'],
 }))
 @Form.create()
 class NewMember extends PureComponent {
@@ -32,9 +32,11 @@ class NewMember extends PureComponent {
   handleSearchUser = value => {
     const { dispatch, teamId } = this.props;
     dispatch({
-      type: 'search/searchUserNotInTeam',
+      type: 'search/searchUser',
       payload: {
+        model: 'teams',
         id: teamId,
+        c: 0,
         query: value,
       },
     });
@@ -73,7 +75,7 @@ class NewMember extends PureComponent {
           <Col lg={15} md={24}>
             <Form.Item help="Busque por nome ou email">
               {getFieldDecorator('user_id', {
-                rules: [{ required: true, message: 'Por favor informe o nome da equipe!' }],
+                rules: [{ required: true, message: 'Informe o nome ou email do usuário!' }],
               })(
                 <Select
                   showSearch
@@ -103,11 +105,11 @@ class NewMember extends PureComponent {
               }
             >
               {getFieldDecorator('role', {
-                rules: [{ required: true, message: 'Por favor informe o nome da equipe!' }],
+                rules: [{ required: true, message: 'Selecione um papel!' }],
               })(
                 <Select placeholder="Papel">
                   {roles.map(r => (
-                    <Select.Option key={r.id}>{r.name}</Select.Option>
+                    <Select.Option key={r.name}>{r.name}</Select.Option>
                   ))}
                 </Select>
               )}

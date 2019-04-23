@@ -168,113 +168,60 @@ export default [
       },
 
       // teds
-      {
-        path: '/teds',
-        name: 'teds',
-        icon: 'reconciliation',
-        routes: [
-          { path: '/teds', redirect: '/teds/explore' },
-          {
-            path: '/teds/explore',
-            name: 'my-teds',
-            icon: 'reconciliation',
-            component: './Teds/TedsList',
-          },
-          {
-            path: '/teds/new',
-            name: 'new-ted',
-            icon: 'plus',
-            component: './Teds/NewTed',
-          },
-          {
-            path: '/teds/:tedId',
-            name: 'view-ted',
-            icon: 'plus',
-            hideInMenu: true,
-            component: './Teds/ViewTed',
-            routes: [
-              { path: '/teds/:tedId', redirect: '/teds/:tedId/dashboard' },
-              {
-                path: '/teds/:tedId/dashboard',
-                name: 'teds-main',
-                component: './Teds/TedDashboard',
-                routes: [
-                  { path: '/teds/:tedId/dashboard', redirect: '/teds/:tedId/dashboard/goals' },
-                  {
-                    path: '/teds/:tedId/dashboard/goals',
-                    name: 'teds-goals',
-                    component: './Teds/GoalsList',
-                  },
-                ],
-              },
-              {
-                path: '/teds/:tedId/goals/new',
-                name: 'goals-new',
-                component: './Teds/NewGoal',
-              },
-            ],
-          },
-        ],
-      },
-
-      // teams
-      {
-        path: '/teams',
-        name: 'teams',
-        icon: 'team',
-        hideInBreadcrumb: true,
-        routes: [
-          { path: '/teams', redirect: '/teams/explore' },
-          {
-            path: '/teams/explore',
-            name: 'my-teams',
-            icon: 'team',
-            component: './Teams/TeamsList',
-          },
-          {
-            path: '/teams/new',
-            name: 'new-team',
-            icon: 'plus',
-            component: './Teams/NewTeam',
-          },
-          {
-            path: '/teams/:id',
-            name: 'team',
-            component: './Teams/ViewTeam',
-            hideInMenu: true,
-            routes: [
-              { path: '/teams/:id', redirect: '/teams/:id/projects' },
-              {
-                path: '/teams/:id/projects',
-                name: 'projects',
-                component: './Teams/Projects',
-              },
-              {
-                path: '/teams/:id/workflows',
-                name: 'workflows',
-                component: './Teams/Workflows',
-              },
-              {
-                path: '/teams/:id/edit',
-                name: 'team-edit',
-                component: './Teams/EditTeam',
-              },
-              {
-                path: '/teams/:id/members',
-                name: 'members',
-                component: './Teams/Members',
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   path: '/teds',
+      //   name: 'teds',
+      //   icon: 'reconciliation',
+      //   routes: [
+      //     { path: '/teds', redirect: '/teds/explore' },
+      //     {
+      //       path: '/teds/explore',
+      //       name: 'my-teds',
+      //       icon: 'reconciliation',
+      //       component: './Teds/TedsList',
+      //     },
+      //     {
+      //       path: '/teds/new',
+      //       name: 'new-ted',
+      //       icon: 'plus',
+      //       component: './Teds/NewTed',
+      //     },
+      //     {
+      //       path: '/teds/:tedId',
+      //       name: 'view-ted',
+      //       icon: 'plus',
+      //       hideInMenu: true,
+      //       component: './Teds/ViewTed',
+      //       routes: [
+      //         { path: '/teds/:tedId', redirect: '/teds/:tedId/dashboard' },
+      //         {
+      //           path: '/teds/:tedId/dashboard',
+      //           name: 'teds-main',
+      //           component: './Teds/TedDashboard',
+      //           routes: [
+      //             { path: '/teds/:tedId/dashboard', redirect: '/teds/:tedId/dashboard/goals' },
+      //             {
+      //               path: '/teds/:tedId/dashboard/goals',
+      //               name: 'teds-goals',
+      //               component: './Teds/GoalsList',
+      //             },
+      //           ],
+      //         },
+      //         {
+      //           path: '/teds/:tedId/goals/new',
+      //           name: 'goals-new',
+      //           component: './Teds/NewGoal',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
 
       // projects
       {
         path: '/projects',
         name: 'projects',
         icon: 'project',
-        hideInBreadcrumb: true,
         routes: [
           { path: '/projects', redirect: '/projects/explore' },
           {
@@ -292,41 +239,24 @@ export default [
           {
             path: '/projects/:projectId',
             name: 'project',
-            component: './Projects/ViewProject',
+            component: './Projects/ProjectView',
             hideInMenu: true,
             routes: [
-              { path: '/projects/:projectId/boards', redirect: '/projects/:projectId' },
+              { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
+              {
+                path: '/projects/:projectId/details',
+                name: 'details',
+                component: './Projects/ProjectDetails',
+              },
               {
                 path: '/projects/:projectId/edit',
                 name: 'edit-project',
                 component: './Projects/EditProject',
               },
               {
-                path: '/projects/:projectId/boards/new',
-                name: 'new-board',
-                component: './Projects/NewBoard',
-              },
-              {
-                path: '/projects/:projectId/boards/:boardId',
-                name: 'project-boards',
-                component: './Projects/Board',
-                routes: [
-                  {
-                    path: '/projects/:projectId/boards/:boardId/cards/:cardId',
-                    name: 'project-boards-card-view',
-                    component: './Cards/ViewCardModal',
-                  },
-                ],
-              },
-              {
-                path: '/projects/:projectId/cards/new',
-                name: 'project-boards-card',
-                component: './Cards/NewCard',
-              },
-              {
-                path: '/projects/:projectId/cards/:cardId/edit',
-                name: 'project-boards-card-edit',
-                component: './Cards/EditCard',
+                path: '/projects/:projectId/new-team',
+                name: 'new-team',
+                component: './Projects/NewTeam',
               },
               {
                 path: '/projects/:projectId/workflows',
@@ -337,6 +267,48 @@ export default [
                 path: '/projects/:projectId/members',
                 name: 'project-members',
                 component: './Projects/Members',
+              },
+            ],
+          },
+        ],
+      },
+
+      // teams
+      {
+        path: '/teams',
+        name: 'teams',
+        icon: 'team',
+        hideInBreadcrumb: true,
+        hideInMenu: true,
+        routes: [
+          // { path: '/boards', redirect: '/boards' },
+          {
+            path: '/teams/:teamId',
+            name: 'team',
+            component: './Teams/TeamView',
+            routes: [
+              { path: '/teams/:teamId', redirect: '/teams/:teamId/board' },
+              {
+                path: '/teams/:teamId/board',
+                name: 'board',
+                component: './Boards/Board',
+                routes: [
+                  {
+                    path: '/teams/:teamId/board/cards/:cardId',
+                    name: 'card-view',
+                    component: './Cards/ViewCardModal',
+                  },
+                ],
+              },
+              {
+                path: '/teams/:teamId/members',
+                name: 'members',
+                component: './Teams/Members',
+              },
+              {
+                path: '/teams/:teamId/milestones',
+                name: 'milestones',
+                component: './Teams/Milestone',
               },
             ],
           },

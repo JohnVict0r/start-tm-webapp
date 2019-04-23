@@ -6,7 +6,7 @@ import moment from 'moment';
 import { isAntdPro } from './utils';
 
 // When converting moment objects to JSON use format()
-moment.fn.toJSON = function() {
+moment.fn.toJSON = () => {
   return this.format();
 };
 

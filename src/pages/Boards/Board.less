@@ -1,0 +1,45 @@
+@import '~antd/lib/style/themes/default.less';
+
+.container {
+  position: relative;
+  right: 50%;
+  left: 50%;
+  width: 100vw;
+  margin: -24px -50vw;
+  background: white;
+  transition: 0.3s;
+}
+
+.board {
+  display: flex;
+  height: ~'calc(100vh - @{layout-header-height} - 100px)' !important;
+  overflow-x: visible;
+  overflow-y: hidden;
+  transition: 0.3s;
+}
+
+@media screen and (max-width: @screen-md-max) {
+  .board {
+    height: ~'calc(100vh - @{layout-header-height} - 63px)' !important;
+  }
+}
+
+.newCardListToogle {
+  width: 300px;
+  height: 100%;
+  padding: 10px;
+
+  .plusIcon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0.6;
+
+    i {
+      font-size: 24px;
+    }
+  }
+}

@@ -2,11 +2,7 @@ import { formatMessage } from 'umi/locale';
 import { routerRedux } from 'dva/router';
 import { notification } from 'antd';
 
-import {
-  createWorkflow,
-  createWorkflowForTeam,
-  createWorkflowForProject,
-} from '@/services/workflows';
+import { createWorkflow, createWorkflowForProject } from '@/services/workflows';
 
 export default {
   namespace: 'createWorkflow',
@@ -28,8 +24,6 @@ export default {
         callCreateWorkflow = [createWorkflow, values];
       } else if (owner.type === 'projects') {
         callCreateWorkflow = [createWorkflowForProject, owner.id, values];
-      } else if (owner.type === 'teams') {
-        callCreateWorkflow = [createWorkflowForTeam, owner.id, values];
       } else {
         callCreateWorkflow = [createWorkflow, values];
       }

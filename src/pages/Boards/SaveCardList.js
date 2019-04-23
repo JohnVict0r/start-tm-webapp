@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {Spin, Button, Form, Input, Select, Checkbox} from 'antd';
+import { Spin, Button, Form, Input, Select, Checkbox, Badge } from 'antd';
 import withRouter from 'umi/withRouter';
 import { formatMessage } from 'umi/locale';
 import ColumnList from '@/components/ColumnList';
 import { statusSelector } from '@/selectors/global';
-import styles from './SaveCardList.less'
+import styles from './SaveCardList.less';
 
 @connect(state => ({
   status: statusSelector(state),
@@ -20,20 +20,23 @@ class SaveCardList extends Component {
     });
   }
 
-  handleSubmit = async (e) => {
+  handleSubmit = async e => {
     e.preventDefault();
     const { form, current, onClose } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         const { dispatch, match } = this.props;
 
-        const payload = current && current.id ? {
-          id: current.id,
-          cardList: values,
-        }:{
-          teamId: match.params.teamId,
-          cardList: values,
-        };
+        const payload =
+          current && current.id
+            ? {
+                id: current.id,
+                cardList: values,
+              }
+            : {
+                teamId: match.params.teamId,
+                cardList: values,
+              };
 
         dispatch({
           type: 'boards/saveCardList',
@@ -52,7 +55,7 @@ class SaveCardList extends Component {
       current = {},
       status,
       submitting,
-      onClose
+      onClose,
     } = this.props;
 
     return (
@@ -61,35 +64,29 @@ class SaveCardList extends Component {
           title={current.id ? 'Alterar Lista' : 'Nova Lista'}
           actions={[
             <Button
-              key='1'
-              type='primary'
-              size='small'
+              key="1"
+              type="primary"
+              size="small"
               onClick={this.handleSubmit}
               disabled={submitting}
             >
-              {current.id ? 'Salvar':'Adicionar'}
+              {current.id ? 'Salvar' : 'Adicionar'}
             </Button>,
-            <Button
-              key='2'
-              size='small'
-              onClick={onClose}
-              disabled={submitting}
-            >
+            <Button key="2" size="small" onClick={onClose} disabled={submitting}>
               Cancelar
-            </Button>
+            </Button>,
           ]}
         />
         <div className={styles.content}>
           <Spin spinning={!!submitting}>
-            <Form
-              layout="vertical"
-              className={styles.form}
-              onSubmit={this.handleSubmit}
-            >
+            <Form layout="vertical" className={styles.form} onSubmit={this.handleSubmit}>
               <Form.Item>
                 {getFieldDecorator('name', {
                   rules: [
-                    { required: true, message: formatMessage({ id: 'app.workflow.form.node.name-message' }) },
+                    {
+                      required: true,
+                      message: formatMessage({ id: 'app.workflow.form.node.name-message' }),
+                    },
                   ],
                   initialValue: current.name,
                 })(
@@ -103,16 +100,17 @@ class SaveCardList extends Component {
               <Form.Item>
                 {getFieldDecorator('status_id', {
                   rules: [
-                    { required: true, message: formatMessage({ id: 'app.workflow.form.node.status-message' }) },
+                    {
+                      required: true,
+                      message: formatMessage({ id: 'app.workflow.form.node.status-message' }),
+                    },
                   ],
                   initialValue: current.status && current.status.id,
                 })(
-                  <Select
-                    placeholder={formatMessage({ id: 'app.workflow.form.node.status' })}
-                  >
+                  <Select placeholder={formatMessage({ id: 'app.workflow.form.node.status' })}>
                     {status.map(s => (
                       <Select.Option value={s.id} key={s.id}>
-                        {s.displayName}
+                        <Badge color={s.color} /> {s.displayName}
                       </Select.Option>
                     ))}
                   </Select>

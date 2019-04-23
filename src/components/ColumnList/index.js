@@ -13,8 +13,8 @@ const ColumnList = ({ children, isDisabled, className, ...rest }) => (
   </div>
 );
 
-const Header = ({ title, actions}) => (
-  <div className={styles.header}>
+const Header = ({ title, actions, ...props}) => (
+  <div className={styles.header} {...props}>
     <h4 className={styles.title}>{title}</h4>
     {actions}
   </div>

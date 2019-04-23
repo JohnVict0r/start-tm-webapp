@@ -10,7 +10,7 @@ import SaveCardList from './SaveCardList';
 import NewCard from './NewCard';
 import Transitions from './Transitions';
 
-const CardList = ({ cardList, board, isDisabled, items }) => {
+const CardList = ({ cardList, board, items, isDisabled, isDragging, provided, style }) => {
 
   const [ showEdit, setShowEdit ] = useState(false);
   const [ newCard, setNewCard ] = useState(false);
@@ -81,21 +81,28 @@ const CardList = ({ cardList, board, isDisabled, items }) => {
   );
 
   return (
-    <ColumnList isDisabled={isDisabled}>
-      <ColumnList.Header
-        title={title}
-        actions={actions}
-      />
-      <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
-        <DroppableZone
-          droppableId={cardList.id.toString()}
-          type="CARD"
-          isDropDisabled={isDisabled}
-        >
-          <InnerCardList cards={items} />
-        </DroppableZone>
-      </Scrollbars>
-    </ColumnList>
+    <div
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      style={style}
+    >
+      <ColumnList isDisabled={isDisabled}>
+        <ColumnList.Header
+          title={title}
+          actions={actions}
+          {...provided.dragHandleProps}
+        />
+        <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
+          <DroppableZone
+            droppableId={cardList.id.toString()}
+            type="CARD"
+            isDropDisabled={isDisabled}
+          >
+            <InnerCardList cards={items} />
+          </DroppableZone>
+        </Scrollbars>
+      </ColumnList>
+    </div>
   );
 }
 

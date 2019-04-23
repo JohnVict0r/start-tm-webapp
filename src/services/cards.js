@@ -20,4 +20,4 @@ export const unAssignUser = ({ id, userId }) =>
   callApi(`cards/${id}/members/${userId}`, schema.CARD).delete();
 
 export const createFile = ({ file, cardId }) =>
-  callApi(`cards/${cardId}/files`, schema.USER).post(file);
+  callApi(`cards/${cardId}/files`, schema.CARD).post(file);

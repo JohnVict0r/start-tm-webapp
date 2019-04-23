@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Upload, Spin, Button } from 'antd';
+import { Upload, Button } from 'antd';
 
 class Attachment extends PureComponent {
   state = {
@@ -37,12 +37,11 @@ class Attachment extends PureComponent {
         showUploadList={false}
         name={name}
         accept="*"
+        disabled={uploading}
       >
-        <Spin spinning={uploading}>
-          <Button block icon="paper-clip">
-            Anexo
-          </Button>
-        </Spin>
+        <Button block icon="paper-clip" loading={uploading}>
+          Anexo
+        </Button>
       </Upload>
     );
   }

@@ -3,7 +3,6 @@ import { Upload, Spin, Button } from 'antd';
 
 class Attachment extends PureComponent {
   state = {
-    fileList: [],
     uploading: false,
   };
 
@@ -29,7 +28,7 @@ class Attachment extends PureComponent {
 
   render() {
     const { name } = this.props;
-    const { fileList, uploading } = this.state;
+    const { uploading } = this.state;
 
     return (
       <Upload
@@ -37,8 +36,6 @@ class Attachment extends PureComponent {
         onChange={this.handleChange}
         showUploadList={false}
         name={name}
-        defaultFileList={fileList}
-        // fileList={fileList}
         accept="*"
       >
         <Spin spinning={uploading}>

@@ -6,7 +6,7 @@ import {
   moveCard,
   assignUser,
   unAssignUser,
-  createAttachment,
+  createFile,
 } from '@/services/cards';
 
 export default {
@@ -84,12 +84,14 @@ export default {
       }
     },
 
-    *uploadAttachment({ payload }, { call, put }) {
-      const response = yield call(createAttachment, payload);
+    *uploadFile({ payload }, { call, put }) {
+      const response = yield call(createFile, payload);
       yield put({
         type: 'entities/mergeEntities',
         payload: response.entities,
       });
+
+      message.success('Arquivo anexado!');
     },
   },
 

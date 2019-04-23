@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Button, Modal, Row, Col, Form, List, Popover } from 'antd';
+import { Button, Modal, Row, Col, Form, List, Popover, Upload } from 'antd';
 import AvatarList from '@/components/AvatarList';
 import { cardSelectorWithMembers } from './selectors/members';
 import styles from './ViewCardModal.less';
@@ -55,10 +55,10 @@ class ViewCardModal extends PureComponent {
     });
   };
 
-  onUploadAttachment = file => {
+  onUploadFile = file => {
     const { dispatch, card } = this.props;
     return dispatch({
-      type: 'cards/uploadAttachment',
+      type: 'cards/uploadFile',
       payload: {
         file,
         cardId: card.id,
@@ -78,6 +78,16 @@ class ViewCardModal extends PureComponent {
     const { visibleFormDue, visibleFormParticipants } = this.state;
 
     const textTitleParticipantsForm = <span>Participantes</span>;
+
+    const propsUpload = {
+      fileList: card.files.map(file => {
+       return {
+         uid: file.id,
+         name: file.fileName,
+         url: file.publicUrl,
+        }
+      })
+    };
 
     return (
       <Modal
@@ -128,6 +138,14 @@ class ViewCardModal extends PureComponent {
                     <Col span={24}>{card.description}</Col>
                   </Row>
                 )}
+                <Row>
+                  <Col className={styles.label} span={24}>
+                    Anexos
+                  </Col>
+                  <Col className={styles.commentsContainer} span={24}>
+                    <Upload {...propsUpload} />
+                  </Col>
+                </Row>
               </Col>
               <Col className={styles.commentsContainer} span={24}>
                 <CommentSection commentableType="cards" commentableId={card.id} />
@@ -186,7 +204,7 @@ class ViewCardModal extends PureComponent {
                 </Popover>
               </List.Item>
               <List.Item>
-                <Attachment name="file_url" onUpload={this.onUploadAttachment} />
+                <Attachment name="file" onUpload={this.onUploadFile} />
               </List.Item>
             </List>
           </Col>

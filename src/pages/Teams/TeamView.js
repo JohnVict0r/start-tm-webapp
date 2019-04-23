@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { Avatar, Breadcrumb, Button, Dropdown, Menu } from 'antd';
+import { Avatar, Button, Dropdown, Menu } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
 import { makeTeamSelector } from './selectors/teams';
-
 
 @connect((state, ownProps) => {
   const teamSelector = makeTeamSelector({ id: ownProps.match.params.teamId });
@@ -52,9 +51,11 @@ class TeamView extends Component {
           favorited={project.favorited}
         /> */}
         <Button.Group>
-          <Button icon='clock-circle' onClick={() => router.push(`${match.url}/milestones`)}>Entregáveis</Button>
+          <Button icon="clock-circle" onClick={() => router.push(`${match.url}/milestones`)}>
+            Entregáveis
+          </Button>
           <Dropdown overlay={teamOptionsMenu} placement="bottomRight">
-            <Button icon='menu-fold'>Menu</Button>
+            <Button icon="menu-fold">Menu</Button>
           </Dropdown>
         </Button.Group>
       </div>
@@ -63,19 +64,16 @@ class TeamView extends Component {
     const overrideMap = {
       '/teams/:teamId': (
         <>
-          <Breadcrumb.Item>
-            <Avatar
-              style={{ marginRight: '8px' }}
-              src='https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png'
-              shape="square"
-              size="small"
-              icon="user"
-            />
-            {team.project.name}
-          </Breadcrumb.Item>
-          {team.name}
+          <Avatar
+            style={{ marginRight: '8px' }}
+            src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
+            shape="square"
+            size="small"
+            icon="user"
+          />
+          {`${team.project.name} － ${team.name}`}
         </>
-      )
+      ),
     };
 
     return (

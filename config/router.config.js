@@ -222,6 +222,7 @@ export default [
         path: '/projects',
         name: 'projects',
         icon: 'project',
+        hideInBreadcrumb: true,
         routes: [
           { path: '/projects', redirect: '/projects/explore' },
           {
@@ -297,8 +298,8 @@ export default [
                     path: '/teams/:teamId/board/cards/:cardId',
                     name: 'card-view',
                     component: './Cards/ViewCardModal',
-                  }
-                ]
+                  },
+                ],
               },
               {
                 path: '/teams/:teamId/members',
@@ -310,9 +311,9 @@ export default [
                 name: 'milestones',
                 component: './Teams/Milestone',
               },
-            ]
+            ],
           },
-        ]
+        ],
       },
 
       // workflows

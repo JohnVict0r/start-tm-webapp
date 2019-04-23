@@ -33,6 +33,23 @@ class ProjectMembers extends PureComponent {
     });
   };
 
+  renderItemActions = (user, role) => {
+    if (role.name === 'Proprietário') {
+      return [<span>Proprietário</span>];
+    }
+
+    return [
+      <Popconfirm
+        disabled
+        title="Tem certeza?"
+        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+        onConfirm={() => this.handleDelete(user.id)}
+      >
+        <Button type="danger" icon="delete" ghost />
+      </Popconfirm>,
+    ];
+  };
+
   render() {
     const { members, loading, match } = this.props;
 
@@ -53,22 +70,7 @@ class ProjectMembers extends PureComponent {
             loading={loading}
             dataSource={members}
             renderItem={({ user, role }) => (
-              <List.Item
-                actions={[
-                  <>
-                    {role.name !== 'Proprietário' && (
-                      <Popconfirm
-                        disabled
-                        title="Tem certeza?"
-                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                        onConfirm={() => this.handleDelete(user.id)}
-                      >
-                        <Button type="danger" icon="delete" ghost />
-                      </Popconfirm>
-                    )}
-                  </>,
-                ]}
-              >
+              <List.Item actions={this.renderItemActions(user, role)}>
                 <List.Item.Meta
                   avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
                   title={<Link to={`/user/${user.id}`}>{user.name}</Link>}

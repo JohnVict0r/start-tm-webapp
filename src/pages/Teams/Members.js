@@ -48,8 +48,40 @@ class TeamMembers extends PureComponent {
     });
   };
 
+  renderItemActions = (user, role) => {
+    if (role.name === 'Proprietário') {
+      return [<span>Proprietário</span>];
+    }
+
+    const { roles } = this.props;
+
+    return [
+      <Select
+        defaultValue={role.id}
+        style={{ width: 140 }}
+        onChange={roleId => {
+          this.handleChangeRole(user.id, roleId);
+        }}
+      >
+        {roles.map(r => (
+          <Select.Option key={r.id} value={r.id}>
+            {` ${r.name} `}
+          </Select.Option>
+        ))}
+      </Select>,
+      <Popconfirm
+        disabled
+        title="Tem certeza?"
+        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+        onConfirm={() => this.handleDelete(user.id)}
+      >
+        <Button type="danger" icon="delete" ghost />
+      </Popconfirm>,
+    ];
+  };
+
   render() {
-    const { roles, members, loading, match } = this.props;
+    const { members, loading, match } = this.props;
 
     return (
       <React.Fragment>
@@ -68,37 +100,7 @@ class TeamMembers extends PureComponent {
             loading={loading}
             dataSource={members}
             renderItem={({ user, role }) => (
-              <List.Item
-                actions={[
-                  <Select
-                    disabled={role.name === 'Proprietário'}
-                    defaultValue={role.id}
-                    style={{ width: 140 }}
-                    onChange={roleId => {
-                      this.handleChangeRole(user.id, roleId);
-                    }}
-                  >
-                    {roles.map(r => (
-                      <Select.Option key={r.id} value={r.id}>
-                        {' '}
-                        {r.name}{' '}
-                      </Select.Option>
-                    ))}
-                  </Select>,
-                  <>
-                    {role.name !== 'Proprietário' && (
-                      <Popconfirm
-                        disabled
-                        title="Tem certeza?"
-                        icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                        onConfirm={() => this.handleDelete(user.id)}
-                      >
-                        <Button type="danger" icon="delete" ghost />
-                      </Popconfirm>
-                    )}
-                  </>,
-                ]}
-              >
+              <List.Item actions={this.renderItemActions(user, role)}>
                 <List.Item.Meta
                   avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
                   title={<Link to={`/user/${user.id}`}>{user.name}</Link>}

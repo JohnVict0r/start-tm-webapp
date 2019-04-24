@@ -15,12 +15,11 @@ export const DroppableZone = ({ children, droppableId, type, isDropDisabled }) =
           [styles.dragging]: dropSnapshot.isDraggingOver,
           [styles.disabled]: isDropDisabled,
         })}
+        ref={dropProvided.innerRef}
         {...dropProvided.droppableProps}
       >
-        <div className={styles.dropzone} ref={dropProvided.innerRef}>
-          {children}
-          {dropProvided.placeholder}
-        </div>
+        {children}
+        {dropProvided.placeholder}
       </div>
     )}
   </Droppable>

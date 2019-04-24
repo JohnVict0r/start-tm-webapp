@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Badge, Button, Dropdown, Menu, Tooltip } from 'antd';
-import { Scrollbars } from 'react-custom-scrollbars';
 import withRouter from 'umi/withRouter';
 import { Draggable } from 'react-beautiful-dnd';
 import ColumnList from '@/components/ColumnList';
@@ -83,15 +82,13 @@ const CardList = ({ cardList, board, items, index, isDisabled }) => {
             className={styles.header}
             {...provided.dragHandleProps}
           />
-          <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
-            <DroppableZone
-              droppableId={cardList.id.toString()}
-              type="CARD"
-              isDropDisabled={isDisabled}
-            >
-              <InnerCardList cards={items} />
-            </DroppableZone>
-          </Scrollbars>
+          <DroppableZone
+            droppableId={cardList.id.toString()}
+            type="CARD"
+            isDropDisabled={isDisabled}
+          >
+            <InnerCardList cards={items} />
+          </DroppableZone>
         </ColumnList>
       )}
     </Draggable>

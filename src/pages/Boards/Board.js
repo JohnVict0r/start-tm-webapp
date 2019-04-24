@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'dva';
-import {Icon, Spin} from 'antd';
-import classNames from 'classnames';
-import {DragDropContext, Draggable, Droppable} from 'react-beautiful-dnd';
-import NaturalDragAnimation from 'natural-drag-animation-rbdnd';
+import { Icon, Spin } from 'antd';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import PageLoading from '@/components/PageLoading';
 import ColumnList from '@/components/ColumnList';
 import { reorderCardMap } from '@/utils/reorder';
@@ -13,7 +11,6 @@ import CardList from './CardList';
 import SaveCardList from './SaveCardList';
 import { boardSelector } from './selectors/boards';
 import styles from './Board.less';
-import CardItem from "./CardItem";
 
 const resetDisabledCardlists = (cardlists, value) =>
   cardlists.reduce(
@@ -26,7 +23,7 @@ const resetDisabledCardlists = (cardlists, value) =>
 
 @connect(state => ({
   board: boardSelector(state),
-  loading: state.loading.effects['boards/fetchBoard']
+  loading: state.loading.effects['boards/fetchBoard'],
 }))
 class Board extends PureComponent {
   // tmpCardMap é necessário pois cardMap é alterado
@@ -87,7 +84,7 @@ class Board extends PureComponent {
        * transições não permitidas a partir do cardlist `source.droppableId`
        */
       const sourceCardList = board.cardlists.find(c => c.id.toString() === droppableId);
-      const disabledTransitions = sourceCardList.disabledTransitions.map(c => c.disabledCardListId)
+      const disabledTransitions = sourceCardList.disabledTransitions.map(c => c.disabledCardListId);
 
       /*
        * desabilita todos os cardlists que não podem
@@ -164,47 +161,24 @@ class Board extends PureComponent {
       <div className={styles.container}>
         <Spin spinning={loading}>
           <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-            <Droppable
-              droppableId={board.id.toString()}
-              direction="horizontal"
-              type="LIST"
-            >
-              {(dropProvided, dropSnapshot) => (
-                <div
-                  className={classNames(styles.board, {
-                    // [styles.dragging]: dropSnapshot.isDraggingOver,
-                    // [styles.disabled]: isDropDisabled,
-                  })}
-                  ref={dropProvided.innerRef}
-                  {...dropProvided.droppableProps}
-                >
+            <Droppable droppableId="board" direction="horizontal" type="LIST">
+              {provided => (
+                <div className={styles.board} ref={provided.innerRef} {...provided.droppableProps}>
                   {board.cardlists.map((cardList, index) => (
-                    <Draggable key={cardList.id} draggableId={cardList.id} index={index}>
-                      {(provided, snapshot) => (
-                        <NaturalDragAnimation style={provided.draggableProps.style} snapshot={snapshot}>
-                          {style => (
-                            <CardList
-                              key={cardList.id}
-                              board={board}
-                              cardList={cardList}
-                              items={cardMap[cardList.id]}
-                              isDisabled={disabledCardlists[cardList.id]}
-                              isDragging={snapshot.isDragging}
-                              style={style}
-                              provided={provided}
-                            />
-                          )}
-                        </NaturalDragAnimation>
-                      )}
-                    </Draggable>
+                    <CardList
+                      key={cardList.id}
+                      index={index}
+                      board={board}
+                      cardList={cardList}
+                      items={cardMap[cardList.id]}
+                      isDisabled={disabledCardlists[cardList.id]}
+                    />
                   ))}
 
-                  {dropProvided.placeholder}
+                  {provided.placeholder}
 
                   {showNewCardListForm ? (
-                    <SaveCardList
-                      onClose={() => this.setState({ showNewCardListForm: false })}
-                    />
+                    <SaveCardList onClose={() => this.setState({ showNewCardListForm: false })} />
                   ) : (
                     <ColumnList>
                       <div className={styles.newCardListToogle}>
@@ -212,7 +186,7 @@ class Board extends PureComponent {
                           className={styles.plusIcon}
                           onClick={() => this.setState({ showNewCardListForm: true })}
                         >
-                          <Icon type='plus' />
+                          <Icon type="plus" />
                           <div>Nova Lista</div>
                         </div>
                       </div>

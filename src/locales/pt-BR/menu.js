@@ -54,7 +54,6 @@ export default {
   'menu.teds.view-ted.teds-main': 'Dashboard',
   'menu.teds.view-ted.teds-main.teds-goals': 'Metas',
   'menu.teds.view-ted.goals-new': 'Nova Meta',
-  'menu.admin.workflows': 'Fluxos de Trabalho',
   'menu.admin': 'Administração',
   'menu.admin.users': 'Usuários',
   'menu.admin.acess': 'Acesso',
@@ -68,7 +67,6 @@ export default {
   'menu.projects.project.edit-project': 'Editar Projeto',
   'menu.projects.project.board': 'Quadro',
   'menu.projects.project.project-members': 'Membros',
-  'menu.projects.project.project-workflows': 'Fluxos de Trabalho',
   'menu.teams': 'Equipes',
   'menu.teams.team': 'Equipe',
   'menu.teams.team.members': 'Membros',
@@ -76,6 +74,4 @@ export default {
   'menu.teams.team.milestones': 'Entregáveis',
   'menu.teams.team.board.card-view': 'Visualizar Tarefa',
   'menu.teams.team.edit-card': 'Editar tarefa',
-  'menu.workflows': 'Fluxos de Trabalho',
-  'menu.workflows.workflow': 'Visualizar Fluxo de Trabalho',
 };

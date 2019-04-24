@@ -9,5 +9,8 @@ export const createCardList = ({ teamId, cardList }) =>
 export const updateCardList = ({ id, cardList }) =>
   callApi(`cardlists/${id}`, schema.BOARD).put(cardList);
 
+export const reorderCardLists = ({ teamId, cardlists }) =>
+  callApi(`teams/${teamId}/board/cardlists/reorder`, schema.BOARD).put({ cardlists });
+
 export const updateTransition = ({ teamId, transition }) =>
   callApi(`teams/${teamId}/board/transition`, schema.BOARD).put(transition);

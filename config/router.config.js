@@ -153,12 +153,7 @@ export default [
         component: './Admin/Menu',
         hideInMenu: true,
         routes: [
-          { path: '/admin', redirect: '/admin/workflows' },
-          {
-            path: '/admin/workflows',
-            name: 'workflows',
-            component: './Admin/Workflows/Workflows',
-          },
+          { path: '/admin', redirect: '/admin/users' },
           {
             path: '/admin/users',
             name: 'users',
@@ -222,6 +217,7 @@ export default [
         path: '/projects',
         name: 'projects',
         icon: 'project',
+        hideInBreadcrumb: true,
         routes: [
           { path: '/projects', redirect: '/projects/explore' },
           {
@@ -259,11 +255,6 @@ export default [
                 component: './Projects/NewTeam',
               },
               {
-                path: '/projects/:projectId/workflows',
-                name: 'project-workflows',
-                component: './Projects/Workflows',
-              },
-              {
                 path: '/projects/:projectId/members',
                 name: 'project-members',
                 component: './Projects/Members',
@@ -297,8 +288,8 @@ export default [
                     path: '/teams/:teamId/board/cards/:cardId',
                     name: 'card-view',
                     component: './Cards/ViewCardModal',
-                  }
-                ]
+                  },
+                ],
               },
               {
                 path: '/teams/:teamId/members',
@@ -310,30 +301,7 @@ export default [
                 name: 'milestones',
                 component: './Teams/Milestone',
               },
-            ]
-          },
-        ]
-      },
-
-      // workflows
-      {
-        path: '/workflows',
-        name: 'workflows',
-        icon: 'fork',
-        hideInBreadcrumb: true,
-        hideInMenu: true,
-        routes: [
-          // { path: '/workflows', redirect: '/workflows/explore' },
-          // {
-          //  path: '/workflows/explore',
-          //  name: 'my-workflows',
-          //  icon: 'fork',
-          //  component: './Workflows/WorkflowsList',
-          // },
-          {
-            path: '/workflows/:id',
-            name: 'workflow',
-            component: './Workflows/ViewWorkflow',
+            ],
           },
         ],
       },

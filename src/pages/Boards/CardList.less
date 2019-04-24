@@ -1,38 +1,25 @@
 @import '~antd/lib/style/themes/default.less';
 
-.add {
-  padding: 0 4px !important;
+.header:hover {
+  background-color: #f0f4f7;
 }
 
-.dropzone {
-  /* stop the list collapsing when empty */
-  height: 100%;
-  min-height: 250px;
-
-  /* not relying on the items for a margin-bottom
-  as it will collapse when the list is empty */
-  margin-bottom: 8px;
+.add {
+  padding: 0 4px !important;
 }
 
 .listWrapper {
   display: flex;
   flex-direction: column;
   width: 300px;
-  height: 100%;
-  padding: 8px;
-  padding-bottom: 0;
-  border: 8px;
+  min-height: ~'calc(100% - 41px)';
+  padding: 8px 8px 0;
+  overflow-y: auto;
   opacity: inherit;
   transition: background-color 0.1s ease, opacity 0.1s ease;
   user-select: none;
 
   &.dragging {
-    background-color: rgba(240, 244, 247, 0.4);
+    background-color: #f0f4f7;
   }
-}
-
-.scroll {
-  display: flex;
-  height: 100% !important;
-  overflow: hidden;
 }

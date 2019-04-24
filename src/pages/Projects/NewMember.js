@@ -1,16 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
-import Link from 'umi/link';
 import { Button, Col, Form, Icon, Row, Spin, Select } from 'antd';
 import { usersSelector } from '@/selectors/search';
-import { rolesSelector } from '@/selectors/global';
 
 @connect(state => ({
   users: usersSelector(state),
-  roles: rolesSelector(state),
   submitting: state.loading.effects['currentProjectMembers/addMember'],
-  searching: state.loading.effects['search/searchUserNotInProject'],
+  searching: state.loading.effects['search/searchUser'],
 }))
 @Form.create()
 class NewMember extends PureComponent {
@@ -22,19 +19,14 @@ class NewMember extends PureComponent {
     projectId: null,
   };
 
-  componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'global/fetchRoles',
-    });
-  }
-
   handleSearchUser = value => {
     const { dispatch, projectId } = this.props;
     dispatch({
-      type: 'search/searchUserNotInProject',
+      type: 'search/searchUser',
       payload: {
+        model: 'projects',
         id: projectId,
+        c: 0,
         query: value,
       },
     });
@@ -61,7 +53,6 @@ class NewMember extends PureComponent {
   render() {
     const {
       users,
-      roles,
       searching,
       submitting,
       form: { getFieldDecorator },
@@ -70,10 +61,10 @@ class NewMember extends PureComponent {
     return (
       <Form onSubmit={this.handleSubmit} hideRequiredMark>
         <Row gutter={16}>
-          <Col lg={15} md={24}>
+          <Col lg={21} md={24}>
             <Form.Item help="Busque por nome ou email">
               {getFieldDecorator('user_id', {
-                rules: [{ required: true, message: 'Por favor informe o nome do projeto!' }],
+                rules: [{ required: true, message: 'Informe o nome ou email do usuário!' }],
               })(
                 <Select
                   showSearch
@@ -89,25 +80,6 @@ class NewMember extends PureComponent {
                 >
                   {users.map(u => (
                     <Select.Option key={u.id}>{u.name}</Select.Option>
-                  ))}
-                </Select>
-              )}
-            </Form.Item>
-          </Col>
-          <Col lg={6} md={24}>
-            <Form.Item
-              help={
-                <span>
-                  <Link to="/">Leia mais</Link> sobre permissões de papéis.
-                </span>
-              }
-            >
-              {getFieldDecorator('role', {
-                rules: [{ required: true, message: 'Por favor informe o nome do projeto!' }],
-              })(
-                <Select placeholder="Papel">
-                  {roles.map(r => (
-                    <Select.Option key={r.id}>{r.name}</Select.Option>
                   ))}
                 </Select>
               )}

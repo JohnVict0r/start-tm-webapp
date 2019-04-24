@@ -1,10 +1,16 @@
 import callApi from '@/utils/callApi';
 import schema from './Schema';
 
-export const loadProjectBoards = projectId =>
-  callApi(`projects/${projectId}/boards`, schema.BOARD_ARRAY).get();
+export const loadBoard = teamId => callApi(`teams/${teamId}/board`, schema.BOARD).get();
 
-export const loadBoard = boardId => callApi(`boards/${boardId}`, schema.BOARD).get();
+export const createCardList = ({ teamId, cardList }) =>
+  callApi(`teams/${teamId}/board/cardlists`, schema.BOARD).post(cardList);
 
-export const createBoard = ({ projectId, board }) =>
-  callApi(`projects/${projectId}/boards`, schema.BOARD).post(board);
+export const updateCardList = ({ id, cardList }) =>
+  callApi(`cardlists/${id}`, schema.BOARD).put(cardList);
+
+export const reorderCardLists = ({ teamId, cardlists }) =>
+  callApi(`teams/${teamId}/board/cardlists/reorder`, schema.BOARD).put({ cardlists });
+
+export const updateTransition = ({ teamId, transition }) =>
+  callApi(`teams/${teamId}/board/transition`, schema.BOARD).put(transition);

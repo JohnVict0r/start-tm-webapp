@@ -15,13 +15,6 @@ export const rolesSelector = createSelector(
       .filter(role => ['Proprietário', 'Gerente', 'Colaborador'].includes(role.name))
 );
 
-export const makeCardCommentsSelector = ({ cardId }) =>
-  createSelector(
-    state => (state.comments.cards[cardId] ? state.comments.cards[cardId] : []),
-    state => state.entities.comments,
-    (collection, roles) => collection.map(id => roles[id])
-  );
-
 export const systemRolesSelector = createSelector(
   state => state.global.roles,
   state => state.entities.roles,

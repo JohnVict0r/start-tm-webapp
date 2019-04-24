@@ -12,12 +12,10 @@ import register from './pt-BR/register';
 import result from './pt-BR/result';
 import settingDrawer from './pt-BR/settingDrawer';
 import settings from './pt-BR/settings';
-import team from './pt-BR/team';
 import card from './pt-BR/card';
 import comment from './pt-BR/comment';
 import validation from './pt-BR/validation';
 import pwa from './pt-BR/pwa';
-import workflow from './pt-BR/workflow';
 import component from './pt-BR/component';
 
 export default {
@@ -26,7 +24,6 @@ export default {
   'app.forms.basic.title': 'Basic form',
   'app.forms.basic.description':
     'Páginas de formulário são usadas para coletar e verificar as informações dos usuários e formulários básicos são comuns nos cenários onde existem alguns formatos de informações.',
-  'app.form.workflows.success': 'Fluxo de trabalho criado com sucesso',
   ...admin,
   ...analysis,
   ...exception,
@@ -37,12 +34,10 @@ export default {
   ...menu,
   ...monitor,
   ...project,
-  ...workflow,
   ...register,
   ...result,
   ...settingDrawer,
   ...settings,
-  ...team,
   ...validation,
   ...pwa,
   ...card,

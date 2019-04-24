@@ -112,7 +112,9 @@ class BasicLayout extends React.Component {
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
     const layout = (
-      <Layout>
+      <Layout
+        className={styles.layout}
+      >
         {isTop && !isMobile ? null : (
           <SiderMenu
             logo={logo}

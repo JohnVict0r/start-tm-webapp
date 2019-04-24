@@ -1,36 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Input, Form, Card, Button, Select } from 'antd';
+import { Input, Form, Card, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import Link from 'umi/link';
-import { masterOfTeamsSelector } from '@/selectors/teams';
 
 @connect(state => ({
-  teams: masterOfTeamsSelector(state),
   proejcts: state.saveProject,
-  loadingTeamOptions: state.loading.effects['teams/fetchUserMasterOfTeams'],
   submitting: state.loading.effects['saveProject/save'],
 }))
 @Form.create()
 class NewProject extends PureComponent {
-  componentDidMount() {
-    const {
-      location: { state },
-      dispatch,
-      form,
-    } = this.props;
-
-    dispatch({
-      type: 'teams/fetchUserMasterOfTeams',
-    });
-
-    const owner = state && state.owner;
-    if (owner) {
-      form.setFieldsValue({ owner });
-    }
-  }
-
   componentDidUpdate(prevProps) {
     const { form, proejcts } = this.props;
 
@@ -59,14 +38,7 @@ class NewProject extends PureComponent {
         const { dispatch } = this.props;
         dispatch({
           type: 'saveProject/save',
-          payload: {
-            teamId: values.owner,
-            project: {
-              ...values,
-              owner_type: 'teams',
-              owner_id: values.owner,
-            },
-          },
+          payload: values,
         });
         form.resetFields();
       }
@@ -76,8 +48,6 @@ class NewProject extends PureComponent {
   render() {
     const {
       form: { getFieldDecorator },
-      teams,
-      loadingTeamOptions,
       submitting,
     } = this.props;
 
@@ -104,25 +74,6 @@ class NewProject extends PureComponent {
       <PageHeaderWrapper title="Novo projeto">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <Form.Item
-              label="Equipe"
-              {...formItemLayout}
-              help={
-                <span>
-                  Não tem uma equipe? <Link to="/teams/new">Crie uma.</Link>
-                </span>
-              }
-            >
-              {getFieldDecorator('owner', {
-                rules: [{ required: true, message: 'Por favor selecione uma equipe!' }],
-              })(
-                <Select placeholder="Equipe" disabled={loadingTeamOptions}>
-                  {teams.map(r => (
-                    <Select.Option key={r.id}>{r.name}</Select.Option>
-                  ))}
-                </Select>
-              )}
-            </Form.Item>
             <Form.Item label="Nome do projeto" {...formItemLayout}>
               {getFieldDecorator('name', {
                 rules: [{ required: true, message: 'Por favor informe o nome do projeto!' }],

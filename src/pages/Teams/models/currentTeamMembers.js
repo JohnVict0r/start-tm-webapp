@@ -65,6 +65,7 @@ export default {
         notification.success({ message: 'Membro removido com sucesso!' });
       }
     },
+
     *changeMemberRole({ payload }, { call, put }) {
       const response = yield call(changeTeamMemberRole, payload);
 

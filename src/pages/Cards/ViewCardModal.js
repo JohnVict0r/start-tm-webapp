@@ -2,141 +2,39 @@ import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
 import { Button, Modal, Row, Col, Form, List, Popover } from 'antd';
-import CommentForm from '@/components/Form/Comment';
-import CommentList from '@/components/List/Comment';
 import AvatarList from '@/components/AvatarList';
-import router from 'umi/router';
 import { cardSelectorWithMembers } from './selectors/members';
-import { makeCardCommentsSelector } from '@/selectors/global';
 import styles from './ViewCardModal.less';
-import { DueForm, PriorityForm, ParticipantsForm } from '@/components/Form/Card';
-import { projectMembersSelector } from '../Projects/selectors/members';
+import CommentSection from '../Comments/CommentSection';
+import ParticipantsForm from './Participants';
+import Due from './Due';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
-  const commentCardSelect = makeCardCommentsSelector({ cardId: ownProps.match.params.cardId });
   return {
-    validation: state.createBoard.validation,
-    card: cardSelector(state),
-    users: state.entities.users,
-    projectMembers: projectMembersSelector(state),
-    comments: commentCardSelect(state),
-    logedUser: state.global.loggedInUser,
-    submitting: state.loading.effects['commentCard/save'],
+    card: cardSelector(state)
   };
 })
 @Form.create()
 class ViewCardModal extends PureComponent {
   state = {
     visibleFormDue: false,
-    visibleFormPriority: false,
     visibleFormParticipants: false,
-  };
-
-  componentDidMount() {
-    const { dispatch, card, match } = this.props;
-    dispatch({
-      type: 'comments/fetchCardComments',
-      payload: { id: card.id },
-    });
-    dispatch({
-      type: 'currentProjectMembers/fetch',
-      payload: {
-        id: match.params.projectId,
-      },
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { form, validation } = this.props;
-
-    if (prevProps.validation !== validation) {
-      const { errors } = validation;
-      const mapErrors = Object.keys(errors).reduce(
-        (accum, key) => ({
-          ...accum,
-          [key]: {
-            value: form.getFieldValue(key),
-            errors: errors[key].map(err => new Error(err)),
-          },
-        }),
-        {}
-      );
-
-      form.setFields(mapErrors);
-    }
-  }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const { form, card, dispatch } = this.props;
-    form.validateFields({ force: true }, (err, values) => {
-      if (!err) {
-        dispatch({
-          type: 'commentCard/save',
-          payload: {
-            cardId: card.id,
-            comment: { ...values },
-          },
-        });
-      }
-    });
-    form.resetFields();
   };
 
   handleVisibleDueChange = visibleFormDue => {
     this.setState({ visibleFormDue });
   };
 
-  handleSubmitDueForm = (err, values) => {
-    if (!err) {
-      const { dispatch, card } = this.props;
-
-      dispatch({
-        type: 'saveCard/save',
-        payload: {
-          id: card.id,
-          card: { ...values },
-        },
-      });
-
-      this.setState({
-        visibleFormDue: false,
-      });
-    }
-  };
-
-  handleVisiblePriorityChange = visibleFormPriority => {
-    this.setState({ visibleFormPriority });
-  };
-
   handleVisibleParticipantsChange = visibleFormParticipants => {
     this.setState({ visibleFormParticipants });
-  };
-
-  handleSubmitPriorityForm = (err, values) => {
-    if (!err) {
-      const { dispatch, card } = this.props;
-
-      dispatch({
-        type: 'saveCard/save',
-        payload: {
-          id: card.id,
-          card: { ...values },
-        },
-      });
-
-      this.setState({
-        visibleFormPriority: false,
-      });
-    }
   };
 
   handleAssignMember = value => {
     const { dispatch, card } = this.props;
 
     dispatch({
-      type: 'saveCard/assigin',
+      type: 'cards/assigin',
       payload: {
         id: card.id,
         userId: value,
@@ -148,7 +46,7 @@ class ViewCardModal extends PureComponent {
     const { dispatch, card } = this.props;
 
     dispatch({
-      type: 'saveCard/unAssigin',
+      type: 'cards/unAssigin',
       payload: {
         id: card.id,
         userId,
@@ -165,20 +63,10 @@ class ViewCardModal extends PureComponent {
   render() {
     const {
       card,
-      form,
-      submitting,
       match,
-      comments,
-      users,
-      projectMembers,
-      logedUser,
     } = this.props;
 
-    const { visibleFormDue, visibleFormPriority, visibleFormParticipants } = this.state;
-
-    const textTitleDueForm = <span>Alterar prazo de entrega</span>;
-
-    const textTitlePriorityForm = <span>Alterar prioridade</span>;
+    const { visibleFormDue, visibleFormParticipants } = this.state;
 
     const textTitleParticipantsForm = <span>Participantes</span>;
 
@@ -203,15 +91,17 @@ class ViewCardModal extends PureComponent {
                   <Col xs={24} sm={12}>
                     <Row className={styles.label}>Participantes</Row>
                     <Row>
-                      <AvatarList size="mini" overlap={0}>
-                        {card.members.map(member => (
-                          <AvatarList.Item
-                            key={`${card.id}-avatar-${member.id}`}
-                            src={member.pictureUrl}
-                            tips={member.name}
-                          />
-                        ))}
-                      </AvatarList>
+                      {card.members && card.members.length > 0 ? (
+                        <AvatarList size="mini" overlap={0}>
+                          {card.members.map(member => (
+                            <AvatarList.Item
+                              key={`${card.id}-avatar-${member.id}`}
+                              src={member.pictureUrl}
+                              tips={member.name}
+                            />
+                          ))}
+                        </AvatarList>
+                      ) : '--'}
                     </Row>
                   </Col>
                   <Col xs={24} sm={12}>
@@ -229,32 +119,29 @@ class ViewCardModal extends PureComponent {
                 )}
               </Col>
               <Col className={styles.commentsContainer} span={24}>
-                <CommentForm
-                  form={form}
-                  user={users[logedUser]}
-                  onSubmit={this.handleSubmit}
-                  submiting={submitting}
+                <CommentSection
+                  commentableType='cards'
+                  commentableId={card.id}
                 />
-                <CommentList comments={comments} users={users} />
               </Col>
             </Row>
           </Col>
 
           <Col xs={24} sm={6}>
             <List header="Ações" className={styles.actionList} size="small" bordered={false}>
-              <List.Item>
+              {/* <List.Item>
                 <Button
                   block
                   icon="edit"
                   onClick={() =>
                     router.push(
-                      `/projects/${match.params.projectId}/cards/${match.params.cardId}/edit`
+                      `/teams/${match.params.teamId}/cards/${match.params.cardId}/edit`
                     )
                   }
                 >
                   Editar
                 </Button>
-              </List.Item>
+              </List.Item> */}
               <List.Item>
                 <Popover
                   visible={visibleFormParticipants}
@@ -262,10 +149,10 @@ class ViewCardModal extends PureComponent {
                   title={textTitleParticipantsForm}
                   content={
                     <ParticipantsForm
+                      teamId={card.teamId}
                       participants={card.members}
                       onSubmit={this.handleAssignMember}
                       onRemove={this.handleUnAssignMember}
-                      projectMembers={projectMembers}
                     />
                   }
                   trigger="click"
@@ -277,23 +164,14 @@ class ViewCardModal extends PureComponent {
               </List.Item>
               <List.Item>
                 <Popover
-                  visible={visibleFormPriority}
-                  onVisibleChange={this.handleVisiblePriorityChange}
-                  title={textTitlePriorityForm}
-                  content={<PriorityForm current={card} onSubmit={this.handleSubmitPriorityForm} />}
-                  trigger="click"
-                >
-                  <Button block icon="flag">
-                    Prioridade
-                  </Button>
-                </Popover>
-              </List.Item>
-              <List.Item>
-                <Popover
                   visible={visibleFormDue}
                   onVisibleChange={this.handleVisibleDueChange}
-                  title={textTitleDueForm}
-                  content={<DueForm current={card} onSubmit={this.handleSubmitDueForm} />}
+                  title={<span>Alterar prazo de entrega</span>}
+                  content={
+                    <Due
+                      current={card}
+                      onClose={() => this.handleVisibleDueChange(false)}
+                    />}
                   trigger="click"
                 >
                   <Button block icon="schedule">
@@ -301,11 +179,11 @@ class ViewCardModal extends PureComponent {
                   </Button>
                 </Popover>
               </List.Item>
-              <List.Item>
+              {/* <List.Item>
                 <Button block icon="paper-clip">
                   Anexo
                 </Button>
-              </List.Item>
+              </List.Item> */}
             </List>
           </Col>
         </Row>

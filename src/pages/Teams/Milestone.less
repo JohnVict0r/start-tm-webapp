@@ -1,0 +1,28 @@
+@import '~antd/lib/style/themes/default.less';
+
+.standardListForm {
+  :global {
+    .ant-form-item {
+      margin-bottom: 12px;
+    }
+  }
+}
+
+.listContent {
+  font-size: 0;
+  .listContentItem {
+    display: inline-block;
+    margin-left: 40px;
+    color: @text-color-secondary;
+    font-size: @font-size-base;
+    vertical-align: middle;
+    > span {
+      line-height: 20px;
+    }
+    > p {
+      margin-top: 4px;
+      margin-bottom: 0;
+      line-height: 22px;
+    }
+  }
+}

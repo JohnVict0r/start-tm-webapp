@@ -3,12 +3,12 @@ import {
   createWorkflowTransition,
   deleteWorkflowNode,
   deleteWorkflowTransition,
-  reorderWorkflowNodes,
 } from '@/services/workflows';
 import {
   loadBoard,
   createCardList,
   updateCardList,
+  reorderCardLists,
   updateTransition,
 } from '@/services/boards';
 
@@ -36,7 +36,7 @@ export default {
       items: [],
       pagination: initialPaginatioState,
     },
-    validation: null
+    validation: null,
   },
 
   effects: {
@@ -163,23 +163,23 @@ export default {
       }
     },
 
-    *moveWorkflowNode({ payload }, { call, put }) {
-      const response = yield call(reorderWorkflowNodes, payload);
+    *moveCardlist({ payload }, { call, put }) {
+      const response = yield call(reorderCardLists, payload);
 
       if (response.errors) {
-        notification.error({ message: 'Não foi possível mover a etapa!' });
+        message.error('Não foi possível mover a lista!');
       } else {
         yield put({
           type: 'entities/mergeEntities',
           payload: response.entities,
         });
 
-        yield put({
-          type: 'receiveItems',
-          payload: response.result,
-        });
+        // yield put({
+        //   type: 'receiveItems',
+        //   payload: response.result,
+        // });
 
-        message.success('Etapa movida com sucesso!');
+        message.success('Lista movida com sucesso!');
       }
     },
   },
@@ -188,7 +188,7 @@ export default {
     receiveBoard(state, { payload }) {
       return {
         ...state,
-        currentBoard: payload
+        currentBoard: payload,
       };
     },
     receiveWorkflows(state, { payload }) {

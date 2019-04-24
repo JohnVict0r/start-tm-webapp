@@ -5,7 +5,7 @@ import { Icon, Spin } from 'antd';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import PageLoading from '@/components/PageLoading';
 import ColumnList from '@/components/ColumnList';
-import { reorderCardMap } from '@/utils/reorder';
+import { reorder, reorderCardMap } from '@/utils/reorder';
 
 import CardList from './CardList';
 import SaveCardList from './SaveCardList';
@@ -26,41 +26,12 @@ const resetDisabledCardlists = (cardlists, value) =>
   loading: state.loading.effects['boards/fetchBoard'],
 }))
 class Board extends PureComponent {
-  // tmpCardMap é necessário pois cardMap é alterado
-  // tanto por novas props como com o setState
   state = {
     showNewCardListForm: false,
-    tmpCardMap: [],
     cardMap: [],
     cardlists: [],
     disabledCardlists: [],
   };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.board) {
-      let newState = {};
-
-      if (!isEqual(nextProps.board.cardMap, prevState.tmpCardMap)) {
-        newState = {
-          ...newState,
-          tmpCardMap: nextProps.board.cardMap,
-          cardMap: nextProps.board.cardMap,
-        };
-      }
-
-      if (nextProps.board.cardlists !== prevState.cardlists) {
-        newState = {
-          ...newState,
-          cardlists: nextProps.board.cardlists,
-          disabledCardlists: resetDisabledCardlists(nextProps.board.cardlists, false),
-        };
-      }
-
-      return newState;
-    }
-
-    return null;
-  }
 
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -68,6 +39,26 @@ class Board extends PureComponent {
       type: 'boards/fetchBoard',
       payload: match.params.teamId,
     });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { board } = this.props;
+    if (board) {
+      if (!isEqual(board.cardMap, prevState.cardMap)) {
+        // eslint-disable-next-line
+        this.setState({
+          cardMap: board.cardMap,
+        });
+      }
+
+      if (!isEqual(board.cardlists, prevState.cardlists)) {
+        // eslint-disable-next-line
+        this.setState({
+          cardlists: board.cardlists,
+          disabledCardlists: resetDisabledCardlists(board.cardlists, false),
+        });
+      }
+    }
   }
 
   onDragStart = start => {
@@ -103,12 +94,14 @@ class Board extends PureComponent {
   };
 
   onDragEnd = result => {
-    const { dispatch } = this.props;
+    const { dispatch, match } = this.props;
     const { cardMap, cardlists } = this.state;
 
-    this.setState({
-      disabledCardlists: resetDisabledCardlists(cardlists),
-    });
+    if (result.type === 'CARD') {
+      this.setState({
+        disabledCardlists: resetDisabledCardlists(cardlists),
+      });
+    }
 
     // soltou fora da lista
     if (!result.destination) {
@@ -119,6 +112,30 @@ class Board extends PureComponent {
 
     // sem movimento
     if (source.droppableId === destination.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    // reordena lista
+    if (result.type === 'LIST') {
+      // reordena local
+      const orderedCardlists = reorder(cardlists, source.index, destination.index);
+
+      this.setState(
+        {
+          cardlists: orderedCardlists,
+        },
+        () => {
+          // reordena no backend
+          dispatch({
+            type: 'boards/moveCardlist',
+            payload: {
+              teamId: match.params.teamId,
+              cardlists: orderedCardlists.map(item => item.id),
+            },
+          });
+        }
+      );
+
       return;
     }
 
@@ -151,7 +168,7 @@ class Board extends PureComponent {
 
   render() {
     const { board, loading, children } = this.props;
-    const { cardMap, disabledCardlists, showNewCardListForm } = this.state;
+    const { cardMap, cardlists, disabledCardlists, showNewCardListForm } = this.state;
 
     if (!board) {
       return <PageLoading />;
@@ -164,7 +181,7 @@ class Board extends PureComponent {
             <Droppable droppableId="board" direction="horizontal" type="LIST">
               {provided => (
                 <div className={styles.board} ref={provided.innerRef} {...provided.droppableProps}>
-                  {board.cardlists.map((cardList, index) => (
+                  {cardlists.map((cardList, index) => (
                     <CardList
                       key={cardList.id}
                       index={index}

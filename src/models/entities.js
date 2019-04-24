@@ -25,9 +25,6 @@ export default {
     cardlists: {},
     cards: {},
     comments: {},
-    workflows: {},
-    workflowNodes: {},
-    workflowTransitions: {},
   },
 
   reducers: {
@@ -48,9 +45,6 @@ export default {
         ...updater({ entity: 'cardlists', updateStrategy: assign }),
         ...updater({ entity: 'cards', updateStrategy: assign }),
         ...updater({ entity: 'comments' }),
-        ...updater({ entity: 'workflows', updateStrategy: assign }),
-        ...updater({ entity: 'workflowNodes' }),
-        ...updater({ entity: 'workflowTransitions' }),
       };
     },
   },

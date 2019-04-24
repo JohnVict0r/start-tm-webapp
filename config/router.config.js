@@ -153,12 +153,7 @@ export default [
         component: './Admin/Menu',
         hideInMenu: true,
         routes: [
-          { path: '/admin', redirect: '/admin/workflows' },
-          {
-            path: '/admin/workflows',
-            name: 'workflows',
-            component: './Admin/Workflows/Workflows',
-          },
+          { path: '/admin', redirect: '/admin/users' },
           {
             path: '/admin/users',
             name: 'users',
@@ -260,11 +255,6 @@ export default [
                 component: './Projects/NewTeam',
               },
               {
-                path: '/projects/:projectId/workflows',
-                name: 'project-workflows',
-                component: './Projects/Workflows',
-              },
-              {
                 path: '/projects/:projectId/members',
                 name: 'project-members',
                 component: './Projects/Members',
@@ -312,29 +302,6 @@ export default [
                 component: './Teams/Milestone',
               },
             ],
-          },
-        ],
-      },
-
-      // workflows
-      {
-        path: '/workflows',
-        name: 'workflows',
-        icon: 'fork',
-        hideInBreadcrumb: true,
-        hideInMenu: true,
-        routes: [
-          // { path: '/workflows', redirect: '/workflows/explore' },
-          // {
-          //  path: '/workflows/explore',
-          //  name: 'my-workflows',
-          //  icon: 'fork',
-          //  component: './Workflows/WorkflowsList',
-          // },
-          {
-            path: '/workflows/:id',
-            name: 'workflow',
-            component: './Workflows/ViewWorkflow',
           },
         ],
       },

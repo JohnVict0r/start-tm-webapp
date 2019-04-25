@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Badge, Button, Dropdown, Menu, Tooltip } from 'antd';
-import { Scrollbars } from 'react-custom-scrollbars';
 import withRouter from 'umi/withRouter';
+import { Draggable } from 'react-beautiful-dnd';
 import ColumnList from '@/components/ColumnList';
-
 import { DroppableZone, InnerCardList } from './InnerCardList';
-import styles from './CardList.less';
 import SaveCardList from './SaveCardList';
 import NewCard from './NewCard';
 import Transitions from './Transitions';
 
-const CardList = ({ cardList, board, isDisabled, items }) => {
+import styles from './CardList.less';
+
+const CardList = ({ cardList, board, items, index, isDisabled }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [newCard, setNewCard] = useState(false);
   const [showTransitions, setShowTransitions] = useState(false);
@@ -69,14 +69,29 @@ const CardList = ({ cardList, board, isDisabled, items }) => {
   );
 
   return (
-    <ColumnList isDisabled={isDisabled}>
-      <ColumnList.Header title={title} actions={actions} />
-      <Scrollbars autoHeight autoHeightMin={400} autoHeightMax={800} className={styles.scroll}>
-        <DroppableZone droppableId={cardList.id.toString()} type="CARD" isDropDisabled={isDisabled}>
-          <InnerCardList cards={items} />
-        </DroppableZone>
-      </Scrollbars>
-    </ColumnList>
+    <Draggable draggableId={`${cardList.name}-${cardList.id}`} index={index}>
+      {provided => (
+        <ColumnList
+          isDisabled={isDisabled}
+          innerRef={provided.innerRef}
+          {...provided.draggableProps}
+        >
+          <ColumnList.Header
+            title={title}
+            actions={actions}
+            className={styles.header}
+            {...provided.dragHandleProps}
+          />
+          <DroppableZone
+            droppableId={cardList.id.toString()}
+            type="CARD"
+            isDropDisabled={isDisabled}
+          >
+            <InnerCardList cards={items} />
+          </DroppableZone>
+        </ColumnList>
+      )}
+    </Draggable>
   );
 };
 

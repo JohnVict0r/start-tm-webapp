@@ -14,9 +14,6 @@ export const updateProject = project =>
 
 export const favoriteProject = id => callApi(`projects/${id}/favorite`, schema.PROJECT).post();
 
-export const loadProjectWorkflows = ({ id, page }) =>
-  callApi(`projects/${id}/workflows?${stringify({ page })}`, schema.WORKFLOW_ARRAY).get();
-
 export const loadProjectMembers = ({ id }) =>
   callApi(`projects/${id}/members`, schema.PROJECTMEMBER_ARRAY).get();
 

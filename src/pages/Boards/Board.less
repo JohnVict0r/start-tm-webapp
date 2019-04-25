@@ -8,11 +8,24 @@
   margin: -24px -50vw;
   background: white;
   transition: 0.3s;
+
+  *::-webkit-scrollbar {
+    width: 6px !important;
+    height: 6px !important;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08);
+  }
 }
 
 .board {
   display: flex;
-  height: ~'calc(100vh - @{layout-header-height} - 100px)' !important;
+  height: ~'calc(100vh - @{layout-header-height} - 105px)' !important;
   overflow-x: visible;
   overflow-y: hidden;
   transition: 0.3s;

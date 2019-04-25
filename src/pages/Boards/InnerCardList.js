@@ -15,12 +15,11 @@ export const DroppableZone = ({ children, droppableId, type, isDropDisabled }) =
           [styles.dragging]: dropSnapshot.isDraggingOver,
           [styles.disabled]: isDropDisabled,
         })}
+        ref={dropProvided.innerRef}
         {...dropProvided.droppableProps}
       >
-        <div className={styles.dropzone} ref={dropProvided.innerRef}>
-          {children}
-          {dropProvided.placeholder}
-        </div>
+        {children}
+        {dropProvided.placeholder}
       </div>
     )}
   </Droppable>
@@ -40,12 +39,11 @@ export class InnerCardList extends Component {
     }
 
     return cards.map((card, index) => (
-      <Draggable key={card.id} draggableId={card.id} index={index}>
+      <Draggable key={card.id} draggableId={`${card.name}-${card.id}`} index={index}>
         {(provided, snapshot) => (
           <NaturalDragAnimation style={provided.draggableProps.style} snapshot={snapshot}>
             {style => (
               <CardItem
-                key={card.id}
                 card={card}
                 isDragging={snapshot.isDragging}
                 style={style}

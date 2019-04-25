@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Spin, Button, Form, Input, Select, Checkbox, Badge } from 'antd';
 import withRouter from 'umi/withRouter';
-import { formatMessage } from 'umi/locale';
 import ColumnList from '@/components/ColumnList';
 import { statusSelector } from '@/selectors/global';
 import styles from './SaveCardList.less';
@@ -82,32 +81,16 @@ class SaveCardList extends Component {
             <Form layout="vertical" className={styles.form} onSubmit={this.handleSubmit}>
               <Form.Item>
                 {getFieldDecorator('name', {
-                  rules: [
-                    {
-                      required: true,
-                      message: formatMessage({ id: 'app.workflow.form.node.name-message' }),
-                    },
-                  ],
+                  rules: [{ required: true, message: 'Por favor insira um nome!' }],
                   initialValue: current.name,
-                })(
-                  <Input
-                    autoFocus
-                    maxLength={50}
-                    placeholder={formatMessage({ id: 'app.workflow.form.node.name' })}
-                  />
-                )}
+                })(<Input autoFocus maxLength={50} placeholder="Nome" />)}
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('status_id', {
-                  rules: [
-                    {
-                      required: true,
-                      message: formatMessage({ id: 'app.workflow.form.node.status-message' }),
-                    },
-                  ],
+                  rules: [{ required: true, message: 'Por favor escolha um status!' }],
                   initialValue: current.status && current.status.id,
                 })(
-                  <Select placeholder={formatMessage({ id: 'app.workflow.form.node.status' })}>
+                  <Select placeholder="Status Associado">
                     {status.map(s => (
                       <Select.Option value={s.id} key={s.id}>
                         <Badge color={s.color} /> {s.displayName}
@@ -120,7 +103,7 @@ class SaveCardList extends Component {
                 {getFieldDecorator('can_create_card', {
                   initialValue: current.canCreateCard,
                   valuePropName: 'checked',
-                })(<Checkbox>{formatMessage({ id: 'app.workflow.form.node.check' })}</Checkbox>)}
+                })(<Checkbox>Pode criar tarefa</Checkbox>)}
               </Form.Item>
             </Form>
           </Spin>

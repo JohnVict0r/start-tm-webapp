@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { Avatar, Breadcrumb, Button, Dropdown, Menu } from 'antd';
+import { Avatar, Button, Dropdown, Menu } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
@@ -64,17 +64,14 @@ class TeamView extends Component {
     const overrideMap = {
       '/teams/:teamId': (
         <>
-          <Breadcrumb.Item>
-            <Avatar
-              style={{ marginRight: '8px' }}
-              src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
-              shape="square"
-              size="small"
-              icon="user"
-            />
-            {team.project.name}
-          </Breadcrumb.Item>
-          {team.name}
+          <Avatar
+            style={{ marginRight: '8px' }}
+            src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
+            shape="square"
+            size="small"
+            icon="user"
+          />
+          {`${team.project.name} － ${team.name}`}
         </>
       ),
     };

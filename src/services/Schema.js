@@ -22,9 +22,6 @@ const TeamMember = new schema.Object({
   user: User,
   role: Role,
 });
-const Workflow = new schema.Entity('workflows');
-const WorkflowNode = new schema.Entity('workflowNodes');
-const WorkflowTransition = new schema.Entity('workflowTransitions');
 const Project = new schema.Entity('projects');
 const Team = new schema.Entity('teams');
 const Board = new schema.Entity('boards');
@@ -58,21 +55,6 @@ ProjectMember.define({
 TeamMember.define({
   user: User,
   role: Role,
-});
-
-Workflow.define({
-  creator: User,
-  nodes: [WorkflowNode],
-  transitions: [WorkflowTransition],
-});
-
-WorkflowNode.define({
-  status: Status,
-});
-
-WorkflowTransition.define({
-  out_workflow_node_id: WorkflowNode,
-  in_workflow_node_id: WorkflowNode,
 });
 
 Project.define({
@@ -127,12 +109,6 @@ const Schemas = {
   PROJECTMEMBER_ARRAY: [ProjectMember],
   TEAMMEMBER: TeamMember,
   TEAMMEMBER_ARRAY: [TeamMember],
-  WORKFLOW: Workflow,
-  WORKFLOW_ARRAY: [Workflow],
-  WORKFLOWNODE: WorkflowNode,
-  WORKFLOWNODE_ARRAY: [WorkflowNode],
-  WORKFLOWTRANSITION: WorkflowTransition,
-  WORKFLOWTRANSITION_ARRAY: [WorkflowTransition],
   PROJECT: Project,
   PROJECT_ARRAY: [Project],
   TEAM: Team,

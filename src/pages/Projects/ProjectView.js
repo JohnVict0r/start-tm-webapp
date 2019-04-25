@@ -42,10 +42,6 @@ class ProjectView extends Component {
     const projectOptionsMenu = (
       <Menu>
         <Menu.Item key="1">
-          <Link to={`${match.url}/workflows`}>Fluxos de Trabalho</Link>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="2">
           <Link to={`${match.url}/edit`}>Editar Projeto</Link>
         </Menu.Item>
       </Menu>

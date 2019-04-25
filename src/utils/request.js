@@ -6,7 +6,8 @@ import moment from 'moment';
 import { isAntdPro } from './utils';
 
 // When converting moment objects to JSON use format()
-moment.fn.toJSON = () => {
+// eslint-disable-next-line
+moment.fn.toJSON = function() {
   return this.format();
 };
 

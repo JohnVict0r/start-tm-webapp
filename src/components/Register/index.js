@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import classNames from 'classnames';
+import MaskedInput from 'react-text-mask';
 import { Form, Input, Button } from 'antd';
 import PasswordForce from '../PasswordForce';
 
 import styles from './index.less';
+
+const blacklist = [...Array(5).keys()].map(i => i.toString().repeat(11));
 
 class Register extends Component {
   static propTypes = {
@@ -76,6 +79,47 @@ class Register extends Component {
     }
   };
 
+  validateCpf = (rule, value, callback) => {
+    const test = cpf => {
+      let sum;
+      let rest;
+      let i;
+      sum = 0;
+      if (blacklist.includes(cpf)) {
+        return false;
+      }
+
+      for (i = 1; i <= 9; i += 1) {
+        sum += parseInt(cpf.substring(i - 1, i), 10) * (11 - i);
+      }
+      rest = (sum * 10) % 11;
+
+      if (rest === 10 || rest === 11) {
+        rest = 0;
+      }
+      if (rest !== parseInt(cpf.substring(9, 10), 10)) {
+        return false;
+      }
+
+      sum = 0;
+      for (i = 1; i <= 10; i += 1) {
+        sum += parseInt(cpf.substring(i - 1, i), 10) * (12 - i);
+      }
+      rest = (sum * 10) % 11;
+
+      if (rest === 10 || rest === 11) {
+        rest = 0;
+      }
+      return rest === parseInt(cpf.substring(10, 11), 10);
+    };
+
+    if (value && !test(value.replace(/\./gi, '').replace(/-/gi, ''))) {
+      callback(formatMessage({ id: 'validation.cpf.wrong-format' }));
+    } else {
+      callback();
+    }
+  };
+
   checkPassword = (rule, value, callback) => {
     const { confirmDirty } = this.state;
     if (!value) {
@@ -117,6 +161,35 @@ class Register extends Component {
                 name="name"
                 maxLength={255}
                 placeholder={formatMessage({ id: 'form.user-name.placeholder' })}
+              />
+            )}
+          </Form.Item>
+          <Form.Item>
+            {getFieldDecorator('cpf', {
+              rules: [
+                { required: true, message: formatMessage({ id: 'validation.cpf.required' }) },
+                { validator: this.validateCpf },
+              ],
+            })(
+              <MaskedInput
+                mask={[
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  '.',
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  '.',
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  '-',
+                  /\d/,
+                  /\d/,
+                ]}
+                className="ant-input ant-input-lg"
+                placeholder="CPF"
               />
             )}
           </Form.Item>

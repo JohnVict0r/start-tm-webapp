@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {Button, Form, Input, Spin} from 'antd';
+import { Button, Form, Input, Spin } from 'antd';
 import ColumnList from '@/components/ColumnList';
-import styles from "./SaveCardList.less";
+import styles from './SaveCardList.less';
 
 @connect(state => ({
   validation: state.cards.validation,
@@ -42,7 +42,7 @@ class NewCard extends PureComponent {
             cardListId,
             card: values,
           },
-        }).then((data) => {
+        }).then(data => {
           if (!data || !data.errors) {
             onClose();
             form.resetFields();
@@ -62,34 +62,25 @@ class NewCard extends PureComponent {
     return (
       <ColumnList>
         <ColumnList.Header
-          title='Nova Tarefa'
+          title="Nova Tarefa"
           actions={[
             <Button
-              key='1'
-              type='primary'
-              size='small'
+              key="1"
+              type="primary"
+              size="small"
               onClick={this.handleSubmit}
               disabled={submitting}
             >
               Adicionar
             </Button>,
-            <Button
-              key='2'
-              size='small'
-              onClick={onClose}
-              disabled={submitting}
-            >
+            <Button key="2" size="small" onClick={onClose} disabled={submitting}>
               Cancelar
-            </Button>
+            </Button>,
           ]}
         />
         <div className={styles.content}>
           <Spin spinning={!!submitting}>
-            <Form
-              className={styles.form}
-              onSubmit={this.handleSubmit}
-              hideRequiredMark
-            >
+            <Form className={styles.form} onSubmit={this.handleSubmit} hideRequiredMark>
               <Form.Item label="Nome">
                 {getFieldDecorator('name', {
                   rules: [{ required: true, message: 'Por favor informe o nome da tarefa!' }],

@@ -19,15 +19,15 @@ class DueForm extends PureComponent {
     const { form } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const {dispatch, current, onClose} = this.props;
+        const { dispatch, current, onClose } = this.props;
 
         dispatch({
           type: 'cards/save',
           payload: {
             id: current.id,
-            card: {...values},
+            card: { ...values },
           },
-        }).then((data) => {
+        }).then(data => {
           if (!data || !data.errors) {
             onClose();
             form.resetFields();

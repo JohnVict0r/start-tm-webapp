@@ -19,11 +19,11 @@ export const projectTeamsSelector = createSelector(
 export const makeProjectSelector = ({ id }) =>
   createSelector(
     state => state.entities.projects,
-    (projects) => projects[id]
+    projects => projects[id]
   );
 
 export const makeBoardSelector = ({ boardId }) =>
   createSelector(
     state => state.entities.boards,
-    (boards) => boards[boardId]
+    boards => boards[boardId]
   );

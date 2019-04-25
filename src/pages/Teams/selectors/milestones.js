@@ -8,7 +8,7 @@ export const milestonesSelector = createSelector(
   (collection, milestones, users) => {
     return collection.map(id => {
       const milestone = milestones[id];
-      return { ...milestone, creator: users[milestone.creator]}
-    })
+      return { ...milestone, creator: users[milestone.creator] };
+    });
   }
 );

@@ -1,6 +1,13 @@
 import { message } from 'antd';
 import { formatMessage } from 'umi/locale';
-import { createCard, updateCard, moveCard, assignUser, unAssignUser } from '@/services/cards';
+import {
+  createCard,
+  updateCard,
+  moveCard,
+  assignUser,
+  unAssignUser,
+  createFile,
+} from '@/services/cards';
 
 export default {
   namespace: 'cards',
@@ -34,6 +41,8 @@ export default {
           id: payload.id ? 'app.card.sucess-updated' : 'app.card.sucess-created',
         })
       );
+
+      return null;
     },
 
     *moveCard({ payload }, { call, put }) {
@@ -74,7 +83,24 @@ export default {
         });
       }
     },
+
+    *uploadFile({ payload }, { call, put }) {
+      const response = yield call(createFile, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      message.success('Arquivo anexado!');
+    },
   },
 
-  reducers: {},
+  reducers: {
+    handleError(state, { payload }) {
+      return {
+        ...state,
+        validation: payload,
+      };
+    },
+  },
 };

@@ -1,6 +1,6 @@
 import callApi from '@/utils/callApi';
 import schema from './Schema';
-import {stringify} from "qs";
+import { stringify } from 'qs';
 
 export const createComment = ({ commentableType, commentableId, comment }) =>
   callApi(`comments`, schema.COMMENT_ARRAY).post({
@@ -10,4 +10,7 @@ export const createComment = ({ commentableType, commentableId, comment }) =>
   });
 
 export const listComments = ({ commentableType, commentableId }) =>
-  callApi(`comments?${stringify({ ctype: commentableType, cid: commentableId })}`, schema.COMMENT_ARRAY).get();
+  callApi(
+    `comments?${stringify({ ctype: commentableType, cid: commentableId })}`,
+    schema.COMMENT_ARRAY
+  ).get();

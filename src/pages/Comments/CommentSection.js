@@ -5,7 +5,7 @@ import { Avatar, Button, Comment, Form, Input, List, Skeleton } from 'antd';
 import { loggedInUserSelector } from '@/selectors/global';
 import { commentsSelector } from './selectors/comments';
 
-@connect((state) => {
+@connect(state => {
   return {
     validation: state.comments.validation,
     comments: commentsSelector(state),
@@ -16,7 +16,6 @@ import { commentsSelector } from './selectors/comments';
 })
 @Form.create()
 class CommentSection extends PureComponent {
-
   componentDidMount() {
     const { dispatch, commentableType, commentableId } = this.props;
     dispatch({

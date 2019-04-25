@@ -48,7 +48,7 @@ export default {
     saveComments(state, { payload }) {
       return {
         ...state,
-        items: payload
+        items: payload,
       };
     },
 

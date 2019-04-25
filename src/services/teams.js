@@ -21,6 +21,4 @@ export const deleteTeamMember = (teamId, member) =>
   callApi(`teams/${teamId}/members/${member}`, schema.TEAMMEMBER_ARRAY).delete();
 
 export const changeTeamMemberRole = ({ teamId, memberId, roleId }) =>
-  callApi(`teams/${teamId}/members/${memberId}/access`, schema.TEAMMEMBER_ARRAY).put(
-    roleId
-  );
+  callApi(`teams/${teamId}/members/${memberId}/access`, schema.TEAMMEMBER_ARRAY).put(roleId);

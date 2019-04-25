@@ -5,7 +5,7 @@ import { usersSelector } from '@/selectors/search';
 
 import styles from './Participants.less';
 
-@connect((state) => ({
+@connect(state => ({
   users: usersSelector(state),
   searching: state.loading.effects['search/searchUser'],
 }))
@@ -81,7 +81,7 @@ class ParticipantsForm extends PureComponent {
               </Badge>
             ))
           ) : (
-            <Empty style={{ paddingTop: '8px' }} description='Adiciona participantes' />
+            <Empty style={{ paddingTop: '8px' }} description="Adiciona participantes" />
           )}
         </Row>
       </div>

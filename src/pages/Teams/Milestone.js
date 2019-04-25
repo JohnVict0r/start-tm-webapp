@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import moment from 'moment';
 import { Button, Card, Col, DatePicker, Form, Input, List, Row } from 'antd';
 
-import { milestonesSelector } from './selectors/milestones'
+import { milestonesSelector } from './selectors/milestones';
 import styles from './Milestone.less';
 
 @connect(state => ({
@@ -74,11 +74,7 @@ class Milestone extends Component {
     return (
       <Row gutter={24}>
         <Col xl={16} lg={24} md={24} sm={24} xs={24}>
-          <Card
-            bordered={false}
-            title="Entregáveis"
-            loading={loading}
-          >
+          <Card bordered={false} title="Entregáveis" loading={loading}>
             <List
               size="large"
               rowKey="id"
@@ -86,10 +82,7 @@ class Milestone extends Component {
               dataSource={milestones}
               renderItem={item => (
                 <List.Item>
-                  <List.Item.Meta
-                    title={item.name}
-                    description={item.description}
-                  />
+                  <List.Item.Meta title={item.name} description={item.description} />
                   <ListContent data={item} />
                 </List.Item>
               )}
@@ -103,7 +96,7 @@ class Milestone extends Component {
             title="Novo Entregável"
             bordered={false}
           >
-            <Form onSubmit={this.handleSubmit} layout='vertical' hideRequiredMark>
+            <Form onSubmit={this.handleSubmit} layout="vertical" hideRequiredMark>
               <Form.Item>
                 {getFieldDecorator('name', {
                   rules: [{ required: true, message: 'Por favor informe o nome!' }],

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-//eslint-disable-next-line
+// eslint-disable-next-line
 export const boardSelector = createSelector(
   state => state.boards.currentBoard,
   state => state.entities.boards,
@@ -11,13 +11,12 @@ export const boardSelector = createSelector(
   (currentBoard, boards, cardlists, status, cards, users) => {
     const board = boards[currentBoard];
     if (board && board.cardlists) {
-
       const cardlistsArr = board.cardlists.map(item => {
-        const cardlist = cardlists[item]
+        const cardlist = cardlists[item];
         return {
           ...cardlist,
           status: status[cardlist.status],
-        }
+        };
       });
 
       const cardMap = cardlistsArr.reduce(

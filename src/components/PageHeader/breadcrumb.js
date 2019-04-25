@@ -182,8 +182,10 @@ export default class BreadcrumbView extends PureComponent {
           [key]: {
             ...accum[key],
             customBreadcrumbName: overrideMap[key],
-          }
-        }), breadcrumbNameMap);
+          },
+        }),
+        breadcrumbNameMap
+      );
     }
 
     return breadcrumbNameMap;

@@ -1,18 +1,19 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Button, Modal, Row, Col, Form, List, Popover } from 'antd';
+import { Button, Modal, Row, Col, Form, List, Popover, Upload } from 'antd';
 import AvatarList from '@/components/AvatarList';
 import { cardSelectorWithMembers } from './selectors/members';
 import styles from './ViewCardModal.less';
 import CommentSection from '../Comments/CommentSection';
 import ParticipantsForm from './Participants';
 import Due from './Due';
+import Attachment from '@/components/Upload/Attachment';
 
 @connect((state, ownProps) => {
   const cardSelector = cardSelectorWithMembers({ cardId: ownProps.match.params.cardId });
   return {
-    card: cardSelector(state)
+    card: cardSelector(state),
   };
 })
 @Form.create()
@@ -54,6 +55,17 @@ class ViewCardModal extends PureComponent {
     });
   };
 
+  onUploadFile = file => {
+    const { dispatch, card } = this.props;
+    return dispatch({
+      type: 'cards/uploadFile',
+      payload: {
+        file,
+        cardId: card.id,
+      },
+    });
+  };
+
   handleClose = () => {
     const { match, history } = this.props;
     const parentRoute = match.url.replace(/\/cards\/[0-9]*/i, '');
@@ -61,14 +73,21 @@ class ViewCardModal extends PureComponent {
   };
 
   render() {
-    const {
-      card,
-      match,
-    } = this.props;
+    const { card } = this.props;
 
     const { visibleFormDue, visibleFormParticipants } = this.state;
 
     const textTitleParticipantsForm = <span>Participantes</span>;
+
+    const propsUpload = {
+      fileList: card.files.map(file => {
+       return {
+         uid: file.id,
+         name: file.fileName,
+         url: file.publicUrl,
+        }
+      })
+    };
 
     return (
       <Modal
@@ -101,7 +120,9 @@ class ViewCardModal extends PureComponent {
                             />
                           ))}
                         </AvatarList>
-                      ) : '--'}
+                      ) : (
+                        '--'
+                      )}
                     </Row>
                   </Col>
                   <Col xs={24} sm={12}>
@@ -117,12 +138,17 @@ class ViewCardModal extends PureComponent {
                     <Col span={24}>{card.description}</Col>
                   </Row>
                 )}
+                <Row>
+                  <Col className={styles.label} span={24}>
+                    Anexos
+                  </Col>
+                  <Col className={styles.commentsContainer} span={24}>
+                    <Upload {...propsUpload} />
+                  </Col>
+                </Row>
               </Col>
               <Col className={styles.commentsContainer} span={24}>
-                <CommentSection
-                  commentableType='cards'
-                  commentableId={card.id}
-                />
+                <CommentSection commentableType="cards" commentableId={card.id} />
               </Col>
             </Row>
           </Col>
@@ -168,10 +194,8 @@ class ViewCardModal extends PureComponent {
                   onVisibleChange={this.handleVisibleDueChange}
                   title={<span>Alterar prazo de entrega</span>}
                   content={
-                    <Due
-                      current={card}
-                      onClose={() => this.handleVisibleDueChange(false)}
-                    />}
+                    <Due current={card} onClose={() => this.handleVisibleDueChange(false)} />
+                  }
                   trigger="click"
                 >
                   <Button block icon="schedule">
@@ -179,11 +203,9 @@ class ViewCardModal extends PureComponent {
                   </Button>
                 </Popover>
               </List.Item>
-              {/* <List.Item>
-                <Button block icon="paper-clip">
-                  Anexo
-                </Button>
-              </List.Item> */}
+              <List.Item>
+                <Attachment name="file" onUpload={this.onUploadFile} />
+              </List.Item>
             </List>
           </Col>
         </Row>

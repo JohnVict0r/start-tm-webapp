@@ -46,9 +46,7 @@ const CardItem = ({ card, isDragging, provided, style, match }) => (
     {...provided.dragHandleProps}
     style={style}
   >
-    <Link
-      to={`${match.url}/cards/${card.id}`}
-    >
+    <Link to={`${match.url}/cards/${card.id}`}>
       <Card
         bordered={false}
         className={classNames(styles.card, {

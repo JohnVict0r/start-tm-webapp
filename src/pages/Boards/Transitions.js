@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, Checkbox, List } from 'antd';
 import ColumnList from '@/components/ColumnList';
-import styles from "./SaveCardList.less";
+import styles from './SaveCardList.less';
 
 @connect(state => ({
   loading: state.loading.effects['boards/toggleTransition'],
@@ -16,42 +16,33 @@ class Transitions extends PureComponent {
         teamId: currentCardList.teamId,
         transition: {
           action: checked ? 'add' : 'remove',
-          'card_list_id': currentCardList.id,
-          'disabled_card_list_id': item.id
-        }
-      }
+          card_list_id: currentCardList.id,
+          disabled_card_list_id: item.id,
+        },
+      },
     });
   };
 
   render() {
-    const {
-      cardLists,
-      currentCardList,
-      onClose,
-      loading,
-    } = this.props;
+    const { cardLists, currentCardList, onClose, loading } = this.props;
 
     const disabledCardListsIds = currentCardList.disabledTransitions.map(i => i.disabledCardListId);
 
     const transitions = cardLists
       .filter(i => i.id !== currentCardList.id)
-      .map((item) => ({
+      .map(item => ({
         ...item,
-        checked: !disabledCardListsIds.includes(item.id)
+        checked: !disabledCardListsIds.includes(item.id),
       }));
 
     return (
       <ColumnList>
         <ColumnList.Header
-          title='Transições'
+          title="Transições"
           actions={[
-            <Button
-              key='1'
-              size='small'
-              onClick={onClose}
-            >
+            <Button key="1" size="small" onClick={onClose}>
               Voltar
-            </Button>
+            </Button>,
           ]}
         />
         <div className={styles.content}>
@@ -64,7 +55,7 @@ class Transitions extends PureComponent {
               <List.Item>
                 <Checkbox
                   checked={item.checked}
-                  onChange={(e) => this.handleChange(e.target.checked, item)}
+                  onChange={e => this.handleChange(e.target.checked, item)}
                 >
                   {item.name}
                 </Checkbox>

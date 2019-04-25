@@ -5,9 +5,9 @@ export const commentsSelector = createSelector(
   state => state.comments.items,
   state => state.entities.comments,
   state => state.entities.users,
-  (collection, comments, users) => collection.map(id => {
-    const comment = comments[id];
-    return { ...comment, commented: users[comment.commented] };
-  })
+  (collection, comments, users) =>
+    collection.map(id => {
+      const comment = comments[id];
+      return { ...comment, commented: users[comment.commented] };
+    })
 );
-

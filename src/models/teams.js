@@ -4,7 +4,7 @@ export default {
   namespace: 'teams',
 
   state: {
-    currentBoard: null
+    currentBoard: null,
   },
 
   effects: {
@@ -18,5 +18,5 @@ export default {
     },
   },
 
-  reducers: { },
+  reducers: {},
 };

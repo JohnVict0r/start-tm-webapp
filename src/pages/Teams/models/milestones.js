@@ -6,14 +6,14 @@ export default {
 
   state: {
     validation: null,
-    items: []
+    items: [],
   },
 
   effects: {
     *save({ payload }, { call, put }) {
       const response = payload.id
-        // ? yield call(updateCard, payload)
-        ? yield call(createMilestone, payload)
+        ? // ? yield call(updateCard, payload)
+          yield call(createMilestone, payload)
         : yield call(createMilestone, payload);
 
       if (response.errors) {
@@ -27,12 +27,14 @@ export default {
           payload: response.entities,
         });
 
-        message.success(payload.id ? 'Entregável atualizado com sucesso' : 'Entregável criado com sucesso!');
+        message.success(
+          payload.id ? 'Entregável atualizado com sucesso' : 'Entregável criado com sucesso!'
+        );
 
         yield put({
           type: 'fetch',
-          payload
-        })
+          payload,
+        });
       }
     },
 
@@ -55,7 +57,7 @@ export default {
     receiveItems(state, { payload }) {
       return {
         ...state,
-        items: payload
+        items: payload,
       };
     },
     handleError(state, { payload }) {

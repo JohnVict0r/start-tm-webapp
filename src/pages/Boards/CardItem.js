@@ -38,32 +38,36 @@ const RenderAvatarList = ({ card }) => (
   </div>
 );
 
-const CardItem = ({ card, isDragging, provided, style, match }) => (
-  <div
-    className={styles.cardWrapper}
-    ref={provided.innerRef}
-    {...provided.draggableProps}
-    {...provided.dragHandleProps}
-    style={style}
-  >
-    <Link to={`${match.url}/cards/${card.id}`}>
-      <Card
-        bordered={false}
-        className={classNames(styles.card, {
-          [styles.dragging]: isDragging,
-        })}
-        bodyStyle={{ padding: '12px' }}
-      >
-        <Ellipsis lines={3}>{card.name}</Ellipsis>
-        <div className={styles.cardMetaInfo}>
-          <div className={styles.left}>
-            <Due date={card.due} />
+const CardItem = ({ card, isDragging, provided, style, match }) => {
+  const cover = card.files.find(i => i.mimeType === 'image/jpeg' || i.mimeType === 'image/png');
+  return (
+    <div
+      className={styles.cardWrapper}
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      style={style}
+    >
+      <Link to={`${match.url}/cards/${card.id}`}>
+        <Card
+          bordered={false}
+          cover={cover && <img alt={cover.name} src={cover.url} />}
+          className={classNames(styles.card, {
+            [styles.dragging]: isDragging,
+          })}
+          bodyStyle={{ padding: '12px' }}
+        >
+          <Ellipsis lines={3}>{card.name}</Ellipsis>
+          <div className={styles.cardMetaInfo}>
+            <div className={styles.left}>
+              <Due date={card.due} />
+            </div>
+            {card.members.length > 0 && <RenderAvatarList card={card} />}
           </div>
-          {card.members.length > 0 && <RenderAvatarList card={card} />}
-        </div>
-      </Card>
-    </Link>
-  </div>
-);
+        </Card>
+      </Link>
+    </div>
+  );
+};
 
 export default withRouter(CardItem);

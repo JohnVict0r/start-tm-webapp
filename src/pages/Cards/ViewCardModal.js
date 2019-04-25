@@ -81,13 +81,15 @@ class ViewCardModal extends PureComponent {
 
     const propsUpload = {
       fileList: card.files.map(file => {
-       return {
-         uid: file.id,
-         name: file.fileName,
-         url: file.publicUrl,
-        }
-      })
+        return {
+          uid: file.id,
+          name: file.fileName,
+          url: file.url,
+        };
+      }),
     };
+
+    const cover = card.files.find(i => i.mimeType === 'image/jpeg' || i.mimeType === 'image/png');
 
     return (
       <Modal
@@ -101,6 +103,9 @@ class ViewCardModal extends PureComponent {
         maskClosable
         visible
       >
+        {cover && (
+          <div className={styles.headerImage} style={{ backgroundImage: `url(${cover.url})` }} />
+        )}
         <Row className={styles.cardTitle}>{card.name}</Row>
         <Row gutter={24}>
           <Col xs={24} sm={18}>

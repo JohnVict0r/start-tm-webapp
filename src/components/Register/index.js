@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import classNames from 'classnames';
-import MaskedInput from 'react-text-mask'
-import { Form, Input,  Button } from 'antd';
+import MaskedInput from 'react-text-mask';
+import { Form, Input, Button } from 'antd';
 import PasswordForce from '../PasswordForce';
 
 import styles from './index.less';
+
+const blacklist = [...Array(5).keys()].map(i => i.toString().repeat(11));
 
 class Register extends Component {
   static propTypes = {
@@ -77,38 +79,46 @@ class Register extends Component {
     }
   };
 
-  validadeCpf = (rule, value, callback) => {
-    const TestaCPF = (strCPF) => {
-      let Soma;
-      let Resto;
+  validateCpf = (rule, value, callback) => {
+    const test = cpf => {
+      let sum;
+      let rest;
       let i;
-      Soma = 0;
-      if(strCPF === "00000000000") {
+      sum = 0;
+      if (blacklist.includes(cpf)) {
         return false;
       }
 
-      for(i=1; i<=9; i+=1) {Soma += parseInt(strCPF.substring(i - 1, i),10) * (11 - i);}
-      Resto = (Soma * 10) % 11;
+      for (i = 1; i <= 9; i += 1) {
+        sum += parseInt(cpf.substring(i - 1, i), 10) * (11 - i);
+      }
+      rest = (sum * 10) % 11;
 
-      if ((Resto === 10) || (Resto === 11)){  Resto = 0;}
-      if (Resto !== parseInt(strCPF.substring(9, 10),10)){ return false;}
+      if (rest === 10 || rest === 11) {
+        rest = 0;
+      }
+      if (rest !== parseInt(cpf.substring(9, 10), 10)) {
+        return false;
+      }
 
-      Soma = 0;
-      for (i = 1; i <= 10; i+=1){ Soma +=  parseInt(strCPF.substring(i-1, i),10) * (12 - i);}
-      Resto = (Soma * 10) % 11;
+      sum = 0;
+      for (i = 1; i <= 10; i += 1) {
+        sum += parseInt(cpf.substring(i - 1, i), 10) * (12 - i);
+      }
+      rest = (sum * 10) % 11;
 
-      if ((Resto === 10) || (Resto === 11)){  Resto = 0};
-      if (Resto !== parseInt(strCPF.substring(10, 11),10 )){ return false;}
-      return true;
-    }
+      if (rest === 10 || rest === 11) {
+        rest = 0;
+      }
+      return rest === parseInt(cpf.substring(10, 11), 10);
+    };
 
-    if(value&&!TestaCPF(value.replace(/\./gi,'').replace(/-/gi,''))){
+    if (value && !test(value.replace(/\./gi, '').replace(/-/gi, ''))) {
       callback(formatMessage({ id: 'validation.cpf.wrong-format' }));
-    }
-    else{
+    } else {
       callback();
     }
-  }
+  };
 
   checkPassword = (rule, value, callback) => {
     const { confirmDirty } = this.state;
@@ -150,7 +160,6 @@ class Register extends Component {
                 size="large"
                 name="name"
                 maxLength={255}
-
                 placeholder={formatMessage({ id: 'form.user-name.placeholder' })}
               />
             )}
@@ -159,13 +168,28 @@ class Register extends Component {
             {getFieldDecorator('cpf', {
               rules: [
                 { required: true, message: formatMessage({ id: 'validation.cpf.required' }) },
-                { validator:this.validadeCpf },
+                { validator: this.validateCpf },
               ],
             })(
               <MaskedInput
-                mask={[/\d/,/\d/,/\d/,'.',/\d/,/\d/,/\d/,'.',/\d/,/\d/,/\d/,'-',/\d/,/\d/]}
-                class="ant-input ant-input-lg"
-                placeholder={formatMessage({ id: 'form.cpf.placeholder' })}
+                mask={[
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  '.',
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  '.',
+                  /\d/,
+                  /\d/,
+                  /\d/,
+                  '-',
+                  /\d/,
+                  /\d/,
+                ]}
+                className="ant-input ant-input-lg"
+                placeholder="CPF"
               />
             )}
           </Form.Item>

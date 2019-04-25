@@ -67,7 +67,7 @@
     "react-media": "^1.9.2",
     "react-text-mask": "^5.4.3",
     "reselect": "^4.0.0",
-    "umi": "^2.6.12"
+    "umi": "^2.6.2"
   },
   "devDependencies": {
     "@types/react": "^16.8.8",

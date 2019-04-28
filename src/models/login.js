@@ -74,8 +74,9 @@ export default {
       removeAuthToken();
       setAuthority('');
       reloadAuthorized();
+      const { redirect } = getPageQuery();
       // redirect
-      if (window.location.pathname !== '/auth/login') {
+      if (window.location.pathname !== '/auth/login' && !redirect) {
         yield put(
           routerRedux.push({
             pathname: '/auth/login',

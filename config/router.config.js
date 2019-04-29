@@ -6,6 +6,7 @@ export default [
     routes: [
       { path: '/auth', redirect: '/auth/login' },
       { path: '/auth/login', name: 'login', component: './Auth/Login' },
+      { path: '/auth/callback/sabia', name: 'sabia', component: './Auth/CallbackSabia' },
       {
         path: '/auth/forgot-password',
         name: 'forgot-password',

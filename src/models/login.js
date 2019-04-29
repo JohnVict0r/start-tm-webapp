@@ -1,6 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { stringify } from 'qs';
-import { login } from '@/services/auth';
+import { login, loginWithSabia } from '@/services/auth';
 import { setAuthToken, removeAuthToken } from '@/utils/authentication';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthenticated } from '@/utils/Authenticated';
@@ -16,7 +16,24 @@ export default {
     *login({ payload }, { call, put }) {
       const response = yield call(login, payload);
 
-      const isLoggedIn = !!response && !!response.token;
+      yield put({
+        type: 'authenticate',
+        payload: response,
+      });
+    },
+
+    *loginWithSabia({ payload }, { call, put }) {
+      const response = yield call(loginWithSabia, payload);
+
+      yield put({
+        type: 'authenticate',
+        payload: response,
+      });
+    },
+
+    *authenticate({ payload }, { put }) {
+
+      const isLoggedIn = !!payload && !!payload.token;
 
       yield put({
         type: 'changeLoginStatus',
@@ -25,7 +42,7 @@ export default {
 
       // Login successfully
       if (isLoggedIn) {
-        setAuthToken(response.token);
+        setAuthToken(payload.token);
         reloadAuthenticated();
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();

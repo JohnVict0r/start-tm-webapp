@@ -30,7 +30,7 @@ const RenderAvatarList = ({ card }) => (
       {card.members.map(member => (
         <AvatarList.Item
           key={`${card.id}-avatar-${member.id}`}
-          src={member.pictureUrl}
+          src={member.avatar}
           tips={member.name}
         />
       ))}

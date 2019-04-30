@@ -25,15 +25,6 @@ class BasicInfo extends Component {
     });
   };
 
-  getAvatarURL() {
-    const { currentUser } = this.props;
-    if (currentUser.pictureUrl) {
-      return currentUser.pictureUrl;
-    }
-    const url = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
-    return url;
-  }
-
   handleSubmit = e => {
     e.preventDefault();
     const { form } = this.props;
@@ -59,6 +50,7 @@ class BasicInfo extends Component {
   render() {
     const {
       form: { getFieldDecorator },
+      currentUser,
       submitting,
     } = this.props;
 
@@ -105,8 +97,8 @@ class BasicInfo extends Component {
               <FormattedMessage id="app.settings.basic.avatar" defaultMessage="Avatar" />
             </div>
             <AvatarUpload
-              name="picture_url"
-              avatar={this.getAvatarURL()}
+              name="avatar"
+              avatar={currentUser.avatar}
               onUpload={this.onUploadAvatar}
             />
           </div>

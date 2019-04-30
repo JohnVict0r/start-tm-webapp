@@ -32,8 +32,8 @@ class LoginPage extends Component {
           <Divider>OU</Divider>
           <OAuthButton
             authorizeUrl="https://login.sabia.ufrn.br/oauth/authorize/"
-            clientId='V5V3GjhOUh5gRLB460Oe5jQGoidEzkmKOy89B3t8'
-            redirectUri='http://localhost:3000/auth/callback/sabia'
+            clientId={SABIA_CLIENT_ID} // eslint-disable-line no-undef
+            redirectUri={SABIA_REDIRECT_URI} // eslint-disable-line no-undef
             render={({ url }) => (
               <Button
                 className={styles.sabia}

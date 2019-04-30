@@ -6,7 +6,7 @@ import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 
 const { pwa, primaryColor } = defaultSettings;
-const { API_URL, APP_TYPE, TEST } = process.env;
+const { API_URL, APP_TYPE, TEST, SABIA_CLIENT_ID, SABIA_REDIRECT_URI } = process.env;
 
 const plugins = [
   [
@@ -64,6 +64,8 @@ export default {
   define: {
     APP_TYPE: APP_TYPE || '',
     API_URL: API_URL || 'http://localhost:8000/api/',
+    SABIA_CLIENT_ID,
+    SABIA_REDIRECT_URI
   },
   treeShaking: true,
   targets: {

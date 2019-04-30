@@ -12,7 +12,7 @@ export const rolesSelector = createSelector(
   (collection, roles) =>
     collection
       .map(id => roles[id])
-      .filter(role => ['Proprietário', 'Gerente', 'Colaborador'].includes(role.name))
+      .filter(role => ['Gerente', 'Colaborador'].includes(role.name))
 );
 
 export const systemRolesSelector = createSelector(

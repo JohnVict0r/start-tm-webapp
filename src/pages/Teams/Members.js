@@ -42,8 +42,8 @@ class TeamMembers extends PureComponent {
       type: 'currentTeamMembers/changeMemberRole',
       payload: {
         teamId: match.params.teamId,
-        member: memberId,
-        roleId: role,
+        memberId,
+        role,
       },
     });
   };
@@ -57,14 +57,14 @@ class TeamMembers extends PureComponent {
 
     return [
       <Select
-        defaultValue={role.id}
+        defaultValue={role.name}
         style={{ width: 140 }}
-        onChange={roleId => {
-          this.handleChangeRole(user.id, roleId);
+        onChange={roleName => {
+          this.handleChangeRole(user.id, roleName);
         }}
       >
         {roles.map(r => (
-          <Select.Option key={r.id} value={r.id}>
+          <Select.Option key={r.name} value={r.name}>
             {` ${r.name} `}
           </Select.Option>
         ))}

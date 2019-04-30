@@ -1,5 +1,5 @@
-import React, { Fragment, PureComponent } from 'react';
-import { Upload, Spin } from 'antd';
+import React, { PureComponent } from 'react';
+import { Avatar, Button, Icon, Upload, Spin } from 'antd';
 import styles from './index.less';
 
 class AvatarUpload extends PureComponent {
@@ -31,22 +31,29 @@ class AvatarUpload extends PureComponent {
     const { uploading } = this.state;
 
     return (
-      <Fragment>
-        <Upload
-          beforeUpload={this.beforeUpload}
-          onChange={this.handleChange}
-          showUploadList={false}
-          name={name}
-          accept="image/*"
-          listType="picture-card"
-        >
-          <div className={styles.avatar}>
+      <Upload
+        beforeUpload={this.beforeUpload}
+        onChange={this.handleChange}
+        showUploadList={false}
+        name={name}
+        accept="image/*"
+        disabled={uploading}
+      >
+        <div className={styles.upload}>
+          <div className={styles.avatarWapper}>
             <Spin spinning={uploading}>
-              <img src={avatar} alt="avatar" />
+              <Avatar
+                className={styles.avatar}
+                src={avatar}
+                alt="avatar"
+              />
             </Spin>
           </div>
-        </Upload>
-      </Fragment>
+          <Button>
+            <Icon type="upload" /> Selecionar
+          </Button>
+        </div>
+      </Upload>
     );
   }
 }

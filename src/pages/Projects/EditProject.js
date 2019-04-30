@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import AvatarUpload from '@/components/Upload/Avatar';
-import {Input, Form, Card, Button, Col, Row} from 'antd';
+import { Divider, Input, Form, Card, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
 
 @connect((state, ownProps) => ({
@@ -92,51 +92,46 @@ class EditProject extends PureComponent {
     };
 
     return (
-      <Row gutter={24}>
-        <Col xl={5} lg={5} md={5} sm={5} xs={5}>
-          <Card title="Editar imagem" bordered={false}>
-            <AvatarUpload
-              avatar={this.getAvatarURL()}
-              name="picture_url"
-              onUpload={this.onUploadAvatar}
-            />
-          </Card>
-        </Col>
-        <Col xl={19} lg={19} md={19} sm={19} xs={19}>
-          <Card title="Editar projeto" bordered={false}>
-            <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-              <Form.Item label="Nome do projeto" {...formItemLayout}>
-                {getFieldDecorator('name', {
-                  rules: [{ required: true, message: 'Por favor informe o nome do projeto!' }],
-                  initialValue: project.name,
-                })(<Input maxLength={255} placeholder="Insita o nome do projeto" />)}
-              </Form.Item>
-              <Form.Item {...formItemLayout} label="Descrição">
-                {getFieldDecorator('description', {
-                  rules: [
-                    {
-                      message: 'Por favor, insira uma descrição com pelo menos 5 caracteres',
-                      min: 5,
-                    },
-                  ],
-                  initialValue: project.description,
-                })(
-                  <Input.TextArea
-                    maxLength={255}
-                    rows={4}
-                    placeholder="Por favor, insira uma descrição para o projeto"
-                  />
-                )}
-              </Form.Item>
-              <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
-                <Button type="primary" htmlType="submit" loading={submitting}>
-                  {formatMessage({ id: 'app.project.edit' })}
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
+      <Card title="Editar projeto" bordered={false}>
+        <div style={{ textAlign: 'center' }}>
+          <AvatarUpload
+            avatar={this.getAvatarURL()}
+            name="picture_url"
+            onUpload={this.onUploadAvatar}
+          />
+        </div>
+        <Divider />
+        <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+          <Form.Item label="Nome do projeto" {...formItemLayout}>
+            {getFieldDecorator('name', {
+              rules: [{ required: true, message: 'Por favor informe o nome do projeto!' }],
+              initialValue: project.name,
+            })(<Input maxLength={255} placeholder="Insita o nome do projeto" />)}
+          </Form.Item>
+          <Form.Item {...formItemLayout} label="Descrição">
+            {getFieldDecorator('description', {
+              rules: [
+                {
+                  message: 'Por favor, insira uma descrição com pelo menos 5 caracteres',
+                  min: 5,
+                },
+              ],
+              initialValue: project.description,
+            })(
+              <Input.TextArea
+                maxLength={255}
+                rows={4}
+                placeholder="Por favor, insira uma descrição para o projeto"
+              />
+            )}
+          </Form.Item>
+          <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
+            <Button type="primary" htmlType="submit" loading={submitting}>
+              {formatMessage({ id: 'app.project.edit' })}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
     );
   }
 }

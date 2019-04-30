@@ -88,7 +88,7 @@ export default class GlobalHeaderRight extends PureComponent {
             size="small"
             className={styles.avatar}
             style={{ height: '15px', width: '15px' }}
-            src={currentUser.pictureUrl}
+            src={currentUser.avatar}
             alt="avatar"
           />
           <Ellipsis className={styles.ellipsis} length={13}>
@@ -192,7 +192,7 @@ export default class GlobalHeaderRight extends PureComponent {
               <Avatar
                 size="small"
                 className={styles.avatar}
-                src={currentUser.pictureUrl}
+                src={currentUser.avatar}
                 alt="avatar"
               />
             </span>

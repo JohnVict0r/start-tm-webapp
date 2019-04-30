@@ -68,7 +68,7 @@ class ProjectView extends Component {
     return (
       <PageHeaderWrapper
         logo={
-          <img alt="" src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png" />
+          <img alt={project.name} src={project.avatar} />
         }
         title={project.name}
         action={action}

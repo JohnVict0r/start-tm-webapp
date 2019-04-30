@@ -78,7 +78,7 @@ class CommentSection extends PureComponent {
       <div>
         <Form onSubmit={this.handleSubmit}>
           <Comment
-            avatar={<Avatar src={loggedInUser.pictureUrl} />}
+            avatar={<Avatar src={loggedInUser.avatar} />}
             content={
               <div>
                 <Form.Item>
@@ -104,7 +104,7 @@ class CommentSection extends PureComponent {
             <Skeleton loading={loading} active avatar>
               <Comment
                 author={item.commented.name}
-                avatar={<Avatar src={item.commented.pictureUrl} />}
+                avatar={<Avatar src={item.commented.avatar} />}
                 content={item.comment}
                 datetime={moment(item.createdAt.date).format('LLL')}
               />

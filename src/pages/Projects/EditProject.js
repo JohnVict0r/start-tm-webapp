@@ -31,16 +31,6 @@ class EditProject extends PureComponent {
     }
   }
 
-  getAvatarURL() {
-    const { project } = this.props;
-    if (project.pictureUrl) {
-      return project.pictureUrl;
-    }
-
-    const url = 'https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png';
-    return url;
-  }
-
   onUploadAvatar = file => {
     const { dispatch, project } = this.props;
     return dispatch({
@@ -95,8 +85,8 @@ class EditProject extends PureComponent {
       <Card title="Editar projeto" bordered={false}>
         <div style={{ textAlign: 'center' }}>
           <AvatarUpload
-            avatar={this.getAvatarURL()}
-            name="picture_url"
+            avatar={project.avatar}
+            name="avatar"
             onUpload={this.onUploadAvatar}
           />
         </div>

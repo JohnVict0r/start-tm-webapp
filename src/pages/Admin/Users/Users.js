@@ -118,7 +118,7 @@ class Users extends PureComponent {
               >
                 <Skeleton title={false} loading={loading} active>
                   <List.Item.Meta
-                    avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
+                    avatar={<Avatar src={user.avatar} shape="square" size="large" />}
                     title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
                     description={user.email}
                   />

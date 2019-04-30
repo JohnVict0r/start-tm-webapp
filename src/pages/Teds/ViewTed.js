@@ -67,7 +67,7 @@ class ViewTed extends PureComponent {
           <Ellipsis lines={2}>{ted.description}</Ellipsis>
         </Description>
         <Description term="Criado por">
-          <Avatar src={ted.creator.pictureUrl} size="small" /> {ted.creator.name}
+          <Avatar src={ted.creator.avatar} size="small" /> {ted.creator.name}
         </Description>
       </DescriptionList>
     );

@@ -66,10 +66,10 @@ class TeamView extends Component {
         <>
           <Avatar
             style={{ marginRight: '8px' }}
-            src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
+            src={team.project.avatar}
             shape="square"
             size="small"
-            icon="user"
+            icon="project"
           />
           {`${team.project.name} － ${team.name}`}
         </>

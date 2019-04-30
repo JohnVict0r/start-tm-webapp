@@ -105,14 +105,15 @@ class Users extends PureComponent {
                         {` ${r.name} `}
                       </Select.Option>
                     ))}
-                  </Select>,
-                  <Popconfirm
-                    title="Tem certeza?"
-                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                    onConfirm={() => this.handleDelete(user.id)}
-                  >
-                    <Button type="danger" icon="delete" ghost />
-                  </Popconfirm>,
+                  </Select>
+                  // ,
+                  // <Popconfirm
+                  //   title="Tem certeza?"
+                  //   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                  //   onConfirm={() => this.handleDelete(user.id)}
+                  // >
+                  //   <Button type="danger" icon="delete" ghost />
+                  // </Popconfirm>,
                 ]}
               >
                 <Skeleton title={false} loading={loading} active>

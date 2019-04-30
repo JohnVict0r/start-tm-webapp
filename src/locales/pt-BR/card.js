@@ -11,4 +11,6 @@ export default {
   'app.card.back': 'Voltar',
   'app.card.labeluser': 'Usuarios',
   'app.card.members': 'Membros',
+  'app.card.milestone' : 'Entregavel',
+  'app.card.assign-milestone':'Associar entregavel',
 };

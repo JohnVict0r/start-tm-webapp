@@ -7,6 +7,8 @@ import {
   assignUser,
   unAssignUser,
   createFile,
+  assignMilestone,
+  unassignMilestone
 } from '@/services/cards';
 
 export default {
@@ -56,6 +58,23 @@ export default {
 
     *assigin({ payload }, { call, put }) {
       const response = yield call(assignUser, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
+    },
+
+    *updateMilestone({ payload }, { call, put }) {
+      const response = payload.milestoneId
+          ? yield call(assignMilestone, payload)
+          : yield call(unassignMilestone, payload);
       if (response.errors) {
         yield put({
           type: 'handleError',

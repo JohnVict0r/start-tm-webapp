@@ -7,6 +7,7 @@ import {
   assignUser,
   unAssignUser,
   createFile,
+  deleteFile,
 } from '@/services/cards';
 
 export default {
@@ -92,6 +93,14 @@ export default {
       });
 
       message.success('Arquivo anexado!');
+    },
+
+    *removeFile({ payload }, { call, put }) {
+      const response = yield call(deleteFile, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
     },
   },
 

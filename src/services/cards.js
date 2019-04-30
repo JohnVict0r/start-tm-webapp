@@ -21,3 +21,6 @@ export const unAssignUser = ({ id, userId }) =>
 
 export const createFile = ({ file, cardId }) =>
   callApi(`cards/${cardId}/files`, schema.CARD).post(file);
+
+export const deleteFile = ({ cardId, fileId }) =>
+  callApi(`cards/${cardId}/files/${fileId}`, schema.CARD).delete();

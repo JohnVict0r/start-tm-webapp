@@ -66,6 +66,18 @@ class ViewCardModal extends PureComponent {
     });
   };
 
+  onDeleteFile = file => {
+    const { dispatch, card } = this.props;
+
+    return dispatch({
+      type: 'cards/removeFile',
+      payload: {
+        fileId: file.uid,
+        cardId: card.id,
+      },
+    });
+  };
+
   handleClose = () => {
     const { match, history } = this.props;
     const parentRoute = match.url.replace(/\/cards\/[0-9]*/i, '');
@@ -148,7 +160,7 @@ class ViewCardModal extends PureComponent {
                     Anexos
                   </Col>
                   <Col className={styles.commentsContainer} span={24}>
-                    <Upload {...propsUpload} />
+                    <Upload {...propsUpload} onRemove={this.onDeleteFile} />
                   </Col>
                 </Row>
               </Col>

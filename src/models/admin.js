@@ -1,5 +1,5 @@
 import { loadUsers, removeUser, changeUserRole } from '@/services/admin';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 const initialPaginatioState = {
   count: 0,
@@ -40,7 +40,7 @@ export default {
       const response = yield call(removeUser, payload);
 
       if (response.errors) {
-        notification.error({ message: 'Não foi possível remover o usuário!' });
+        message.error('Não foi possível remover o usuário!');
       } else {
         yield put({
           type: 'entities/mergeEntities',
@@ -52,14 +52,14 @@ export default {
           payload: response.result,
         });
 
-        notification.success({ message: 'Usuário removido com sucesso!' });
+        message.success('Usuário removido com sucesso!');
       }
     },
     *updateUserRole({ payload }, { call, put }) {
       const response = yield call(changeUserRole, payload);
 
       if (response.errors) {
-        notification.error({ message: 'Não foi possível alterar o papel do usuário!' });
+        message.error('Não foi possível alterar o papel do usuário!');
       } else {
         yield put({
           type: 'entities/mergeEntities',
@@ -71,7 +71,7 @@ export default {
           payload: response.result,
         });
 
-        notification.success({ message: 'Papel do usuário alterado com sucesso!' });
+        message.success('Papel do usuário alterado com sucesso!');
       }
     },
   },

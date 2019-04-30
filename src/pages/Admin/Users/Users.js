@@ -34,14 +34,13 @@ class Users extends PureComponent {
     });
   };
 
-  handleChangeRole = (userId, roleId) => {
+  handleChangeRole = (userId, role) => {
     const { dispatch } = this.props;
-
     dispatch({
       type: 'admin/updateUserRole',
       payload: {
         userId,
-        roleId,
+        role,
       },
     });
   };
@@ -95,26 +94,26 @@ class Users extends PureComponent {
               <List.Item
                 actions={[
                   <Select
-                    defaultValue={role.id}
+                    defaultValue={role.name}
                     style={{ width: 140 }}
-                    onChange={roleId => {
-                      this.handleChangeRole(user.id, roleId);
+                    onChange={roleName => {
+                      this.handleChangeRole(user.id, roleName);
                     }}
                   >
                     {roles.map(r => (
-                      <Select.Option key={r.id} value={r.id}>
-                        {' '}
-                        {r.name}{' '}
+                      <Select.Option key={r.name} value={r.name}>
+                        {` ${r.name} `}
                       </Select.Option>
                     ))}
-                  </Select>,
-                  <Popconfirm
-                    title="Tem certeza?"
-                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                    onConfirm={() => this.handleDelete(user.id)}
-                  >
-                    <Button type="danger" icon="delete" ghost />
-                  </Popconfirm>,
+                  </Select>
+                  // ,
+                  // <Popconfirm
+                  //   title="Tem certeza?"
+                  //   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                  //   onConfirm={() => this.handleDelete(user.id)}
+                  // >
+                  //   <Button type="danger" icon="delete" ghost />
+                  // </Popconfirm>,
                 ]}
               >
                 <Skeleton title={false} loading={loading} active>

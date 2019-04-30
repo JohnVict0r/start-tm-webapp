@@ -78,7 +78,7 @@ class AccountSettings extends Component {
     requestAnimationFrame(() => {
       let mode = 'inline';
       const { offsetWidth } = this.main;
-      if (this.main.offsetWidth < 641 && offsetWidth > 400) {
+      if (offsetWidth < 641 && offsetWidth > 400) {
         mode = 'horizontal';
       }
       if (window.innerWidth < 768 && offsetWidth > 400) {

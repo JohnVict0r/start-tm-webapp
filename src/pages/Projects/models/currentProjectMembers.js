@@ -4,7 +4,7 @@ import {
   deleteProjectMember,
   changeProjectMemberRole,
 } from '@/services/projects';
-import { notification } from 'antd';
+import { message } from 'antd';
 
 export default {
   namespace: 'currentProjectMembers',
@@ -30,7 +30,7 @@ export default {
       const response = yield call(addProjectMember, payload.id, payload.member);
 
       if (response.errors) {
-        notification.error({ message: 'Não foi possível Adicionar o membro!' });
+        message.error('Não foi possível Adicionar o membro!');
       } else {
         yield put({
           type: 'entities/mergeEntities',
@@ -42,7 +42,11 @@ export default {
           payload: response.result,
         });
 
-        notification.success({ message: 'Membro adicionado com sucesso!' });
+        yield put({
+          type: 'search/clearUserQuery'
+        });
+
+        message.success('Membro adicionado com sucesso!');
       }
     },
 
@@ -50,7 +54,7 @@ export default {
       const response = yield call(deleteProjectMember, payload.id, payload.member);
 
       if (response.errors) {
-        notification.error({ message: 'Não foi possível remover o membro!' });
+        message.error('Não foi possível remover o membro!' );
       } else {
         yield put({
           type: 'entities/mergeEntities',
@@ -62,7 +66,7 @@ export default {
           payload: response.result,
         });
 
-        notification.success({ message: 'Membro removido com sucesso!' });
+        message.success('Membro removido com sucesso!');
       }
     },
 
@@ -70,7 +74,7 @@ export default {
       const response = yield call(changeProjectMemberRole, payload);
 
       if (response.errors) {
-        notification.error({ message: 'Não foi possível alterar o papel do membro!' });
+        message.error( 'Não foi possível alterar o papel do membro!' );
       } else {
         yield put({
           type: 'entities/mergeEntities',
@@ -82,7 +86,7 @@ export default {
           payload: response.result,
         });
 
-        notification.success({ message: 'Papel do membro alterado com sucesso!' });
+        message.success('Papel do membro alterado com sucesso!');
       }
     },
   },

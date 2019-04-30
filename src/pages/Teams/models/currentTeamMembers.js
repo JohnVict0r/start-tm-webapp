@@ -42,6 +42,10 @@ export default {
           payload: response.result,
         });
 
+        yield put({
+          type: 'search/clearUserQuery'
+        });
+
         message.success('Membro adicionado com sucesso!');
       }
     },

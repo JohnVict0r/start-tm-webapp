@@ -7,8 +7,9 @@ import {
   assignUser,
   unAssignUser,
   createFile,
+  deleteFile,
   assignMilestone,
-  unassignMilestone
+  unassignMilestone,
 } from '@/services/cards';
 
 export default {
@@ -73,8 +74,8 @@ export default {
 
     *updateMilestone({ payload }, { call, put }) {
       const response = payload.milestoneId
-          ? yield call(assignMilestone, payload)
-          : yield call(unassignMilestone, payload);
+        ? yield call(assignMilestone, payload)
+        : yield call(unassignMilestone, payload);
       if (response.errors) {
         yield put({
           type: 'handleError',
@@ -111,6 +112,14 @@ export default {
       });
 
       message.success('Arquivo anexado!');
+    },
+
+    *removeFile({ payload }, { call, put }) {
+      const response = yield call(deleteFile, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
     },
   },
 

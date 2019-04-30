@@ -21,7 +21,11 @@ export const unAssignUser = ({ id, userId }) =>
 
 export const createFile = ({ file, cardId }) =>
   callApi(`cards/${cardId}/files`, schema.CARD).post(file);
+
+export const deleteFile = ({ cardId, fileId }) =>
+  callApi(`cards/${cardId}/files/${fileId}`, schema.CARD).delete();
+
 export const assignMilestone = ({ id, milestoneId }) =>
-    callApi(`cards/${id}/milestone/${milestoneId}`, schema.CARD).put();
-export const unassignMilestone = ({ id }) =>
-    callApi(`cards/${id}/milestone`, schema.CARD).delete();
+  callApi(`cards/${id}/milestone/${milestoneId}`, schema.CARD).put();
+
+export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milestone`, schema.CARD).delete();

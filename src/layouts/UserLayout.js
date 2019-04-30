@@ -1,13 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { formatMessage } from 'umi/locale';
 import { connect } from 'dva';
-import Link from 'umi/link';
 import { Icon } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
 import DocumentTitle from 'react-document-title';
 // import SelectLang from '@/components/SelectLang';
 import styles from './UserLayout.less';
-import logo from '../assets/logo.svg';
 import getPageTitle from '@/utils/getPageTitle';
 
 const links = [
@@ -60,18 +58,7 @@ class UserLayout extends Component {
           {/* <div className={styles.lang}>
             <SelectLang />
           </div> */}
-          <div className={styles.content}>
-            <div className={styles.top}>
-              <div className={styles.header}>
-                <Link to="/">
-                  <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>The Manager</span>
-                </Link>
-              </div>
-              <div className={styles.desc}>Gerenciamento de projeto feito da forma fácil</div>
-            </div>
-            {children}
-          </div>
+          <div className={styles.content}>{children}</div>
           <GlobalFooter links={links} copyright={copyright} />
         </div>
       </DocumentTitle>

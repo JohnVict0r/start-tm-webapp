@@ -76,7 +76,7 @@ class ParticipantsForm extends PureComponent {
                 }
               >
                 <Tooltip key={p.id} placement="bottom" title={p.name}>
-                  <Avatar size="mini" src={p.pictureUrl} />
+                  <Avatar size="mini" src={p.avatar} />
                 </Tooltip>
               </Badge>
             ))

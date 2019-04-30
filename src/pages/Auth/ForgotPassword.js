@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { FormattedMessage, formatMessage } from 'umi/locale';
 import Link from 'umi/link';
-import { Button, Form, Input, Alert } from 'antd';
+import { Button, Card, Form, Input, Alert } from 'antd';
+import Logo from '@/components/Logo';
+
 import styles from './ForgotPassword.less';
 
 @connect(({ forgotPassword, loading }) => ({
@@ -46,16 +48,19 @@ class ForgotPassword extends Component {
     if (forgotPassword.sentToken) {
       return (
         <div className={styles.main}>
-          <h3>
-            <FormattedMessage id="app.register.mailrecover" />
-          </h3>
-          <Alert
-            message={formatMessage({ id: 'app.register.mailsend' }, { email: emailSent })}
-            type="success"
-          />
-          <Link className={styles.login} to="/auth/login">
-            <FormattedMessage id="app.login.backlogin" />
-          </Link>
+          <Card>
+            <Logo />
+            <h3>
+              <FormattedMessage id="app.register.mailrecover" />
+            </h3>
+            <Alert
+              message={formatMessage({ id: 'app.register.mailsend' }, { email: emailSent })}
+              type="success"
+            />
+            <Link className={styles.login} to="/auth/login">
+              <FormattedMessage id="app.login.backlogin" />
+            </Link>
+          </Card>
         </div>
       );
     }
@@ -67,10 +72,11 @@ class ForgotPassword extends Component {
 
     return (
       <div className={styles.main}>
-        <h3>
-          <FormattedMessage id="app.register.mailrecover" />
-        </h3>
-        <div className={styles.main}>
+        <Card>
+          <Logo />
+          <h3>
+            <FormattedMessage id="app.register.mailrecover" />
+          </h3>
           <Form onSubmit={this.handleSubmit}>
             <Form.Item {...errorMessage}>
               {getFieldDecorator('email', {
@@ -96,7 +102,7 @@ class ForgotPassword extends Component {
               <FormattedMessage id="app.login.backlogin" />
             </Link>
           </Form>
-        </div>
+        </Card>
       </div>
     );
   }

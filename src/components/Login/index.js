@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Link from 'umi/link';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Alert, Checkbox, Form, Icon, Input } from 'antd';
+import { Alert, Form, Icon, Input } from 'antd';
 import classNames from 'classnames';
 import LoginSubmit from './LoginSubmit';
 import styles from './index.less';
@@ -26,21 +25,11 @@ class Login extends Component {
     onSubmit: () => {},
   };
 
-  state = {
-    autoLogin: true,
-  };
-
   handleSubmit = e => {
     e.preventDefault();
     const { form, onSubmit } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       onSubmit(err, values);
-    });
-  };
-
-  changeAutoLogin = e => {
-    this.setState({
-      autoLogin: e.target.checked,
     });
   };
 
@@ -51,7 +40,6 @@ class Login extends Component {
   render() {
     const { className, submitting, login, form, onSubmit } = this.props;
     const { getFieldDecorator, validateFields } = form;
-    const { autoLogin } = this.state;
 
     return (
       <div className={classNames(className, styles.login)}>
@@ -92,26 +80,9 @@ class Login extends Component {
             )}
           </Form.Item>
 
-          <div>
-            <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              <FormattedMessage id="app.login.remember-me" />
-            </Checkbox>
-            <Link style={{ float: 'right' }} to="/auth/forgot-password">
-              <FormattedMessage id="app.login.forgot-password" />
-            </Link>
-          </div>
           <LoginSubmit loading={submitting}>
             <FormattedMessage id="app.login.login" />
           </LoginSubmit>
-          <div className={styles.other}>
-            <FormattedMessage id="app.login.sign-in-with" />
-            <Icon type="google" className={styles.icon} theme="outlined" />
-            <Icon type="facebook" className={styles.icon} theme="outlined" />
-            <Icon type="twitter" className={styles.icon} theme="outlined" />
-            <Link className={styles.register} to="/auth/register">
-              <FormattedMessage id="app.login.signup" />
-            </Link>
-          </div>
         </Form>
       </div>
     );

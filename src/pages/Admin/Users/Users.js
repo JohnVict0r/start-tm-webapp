@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { List, Card, Button, Skeleton, Avatar, Select, Popconfirm, Icon } from 'antd';
+import { List, Card,  Skeleton, Avatar, Select  } from 'antd';
 
 import { usersSelector } from '@/selectors/admin';
 import { systemRolesSelector } from '@/selectors/global';
@@ -34,14 +34,13 @@ class Users extends PureComponent {
     });
   };
 
-  handleChangeRole = (userId, roleId) => {
+  handleChangeRole = (userId, role) => {
     const { dispatch } = this.props;
-
     dispatch({
       type: 'admin/updateUserRole',
       payload: {
         userId,
-        roleId,
+        role,
       },
     });
   };
@@ -95,31 +94,31 @@ class Users extends PureComponent {
               <List.Item
                 actions={[
                   <Select
-                    defaultValue={role.id}
+                    defaultValue={role.name}
                     style={{ width: 140 }}
-                    onChange={roleId => {
-                      this.handleChangeRole(user.id, roleId);
+                    onChange={roleName => {
+                      this.handleChangeRole(user.id, roleName);
                     }}
                   >
                     {roles.map(r => (
-                      <Select.Option key={r.id} value={r.id}>
-                        {' '}
-                        {r.name}{' '}
+                      <Select.Option key={r.name} value={r.name}>
+                        {` ${r.name} `}
                       </Select.Option>
                     ))}
                   </Select>,
-                  <Popconfirm
-                    title="Tem certeza?"
-                    icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                    onConfirm={() => this.handleDelete(user.id)}
-                  >
-                    <Button type="danger" icon="delete" ghost />
-                  </Popconfirm>,
+                  // ,
+                  // <Popconfirm
+                  //   title="Tem certeza?"
+                  //   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                  //   onConfirm={() => this.handleDelete(user.id)}
+                  // >
+                  //   <Button type="danger" icon="delete" ghost />
+                  // </Popconfirm>,
                 ]}
               >
                 <Skeleton title={false} loading={loading} active>
                   <List.Item.Meta
-                    avatar={<Avatar src={user.pictureUrl} shape="square" size="large" />}
+                    avatar={<Avatar src={user.avatar} shape="square" size="large" />}
                     title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
                     description={user.email}
                   />

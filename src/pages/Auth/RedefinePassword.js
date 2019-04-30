@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { FormattedMessage, formatMessage } from 'umi/locale';
-import { Button, Form, Input } from 'antd';
+import { Button, Card, Form, Input } from 'antd';
+import Logo from '@/components/Logo';
 import PasswordForce from '@/components/PasswordForce';
 
 import styles from './RedefinePassword.less';
@@ -104,10 +105,11 @@ class RedefinePassword extends Component {
 
     return (
       <div className={styles.main}>
-        <h3>
-          <FormattedMessage id="app.register.mailrecover" />
-        </h3>
-        <div className={styles.main}>
+        <Card>
+          <Logo />
+          <h3>
+            <FormattedMessage id="app.register.mailrecover" />
+          </h3>
           <Form onSubmit={this.handleSubmit}>
             <Form.Item {...errorMessage}>
               {getFieldDecorator('email', {
@@ -152,11 +154,11 @@ class RedefinePassword extends Component {
                 />
               )}
             </Form.Item>
-            <Button loading={submitting} className={styles.submit} type="primary" htmlType="submit">
+            <Button block loading={submitting} type="primary" htmlType="submit">
               <FormattedMessage id="app.register.send" />
             </Button>
           </Form>
-        </div>
+        </Card>
       </div>
     );
   }

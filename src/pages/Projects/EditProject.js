@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Input, Form, Card, Button } from 'antd';
+import AvatarUpload from '@/components/Upload/Avatar';
+import { Divider, Input, Form, Card, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
 
 @connect((state, ownProps) => ({
@@ -29,6 +30,14 @@ class EditProject extends PureComponent {
       form.setFields(mapErrors);
     }
   }
+
+  onUploadAvatar = file => {
+    const { dispatch, project } = this.props;
+    return dispatch({
+      payload: { file, id: project.id },
+      type: 'saveProject/updateAvatar',
+    });
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -74,6 +83,10 @@ class EditProject extends PureComponent {
 
     return (
       <Card title="Editar projeto" bordered={false}>
+        <div style={{ textAlign: 'center' }}>
+          <AvatarUpload avatar={project.avatar} name="avatar" onUpload={this.onUploadAvatar} />
+        </div>
+        <Divider />
         <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
           <Form.Item label="Nome do projeto" {...formItemLayout}>
             {getFieldDecorator('name', {

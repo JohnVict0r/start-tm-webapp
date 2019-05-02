@@ -271,13 +271,19 @@ export default [
         name: 'teams',
         icon: 'team',
         hideInBreadcrumb: true,
-        hideInMenu: true,
         routes: [
-          // { path: '/boards', redirect: '/boards' },
+          { path: '/teams', redirect: '/teams/explore' },
+          {
+            path: '/teams/explore',
+            name: 'my-teams',
+            icon: 'team',
+            component: './Teams/TeamsList',
+          },
           {
             path: '/teams/:teamId',
             name: 'team',
             component: './Teams/TeamView',
+            hideInMenu: true,
             routes: [
               { path: '/teams/:teamId', redirect: '/teams/:teamId/board' },
               {

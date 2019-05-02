@@ -68,11 +68,12 @@ export default {
   'menu.projects.project.board': 'Quadro',
   'menu.projects.project.project-members': 'Membros',
   'menu.teams': 'Equipes',
+  'menu.teams.my-teams': 'Minhas Equipes',
   'menu.teams.team': 'Equipe',
   'menu.teams.team.members': 'Membros',
   'menu.teams.team.board': 'Visualizar',
   'menu.teams.team.milestones': 'Entregáveis',
   'menu.teams.team.board.card-view': 'Visualizar Tarefa',
   'menu.teams.team.edit-card': 'Editar tarefa',
-  'menu.teams.team.edit-team': 'Editar equipe'
+  'menu.teams.team.edit-team': 'Editar equipe',
 };

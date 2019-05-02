@@ -1,17 +1,47 @@
-import { loadTeam, updateTeam } from '@/services/teams';
+import { loadUserTeams, loadTeam, updateTeam } from '@/services/teams';
 import { message } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
+
+const initialPaginatioState = {
+  count: 0,
+  currentPage: 0,
+  links: [],
+  perPage: 0,
+  total: 0,
+  totalPages: 0,
+};
 
 export default {
   namespace: 'teams',
 
   state: {
-    currentBoard: null,
     error: null,
+    currentBoard: null,
+    explore: {
+      items: [],
+      pagination: initialPaginatioState,
+    },
   },
 
   effects: {
+    *fetchUserTeams({ payload }, { call, put }) {
+      const response = yield call(loadUserTeams, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveItems',
+        payload: {
+          items: response.result,
+          pagination: response.pagination,
+        },
+      });
+    },
+
     *fetchTeam({ payload }, { call, put }) {
       const response = yield call(loadTeam, payload);
 
@@ -43,6 +73,16 @@ export default {
   },
 
   reducers: {
+    receiveItems(state, { payload }) {
+      return {
+        ...state,
+        explore: {
+          ...state.explore,
+          items: payload.items,
+          pagination: payload.pagination,
+        },
+      };
+    },
     handleError(state, { payload }) {
       return {
         ...state,

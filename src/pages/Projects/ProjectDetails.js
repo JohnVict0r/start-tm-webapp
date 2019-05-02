@@ -47,12 +47,6 @@ class ProjectDetails extends Component {
               <List.Item>
                 <Skeleton title={false} loading={loadingTeams} active>
                   <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        shape="square"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
-                      />
-                    }
                     title={<Link to={`/teams/${item.id}`}>{item.name}</Link>}
                     description={item.description}
                   />

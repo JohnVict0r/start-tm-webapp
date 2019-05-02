@@ -58,7 +58,7 @@ class ProjectsList extends PureComponent {
                       avatar={
                         <Avatar
                           shape="square"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
+                          src={item.avatar}
                         />
                       }
                       title={<Link to={`/projects/${item.id}`}>{item.name}</Link>}

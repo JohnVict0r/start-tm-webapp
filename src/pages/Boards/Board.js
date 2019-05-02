@@ -43,7 +43,7 @@ class Board extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { board } = this.props;
-    if (board) {
+    if (board && !isEqual(board, prevProps.board)) {
       if (!isEqual(board.cardMap, prevState.cardMap)) {
         // eslint-disable-next-line
         this.setState({

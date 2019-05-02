@@ -1,5 +1,9 @@
 import callApi from '@/utils/callApi';
 import schema from './Schema';
+import {stringify} from "qs";
+
+export const loadUserTeams = page =>
+  callApi(`me/teams?${stringify({ page })}`, schema.TEAM_ARRAY).get();
 
 export const loadProjectTeams = projectId =>
   callApi(`projects/${projectId}/teams`, schema.TEAM_ARRAY).get();

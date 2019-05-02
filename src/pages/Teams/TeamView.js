@@ -38,7 +38,7 @@ class TeamView extends Component {
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="2">
-          <Link to={`${match.url}/edit`}>Editar Quadro</Link>
+          <Link to={`${match.url}/edit`}>Editar Equipe</Link>
         </Menu.Item>
       </Menu>
     );

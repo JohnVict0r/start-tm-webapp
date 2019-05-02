@@ -74,4 +74,5 @@ export default {
   'menu.teams.team.milestones': 'Entregáveis',
   'menu.teams.team.board.card-view': 'Visualizar Tarefa',
   'menu.teams.team.edit-card': 'Editar tarefa',
+  'menu.teams.team.edit-team': 'Editar equipe'
 };

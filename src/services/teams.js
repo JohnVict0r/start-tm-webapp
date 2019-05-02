@@ -6,6 +6,9 @@ export const loadProjectTeams = projectId =>
 
 export const loadTeam = teamId => callApi(`teams/${teamId}`, schema.TEAM).get();
 
+export const updateTeam= team =>
+  callApi(`teams/${team.id}`, schema.TEAM).put(team);
+
 export const loadBoard = teamId => callApi(`teams/${teamId}/board`, schema.BOARD).get();
 
 export const createTeam = ({ projectId, team }) =>

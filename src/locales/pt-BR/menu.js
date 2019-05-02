@@ -68,6 +68,7 @@ export default {
   'menu.projects.project.board': 'Quadro',
   'menu.projects.project.project-members': 'Membros',
   'menu.teams': 'Equipes',
+  'menu.teams.my-teams': 'Minhas Equipes',
   'menu.teams.team': 'Equipe',
   'menu.teams.team.members': 'Membros',
   'menu.teams.team.board': 'Visualizar',

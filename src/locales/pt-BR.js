@@ -8,6 +8,7 @@ import login from './pt-BR/login';
 import menu from './pt-BR/menu';
 import monitor from './pt-BR/monitor';
 import project from './pt-BR/project';
+import team from './pt-BR/team';
 import register from './pt-BR/register';
 import result from './pt-BR/result';
 import settingDrawer from './pt-BR/settingDrawer';
@@ -34,6 +35,7 @@ export default {
   ...menu,
   ...monitor,
   ...project,
+  ...team,
   ...register,
   ...result,
   ...settingDrawer,

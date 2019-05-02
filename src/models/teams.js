@@ -1,4 +1,7 @@
-import { loadUserTeams, loadTeam } from '@/services/teams';
+import { loadUserTeams, loadTeam, updateTeam } from '@/services/teams';
+import { message } from 'antd';
+import router from 'umi/router';
+import { formatMessage } from 'umi/locale';
 
 const initialPaginatioState = {
   count: 0,
@@ -13,6 +16,7 @@ export default {
   namespace: 'teams',
 
   state: {
+    error: null,
     currentBoard: null,
     explore: {
       items: [],
@@ -46,6 +50,26 @@ export default {
         payload: response.entities,
       });
     },
+
+    *update({ payload }, { call, put }) {
+      const response = yield call(updateTeam, payload);
+
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        message.success(formatMessage({ id: 'app.team.success-edited' }));
+
+        router.push(`/teams/${payload.id}`);
+      }
+    },
   },
 
   reducers: {
@@ -57,6 +81,12 @@ export default {
           items: payload.items,
           pagination: payload.pagination,
         },
+      };
+    },
+    handleError(state, { payload }) {
+      return {
+        ...state,
+        error: payload,
       };
     },
   },

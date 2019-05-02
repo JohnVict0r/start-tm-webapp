@@ -47,13 +47,12 @@ class TeamsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          shape="square"
-                          src={item.project.avatar}
-                        />
+                      avatar={<Avatar shape="square" src={item.project.avatar} />}
+                      title={
+                        <Link to={`/teams/${item.id}`}>{`${item.project.name} － ${
+                          item.name
+                        }`}</Link>
                       }
-                      title={<Link to={`/teams/${item.id}`}>{`${item.project.name} － ${item.name}`}</Link>}
                       description={item.description}
                     />
                   </Skeleton>

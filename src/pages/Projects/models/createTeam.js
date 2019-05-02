@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import router from 'umi/router';
 import { createTeam } from '@/services/teams';
+import { formatMessage } from 'umi/locale';
 
 export default {
   namespace: 'createTeam',
@@ -24,9 +25,8 @@ export default {
           payload: response.entities,
         });
 
-        message.success('Equipe criada com sucesso!');
+        message.success(formatMessage({ id: 'app.team.success-created' }));
 
-        // TODO não está indo para a rota
         router.push(`/teams/${response.result}`);
       }
     },

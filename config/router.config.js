@@ -304,6 +304,11 @@ export default [
                 component: './Teams/Members',
               },
               {
+                path: '/teams/:teamId/edit',
+                name: 'edit-team',
+                component: './Teams/EditTeam',
+              },
+              {
                 path: '/teams/:teamId/milestones',
                 name: 'milestones',
                 component: './Teams/Milestone',

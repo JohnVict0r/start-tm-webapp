@@ -69,7 +69,7 @@ const CardList = ({ cardList, board, items, index, isDisabled }) => {
   );
 
   return (
-    <Draggable draggableId={`${cardList.name}-${cardList.id}`} index={index}>
+    <Draggable draggableId={`list-${cardList.name}-${cardList.id}`} index={index}>
       {provided => (
         <ColumnList
           isDisabled={isDisabled}

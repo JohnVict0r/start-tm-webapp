@@ -155,14 +155,16 @@ class ViewCardModal extends PureComponent {
                     <Col span={24}>{card.description}</Col>
                   </Row>
                 )}
-                <Row>
-                  <Col className={styles.label} span={24}>
-                    Anexos
-                  </Col>
-                  <Col className={styles.commentsContainer} span={24}>
-                    <Upload {...propsUpload} onRemove={this.onDeleteFile} />
-                  </Col>
-                </Row>
+                {card.files.length > 0 &&
+                  <Row>
+                    <Col className={styles.label} span={24}>
+                      Anexos
+                    </Col>
+                    <Col className={styles.commentsContainer} span={24}>
+                      <Upload {...propsUpload} onRemove={this.onDeleteFile}/>
+                    </Col>
+                  </Row>
+                }
               </Col>
               <Col className={styles.commentsContainer} span={24}>
                 <CommentSection commentableType="cards" commentableId={card.id} />

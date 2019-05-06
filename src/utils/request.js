@@ -39,13 +39,6 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
 
-  if (status !== 422) {
-    notification.error({
-      message: `Erro de solicitação ${status}: ${url}`,
-      description: errortext,
-    });
-  }
-
   if (status === 401) {
     notification.error({
       message: 'Você não está logado ou o login expirou, por favor, faça o login novamente.',
@@ -57,6 +50,14 @@ const errorHandler = error => {
     });
     return;
   }
+
+  if (status !== 422) {
+    notification.error({
+      message: `Erro de solicitação ${status}: ${url}`,
+      description: errortext,
+    });
+  }
+
   // environment should not be used
   if (status === 403) {
     router.push('/exception/403');

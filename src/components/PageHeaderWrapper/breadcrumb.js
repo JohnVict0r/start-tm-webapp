@@ -16,11 +16,32 @@ const itemRender = (route, params, routes, paths) => {
 };
 
 const renderItemLocal = item => {
+  if (item.customBreadcrumbName) {
+    return item.customBreadcrumbName;
+  }
   if (item.locale) {
     return <FormattedMessage id={item.locale} defaultMessage={item.name} />;
   }
   return item.name;
 };
+
+const overrideBreadcrumbNameMap = (breadcrumbNameMap, overrideMap) => {
+  if (overrideMap) {
+    return Object.keys(overrideMap).reduce(
+      (accum, key) => ({
+        ...accum,
+        [key]: {
+          ...accum[key],
+          customBreadcrumbName: overrideMap[key],
+        },
+      }),
+      breadcrumbNameMap
+    );
+  }
+
+  return breadcrumbNameMap;
+};
+
 
 export const getBreadcrumb = (breadcrumbNameMap, url) => {
   let breadcrumb = breadcrumbNameMap[url];
@@ -108,7 +129,11 @@ export const conversionBreadcrumbList = props => {
   // Generate breadcrumbs based on location
   if (routerLocation && routerLocation.pathname) {
     return {
-      routes: conversionFromLocation(routerLocation, breadcrumbNameMap, props),
+      routes: conversionFromLocation(
+        routerLocation,
+        overrideBreadcrumbNameMap(breadcrumbNameMap, overrideBreadcrumbNameMap),
+        props
+      ),
       itemRender,
     };
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Button, Card, Col, DatePicker, Form, Input, List, Row } from 'antd';
+import { Button, Card, Col, DatePicker, Form, Input, List, Row, Progress } from 'antd';
 
 import { milestonesSelector } from './selectors/milestones';
 import styles from './Milestone.less';
@@ -54,22 +54,46 @@ class Milestone extends Component {
       submitting,
     } = this.props;
 
-    const ListContent = ({ data: { creator, startline, deadline } }) => (
-      <div className={styles.listContent}>
-        <div className={styles.listContentItem}>
-          <span>Criado por</span>
-          <p>{creator.name}</p>
+    const ListContent = ({ data: { creator, startline, deadline, progress } }) => {
+
+      const { total, complete } = progress
+        .filter(i => i.name !== 'status.canceled')
+        .reduce((acc, i) => ({
+          total: acc.total + i.count,
+          complete: acc.complete + (i.name === 'status.done' ? i.count : 0)
+        }), {
+          total: 0,
+          complete: 0
+        });
+
+      const result = complete/total*100;
+
+      return (
+        <div className={styles.listContent}>
+          <div className={styles.listContentItem}>
+            <span>Criado por</span>
+            <p>{creator.name}</p>
+          </div>
+          <div className={styles.listContentItem}>
+            <span>Início</span>
+            <p>{moment(startline).format('DD/MM/YYYY')}</p>
+          </div>
+          <div className={styles.listContentItem}>
+            <span>Fim</span>
+            <p>{moment(deadline).format('DD/MM/YYYY')}</p>
+          </div>
+          <div className={styles.listContentItem}>
+            {progress.length > 0
+              ? (
+                <Progress type="circle" status="success" percent={parseFloat(result.toFixed(2))} format={percent => `${percent}%`} />
+              ) : (
+                <Progress type="circle" status="success" percent={0} format={percent => `${percent}%`} />
+              )
+            }
+          </div>
         </div>
-        <div className={styles.listContentItem}>
-          <span>Início</span>
-          <p>{moment(startline).format('DD/MM/YYYY')}</p>
-        </div>
-        <div className={styles.listContentItem}>
-          <span>Fim</span>
-          <p>{moment(deadline).format('DD/MM/YYYY')}</p>
-        </div>
-      </div>
-    );
+      );
+    }
 
     return (
       <Row gutter={24}>

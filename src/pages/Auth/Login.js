@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Card, Divider} from 'antd';
+import { Button, Card, Divider } from 'antd';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import Login from '@/components/Login';
@@ -43,7 +43,10 @@ class LoginPage extends Component {
                 size="large"
                 block
               >
-                <img src='https://assets.sabia.ufrn.br/static/images/sabia.png' alt='Login com Sabiá' />
+                <img
+                  src="https://assets.sabia.ufrn.br/static/images/sabia.png"
+                  alt="Login com Sabiá"
+                />
                 Login com Sabiá
               </Button>
             )}

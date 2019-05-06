@@ -34,7 +34,7 @@ class EditProject extends PureComponent {
   onUploadAvatar = file => {
     const { dispatch, project } = this.props;
     return dispatch({
-      payload: {file, id:project.id },
+      payload: { file, id: project.id },
       type: 'saveProject/updateAvatar',
     });
   };
@@ -84,11 +84,7 @@ class EditProject extends PureComponent {
     return (
       <Card title="Editar projeto" bordered={false}>
         <div style={{ textAlign: 'center' }}>
-          <AvatarUpload
-            avatar={project.avatar}
-            name="avatar"
-            onUpload={this.onUploadAvatar}
-          />
+          <AvatarUpload avatar={project.avatar} name="avatar" onUpload={this.onUploadAvatar} />
         </div>
         <Divider />
         <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>

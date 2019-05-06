@@ -4,7 +4,7 @@ import { Card } from 'antd';
 import Logo from '@/components/Logo';
 import PageLoading from '@/components/PageLoading';
 
-import styles from './CallbackSabia.less'
+import styles from './CallbackSabia.less';
 
 @connect(({ loading }) => ({
   loading: loading.effects['login/loginWithSabia'],

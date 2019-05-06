@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { List, Card, Button, Skeleton, Avatar, Select, Popconfirm, Icon } from 'antd';
+import { List, Card,  Skeleton, Avatar, Select  } from 'antd';
 
 import { usersSelector } from '@/selectors/admin';
 import { systemRolesSelector } from '@/selectors/global';
@@ -105,7 +105,7 @@ class Users extends PureComponent {
                         {` ${r.name} `}
                       </Select.Option>
                     ))}
-                  </Select>
+                  </Select>,
                   // ,
                   // <Popconfirm
                   //   title="Tem certeza?"

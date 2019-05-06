@@ -42,11 +42,7 @@ class AvatarUpload extends PureComponent {
         <div className={styles.upload}>
           <div className={styles.avatarWapper}>
             <Spin spinning={uploading}>
-              <Avatar
-                className={styles.avatar}
-                src={avatar}
-                alt="avatar"
-              />
+              <Avatar className={styles.avatar} src={avatar} alt="avatar" />
             </Spin>
           </div>
           <Button>

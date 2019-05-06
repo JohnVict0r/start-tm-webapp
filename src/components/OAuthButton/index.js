@@ -54,20 +54,10 @@ OauthButton.propTypes = {
   clientId: PropTypes.string.isRequired,
   redirectUri: PropTypes.string.isRequired,
   state: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.object,
-    ]),
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object])
   ),
   args: PropTypes.objectOf(
-    PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-      PropTypes.bool,
-      PropTypes.object,
-    ]),
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.object])
   ),
   render: PropTypes.func,
   component: PropTypes.element,

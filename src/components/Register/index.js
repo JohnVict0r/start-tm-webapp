@@ -60,7 +60,7 @@ class Register extends Component {
     e.preventDefault();
     const { form, onSubmit } = this.props;
     form.validateFields({ force: true }, (err, values) => {
-      onSubmit(err, {...values, cpf: values.cpf.replace(/\D/g,'')});
+      onSubmit(err, { ...values, cpf: values.cpf.replace(/\D/g, '') });
     });
   };
 

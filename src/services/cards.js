@@ -24,3 +24,8 @@ export const createFile = ({ file, cardId }) =>
 
 export const deleteFile = ({ cardId, fileId }) =>
   callApi(`cards/${cardId}/files/${fileId}`, schema.CARD).delete();
+
+export const assignMilestone = ({ id, milestoneId }) =>
+  callApi(`cards/${id}/milestone/${milestoneId}`, schema.CARD).put();
+
+export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milestone`, schema.CARD).delete();

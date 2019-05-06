@@ -18,6 +18,9 @@ export default [
         component: './Auth/RedefinePassword',
       },
       { path: '/auth/register', name: 'register', component: './Auth/Register' },
+      {
+        component: '404',
+      },
     ],
   },
 

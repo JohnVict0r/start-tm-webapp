@@ -153,6 +153,7 @@ export default [
         path: '/admin',
         component: './Admin/Menu',
         hideInMenu: true,
+        authority: ['Administrador'],
         routes: [
           { path: '/admin', redirect: '/admin/users' },
           {
@@ -232,6 +233,7 @@ export default [
             name: 'new-project',
             icon: 'plus',
             component: './Projects/NewProject',
+            authority: ['Administrador', "Gerente"]
           },
           {
             path: '/projects/:projectId',

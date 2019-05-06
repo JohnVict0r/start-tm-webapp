@@ -1,7 +1,6 @@
 import { routerRedux } from 'dva/router';
 import { resetPassword } from '@/services/auth';
 import { setAuthToken } from '@/utils/authentication';
-import { reloadAuthenticated } from '@/utils/Authenticated';
 
 export default {
   namespace: 'resetPassword',
@@ -16,7 +15,11 @@ export default {
 
       if (response.token) {
         setAuthToken(response.token);
-        reloadAuthenticated();
+
+        yield put({
+          type: 'global/fetchLoggedInUser'
+        });
+
         yield put(routerRedux.replace('/'));
       }
       yield put({

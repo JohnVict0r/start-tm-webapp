@@ -236,7 +236,7 @@ export default [
             name: 'new-project',
             icon: 'plus',
             component: './Projects/NewProject',
-            authority: ['Administrador', "Gerente"]
+            authority: ['Administrador', 'Gerente']
           },
           {
             path: '/projects/:projectId',

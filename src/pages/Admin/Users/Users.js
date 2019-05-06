@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { List, Card,  Skeleton, Avatar, Select  } from 'antd';
+import { List, Card, Skeleton, Avatar, Select } from 'antd';
 
 import { usersSelector } from '@/selectors/admin';
 import { systemRolesSelector } from '@/selectors/global';
@@ -18,6 +18,9 @@ class Users extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'admin/fetchUsers',
+      payload:{
+        page:0
+      }
     });
     dispatch({
       type: 'global/fetchRoles',
@@ -45,10 +48,21 @@ class Users extends PureComponent {
     });
   };
 
+  handleChangePage = (page) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'admin/fetchUsers',
+      payload:{
+        page
+      }
+    });
+}
+
+
   render() {
     const {
       roles,
-      users: { items },
+      users: { items, pagination },
       loading,
     } = this.props;
 
@@ -64,15 +78,18 @@ class Users extends PureComponent {
         />
       </div>
     ); 
-    
-    TODO Verificar porque a paginação não está funcionando
+    */
+
     const paginationProps = {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
       total: pagination.total,
       hideOnSinglePage: true,
+      onChange: (page) => {
+        this.handleChangePage(page)
+      }
     }; 
-    */
+
 
     return (
       <div className={styles.standardList}>
@@ -88,8 +105,7 @@ class Users extends PureComponent {
             rowKey="id"
             loading={loading}
             dataSource={items}
-            /* pagination={paginationProps} */
-
+            pagination={paginationProps}
             renderItem={({ user, role }) => (
               <List.Item
                 actions={[

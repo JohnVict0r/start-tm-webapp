@@ -2,6 +2,8 @@ import { queryNotices } from '@/services/api';
 import { fetchRoles } from '@/services/auth';
 import { loadStatus } from '@/services/global';
 import { loadLoggedInUser, loadFavorites } from '@/services/user';
+import { setAuthority} from '@/utils/authority';
+import { reloadAuthorized } from '@/utils/Authorized';
 
 export default {
   namespace: 'global',
@@ -16,17 +18,27 @@ export default {
   },
 
   effects: {
-    *fetchLoggedInUser(_, { call, put }) {
+    *fetchLoggedInUser(_, { call, put, select }) {
       const response = yield call(loadLoggedInUser);
-      yield put({
-        type: 'entities/mergeEntities',
-        payload: response.entities,
-      });
 
-      yield put({
-        type: 'saveLoggedInUser',
-        payload: response.result,
-      });
+      if (!response.errors) {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+
+        yield put({
+          type: 'saveLoggedInUser',
+          payload: response.result,
+        });
+
+        const loggedInUserRole = yield select(
+          ({ entities, global }) => entities.roles[entities.users[global.loggedInUser].role].name
+        );
+
+        setAuthority(loggedInUserRole);
+        reloadAuthorized();
+      }
     },
 
     *fetchRoles(_, { call, put }) {

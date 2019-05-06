@@ -4,6 +4,8 @@ import { login, loginWithSabia } from '@/services/auth';
 import { setAuthToken, removeAuthToken } from '@/utils/authentication';
 import { getPageQuery } from '@/utils/utils';
 import { reloadAuthenticated } from '@/utils/Authenticated';
+import { removeAuthority } from '@/utils/authority';
+import { reloadAuthorized } from '@/utils/Authorized';
 
 export default {
   namespace: 'login',
@@ -70,6 +72,8 @@ export default {
       });
       removeAuthToken();
       reloadAuthenticated();
+      removeAuthority();
+      reloadAuthorized();
       yield put(
         routerRedux.push({
           pathname: '/auth/login',

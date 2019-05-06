@@ -39,10 +39,12 @@ const errorHandler = error => {
   const errortext = codeMessage[response.status] || response.statusText;
   const { status, url } = response;
 
-  notification.error({
-    message: `Erro de solicitação ${status}: ${url}`,
-    description: errortext,
-  });
+  if (status !== 422) {
+    notification.error({
+      message: `Erro de solicitação ${status}: ${url}`,
+      description: errortext,
+    });
+  }
 
   if (status === 401) {
     notification.error({
@@ -66,7 +68,10 @@ const errorHandler = error => {
   }
   if (status >= 404 && status < 422) {
     router.push('/exception/404');
+    return;
   }
+  // Propagate the error
+  throw error;
 };
 
 /**

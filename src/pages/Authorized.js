@@ -1,17 +1,37 @@
 import React from 'react';
-import RenderAuthorized from '@/components/Authorized';
-import { getAuthority } from '@/utils/authority';
-import { getRouteAuthority } from '@/utils/utils';
 import Redirect from 'umi/redirect';
+import pathToRegexp from 'path-to-regexp';
+import { connect } from 'dva';
+import Authorized from '@/utils/Authorized';
 
-const Authority = getAuthority();
-const Authorized = RenderAuthorized(Authority);
+function AuthComponent({ children, location, routerData, status }) {
+  const isLogin = status === 'ok';
+  const getRouteAuthority = (path, routeData) => {
+    let authorities;
+    routeData.forEach(route => {
+      // match prefix
+      if (pathToRegexp(`${route.path}(.*)`).test(path)) {
+        authorities = route.authority || authorities;
 
-export default ({ children, location: { pathname }, route }) => {
-  const routerConfig = getRouteAuthority(pathname, [route]);
+        // get children authority recursively
+        if (route.routes) {
+          authorities = getRouteAuthority(path, route.routes) || authorities;
+        }
+      }
+    });
+    return authorities;
+  };
+
   return (
-    <Authorized authority={routerConfig} noMatch={<Redirect to="/exception/403" />}>
+    <Authorized
+      authority={getRouteAuthority(location.pathname, routerData)}
+      noMatch={isLogin ? <Redirect to="/exception/403" /> : <Redirect to="/auth/login" />}
+    >
       {children}
     </Authorized>
   );
-};
+}
+export default connect(({ menu: menuModel, login: loginModel }) => ({
+  routerData: menuModel.routerData,
+  status: loginModel.status,
+}))(AuthComponent);

@@ -1,5 +1,6 @@
 import React from 'react';
 import Exception from '../Exception';
+import CheckPermissions from './CheckPermissions';
 /**
  * 默认不能访问任何页面
  * default is "NULL"
@@ -32,7 +33,7 @@ const checkIsInstantiation = target => {
  * @param {string | function | Promise} authority
  * @param {ReactNode} error 非必需参数
  */
-const authorize = checkPermissions => (authority, error) => {
+const authorize = (authority, error) => {
   /**
    * conversion into a class
    * 防止传入字符串时找不到staticContext造成报错
@@ -46,7 +47,7 @@ const authorize = checkPermissions => (authority, error) => {
     throw new Error('authority is required');
   }
   return function decideAuthority(target) {
-    const component = checkPermissions(authority, target, classError || Exception403);
+    const component = CheckPermissions(authority, target, classError || Exception403);
     return checkIsInstantiation(component);
   };
 };

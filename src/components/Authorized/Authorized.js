@@ -1,6 +1,8 @@
-const Authorized = checkPermissions => ({ children, authority, noMatch = null }) => {
+import CheckPermissions from './CheckPermissions';
+
+const Authorized = ({ children, authority, noMatch = null }) => {
   const childrenRender = typeof children === 'undefined' ? null : children;
-  return checkPermissions(authority, childrenRender, noMatch);
+  return CheckPermissions(authority, childrenRender, noMatch);
 };
 
 export default Authorized;

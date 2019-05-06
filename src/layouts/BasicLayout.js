@@ -47,7 +47,7 @@ class BasicLayout extends React.Component {
   componentDidMount() {
     const {
       dispatch,
-      route: { routes, authority },
+      route: { routes, path, authority },
     } = this.props;
     dispatch({
       type: 'global/fetchLoggedInUser',
@@ -57,7 +57,7 @@ class BasicLayout extends React.Component {
     });
     dispatch({
       type: 'menu/getMenuData',
-      payload: { routes, authority },
+      payload: { routes, path, authority },
     });
   }
 

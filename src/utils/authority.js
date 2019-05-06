@@ -13,16 +13,10 @@ export function getAuthority(str) {
   if (typeof authority === 'string') {
     return [authority];
   }
-  return authority || ['admin'];
+  return authority;
 }
 
 export function setAuthority(authority) {
   const proAuthority = typeof authority === 'string' ? [authority] : authority;
   return localStorage.setItem('@TheManager:loggedInUserRole', JSON.stringify(proAuthority));
 }
-
-export function removeAuthority() {
-  return localStorage.removeItem('@TheManager:loggedInUserRole');
-}
-
-

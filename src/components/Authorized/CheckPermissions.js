@@ -1,5 +1,6 @@
 import React from 'react';
 import PromiseRender from './PromiseRender';
+import { CURRENT } from './renderAuthorize';
 
 function isPromise(obj) {
   return (
@@ -81,23 +82,7 @@ const checkPermissions = (authority, currentAuthority, target, Exception) => {
 
 export { checkPermissions };
 
-const check = currentAuthority => (authority, target, Exception) => {
-  let CURRENT = 'NULL';
-  if (currentAuthority) {
-    if (typeof currentAuthority === 'function') {
-      CURRENT = currentAuthority();
-    }
-    if (
-      Object.prototype.toString.call(currentAuthority) === '[object String]' ||
-      Array.isArray(currentAuthority)
-    ) {
-      CURRENT = currentAuthority;
-    }
-  } else {
-    CURRENT = 'NULL';
-  }
-
-  return checkPermissions(authority, CURRENT, target, Exception);
-};
+const check = (authority, target, Exception) =>
+  checkPermissions(authority, CURRENT, target, Exception);
 
 export default check;

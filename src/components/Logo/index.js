@@ -4,7 +4,6 @@ import Link from 'umi/link';
 import styles from './index.less';
 import logo from '../../assets/logo.svg';
 
-
 const Logo = () => (
   <div className={styles.top}>
     <div className={styles.header}>

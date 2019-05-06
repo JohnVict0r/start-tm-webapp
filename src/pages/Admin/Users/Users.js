@@ -121,7 +121,7 @@ class Users extends PureComponent {
                         {` ${r.name} `}
                       </Select.Option>
                     ))}
-                  </Select>
+                  </Select>,
                   // ,
                   // <Popconfirm
                   //   title="Tem certeza?"

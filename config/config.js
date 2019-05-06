@@ -65,7 +65,7 @@ export default {
     APP_TYPE: APP_TYPE || '',
     API_URL: API_URL || 'http://localhost:8000/api/',
     SABIA_CLIENT_ID,
-    SABIA_REDIRECT_URI
+    SABIA_REDIRECT_URI,
   },
   treeShaking: true,
   targets: {

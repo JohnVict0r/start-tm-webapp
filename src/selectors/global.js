@@ -10,9 +10,7 @@ export const rolesSelector = createSelector(
   state => state.global.roles,
   state => state.entities.roles,
   (collection, roles) =>
-    collection
-      .map(id => roles[id])
-      .filter(role => ['Gerente', 'Colaborador'].includes(role.name))
+    collection.map(id => roles[id]).filter(role => ['Gerente', 'Colaborador'].includes(role.name))
 );
 
 export const systemRolesSelector = createSelector(

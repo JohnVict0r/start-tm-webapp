@@ -43,7 +43,7 @@ export default {
         });
 
         yield put({
-          type: 'search/clearUserQuery'
+          type: 'search/clearUserQuery',
         });
 
         message.success('Membro adicionado com sucesso!');

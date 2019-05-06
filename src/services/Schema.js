@@ -86,6 +86,7 @@ Card.define({
   creator: User,
   members: [User],
   comments: [Comment],
+  milestone:Milestone
 });
 
 Comment.define({

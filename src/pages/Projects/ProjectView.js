@@ -67,9 +67,7 @@ class ProjectView extends Component {
 
     return (
       <PageHeaderWrapper
-        logo={
-          <img alt={project.name} src={project.avatar} />
-        }
+        logo={<img alt={project.name} src={project.avatar} />}
         title={project.name}
         action={action}
       >

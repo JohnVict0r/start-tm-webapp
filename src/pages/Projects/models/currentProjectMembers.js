@@ -43,7 +43,7 @@ export default {
         });
 
         yield put({
-          type: 'search/clearUserQuery'
+          type: 'search/clearUserQuery',
         });
 
         message.success('Membro adicionado com sucesso!');
@@ -54,7 +54,7 @@ export default {
       const response = yield call(deleteProjectMember, payload.id, payload.member);
 
       if (response.errors) {
-        message.error('Não foi possível remover o membro!' );
+        message.error('Não foi possível remover o membro!');
       } else {
         yield put({
           type: 'entities/mergeEntities',
@@ -74,7 +74,7 @@ export default {
       const response = yield call(changeProjectMemberRole, payload);
 
       if (response.errors) {
-        message.error( 'Não foi possível alterar o papel do membro!' );
+        message.error('Não foi possível alterar o papel do membro!');
       } else {
         yield put({
           type: 'entities/mergeEntities',

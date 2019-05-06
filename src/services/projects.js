@@ -17,7 +17,8 @@ export const favoriteProject = id => callApi(`projects/${id}/favorite`, schema.P
 export const loadProjectMembers = ({ id }) =>
   callApi(`projects/${id}/members`, schema.PROJECTMEMBER_ARRAY).get();
 
-export const updateAvatar = ({ id,file}) => callApi(`projects/${id}/avatar`, schema.PROJECT).post(file);
+export const updateAvatar = ({ id, file }) =>
+  callApi(`projects/${id}/avatar`, schema.PROJECT).post(file);
 
 export const addProjectMember = (id, member) =>
   callApi(`projects/${id}/members`, schema.PROJECTMEMBER_ARRAY).post(member);

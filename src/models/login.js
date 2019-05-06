@@ -34,7 +34,6 @@ export default {
     },
 
     *authenticate({ payload }, { put }) {
-
       const isLoggedIn = !!payload && !!payload.token;
 
       yield put({

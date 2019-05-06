@@ -58,9 +58,7 @@ class UserLayout extends Component {
           {/* <div className={styles.lang}>
             <SelectLang />
           </div> */}
-          <div className={styles.content}>
-            {children}
-          </div>
+          <div className={styles.content}>{children}</div>
           <GlobalFooter links={links} copyright={copyright} />
         </div>
       </DocumentTitle>

@@ -7,6 +7,8 @@ import { cardSelectorWithMembers } from './selectors/members';
 import styles from './ViewCardModal.less';
 import CommentSection from '../Comments/CommentSection';
 import ParticipantsForm from './Participants';
+import MilestoneForm from './Milestone';
+import { FormattedMessage, formatMessage } from 'umi/locale';
 import Due from './Due';
 import Attachment from '@/components/Upload/Attachment';
 
@@ -21,6 +23,7 @@ class ViewCardModal extends PureComponent {
   state = {
     visibleFormDue: false,
     visibleFormParticipants: false,
+    visibleFormMilestone: false,
   };
 
   handleVisibleDueChange = visibleFormDue => {
@@ -29,6 +32,10 @@ class ViewCardModal extends PureComponent {
 
   handleVisibleParticipantsChange = visibleFormParticipants => {
     this.setState({ visibleFormParticipants });
+  };
+
+  handleVisibleMilestoneChange = visibleFormMilestone => {
+    this.setState({ visibleFormMilestone });
   };
 
   handleAssignMember = value => {
@@ -87,7 +94,7 @@ class ViewCardModal extends PureComponent {
   render() {
     const { card } = this.props;
 
-    const { visibleFormDue, visibleFormParticipants } = this.state;
+    const { visibleFormDue, visibleFormParticipants, visibleFormMilestone } = this.state;
 
     const textTitleParticipantsForm = <span>Participantes</span>;
 
@@ -224,6 +231,27 @@ class ViewCardModal extends PureComponent {
               </List.Item>
               <List.Item>
                 <Attachment name="file" onUpload={this.onUploadFile} />
+              </List.Item>
+              <List.Item>
+                <Popover
+                  visible={visibleFormMilestone}
+                  onVisibleChange={this.handleVisibleMilestoneChange}
+                  title={formatMessage({ id: 'app.card.assign-milestone' }, {})}
+                  content={
+                    <MilestoneForm
+                      teamId={card.teamId}
+                      current={card}
+                      onClose={() => this.handleVisibleMilestoneChange(false)}
+                      onSubmit={this.handleAssignMilestone}
+                      onRemove={this.handleUnAssignMilestone}
+                    />
+                  }
+                  trigger="click"
+                >
+                  <Button block icon="switcher">
+                    <FormattedMessage id="app.card.milestone" defaultMessage="Security Settings" />
+                  </Button>
+                </Popover>
               </List.Item>
             </List>
           </Col>

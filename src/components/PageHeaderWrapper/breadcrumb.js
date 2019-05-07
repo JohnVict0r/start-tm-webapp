@@ -33,7 +33,7 @@ const renderItemLocal = item => {
   return item.name;
 };
 
-const overrideBreadcrumbNameMap = (breadcrumbNameMap, overrideMap) => {
+const mergeBreadcrumbNameMap = (breadcrumbNameMap, overrideMap) => {
   if (overrideMap) {
     return Object.keys(overrideMap).reduce(
       (accum, key) => ({
@@ -120,7 +120,7 @@ const conversionFromLocation = (routerLocation, breadcrumbNameMap, props) => {
  * Convert parameters into breadcrumbs
  */
 export const conversionBreadcrumbList = props => {
-  const { breadcrumbList } = props;
+  const { breadcrumbList, overrideBreadcrumbNameMap } = props;
   const { routes, params, routerLocation, breadcrumbNameMap } = getBreadcrumbProps(props);
   if (breadcrumbList && breadcrumbList.length) {
     return {
@@ -144,7 +144,7 @@ export const conversionBreadcrumbList = props => {
     return {
       routes: conversionFromLocation(
         routerLocation,
-        overrideBreadcrumbNameMap(breadcrumbNameMap, overrideBreadcrumbNameMap),
+        mergeBreadcrumbNameMap(breadcrumbNameMap, overrideBreadcrumbNameMap),
         props
       ),
       itemRender,

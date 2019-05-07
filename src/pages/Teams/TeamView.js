@@ -78,6 +78,7 @@ class TeamView extends Component {
 
     return (
       <PageHeaderWrapper
+        fluid
         home={null}
         title={team.name}
         overrideBreadcrumbNameMap={overrideMap}

@@ -11,10 +11,10 @@ export default class TopNavHeader extends PureComponent {
     maxWidth: undefined,
   };
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps() {
     return {
       maxWidth:
-        (props.contentWidth === 'Fixed' && window.innerWidth > 1200 ? 1200 : window.innerWidth) -
+        window.innerWidth -
         280 -
         120 -
         40,
@@ -22,7 +22,7 @@ export default class TopNavHeader extends PureComponent {
   }
 
   render() {
-    const { theme, contentWidth, menuData, logo } = this.props;
+    const { theme, menuData, logo } = this.props;
     const { maxWidth } = this.state;
     const flatMenuKeys = getFlatMenuKeys(menuData);
     return (
@@ -31,7 +31,7 @@ export default class TopNavHeader extends PureComponent {
           ref={ref => {
             this.maim = ref;
           }}
-          className={`${styles.main} ${contentWidth === 'Fixed' ? styles.wide : ''}`}
+          className={styles.main}
         >
           <div className={styles.left}>
             <div className={styles.logo} key="logo" id="logo">

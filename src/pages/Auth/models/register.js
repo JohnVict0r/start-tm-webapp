@@ -1,7 +1,4 @@
-import { routerRedux } from 'dva/router';
 import { signup } from '@/services/auth';
-import { setAuthToken } from '@/utils/authentication';
-import { reloadAuthenticated } from '@/utils/Authenticated';
 
 export default {
   namespace: 'register',
@@ -16,15 +13,16 @@ export default {
 
       // Login successfully
       if (response.token) {
-        setAuthToken(response.token);
-        reloadAuthenticated();
-        yield put(routerRedux.replace('/'));
+        yield put({
+          type: 'login/authenticate',
+          payload: response
+        });
+      } else {
+        yield put({
+          type: 'registerHandle',
+          payload: response,
+        });
       }
-
-      yield put({
-        type: 'registerHandle',
-        payload: response,
-      });
     },
   },
 

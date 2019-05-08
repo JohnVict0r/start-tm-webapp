@@ -6,7 +6,8 @@ import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 
 const { pwa, primaryColor } = defaultSettings;
-const { API_URL, APP_TYPE, TEST, SABIA_CLIENT_ID, SABIA_REDIRECT_URI } = process.env;
+// preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
+const { API_URL, ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, TEST, SABIA_CLIENT_ID, SABIA_REDIRECT_URI } = process.env;
 
 const plugins = [
   [
@@ -38,7 +39,7 @@ const plugins = [
         ? {
             dll: {
               include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
-              exclude: ['@babel/runtime'],
+              exclude: ['@babel/runtime', 'netlify-lambda'],
             },
             hardSource: false,
           }
@@ -48,8 +49,8 @@ const plugins = [
 ];
 
 // 针对 preview.pro.ant.design 的 GA 统计代码
-// 业务上不需要这个
-if (APP_TYPE === 'site') {
+// preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
+if (ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site') {
   plugins.push([
     'umi-plugin-ga',
     {
@@ -62,7 +63,8 @@ export default {
   // add for transfer to umi
   plugins,
   define: {
-    APP_TYPE: APP_TYPE || '',
+    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
+      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
     API_URL: API_URL || 'http://localhost:8000/api/',
     SABIA_CLIENT_ID,
     SABIA_REDIRECT_URI,
@@ -71,6 +73,7 @@ export default {
   targets: {
     ie: 11,
   },
+  devtool: ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION ? 'source-map' : false,
   // 路由配置
   routes: pageRoutes,
   // Theme for antd

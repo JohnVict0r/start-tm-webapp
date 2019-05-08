@@ -1,22 +1,11 @@
-import RenderAuthorized from './Authorized';
-import RenderAuthorizedRoute from './AuthorizedRoute';
-import RenderSecured from './Secured';
-import CheckPermissions from './CheckPermissions';
+import Authorized from './Authorized';
+import AuthorizedRoute from './AuthorizedRoute';
+import Secured from './Secured';
+import check from './CheckPermissions';
+import renderAuthorize from './renderAuthorize';
 
-/**
- * use  authority or getAuthority
- * @param {string|()=>String} currentAuthority
- */
-const renderAuthorize = currentAuthority => {
-  const check = CheckPermissions(currentAuthority);
+Authorized.Secured = Secured;
+Authorized.AuthorizedRoute = AuthorizedRoute;
+Authorized.check = check;
 
-  const Authorized = RenderAuthorized(check);
-
-  Authorized.AuthorizedRoute = RenderAuthorizedRoute(Authorized);
-  Authorized.Secured = RenderSecured(check);
-  Authorized.check = check;
-
-  return Authorized;
-};
-
-export default renderAuthorize;
+export default renderAuthorize(Authorized);

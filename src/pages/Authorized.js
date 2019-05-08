@@ -1,17 +1,43 @@
 import React from 'react';
-import RenderAuthorized from '@/components/Authorized';
-import { getAuthority } from '@/utils/authority';
-import { getRouteAuthority } from '@/utils/utils';
 import Redirect from 'umi/redirect';
+import pathToRegexp from 'path-to-regexp';
+import { connect } from 'dva';
+import Authorized from '@/utils/Authorized';
+import { getAuthority } from '@/utils/authority';
+import Exception403 from '@/pages/Exception/403';
 
-const Authority = getAuthority();
-const Authorized = RenderAuthorized(Authority);
+function AuthComponent({ children, location, routerData }) {
+  const auth = getAuthority();
+  const isLogin = !!auth && auth[0] !== '';
 
-export default ({ children, location: { pathname }, route }) => {
-  const routerConfig = getRouteAuthority(pathname, [route]);
+  if (!isLogin) {
+    return <Redirect to="/auth/login" />;
+  }
+
+  const getRouteAuthority = (path, routeData) => {
+    let authorities;
+    routeData.forEach(route => {
+      // match prefix
+      if (pathToRegexp(`${route.path}(.*)`).test(path)) {
+        authorities = route.authority || authorities;
+
+        // get children authority recursively
+        if (route.routes) {
+          authorities = getRouteAuthority(path, route.routes) || authorities;
+        }
+      }
+    });
+    return authorities;
+  };
   return (
-    <Authorized authority={routerConfig} noMatch={<Redirect to="/exception/403" />}>
+    <Authorized
+      authority={getRouteAuthority(location.pathname, routerData)}
+      noMatch={<Exception403 />}
+    >
       {children}
     </Authorized>
   );
-};
+}
+export default connect(({ menu: menuModel }) => ({
+  routerData: menuModel.routerData,
+}))(AuthComponent);

@@ -18,6 +18,9 @@ export default [
         component: './Auth/RedefinePassword',
       },
       { path: '/auth/register', name: 'register', component: './Auth/Register' },
+      {
+        component: '404',
+      },
     ],
   },
 
@@ -25,9 +28,9 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    Routes: ['src/pages/Authenticated', 'src/pages/Authorized'],
+    Routes: ['src/pages/Authorized'],
     routes: [
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/dashboard/analysis', authority: ['Administrador', 'Colaborador', 'Gerente'] },
 
       // exception
       {
@@ -233,7 +236,7 @@ export default [
             name: 'new-project',
             icon: 'plus',
             component: './Projects/NewProject',
-            authority: ['Administrador', "Gerente"]
+            authority: ['Administrador', 'Gerente']
           },
           {
             path: '/projects/:projectId',
@@ -473,6 +476,30 @@ export default [
                       name: 'advanced',
                       authority: ['admin'],
                       component: './Profile/AdvancedProfile',
+                    },
+                  ],
+                },
+
+                //  editor
+                {
+                  name: 'editor',
+                  icon: 'highlight',
+                  path: '/demos/editor',
+                  routes: [
+                    {
+                      path: '/demos/editor/flow',
+                      name: 'flow',
+                      component: './Editor/GGEditor/Flow',
+                    },
+                    {
+                      path: '/demos/editor/mind',
+                      name: 'mind',
+                      component: './Editor/GGEditor/Mind',
+                    },
+                    {
+                      path: '/demos/editor/koni',
+                      name: 'koni',
+                      component: './Editor/GGEditor/Koni',
                     },
                   ],
                 },

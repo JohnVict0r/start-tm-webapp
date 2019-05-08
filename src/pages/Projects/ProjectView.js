@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
 import router from 'umi/router';
-import { Button, Icon, Menu, Dropdown } from 'antd';
+import { Button, Icon, Menu, Dropdown, Avatar } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import { FavoriteIcon } from '@/components/Favorite';
@@ -65,12 +65,27 @@ class ProjectView extends Component {
       </div>
     );
 
+    const overrideMap = {
+      '/projects/:projectId': (
+        <>
+          <Avatar
+            style={{ marginRight: '8px' }}
+            src={project.avatar}
+            shape="square"
+            size="small"
+            icon="project"
+          />
+          {project.name}
+        </>
+      ),
+    };
+
     return (
       <PageHeaderWrapper
-        logo={<img alt={project.name} src={project.avatar} />}
-        content='jfhdgak sdjfgak jsfgakjsfg akjshf '
-        title={project.name}
-        action={action}
+        home={null}
+        overrideBreadcrumbNameMap={overrideMap}
+        subTitle={project.description}
+        extra={action}
       >
         {children}
       </PageHeaderWrapper>

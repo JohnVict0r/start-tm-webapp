@@ -82,7 +82,7 @@ class TeamView extends Component {
         home={null}
         title={team.name}
         overrideBreadcrumbNameMap={overrideMap}
-        action={action}
+        extra={action}
       >
         {children}
       </PageHeaderWrapper>

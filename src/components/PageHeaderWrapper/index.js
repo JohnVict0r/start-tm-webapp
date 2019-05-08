@@ -40,6 +40,7 @@ const PageHeaderWrapper = ({
   contentWidth,
   fluid,
   wrapperClassName,
+  home,
   top,
   title,
   content,
@@ -54,46 +55,48 @@ const PageHeaderWrapper = ({
       <MenuContext.Consumer>
         {value => {
           return (
-            <div
-              className={classNames(styles.wrapper, {
-                [styles.wide]: !fluid && contentWidth === 'Fixed'
-              })}
-            >
-              <PageHeader
-                title={
-                  <Title
-                    level={4}
-                    style={{
-                      marginBottom: 0,
-                    }}
-                  >
-                    {title}
-                  </Title>
-                }
-                key="pageheader"
-                {...restProps}
-                breadcrumb={
-                  !hiddenBreadcrumb &&
-                  conversionBreadcrumbList({
-                    ...value,
-                    ...restProps,
-                    home: <FormattedMessage id="menu.home" defaultMessage="Home" />,
-                  })
-                }
-                className={styles.pageHeader}
-                linkElement={Link}
-                footer={renderFooter(restProps)}
+            <div className={styles.wrapper}>
+              <div
+                className={classNames({
+                  [styles.wide]: !fluid && contentWidth === 'Fixed'
+                })}
               >
-                <div className={styles.detail}>
-                  {logo && <div className={styles.logo}>{logo}</div>}
-                  <div className={styles.main}>
-                    <div className={styles.row}>
-                      {content && <div className={styles.content}>{content}</div>}
-                      {extraContent && <div className={styles.extraContent}>{extraContent}</div>}
+                <PageHeader
+                  title={
+                    <Title
+                      level={4}
+                      style={{
+                        marginBottom: 0,
+                      }}
+                    >
+                      {title}
+                    </Title>
+                  }
+                  key="pageheader"
+                  {...restProps}
+                  breadcrumb={
+                    !hiddenBreadcrumb &&
+                    conversionBreadcrumbList({
+                      ...value,
+                      ...restProps,
+                      ...(home !== null && { home: <FormattedMessage id="menu.home" defaultMessage="Home" /> }),
+                    })
+                  }
+                  className={styles.pageHeader}
+                  linkElement={Link}
+                  footer={renderFooter(restProps)}
+                >
+                  <div className={styles.detail}>
+                    {logo && <div className={styles.logo}>{logo}</div>}
+                    <div className={styles.main}>
+                      <div className={styles.row}>
+                        {content && <div className={styles.content}>{content}</div>}
+                        {extraContent && <div className={styles.extraContent}>{extraContent}</div>}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </PageHeader>
+                </PageHeader>
+              </div>
             </div>
           );
         }}

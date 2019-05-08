@@ -1,9 +1,11 @@
 import React, { PureComponent } from 'react';
-import { FormattedMessage } from 'umi/locale';
-import { Spin, Tag, Menu, Icon, Avatar } from 'antd';
+import { FormattedMessage, formatMessage } from 'umi/locale';
+import { Spin, Tag, Menu, Icon, Avatar, message } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
+import NoticeIcon from '../NoticeIcon';
 import Ellipsis from '../Ellipsis';
+import HeaderSearch from '../HeaderSearch';
 import HeaderDropdown from '../HeaderDropdown';
 import { FavoriteList } from '../Favorite';
 // import SelectLang from '../SelectLang';
@@ -71,9 +73,12 @@ export default class GlobalHeaderRight extends PureComponent {
   render() {
     const {
       currentUser,
+      fetchingNotices,
       fetchingFavorites,
+      onNoticeVisibleChange,
       onFavoriteVisibleChange,
       onMenuClick,
+      onNoticeClear,
       theme,
     } = this.props;
     const accountMenu = (
@@ -106,7 +111,8 @@ export default class GlobalHeaderRight extends PureComponent {
         </Menu.Item>
       </Menu>
     );
-
+    const noticeData = this.getNoticeData();
+    const unreadMsg = this.getUnreadData(noticeData);
     let className = styles.right;
     if (theme === 'dark') {
       className = `${styles.right}  ${styles.dark}`;

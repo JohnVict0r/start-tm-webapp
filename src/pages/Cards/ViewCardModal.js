@@ -8,6 +8,7 @@ import styles from './ViewCardModal.less';
 import CommentSection from '../Comments/CommentSection';
 import ParticipantsForm from './Participants';
 import MilestoneForm from './Milestone';
+import AssigneeForm from './Assignee';
 import { FormattedMessage, formatMessage } from 'umi/locale';
 import Due from './Due';
 import Attachment from '@/components/Upload/Attachment';
@@ -24,6 +25,7 @@ class ViewCardModal extends PureComponent {
     visibleFormDue: false,
     visibleFormParticipants: false,
     visibleFormMilestone: false,
+    visibleFormAssignee: false
   };
 
   handleVisibleDueChange = visibleFormDue => {
@@ -36,6 +38,33 @@ class ViewCardModal extends PureComponent {
 
   handleVisibleMilestoneChange = visibleFormMilestone => {
     this.setState({ visibleFormMilestone });
+  };
+
+  handleVisibleAssigneeChange = visibleFormAssignee => {
+    this.setState({ visibleFormAssignee });
+  };
+
+  handleUnAssignAssignee = () => {
+      const { dispatch, card } = this.props;
+
+      dispatch({
+          type: 'cards/unAssiginee',
+          payload: {
+              id: card.id
+          },
+      });
+  };
+
+  handleAssignAssignee = value => {
+      const { dispatch, card } = this.props;
+
+      dispatch({
+          type: 'cards/assiginee',
+          payload: {
+              id: card.id,
+              userId: value,
+          },
+      });
   };
 
   handleAssignMember = value => {
@@ -94,7 +123,7 @@ class ViewCardModal extends PureComponent {
   render() {
     const { card } = this.props;
 
-    const { visibleFormDue, visibleFormParticipants, visibleFormMilestone } = this.state;
+    const { visibleFormDue, visibleFormParticipants, visibleFormMilestone, visibleFormAssignee } = this.state;
 
     const textTitleParticipantsForm = <span>Participantes</span>;
 
@@ -150,6 +179,20 @@ class ViewCardModal extends PureComponent {
                     </Row>
                   </Col>
                   <Col xs={24} sm={12}>
+                    <Row className={styles.label}>Responsavel</Row>
+                    <Row>
+                      {card.assignee? (
+                        <AvatarList>
+                          <AvatarList.Item
+                            key={`${card.id}-avatar-${card.assignee.id}`}
+                            src={card.assignee.avatar}
+                            tips={card.assignee.name}
+                          />
+                        </AvatarList>
+                      ) : (
+                          '--'
+                      )}
+                    </Row>
                     <Row className={styles.label}>Data de entrega</Row>
                     <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
                   </Col>
@@ -192,6 +235,26 @@ class ViewCardModal extends PureComponent {
                   Editar
                 </Button>
               </List.Item> */}
+              <List.Item>
+                <Popover
+                  visible={visibleFormAssignee}
+                  onVisibleChange={this.handleVisibleAssigneeChange}
+                  title={formatMessage({ id: 'app.card.assign-assignee' }, {})}
+                  content={
+                    <AssigneeForm
+                      teamId={card.teamId}
+                      participant={card.assignee}
+                      onSubmit={this.handleAssignAssignee}
+                      onRemove={this.handleUnAssignAssignee}
+                    />
+                  }
+                  trigger="click"
+                >
+                  <Button block icon="user">
+                    <FormattedMessage id="app.card.assignee" defaultMessage="Assignee" />
+                  </Button>
+                </Popover>
+              </List.Item>
               <List.Item>
                 <Popover
                   visible={visibleFormParticipants}
@@ -247,7 +310,7 @@ class ViewCardModal extends PureComponent {
                   trigger="click"
                 >
                   <Button block icon="switcher">
-                    <FormattedMessage id="app.card.milestone" defaultMessage="Security Settings" />
+                    <FormattedMessage id="app.card.milestone" defaultMessage="Milestone" />
                   </Button>
                 </Popover>
               </List.Item>

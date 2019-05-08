@@ -28,9 +28,9 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    Routes: ['src/pages/Authenticated', 'src/pages/Authorized'],
+    Routes: ['src/pages/Authorized'],
     routes: [
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/dashboard/analysis', authority: ['Administrador', 'Colaborador', 'Gerente'] },
 
       // exception
       {

@@ -44,7 +44,7 @@ export default {
       if (isLoggedIn) {
         setAuthToken(payload.token);
 
-        yield put({
+        yield put.resolve({
           type: 'global/fetchLoggedInUser'
         });
 

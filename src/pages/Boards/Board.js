@@ -166,9 +166,25 @@ class Board extends PureComponent {
     );
   };
 
+  renderCardList = (cardlists) => {
+    const { board } = this.props;
+    const { cardMap, disabledCardlists } = this.state;
+
+    return cardlists.map((cardList, index) => (
+      <CardList
+        key={cardList.id}
+        index={index}
+        board={board}
+        cardList={cardList}
+        items={cardMap[cardList.id]}
+        isDisabled={disabledCardlists[cardList.id]}
+      />
+    ));
+  };
+
   render() {
     const { board, loading, children } = this.props;
-    const { cardMap, cardlists, disabledCardlists, showNewCardListForm } = this.state;
+    const { cardlists, showNewCardListForm } = this.state;
 
     if (!board) {
       return <PageLoading />;
@@ -181,19 +197,8 @@ class Board extends PureComponent {
             <Droppable droppableId="board" direction="horizontal" type="LIST">
               {provided => (
                 <div className={styles.board} ref={provided.innerRef} {...provided.droppableProps}>
-                  {cardlists.map((cardList, index) => (
-                    <CardList
-                      key={cardList.id}
-                      index={index}
-                      board={board}
-                      cardList={cardList}
-                      items={cardMap[cardList.id]}
-                      isDisabled={disabledCardlists[cardList.id]}
-                    />
-                  ))}
-
+                  {this.renderCardList(cardlists)}
                   {provided.placeholder}
-
                   {showNewCardListForm ? (
                     <SaveCardList onClose={() => this.setState({ showNewCardListForm: false })} />
                   ) : (

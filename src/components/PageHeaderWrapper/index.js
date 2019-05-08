@@ -63,14 +63,10 @@ const PageHeaderWrapper = ({
               >
                 <PageHeader
                   title={
-                    <Title
-                      level={4}
-                      style={{
-                        marginBottom: 0,
-                      }}
-                    >
+                    <>
+                      {logo && <span className={styles.logo}>{logo}</span>}
                       {title}
-                    </Title>
+                    </>
                   }
                   key="pageheader"
                   {...restProps}
@@ -87,7 +83,6 @@ const PageHeaderWrapper = ({
                   footer={renderFooter(restProps)}
                 >
                   <div className={styles.detail}>
-                    {logo && <div className={styles.logo}>{logo}</div>}
                     <div className={styles.main}>
                       <div className={styles.row}>
                         {content && <div className={styles.content}>{content}</div>}

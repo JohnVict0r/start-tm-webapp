@@ -32,6 +32,7 @@ export default {
   'menu.demos.editor.koni': 'Koni Editor',
 
   'menu.home': 'Início',
+  'menu.sabia': 'Sabiá',
   'menu.login': 'Login',
   'menu.register': 'Registro',
   'menu.register.result': 'Resultado de registro',

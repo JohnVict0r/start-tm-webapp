@@ -20,8 +20,8 @@ export default {
   },
 
   effects: {
-    *fetchUsers(_, { call, put }) {
-      const response = yield call(loadUsers);
+    *fetchUsers({ payload }, { call, put }) {
+      const response = yield call(loadUsers, payload);
 
       yield put({
         type: 'entities/mergeEntities',

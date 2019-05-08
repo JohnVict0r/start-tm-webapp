@@ -3,11 +3,17 @@ import Redirect from 'umi/redirect';
 import pathToRegexp from 'path-to-regexp';
 import { connect } from 'dva';
 import Authorized from '@/utils/Authorized';
-import { getAuthToken } from '@/utils/authentication';
+import { getAuthority } from '@/utils/authority';
 import Exception403 from '@/pages/Exception/403';
 
 function AuthComponent({ children, location, routerData }) {
-  const isLogin = !!getAuthToken();
+  const auth = getAuthority();
+  const isLogin = !!auth && auth[0] !== '';
+
+  if (!isLogin) {
+    return <Redirect to="/auth/login" />;
+  }
+
   const getRouteAuthority = (path, routeData) => {
     let authorities;
     routeData.forEach(route => {
@@ -26,7 +32,7 @@ function AuthComponent({ children, location, routerData }) {
   return (
     <Authorized
       authority={getRouteAuthority(location.pathname, routerData)}
-      noMatch={isLogin ? <Exception403 /> : <Redirect to="/auth/login" />}
+      noMatch={<Exception403 />}
     >
       {children}
     </Authorized>

@@ -37,7 +37,7 @@ class ProjectsList extends PureComponent {
     return (
       <PageHeaderWrapper
         title="Meus projetos"
-        action={[
+        extra={[
           <Button key="1" type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
             Projeto
           </Button>,

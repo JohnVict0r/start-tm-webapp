@@ -44,7 +44,7 @@ export default {
       if (isLoggedIn) {
         setAuthToken(payload.token);
 
-        yield put({
+        yield put.resolve({
           type: 'global/fetchLoggedInUser'
         });
 
@@ -74,8 +74,9 @@ export default {
       removeAuthToken();
       setAuthority('');
       reloadAuthorized();
+      const { redirect } = getPageQuery();
       // redirect
-      if (window.location.pathname !== '/auth/login') {
+      if (window.location.pathname !== '/auth/login' && !redirect) {
         yield put(
           routerRedux.push({
             pathname: '/auth/login',

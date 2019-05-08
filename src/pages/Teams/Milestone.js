@@ -124,8 +124,8 @@ class Milestone extends Component {
     } = this.props;
 
     return (
-      <Row gutter={24}>
-        <Col xl={16} lg={24} md={24} sm={24} xs={24} style={{ order: 2 }}>
+      <Row gutter={24} type="flex">
+        <Col xl={16} lg={24} md={24} sm={24} xs={24} order={2}>
           <Card bordered={false} title="Entregáveis" loading={loading}>
             <List
               size="large"
@@ -145,7 +145,7 @@ class Milestone extends Component {
             />
           </Card>
         </Col>
-        <Col xl={8} lg={24} md={24} sm={24} xs={24} style={{ order: 1 }}>
+        <Col xl={8} lg={24} md={24} sm={24} xs={24} order={1}>
           <Card
             style={{ marginBottom: 24 }}
             className={styles.standardListForm}

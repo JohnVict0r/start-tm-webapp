@@ -168,7 +168,7 @@ class ViewCardModal extends PureComponent {
                       Anexos
                     </Col>
                     <Col className={styles.commentsContainer} span={24}>
-                      <Upload {...propsUpload} onRemove={this.onDeleteFile}/>
+                      <Upload {...propsUpload} onRemove={this.onDeleteFile} />
                     </Col>
                   </Row>
                 }

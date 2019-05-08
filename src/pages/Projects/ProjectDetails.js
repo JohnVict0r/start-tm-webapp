@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { Avatar, Button, Card, List, Skeleton } from 'antd';
+import { Button, Card, List, Skeleton } from 'antd';
 import { projectTeamsSelector } from './selectors/projects';
 
 @connect(state => {

@@ -51,7 +51,8 @@ class TeamsList extends PureComponent {
                       title={
                         <Link to={`/teams/${item.id}`}>{`${item.project.name} － ${
                           item.name
-                        }`}</Link>
+                        }`}
+                        </Link>
                       }
                       description={item.description}
                     />

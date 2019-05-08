@@ -79,26 +79,13 @@ class ProjectView extends Component {
       />
     );
 
-    const overrideMap = {
-      '/projects/:projectId': (
-        <>
-          <Avatar
-            style={{ marginRight: '8px' }}
-            src={project.avatar}
-            shape="square"
-            size="small"
-            icon="project"
-          />
-          {project.name}
-        </>
-      ),
-    };
-
     return (
       <PageHeaderWrapper
         home={null}
-        overrideBreadcrumbNameMap={overrideMap}
-        subTitle={project.description}
+        hiddenBreadcrumb
+        title={project.name}
+        logo={<img alt={project.name} src={project.avatar} />}
+        content={project.description}
         extra={extra}
         tabList={tabList}
         tabActiveKey={location.pathname.replace(`${match.url}/`, '')}

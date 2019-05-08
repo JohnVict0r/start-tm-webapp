@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Button, Card, Col, DatePicker, Form, Input, List, Row, Progress } from 'antd';
+import { Button, Card, Col, DatePicker, Form, Input, List, Row, Progress, Icon, Typography } from 'antd';
 
 import { milestonesSelector } from './selectors/milestones';
 import styles from './Milestone.less';
@@ -54,44 +54,57 @@ class Milestone extends Component {
       submitting,
     } = this.props;
 
-    const ListContent = ({ data: { creator, startline, deadline, progress } }) => {
+    const ProgressMilestone = ({ progress }) => {
 
       const { total, complete } = progress
         .filter(i => i.name !== 'status.canceled')
         .reduce((acc, i) => ({
           total: acc.total + i.count,
-          complete: acc.complete + (i.name === 'status.done' ? i.count : 0)
+          complete: acc.complete + (i.name === 'status.done' ? i.count : 0),
         }), {
           total: 0,
-          complete: 0
+          complete: 0,
         });
 
       const result = complete/total*100;
 
       return (
-        <div className={styles.listContent}>
-          <div className={styles.listContentItem}>
-            <span>Criado por</span>
-            <p>{creator.name}</p>
+          progress.length > 0
+            ? (
+              <div className={styles.progress}>
+                <Progress status="success" percent={parseFloat(result.toFixed(2))} format={percent => `${percent} %`} />
+                <div>
+                  <Typography.Text strong>Total: </Typography.Text>
+                  {total}
+                  {' | '}
+                  <Typography.Text strong>Feitas: </Typography.Text>
+                  {complete}
+                </div>
+              </div>
+            ) : (
+              <div className={styles.progress}>
+                <Progress percent={0} format={percent => `${percent} %`} />
+                <div>
+                  <Typography.Text strong>Total: </Typography.Text>
+                  {total}
+                  {' | '}
+                  <Typography.Text strong>Feitas: </Typography.Text>
+                  {complete}
+                </div>
+              </div>
+            )
+      );
+    }
+
+    const DescriptionMilestone = ({data: { description, startline, deadline}}) => {
+
+      return (
+        <>
+          <div>{description}</div>
+          <div>
+            <Icon type='clock-circle' /> {`${moment(startline).format('DD/MM/YYYY')} ~ ${moment(deadline).format('DD/MM/YYYY')}`}
           </div>
-          <div className={styles.listContentItem}>
-            <span>Início</span>
-            <p>{moment(startline).format('DD/MM/YYYY')}</p>
-          </div>
-          <div className={styles.listContentItem}>
-            <span>Fim</span>
-            <p>{moment(deadline).format('DD/MM/YYYY')}</p>
-          </div>
-          <div className={styles.listContentItem}>
-            {progress.length > 0
-              ? (
-                <Progress type="circle" status="success" percent={parseFloat(result.toFixed(2))} format={percent => `${percent}%`} />
-              ) : (
-                <Progress type="circle" status="success" percent={0} format={percent => `${percent}%`} />
-              )
-            }
-          </div>
-        </div>
+        </>
       );
     }
 
@@ -105,9 +118,11 @@ class Milestone extends Component {
               loading={loading}
               dataSource={milestones}
               renderItem={item => (
-                <List.Item>
-                  <List.Item.Meta title={item.name} description={item.description} />
-                  <ListContent data={item} />
+                <List.Item extra={<ProgressMilestone progress={item.progress} />}>
+                  <List.Item.Meta
+                    title={item.name}
+                    description={<DescriptionMilestone data={item} />}
+                  />
                 </List.Item>
               )}
             />

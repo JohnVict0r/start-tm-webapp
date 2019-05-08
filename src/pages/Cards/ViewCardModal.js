@@ -230,7 +230,7 @@ class ViewCardModal extends PureComponent {
                 </Popover>
               </List.Item>
               <List.Item>
-                <Attachment name="file" onUpload={this.onUploadFile} />
+                <Attachment name="file" onUpload={this.onUploadFile} block />
               </List.Item>
               <List.Item>
                 <Popover

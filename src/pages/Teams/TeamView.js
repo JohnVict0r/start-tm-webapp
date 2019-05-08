@@ -45,7 +45,7 @@ class TeamView extends Component {
 
     const action = (
       <div>
-        {/* <FavoriteIcon
+        {/* <FavoriteButton
           style={{ padding: '0 8px' }}
           onClick={this.handleFavorite}
           favorited={project.favorited}

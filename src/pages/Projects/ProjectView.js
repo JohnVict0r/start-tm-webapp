@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
 import router from 'umi/router';
-import { Button, Icon, Menu, Dropdown, Avatar } from 'antd';
+import { Avatar } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
-import { FavoriteIcon } from '@/components/Favorite';
+import { FavoriteButton } from '@/components/Favorite';
 import { makeProjectSelector } from './selectors/projects';
 
 @connect((state, ownProps) => {
@@ -13,6 +12,7 @@ import { makeProjectSelector } from './selectors/projects';
   return {
     project: projectSelector(state),
     loading: state.loading.effects['projects/fetchProject'],
+    favoriting: state.loading.effects['projects/favoriteProject'],
   };
 })
 class ProjectView extends Component {
@@ -32,37 +32,51 @@ class ProjectView extends Component {
     });
   };
 
+  handleTabChange = key => {
+    const { match } = this.props;
+    switch (key) {
+      case 'details':
+        router.push(`${match.url}/details`);
+        break;
+      case 'members':
+        router.push(`${match.url}/members`);
+        break;
+      case 'edit':
+        router.push(`${match.url}/edit`);
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
-    const { project, match, children } = this.props;
+    const { project, favoriting, match, location, children } = this.props;
 
     if (!project) {
       return <PageLoading />;
     }
 
-    const projectOptionsMenu = (
-      <Menu>
-        <Menu.Item key="1">
-          <Link to={`${match.url}/edit`}>Editar Projeto</Link>
-        </Menu.Item>
-      </Menu>
-    );
+    const tabList = [
+      {
+        key: 'details',
+        tab: 'Detalhes',
+      },
+      {
+        key: 'members',
+        tab: 'Membros',
+      },
+      {
+        key: 'edit',
+        tab: 'Configurações',
+      },
+    ];
 
-    const action = (
-      <div>
-        <FavoriteIcon
-          style={{ padding: '0 8px' }}
-          onClick={this.handleFavorite}
-          favorited={project.favorited}
-        />
-        <Button.Group>
-          <Button onClick={() => router.push(`${match.url}/members`)}>Membros</Button>
-          <Dropdown overlay={projectOptionsMenu} placement="bottomRight">
-            <Button>
-              <Icon type="ellipsis" />
-            </Button>
-          </Dropdown>
-        </Button.Group>
-      </div>
+    const extra = (
+      <FavoriteButton
+        loading={favoriting}
+        onClick={this.handleFavorite}
+        favorited={project.favorited}
+      />
     );
 
     const overrideMap = {
@@ -85,7 +99,10 @@ class ProjectView extends Component {
         home={null}
         overrideBreadcrumbNameMap={overrideMap}
         subTitle={project.description}
-        extra={action}
+        extra={extra}
+        tabList={tabList}
+        tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
+        onTabChange={this.handleTabChange}
       >
         {children}
       </PageHeaderWrapper>

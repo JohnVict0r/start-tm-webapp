@@ -58,7 +58,12 @@ const CardItem = ({ card, isDragging, provided, style, match }) => {
       <Link to={`${match.url}/cards/${card.id}`}>
         <Card
           bordered={false}
-          cover={cover && <img alt={cover.name} src={cover.url} />}
+          cover={cover && (
+            <div
+              className={styles.cover}
+              style={{ backgroundImage: `url(${cover.url})` }}
+            />
+          )}
           className={classNames(styles.card, {
             [styles.dragging]: isDragging,
           })}

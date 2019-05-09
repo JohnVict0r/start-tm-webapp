@@ -22,10 +22,19 @@
 }
 
 .card {
-  border-top: 2px solid transparent;
+  //border-top: 2px solid transparent;
   border-radius: 4px;
   box-shadow: 0 1px 2px @shadow-color;
   user-select: none;
+
+  .cover {
+    height: 150px;
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
 
   :global {
     .ant-card-meta-title {

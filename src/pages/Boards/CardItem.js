@@ -9,6 +9,13 @@ import timeAgo from '@/utils/timeAgo';
 
 import styles from './CardItem.less';
 
+const IconText = ({ type, text }) => (
+  <span style={{ marginRight: 8 }}>
+    <Icon type={type} style={{ marginRight: 4 }} />
+    {text}
+  </span>
+);
+
 const Due = ({ date }) => {
   const due = timeAgo(date);
   return (
@@ -51,7 +58,12 @@ const CardItem = ({ card, isDragging, provided, style, match }) => {
       <Link to={`${match.url}/cards/${card.id}`}>
         <Card
           bordered={false}
-          cover={cover && <img alt={cover.name} src={cover.url} />}
+          cover={cover && (
+            <div
+              className={styles.cover}
+              style={{ backgroundImage: `url(${cover.url})` }}
+            />
+          )}
           className={classNames(styles.card, {
             [styles.dragging]: isDragging,
           })}
@@ -60,6 +72,8 @@ const CardItem = ({ card, isDragging, provided, style, match }) => {
           <Ellipsis lines={3}>{card.name}</Ellipsis>
           <div className={styles.cardMetaInfo}>
             <div className={styles.left}>
+              <IconText type='paper-clip' text={card.filesCount} />
+              <IconText type='message' text={card.commentsCount} />
               <Due date={card.due} />
             </div>
             {card.members.length > 0 && <RenderAvatarList card={card} />}

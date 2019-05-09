@@ -69,8 +69,8 @@ export default function callApi(endpoint, schema) {
   };
 
   return {
-    post: data => handleRequest(url, { method: 'POST', body: data, ...options }, schema),
-    put: data => handleRequest(url, { method: 'PUT', body: data, ...options }, schema),
+    post: data => handleRequest(url, { method: 'POST', data, ...options }, schema),
+    put: data => handleRequest(url, { method: 'PUT', data, ...options }, schema),
     delete: () => handleRequest(url, { method: 'DELETE', ...options }, schema),
     get: () => handleRequest(url, options, schema),
   };

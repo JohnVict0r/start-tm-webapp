@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { Avatar, Button, Card, List, Skeleton } from 'antd';
+import { Button, Card, List, Skeleton } from 'antd';
 import { projectTeamsSelector } from './selectors/projects';
 
 @connect(state => {
@@ -47,12 +47,6 @@ class ProjectDetails extends Component {
               <List.Item>
                 <Skeleton title={false} loading={loadingTeams} active>
                   <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        shape="square"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
-                      />
-                    }
                     title={<Link to={`/teams/${item.id}`}>{item.name}</Link>}
                     description={item.description}
                   />

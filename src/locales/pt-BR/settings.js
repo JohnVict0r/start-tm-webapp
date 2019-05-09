@@ -1,5 +1,5 @@
 export default {
-  'app.settings.menuMap.basic': 'Informações Básicas',
+  'app.settings.menuMap.basic': 'Configurações Básicas',
   'app.settings.menuMap.security': 'Configurações de Segurança',
   'app.settings.menuMap.password': 'Alterar Senha',
   'app.settings.menuMap.binding': 'Vinculação de Conta',

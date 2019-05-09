@@ -1,5 +1,5 @@
-import FavoriteIcon from './FavoriteIcon';
+import FavoriteButton from './FavoriteButton';
 import FavoriteList from './FavoriteList';
 
 // eslint-disable-next-line
-export { FavoriteIcon, FavoriteList };
+export { FavoriteButton, FavoriteList };

@@ -3,7 +3,8 @@ import { stringify } from 'qs';
 import { login, loginWithSabia } from '@/services/auth';
 import { setAuthToken, removeAuthToken } from '@/utils/authentication';
 import { getPageQuery } from '@/utils/utils';
-import { reloadAuthenticated } from '@/utils/Authenticated';
+import { setAuthority } from '@/utils/authority';
+import { reloadAuthorized } from '@/utils/Authorized';
 
 export default {
   namespace: 'login',
@@ -42,7 +43,11 @@ export default {
       // Login successfully
       if (isLoggedIn) {
         setAuthToken(payload.token);
-        reloadAuthenticated();
+
+        yield put.resolve({
+          type: 'global/fetchLoggedInUser',
+        });
+
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params;
@@ -54,8 +59,7 @@ export default {
               redirect = redirect.substr(redirect.indexOf('#') + 1);
             }
           } else {
-            window.location.href = redirect;
-            return;
+            redirect = null;
           }
         }
         yield put(routerRedux.replace(redirect || '/'));
@@ -68,15 +72,20 @@ export default {
         payload: undefined,
       });
       removeAuthToken();
-      reloadAuthenticated();
-      yield put(
-        routerRedux.push({
-          pathname: '/auth/login',
-          search: stringify({
-            redirect: window.location.href,
-          }),
-        })
-      );
+      setAuthority('');
+      reloadAuthorized();
+      const { redirect } = getPageQuery();
+      // redirect
+      if (window.location.pathname !== '/auth/login' && !redirect) {
+        yield put(
+          routerRedux.push({
+            pathname: '/auth/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          })
+        );
+      }
     },
   },
 

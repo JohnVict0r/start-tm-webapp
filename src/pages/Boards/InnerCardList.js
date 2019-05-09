@@ -39,7 +39,7 @@ export class InnerCardList extends Component {
     }
 
     return cards.map((card, index) => (
-      <Draggable key={card.id} draggableId={`c-${card.id}`} index={index}>
+      <Draggable key={card.id} draggableId={`card-${card.id}`} index={index}>
         {(provided, snapshot) => (
           <NaturalDragAnimation style={provided.draggableProps.style} snapshot={snapshot}>
             {style => (

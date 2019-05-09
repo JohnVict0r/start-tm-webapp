@@ -25,7 +25,7 @@ class ViewCardModal extends PureComponent {
     visibleFormDue: false,
     visibleFormParticipants: false,
     visibleFormMilestone: false,
-    visibleFormAssignee: false
+    visibleFormAssignee: false,
   };
 
   handleVisibleDueChange = visibleFormDue => {
@@ -45,26 +45,26 @@ class ViewCardModal extends PureComponent {
   };
 
   handleUnAssignAssignee = () => {
-      const { dispatch, card } = this.props;
+    const { dispatch, card } = this.props;
 
-      dispatch({
-          type: 'cards/unAssiginee',
-          payload: {
-              id: card.id
-          },
-      });
+    dispatch({
+      type: 'cards/unAssiginee',
+      payload: {
+        id: card.id,
+      },
+    });
   };
 
   handleAssignAssignee = value => {
-      const { dispatch, card } = this.props;
+    const { dispatch, card } = this.props;
 
-      dispatch({
-          type: 'cards/assiginee',
-          payload: {
-              id: card.id,
-              userId: value,
-          },
-      });
+    dispatch({
+      type: 'cards/assiginee',
+      payload: {
+        id: card.id,
+        userId: value,
+      },
+    });
   };
 
   handleAssignMember = value => {
@@ -123,7 +123,12 @@ class ViewCardModal extends PureComponent {
   render() {
     const { card } = this.props;
 
-    const { visibleFormDue, visibleFormParticipants, visibleFormMilestone, visibleFormAssignee } = this.state;
+    const {
+      visibleFormDue,
+      visibleFormParticipants,
+      visibleFormMilestone,
+      visibleFormAssignee,
+    } = this.state;
 
     const textTitleParticipantsForm = <span>Participantes</span>;
 
@@ -181,7 +186,7 @@ class ViewCardModal extends PureComponent {
                   <Col xs={24} sm={12}>
                     <Row className={styles.label}>Responsavel</Row>
                     <Row>
-                      {card.assignee? (
+                      {card.assignee ? (
                         <AvatarList>
                           <AvatarList.Item
                             key={`${card.id}-avatar-${card.assignee.id}`}
@@ -190,7 +195,7 @@ class ViewCardModal extends PureComponent {
                           />
                         </AvatarList>
                       ) : (
-                          '--'
+                        '--'
                       )}
                     </Row>
                     <Row className={styles.label}>Data de entrega</Row>
@@ -205,14 +210,16 @@ class ViewCardModal extends PureComponent {
                     <Col span={24}>{card.description}</Col>
                   </Row>
                 )}
-                <Row>
-                  <Col className={styles.label} span={24}>
-                    Anexos
-                  </Col>
-                  <Col className={styles.commentsContainer} span={24}>
-                    <Upload {...propsUpload} onRemove={this.onDeleteFile} />
-                  </Col>
-                </Row>
+                {card.files.length > 0 && (
+                  <Row>
+                    <Col className={styles.label} span={24}>
+                      Anexos
+                    </Col>
+                    <Col className={styles.commentsContainer} span={24}>
+                      <Upload {...propsUpload} onRemove={this.onDeleteFile} />
+                    </Col>
+                  </Row>
+                )}
               </Col>
               <Col className={styles.commentsContainer} span={24}>
                 <CommentSection commentableType="cards" commentableId={card.id} />
@@ -291,7 +298,7 @@ class ViewCardModal extends PureComponent {
                 </Popover>
               </List.Item>
               <List.Item>
-                <Attachment name="file" onUpload={this.onUploadFile} />
+                <Attachment name="file" onUpload={this.onUploadFile} block />
               </List.Item>
               <List.Item>
                 <Popover

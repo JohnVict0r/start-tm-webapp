@@ -18,6 +18,9 @@ export default [
         component: './Auth/RedefinePassword',
       },
       { path: '/auth/register', name: 'register', component: './Auth/Register' },
+      {
+        component: '404',
+      },
     ],
   },
 
@@ -25,9 +28,13 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    Routes: ['src/pages/Authenticated', 'src/pages/Authorized'],
+    Routes: ['src/pages/Authorized'],
     routes: [
-      { path: '/', redirect: '/dashboard/analysis' },
+      {
+        path: '/',
+        redirect: '/dashboard/analysis',
+        authority: ['Administrador', 'Colaborador', 'Gerente'],
+      },
 
       // exception
       {
@@ -153,6 +160,7 @@ export default [
         path: '/admin',
         component: './Admin/Menu',
         hideInMenu: true,
+        authority: ['Administrador'],
         routes: [
           { path: '/admin', redirect: '/admin/users' },
           {
@@ -232,6 +240,7 @@ export default [
             name: 'new-project',
             icon: 'plus',
             component: './Projects/NewProject',
+            authority: ['Administrador', 'Gerente'],
           },
           {
             path: '/projects/:projectId',
@@ -271,13 +280,19 @@ export default [
         name: 'teams',
         icon: 'team',
         hideInBreadcrumb: true,
-        hideInMenu: true,
         routes: [
-          // { path: '/boards', redirect: '/boards' },
+          { path: '/teams', redirect: '/teams/explore' },
+          {
+            path: '/teams/explore',
+            name: 'my-teams',
+            icon: 'team',
+            component: './Teams/TeamsList',
+          },
           {
             path: '/teams/:teamId',
             name: 'team',
             component: './Teams/TeamView',
+            hideInMenu: true,
             routes: [
               { path: '/teams/:teamId', redirect: '/teams/:teamId/board' },
               {
@@ -296,6 +311,11 @@ export default [
                 path: '/teams/:teamId/members',
                 name: 'members',
                 component: './Teams/Members',
+              },
+              {
+                path: '/teams/:teamId/edit',
+                name: 'edit-team',
+                component: './Teams/EditTeam',
               },
               {
                 path: '/teams/:teamId/milestones',
@@ -460,6 +480,30 @@ export default [
                       name: 'advanced',
                       authority: ['admin'],
                       component: './Profile/AdvancedProfile',
+                    },
+                  ],
+                },
+
+                //  editor
+                {
+                  name: 'editor',
+                  icon: 'highlight',
+                  path: '/demos/editor',
+                  routes: [
+                    {
+                      path: '/demos/editor/flow',
+                      name: 'flow',
+                      component: './Editor/GGEditor/Flow',
+                    },
+                    {
+                      path: '/demos/editor/mind',
+                      name: 'mind',
+                      component: './Editor/GGEditor/Mind',
+                    },
+                    {
+                      path: '/demos/editor/koni',
+                      name: 'koni',
+                      component: './Editor/GGEditor/Koni',
                     },
                   ],
                 },

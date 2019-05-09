@@ -1,10 +1,79 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Button, Card, Col, DatePicker, Form, Input, List, Row } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  List,
+  Row,
+  Progress,
+  Icon,
+  Typography,
+} from 'antd';
 
 import { milestonesSelector } from './selectors/milestones';
 import styles from './Milestone.less';
+
+const ProgressMilestone = ({ progress }) => {
+  const { total, complete } = progress
+    .filter(i => i.name !== 'status.canceled')
+    .reduce(
+      (acc, i) => ({
+        total: acc.total + i.count,
+        complete: acc.complete + (i.name === 'status.done' ? i.count : 0),
+      }),
+      {
+        total: 0,
+        complete: 0,
+      }
+    );
+
+  const result = (complete / total) * 100;
+
+  return progress.length > 0 ? (
+    <div className={styles.progress}>
+      <Progress
+        status="success"
+        percent={parseFloat(result.toFixed(2))}
+        format={percent => `${percent} %`}
+      />
+      <div>
+        <Typography.Text strong>Total: </Typography.Text>
+        {total}
+        {' | '}
+        <Typography.Text strong>Feitas: </Typography.Text>
+        {complete}
+      </div>
+    </div>
+  ) : (
+    <div className={styles.progress}>
+      <Progress percent={0} format={percent => `${percent} %`} />
+      <div>
+        <Typography.Text strong>Total: </Typography.Text>
+        {total}
+        {' | '}
+        <Typography.Text strong>Feitas: </Typography.Text>
+        {complete}
+      </div>
+    </div>
+  );
+};
+
+const DescriptionMilestone = ({ data: { description, startline, deadline } }) => {
+  return (
+    <>
+      <div>{description}</div>
+      <div>
+        <Icon type="clock-circle" />{' '}
+        {`${moment(startline).format('DD/MM/YYYY')} ~ ${moment(deadline).format('DD/MM/YYYY')}`}
+      </div>
+    </>
+  );
+};
 
 @connect(state => ({
   milestones: milestonesSelector(state),
@@ -54,26 +123,9 @@ class Milestone extends Component {
       submitting,
     } = this.props;
 
-    const ListContent = ({ data: { creator, startline, deadline } }) => (
-      <div className={styles.listContent}>
-        <div className={styles.listContentItem}>
-          <span>Criado por</span>
-          <p>{creator.name}</p>
-        </div>
-        <div className={styles.listContentItem}>
-          <span>Início</span>
-          <p>{moment(startline).format('DD/MM/YYYY')}</p>
-        </div>
-        <div className={styles.listContentItem}>
-          <span>Fim</span>
-          <p>{moment(deadline).format('DD/MM/YYYY')}</p>
-        </div>
-      </div>
-    );
-
     return (
-      <Row gutter={24}>
-        <Col xl={16} lg={24} md={24} sm={24} xs={24}>
+      <Row gutter={24} type="flex">
+        <Col xl={16} lg={24} md={24} sm={24} xs={24} order={2}>
           <Card bordered={false} title="Entregáveis" loading={loading}>
             <List
               size="large"
@@ -82,14 +134,18 @@ class Milestone extends Component {
               dataSource={milestones}
               renderItem={item => (
                 <List.Item>
-                  <List.Item.Meta title={item.name} description={item.description} />
-                  <ListContent data={item} />
+                  <List.Item.Meta
+                    style={{ flex: '1 0 300px' }}
+                    title={item.name}
+                    description={<DescriptionMilestone data={item} />}
+                  />
+                  <ProgressMilestone progress={item.progress} />
                 </List.Item>
               )}
             />
           </Card>
         </Col>
-        <Col xl={8} lg={24} md={24} sm={24} xs={24}>
+        <Col xl={8} lg={24} md={24} sm={24} xs={24} order={1}>
           <Card
             style={{ marginBottom: 24 }}
             className={styles.standardListForm}

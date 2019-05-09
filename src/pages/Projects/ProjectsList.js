@@ -37,7 +37,7 @@ class ProjectsList extends PureComponent {
     return (
       <PageHeaderWrapper
         title="Meus projetos"
-        action={[
+        extra={[
           <Button key="1" type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
             Projeto
           </Button>,
@@ -55,12 +55,7 @@ class ProjectsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          shape="square"
-                          src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
-                        />
-                      }
+                      avatar={<Avatar shape="square" src={item.avatar} />}
                       title={<Link to={`/projects/${item.id}`}>{item.name}</Link>}
                       description={item.description}
                     />

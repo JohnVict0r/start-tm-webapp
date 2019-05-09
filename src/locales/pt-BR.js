@@ -8,6 +8,7 @@ import login from './pt-BR/login';
 import menu from './pt-BR/menu';
 import monitor from './pt-BR/monitor';
 import project from './pt-BR/project';
+import team from './pt-BR/team';
 import register from './pt-BR/register';
 import result from './pt-BR/result';
 import settingDrawer from './pt-BR/settingDrawer';
@@ -17,6 +18,7 @@ import comment from './pt-BR/comment';
 import validation from './pt-BR/validation';
 import pwa from './pt-BR/pwa';
 import component from './pt-BR/component';
+import editor from './pt-BR/editor';
 
 export default {
   'navBar.lang': 'Idiomas',
@@ -34,6 +36,7 @@ export default {
   ...menu,
   ...monitor,
   ...project,
+  ...team,
   ...register,
   ...result,
   ...settingDrawer,
@@ -43,4 +46,5 @@ export default {
   ...card,
   ...comment,
   ...component,
+  ...editor,
 };

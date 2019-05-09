@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import router from 'umi/router';
-import { FormattedMessage } from 'umi/locale';
+import { FormattedMessage } from 'umi-plugin-react/locale';
 import { Menu } from 'antd';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './AccountSettings.less';
@@ -14,18 +14,18 @@ class AccountSettings extends Component {
       password: (
         <FormattedMessage id="app.settings.menuMap.password" defaultMessage="Password Settings" />
       ),
-      security: (
-        <FormattedMessage id="app.settings.menuMap.security" defaultMessage="Security Settings" />
-      ),
-      binding: (
-        <FormattedMessage id="app.settings.menuMap.binding" defaultMessage="Account Binding" />
-      ),
-      notification: (
-        <FormattedMessage
-          id="app.settings.menuMap.notification"
-          defaultMessage="New Message Notification"
-        />
-      ),
+      // security: (
+      //   <FormattedMessage id="app.settings.menuMap.security" defaultMessage="Security Settings" />
+      // ),
+      // binding: (
+      //   <FormattedMessage id="app.settings.menuMap.binding" defaultMessage="Account Binding" />
+      // ),
+      // notification: (
+      //   <FormattedMessage
+      //     id="app.settings.menuMap.notification"
+      //     defaultMessage="New Message Notification"
+      //   />
+      // ),
     };
     const key = location.pathname.replace(`${match.path}/`, '');
     this.state = {
@@ -75,19 +75,23 @@ class AccountSettings extends Component {
     if (!this.main) {
       return;
     }
-    requestAnimationFrame(() => {
-      let mode = 'inline';
-      const { offsetWidth } = this.main;
-      if (this.main.offsetWidth < 641 && offsetWidth > 400) {
-        mode = 'horizontal';
-      }
-      if (window.innerWidth < 768 && offsetWidth > 400) {
-        mode = 'horizontal';
-      }
-      this.setState({
-        mode,
-      });
-    });
+
+    const { mode: currentMode } = this.state;
+
+    let mode = 'inline';
+    const { offsetWidth } = this.main;
+
+    if (offsetWidth > 400 && offsetWidth < 641) {
+      mode = 'horizontal';
+    }
+
+    if (window.innerWidth < 768 && offsetWidth > 400) {
+      mode = 'horizontal';
+    }
+
+    if (mode !== currentMode) {
+      requestAnimationFrame(() => this.setState({ mode }));
+    }
   };
 
   render() {

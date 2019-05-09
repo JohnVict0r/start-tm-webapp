@@ -38,14 +38,14 @@ class TeamView extends Component {
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="2">
-          <Link to={`${match.url}/edit`}>Editar Quadro</Link>
+          <Link to={`${match.url}/edit`}>Editar Equipe</Link>
         </Menu.Item>
       </Menu>
     );
 
     const action = (
       <div>
-        {/* <FavoriteIcon
+        {/* <FavoriteButton
           style={{ padding: '0 8px' }}
           onClick={this.handleFavorite}
           favorited={project.favorited}
@@ -66,10 +66,10 @@ class TeamView extends Component {
         <>
           <Avatar
             style={{ marginRight: '8px' }}
-            src="https://gw.alipayobjects.com/zos/rmsportal/nxkuOJlFJuAUhzlMTCEe.png"
+            src={team.project.avatar}
             shape="square"
             size="small"
-            icon="user"
+            icon="project"
           />
           {`${team.project.name} － ${team.name}`}
         </>
@@ -78,10 +78,11 @@ class TeamView extends Component {
 
     return (
       <PageHeaderWrapper
+        fluid
         home={null}
         title={team.name}
         overrideBreadcrumbNameMap={overrideMap}
-        action={action}
+        extra={action}
       >
         {children}
       </PageHeaderWrapper>

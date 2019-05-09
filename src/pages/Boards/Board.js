@@ -1,8 +1,11 @@
 import React, { PureComponent } from 'react';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'dva';
-import { Icon, Spin } from 'antd';
+import router from 'umi/router';
+import Link from 'umi/link';
+import { Button, Dropdown, Icon, Spin, Menu } from 'antd';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import ColumnList from '@/components/ColumnList';
 import { reorder, reorderCardMap } from '@/utils/reorder';
@@ -183,44 +186,78 @@ class Board extends PureComponent {
   };
 
   render() {
-    const { board, loading, children } = this.props;
+    const { board, loading, match, children } = this.props;
     const { cardlists, showNewCardListForm } = this.state;
 
     if (!board) {
       return <PageLoading />;
     }
 
+    const menu = (
+      <Menu>
+        <Menu.Item>
+          <Link to={`/teams/${match.params.teamId}/milestones`}>Entregáveis</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to={`/teams/${match.params.teamId}/members`}>Membros</Link>
+        </Menu.Item>
+        <Menu.Item>
+          <Link to={`/teams/${match.params.teamId}/edit`}>Configurações</Link>
+        </Menu.Item>
+      </Menu>
+    );
+
+    const extra = (
+      <Dropdown overlay={menu} trigger={['click']}>
+        <Button>
+          Menu <Icon type="ellipsis" />
+        </Button>
+      </Dropdown>
+    );
+
     return (
-      <div className={styles.container}>
-        <Spin spinning={loading}>
-          <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
-            <Droppable droppableId="board" direction="horizontal" type="LIST">
-              {provided => (
-                <div className={styles.board} ref={provided.innerRef} {...provided.droppableProps}>
-                  {this.renderCardList(cardlists)}
-                  {provided.placeholder}
-                  {showNewCardListForm ? (
-                    <SaveCardList onClose={() => this.setState({ showNewCardListForm: false })} />
-                  ) : (
-                    <ColumnList>
-                      <div className={styles.newCardListToogle}>
-                        <div
-                          className={styles.plusIcon}
-                          onClick={() => this.setState({ showNewCardListForm: true })}
-                        >
-                          <Icon type="plus" />
-                          <div>Nova Lista</div>
+      <PageHeaderWrapper
+        wrapperClassName={styles.header}
+        fluid
+        home={null}
+        hiddenBreadcrumb
+        onBack={() => router.push(`/teams/${match.params.teamId}`)}
+        title={board.team.name}
+        subTitle={board.project.name}
+        logo={<img alt={board.project.name} src={board.project.avatar} />}
+        extra={extra}
+      >
+        <div className={styles.container}>
+          <Spin spinning={loading}>
+            <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
+              <Droppable droppableId="board" direction="horizontal" type="LIST">
+                {provided => (
+                  <div className={styles.board} ref={provided.innerRef} {...provided.droppableProps}>
+                    {this.renderCardList(cardlists)}
+                    {provided.placeholder}
+                    {showNewCardListForm ? (
+                      <SaveCardList onClose={() => this.setState({ showNewCardListForm: false })} />
+                    ) : (
+                      <ColumnList>
+                        <div className={styles.newCardListToogle}>
+                          <div
+                            className={styles.plusIcon}
+                            onClick={() => this.setState({ showNewCardListForm: true })}
+                          >
+                            <Icon type="plus" />
+                            <div>Nova Lista</div>
+                          </div>
                         </div>
-                      </div>
-                    </ColumnList>
-                  )}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </Spin>
-        {children}
-      </div>
+                      </ColumnList>
+                    )}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </Spin>
+          {children}
+        </div>
+      </PageHeaderWrapper>
     );
   }
 }

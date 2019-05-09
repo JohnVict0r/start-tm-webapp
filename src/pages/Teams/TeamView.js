@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import Link from 'umi/link';
-import { Avatar, Button, Dropdown, Menu } from 'antd';
+import { Button } from 'antd';
+import { FavoriteButton } from '@/components/Favorite';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
@@ -13,6 +13,7 @@ import { makeTeamSelector } from './selectors/teams';
   return {
     team: teamSelector(state),
     loading: state.loading.effects['teams/fetchTeam'],
+    favoriting: state.loading.effects['teams/favoriteTeam'],
   };
 })
 class TeamView extends Component {
@@ -24,65 +25,82 @@ class TeamView extends Component {
     });
   }
 
+  handleFavorite = () => {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'teams/favoriteTeam',
+      payload: match.params.teamId,
+    });
+  };
+
+  handleTabChange = key => {
+    const { match } = this.props;
+    switch (key) {
+      case 'milestones':
+        router.push(`${match.url}/milestones`);
+        break;
+      case 'members':
+        router.push(`${match.url}/members`);
+        break;
+      case 'edit':
+        router.push(`${match.url}/edit`);
+        break;
+      default:
+        break;
+    }
+  };
+
   render() {
-    const { team, children, match } = this.props;
+    const { team, favoriting, children, location, match } = this.props;
 
     if (!team) {
       return <PageLoading />;
     }
 
-    const teamOptionsMenu = (
-      <Menu>
-        <Menu.Item key="1">
-          <Link to={`${match.url}/members`}>Membros</Link>
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="2">
-          <Link to={`${match.url}/edit`}>Editar Equipe</Link>
-        </Menu.Item>
-      </Menu>
-    );
+    const tabList = [
+      {
+        key: 'milestones',
+        tab: 'Entregáveis',
+      },
+      {
+        key: 'members',
+        tab: 'Membros',
+      },
+      {
+        key: 'edit',
+        tab: 'Configurações',
+      },
+    ];
 
-    const action = (
-      <div>
-        {/* <FavoriteButton
-          style={{ padding: '0 8px' }}
+    const extra = (
+      <>
+        <FavoriteButton
+          loading={favoriting}
           onClick={this.handleFavorite}
-          favorited={project.favorited}
-        /> */}
-        <Button.Group>
-          <Button icon="clock-circle" onClick={() => router.push(`${match.url}/milestones`)}>
-            Entregáveis
-          </Button>
-          <Dropdown overlay={teamOptionsMenu} placement="bottomRight">
-            <Button icon="menu-fold">Menu</Button>
-          </Dropdown>
-        </Button.Group>
-      </div>
+          favorited={team.favorited}
+        />
+        <Button
+          type='primary'
+          icon='project'
+          onClick={() => router.push(`${match.url}/board`)}
+        >
+          Quadro
+        </Button>
+      </>
     );
-
-    const overrideMap = {
-      '/teams/:teamId': (
-        <>
-          <Avatar
-            style={{ marginRight: '8px' }}
-            src={team.project.avatar}
-            shape="square"
-            size="small"
-            icon="project"
-          />
-          {`${team.project.name} － ${team.name}`}
-        </>
-      ),
-    };
 
     return (
       <PageHeaderWrapper
-        fluid
         home={null}
+        hiddenBreadcrumb
         title={team.name}
-        overrideBreadcrumbNameMap={overrideMap}
-        extra={action}
+        subTitle={team.project.name}
+        logo={<img alt={team.project.name} src={team.project.avatar} />}
+        content={team.description}
+        extra={extra}
+        tabList={tabList}
+        tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
+        onTabChange={this.handleTabChange}
       >
         {children}
       </PageHeaderWrapper>

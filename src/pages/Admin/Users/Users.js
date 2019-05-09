@@ -18,9 +18,9 @@ class Users extends PureComponent {
     const { dispatch } = this.props;
     dispatch({
       type: 'admin/fetchUsers',
-      payload:{
-        page:0
-      }
+      payload: {
+        page: 0,
+      },
     });
     dispatch({
       type: 'global/fetchRoles',
@@ -48,16 +48,15 @@ class Users extends PureComponent {
     });
   };
 
-  handleChangePage = (page) => {
+  handleChangePage = page => {
     const { dispatch } = this.props;
     dispatch({
       type: 'admin/fetchUsers',
-      payload:{
-        page
-      }
+      payload: {
+        page,
+      },
     });
-}
-
+  };
 
   render() {
     const {
@@ -85,11 +84,10 @@ class Users extends PureComponent {
       pageSize: pagination.perPage,
       total: pagination.total,
       hideOnSinglePage: true,
-      onChange: (page) => {
-        this.handleChangePage(page)
-      }
-    }; 
-
+      onChange: page => {
+        this.handleChangePage(page);
+      },
+    };
 
     return (
       <div className={styles.standardList}>

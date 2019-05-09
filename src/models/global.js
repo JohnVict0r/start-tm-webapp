@@ -2,7 +2,7 @@ import { queryNotices } from '@/services/api';
 import { fetchRoles } from '@/services/auth';
 import { loadStatus } from '@/services/global';
 import { loadLoggedInUser, loadFavorites } from '@/services/user';
-import { setAuthority} from '@/utils/authority';
+import { setAuthority } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
 
 export default {

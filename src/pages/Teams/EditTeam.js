@@ -10,7 +10,8 @@ import { makeTeamSelector } from './selectors/teams';
     team: teamSelector(state),
     teams: state.Teams,
     submitting: state.loading.effects['Teams/update'],
-}})
+  };
+})
 @Form.create()
 class EditTeam extends PureComponent {
   componentDidUpdate(prevProps) {
@@ -82,7 +83,12 @@ class EditTeam extends PureComponent {
             {getFieldDecorator('name', {
               rules: [{ required: true, message: formatMessage({ id: 'app.team.name.message' }) }],
               initialValue: team && team.name,
-            })(<Input maxLength={255} placeholder={formatMessage({ id: 'app.team.name.placeholder' })} />)}
+            })(
+              <Input
+                maxLength={255}
+                placeholder={formatMessage({ id: 'app.team.name.placeholder' })}
+              />
+            )}
           </Form.Item>
           <Form.Item {...formItemLayout} label={formatMessage({ id: 'app.team.description' })}>
             {getFieldDecorator('description', {

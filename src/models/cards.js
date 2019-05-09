@@ -10,6 +10,8 @@ import {
   deleteFile,
   assignMilestone,
   unassignMilestone,
+  assigneeUser,
+  unAssigneeUser,
 } from '@/services/cards';
 
 export default {
@@ -59,6 +61,36 @@ export default {
 
     *assigin({ payload }, { call, put }) {
       const response = yield call(assignUser, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
+    },
+
+    *assiginee({ payload }, { call, put }) {
+      const response = yield call(assigneeUser, payload);
+      if (response.errors) {
+        yield put({
+          type: 'handleError',
+          payload: response,
+        });
+      } else {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
+    },
+
+    *unAssiginee({ payload }, { call, put }) {
+      const response = yield call(unAssigneeUser, payload);
       if (response.errors) {
         yield put({
           type: 'handleError',

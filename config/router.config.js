@@ -30,7 +30,11 @@ export default [
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     routes: [
-      { path: '/', redirect: '/dashboard/analysis', authority: ['Administrador', 'Colaborador', 'Gerente'] },
+      {
+        path: '/',
+        redirect: '/dashboard/analysis',
+        authority: ['Administrador', 'Colaborador', 'Gerente'],
+      },
 
       // exception
       {
@@ -236,7 +240,7 @@ export default [
             name: 'new-project',
             icon: 'plus',
             component: './Projects/NewProject',
-            authority: ['Administrador', 'Gerente']
+            authority: ['Administrador', 'Gerente'],
           },
           {
             path: '/projects/:projectId',

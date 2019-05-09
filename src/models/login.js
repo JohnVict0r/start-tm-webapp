@@ -45,7 +45,7 @@ export default {
         setAuthToken(payload.token);
 
         yield put.resolve({
-          type: 'global/fetchLoggedInUser'
+          type: 'global/fetchLoggedInUser',
         });
 
         const urlParams = new URL(window.location.href);

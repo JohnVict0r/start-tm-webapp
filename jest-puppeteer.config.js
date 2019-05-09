@@ -7,7 +7,7 @@ module.exports = {
       '--no-first-run',
       '--no-sandbox',
       '--no-zygote',
-      '--no-sandbox'
+      '--no-sandbox',
     ],
   },
 };

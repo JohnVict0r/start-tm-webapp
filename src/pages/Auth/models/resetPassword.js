@@ -14,7 +14,7 @@ export default {
       if (response.token) {
         yield put({
           type: 'login/authenticate',
-          payload: response
+          payload: response,
         });
       }
       yield put({

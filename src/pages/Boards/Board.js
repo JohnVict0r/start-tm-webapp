@@ -166,7 +166,7 @@ class Board extends PureComponent {
     );
   };
 
-  renderCardList = (cardlists) => {
+  renderCardList = cardlists => {
     const { board } = this.props;
     const { cardMap, disabledCardlists } = this.state;
 

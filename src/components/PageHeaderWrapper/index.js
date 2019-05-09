@@ -58,7 +58,7 @@ const PageHeaderWrapper = ({
             <div className={styles.wrapper}>
               <div
                 className={classNames({
-                  [styles.wide]: !fluid && contentWidth === 'Fixed'
+                  [styles.wide]: !fluid && contentWidth === 'Fixed',
                 })}
               >
                 <PageHeader
@@ -75,7 +75,9 @@ const PageHeaderWrapper = ({
                     conversionBreadcrumbList({
                       ...value,
                       ...restProps,
-                      ...(home !== null && { home: <FormattedMessage id="menu.home" defaultMessage="Home" /> }),
+                      ...(home !== null && {
+                        home: <FormattedMessage id="menu.home" defaultMessage="Home" />,
+                      }),
                     })
                   }
                   className={styles.pageHeader}

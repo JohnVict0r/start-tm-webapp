@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 import { Upload, Button } from 'antd';
-import classNames from 'classnames'
+import classNames from 'classnames';
 
-import styles from './index.less'
+import styles from './index.less';
 
 class Attachment extends PureComponent {
   state = {
@@ -36,7 +36,7 @@ class Attachment extends PureComponent {
     return (
       <Upload
         className={classNames({
-          [styles.block]: !!block
+          [styles.block]: !!block,
         })}
         beforeUpload={this.beforeUpload}
         onChange={this.handleChange}

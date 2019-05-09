@@ -2,7 +2,8 @@ import { stringify } from 'qs';
 import callApi from '@/utils/callApi';
 import schema from './Schema';
 
-export const loadUsers = ({page}) => callApi(`users?${stringify({ page })}`, schema.USERMEMBER_ARRAY).get();
+export const loadUsers = ({ page }) =>
+  callApi(`users?${stringify({ page })}`, schema.USERMEMBER_ARRAY).get();
 
 export const removeUser = ({ userId }) =>
   callApi(`users/${userId}`, schema.TEAMMEMBER_ARRAY).delete();

@@ -55,12 +55,7 @@ class ProjectsList extends PureComponent {
                 <List.Item>
                   <Skeleton title={false} loading={loading} active>
                     <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          shape="square"
-                          src={item.avatar}
-                        />
-                      }
+                      avatar={<Avatar shape="square" src={item.avatar} />}
                       title={<Link to={`/projects/${item.id}`}>{item.name}</Link>}
                       description={item.description}
                     />

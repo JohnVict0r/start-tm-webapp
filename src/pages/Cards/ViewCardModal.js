@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import { Button, Modal, Row, Col, Form, List, Popover, Upload } from 'antd';
+import {Button, Modal, Row, Col, Form, List, Popover, Upload, Avatar} from 'antd';
 import AvatarList from '@/components/AvatarList';
 import { cardSelectorWithMembers } from './selectors/members';
 import styles from './ViewCardModal.less';
@@ -144,6 +144,14 @@ class ViewCardModal extends PureComponent {
 
     const cover = card.files.find(i => i.mimeType === 'image/jpeg' || i.mimeType === 'image/png');
 
+    /* <AvatarList>
+      <AvatarList.Item
+        key={`${card.id}-avatar-${card.assignee.id}`}
+        src={card.assignee.avatar}
+        tips={card.assignee.name}
+      />
+    </AvatarList> */
+
     return (
       <Modal
         className={styles.modal}
@@ -166,6 +174,21 @@ class ViewCardModal extends PureComponent {
               <Col span={24} className={styles.cardListInfo}>
                 <Row gutter={12}>
                   <Col xs={24} sm={12}>
+                    <Row className={styles.label}>Responsável</Row>
+                    <Row>
+                      {card.assignee ? (
+                        <span>
+                          <Avatar src={card.assignee.avatar} size={20} />
+                          {` ${card.assignee.name}`}
+                        </span>
+                      ) : (
+                        '--'
+                      )}
+                    </Row>
+                    <Row className={styles.label}>Data de entrega</Row>
+                    <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
+                  </Col>
+                  <Col xs={24} sm={12}>
                     <Row className={styles.label}>Participantes</Row>
                     <Row>
                       {card.members && card.members.length > 0 ? (
@@ -182,24 +205,6 @@ class ViewCardModal extends PureComponent {
                         '--'
                       )}
                     </Row>
-                  </Col>
-                  <Col xs={24} sm={12}>
-                    <Row className={styles.label}>Responsavel</Row>
-                    <Row>
-                      {card.assignee ? (
-                        <AvatarList>
-                          <AvatarList.Item
-                            key={`${card.id}-avatar-${card.assignee.id}`}
-                            src={card.assignee.avatar}
-                            tips={card.assignee.name}
-                          />
-                        </AvatarList>
-                      ) : (
-                        '--'
-                      )}
-                    </Row>
-                    <Row className={styles.label}>Data de entrega</Row>
-                    <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
                   </Col>
                 </Row>
                 {card.description && (

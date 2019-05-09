@@ -13,6 +13,6 @@ export default {
   'app.card.members': 'Membros',
   'app.card.milestone' : 'Entregavel',
   'app.card.assign-milestone':'Associar entregavel',
-  'app.card.assignee' : 'Responsavel',
+  'app.card.assignee' : 'Responsável',
   'app.card.assign-assignee': 'Associar responsável',
 };

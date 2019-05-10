@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { createMilestone, loadMilestones } from '@/services/milestones';
+import { createMilestone, loadMilestones, loadMilestone } from '@/services/milestones';
 
 export default {
   namespace: 'milestones',
@@ -49,6 +49,22 @@ export default {
       yield put({
         type: 'receiveItems',
         payload: response.result,
+      });
+    },
+
+    *fetchMilestone({ payload }, { call, put }) {
+      const response = yield call(loadMilestone, payload);
+
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      yield put({
+        type: 'receiveItem',
+        payload: {
+          item: response.result,
+        },
       });
     },
   },

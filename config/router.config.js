@@ -328,6 +328,37 @@ export default [
         ],
       },
 
+      // milestones
+      {
+        path: '/milestones',
+        name: 'milestones',
+        icon: 'schedule',
+        hideInBreadcrumb: true,
+        hideInMenu: true,
+        routes: [
+          { path: '/milestones' },
+          {
+            path: '/milestones/:milestoneId',
+            name: 'milestone',
+            component: './Milestones/milestoneView',
+            hideInMenu: true,
+            routes: [
+              { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },
+              // {
+              //   path: '/milestones/:milestoneId/details',
+              //   name: 'details',
+              //   component: './Milestones/MilestoneDetails',
+              // },
+              // {
+              //   path: '/milestones/:milestoneId/edit',
+              //   name: 'edit-milestone',
+              //   component: './Mlestones/EditMilestone',
+              // },
+            ],
+          },
+        ],
+      },
+
       // demos
       // only show in development
       ...(process.env.NODE_ENV === 'development'

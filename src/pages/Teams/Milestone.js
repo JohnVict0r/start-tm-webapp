@@ -14,6 +14,7 @@ import {
   Icon,
   Typography,
 } from 'antd';
+import Link from 'umi/link';
 
 import { milestonesSelector } from './selectors/milestones';
 import styles from './Milestone.less';
@@ -136,7 +137,7 @@ class Milestone extends Component {
                 <List.Item>
                   <List.Item.Meta
                     style={{ flex: '1 0 300px' }}
-                    title={item.name}
+                    title={<Link to={`/milestones/${item.id}`}>{item.name}</Link>}
                     description={<DescriptionMilestone data={item} />}
                   />
                   <ProgressMilestone progress={item.progress} />

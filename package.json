@@ -57,7 +57,7 @@
   "dependencies": {
     "@antv/data-set": "^0.10.1",
     "@babel/runtime": "^7.3.4",
-    "antd": "^3.16.1",
+    "antd": "^3.17.0",
     "bizcharts": "3.5.2-beta.1",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "classnames": "^2.2.6",
@@ -81,7 +81,7 @@
     "qs": "^6.6.0",
     "rc-animate": "^2.6.0",
     "react": "^16.8.4",
-    "react-beautiful-dnd": "^10.1.0",
+    "react-beautiful-dnd": "^11.0.3",
     "react-container-query": "^0.11.0",
     "react-copy-to-clipboard": "^5.0.1",
     "react-document-title": "^2.0.3",
@@ -91,8 +91,8 @@
     "react-text-mask": "^5.4.3",
     "reselect": "^4.0.0",
     "resize-observer-polyfill": "^1.5.1",
-    "umi": "^2.6.2",
-    "umi-plugin-react": "^1.7.2",
+    "umi": "^2.6.17",
+    "umi-plugin-react": "^1.7.6",
     "umi-request": "^1.0.5"
   },
   "devDependencies": {

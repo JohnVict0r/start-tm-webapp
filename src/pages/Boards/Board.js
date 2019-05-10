@@ -29,6 +29,18 @@ const resetDisabledCardlists = (cardlists, value) =>
   loading: state.loading.effects['boards/fetchBoard'],
 }))
 class Board extends PureComponent {
+  static getDerivedStateFromProps(props, state) {
+    // permite que o board seja atualizado ao voltar no navegador
+    if (props.board && !isEqual(props.board, state.prevBoard)) {
+      return {
+        prevBoard: props.board,
+        cardlists: props.board.cardlists,
+        cardMap: props.board.cardMap,
+      };
+    }
+    return null;
+  }
+
   state = {
     showNewCardListForm: false,
     cardMap: [],

@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
 import { Avatar, List, Card, Button, Skeleton } from 'antd';
-
+import Authorized from '@/utils/Authorized';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { exploreProjectsSelector } from './selectors/projects';
 
@@ -37,11 +37,13 @@ class ProjectsList extends PureComponent {
     return (
       <PageHeaderWrapper
         title="Meus projetos"
-        extra={[
-          <Button key="1" type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
-            Projeto
-          </Button>,
-        ]}
+        extra={(
+          <Authorized authority={["Administrador", "Gerente"]}>
+            <Button type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
+              Projeto
+            </Button>
+          </Authorized>
+        )}
       >
         <div className={styles.standardList}>
           <Card className={styles.listCard} bordered={false}>

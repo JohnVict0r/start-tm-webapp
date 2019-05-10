@@ -80,8 +80,6 @@ class ProjectView extends Component {
 
     return (
       <PageHeaderWrapper
-        home={null}
-        hiddenBreadcrumb
         title={project.name}
         logo={<img alt={project.name} src={project.avatar} />}
         content={project.description}

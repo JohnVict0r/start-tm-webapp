@@ -91,8 +91,6 @@ class TeamView extends Component {
 
     return (
       <PageHeaderWrapper
-        home={null}
-        hiddenBreadcrumb
         title={team.name}
         subTitle={team.project.name}
         logo={<img alt={team.project.name} src={team.project.avatar} />}

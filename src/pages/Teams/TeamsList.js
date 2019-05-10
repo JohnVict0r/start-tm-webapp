@@ -49,7 +49,7 @@ class TeamsList extends PureComponent {
                     <List.Item.Meta
                       avatar={<Avatar shape="square" src={item.project.avatar} />}
                       title={
-                        <Link to={`/teams/${item.id}`}>
+                        <Link to={`/teams/${item.id}/board`}>
                           {`${item.project.name} － ${item.name}`}
                         </Link>
                       }

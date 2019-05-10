@@ -154,23 +154,6 @@ export default [
         ],
       },
 
-      // admin
-      {
-        name: 'admin',
-        path: '/admin',
-        component: './Admin/Menu',
-        hideInMenu: true,
-        authority: ['Administrador'],
-        routes: [
-          { path: '/admin', redirect: '/admin/users' },
-          {
-            path: '/admin/users',
-            name: 'users',
-            component: './Admin/Users/Users',
-          },
-        ],
-      },
-
       // teds
       // {
       //   path: '/teds',
@@ -324,6 +307,24 @@ export default [
                 component: './Teams/Milestone',
               },
             ],
+          },
+        ],
+      },
+
+      // admin
+      {
+        name: 'admin',
+        path: '/admin',
+        icon: 'tool',
+        component: './Admin/Menu',
+        authority: ['Administrador'],
+        routes: [
+          { path: '/admin', redirect: '/admin/users' },
+          {
+            path: '/admin/users',
+            name: 'users',
+            icon: 'team',
+            component: './Admin/Users/Users',
           },
         ],
       },

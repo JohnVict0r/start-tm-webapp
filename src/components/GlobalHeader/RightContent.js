@@ -1,11 +1,11 @@
 import React, { PureComponent } from 'react';
-import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
-import { Spin, Tag, Menu, Icon, Avatar, message } from 'antd';
+import { FormattedMessage } from 'umi-plugin-react/locale';
+import { Spin, Tag, Menu, Icon, Avatar } from 'antd';
 import moment from 'moment';
 import groupBy from 'lodash/groupBy';
-import NoticeIcon from '../NoticeIcon';
+// import NoticeIcon from '../NoticeIcon';
 import Ellipsis from '../Ellipsis';
-import HeaderSearch from '../HeaderSearch';
+// import HeaderSearch from '../HeaderSearch';
 import HeaderDropdown from '../HeaderDropdown';
 import { FavoriteList } from '../Favorite';
 // import SelectLang from '../SelectLang';
@@ -98,11 +98,6 @@ export default class GlobalHeaderRight extends PureComponent {
         <Menu.Item key="userinfo">
           <Icon type="setting" />
           <FormattedMessage id="menu.account.settings" defaultMessage="account settings" />
-        </Menu.Item>
-        <Menu.Divider />
-        <Menu.Item key="admin">
-          <Icon type="tool" theme="outlined" />
-          <FormattedMessage id="menu.admin" defaultMessage="Admin" />
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item key="logout">

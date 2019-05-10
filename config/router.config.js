@@ -32,7 +32,7 @@ export default [
     routes: [
       {
         path: '/',
-        redirect: '/dashboard/analysis',
+        redirect: '/teams',
         authority: ['Administrador', 'Colaborador', 'Gerente'],
       },
 

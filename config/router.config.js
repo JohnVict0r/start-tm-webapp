@@ -289,24 +289,25 @@ export default [
             component: './Teams/TeamsList',
           },
           {
+            path: '/teams/:teamId/board',
+            name: 'board',
+            component: './Boards/Board',
+            hideInMenu: true,
+            routes: [
+              {
+                path: '/teams/:teamId/board/cards/:cardId',
+                name: 'card-view',
+                component: './Cards/ViewCardModal',
+              },
+            ],
+          },
+          {
             path: '/teams/:teamId',
             name: 'team',
             component: './Teams/TeamView',
             hideInMenu: true,
             routes: [
-              { path: '/teams/:teamId', redirect: '/teams/:teamId/board' },
-              {
-                path: '/teams/:teamId/board',
-                name: 'board',
-                component: './Boards/Board',
-                routes: [
-                  {
-                    path: '/teams/:teamId/board/cards/:cardId',
-                    name: 'card-view',
-                    component: './Cards/ViewCardModal',
-                  },
-                ],
-              },
+              { path: '/teams/:teamId', redirect: '/teams/:teamId/milestones' },
               {
                 path: '/teams/:teamId/members',
                 name: 'members',

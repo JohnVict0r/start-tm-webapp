@@ -1,5 +1,13 @@
 @import '~antd/lib/style/themes/default.less';
 
+.header {
+  :global {
+    .ant-page-header-title-view-extra {
+      top: 11px;
+    }
+  }
+}
+
 .container {
   position: relative;
   right: 50%;
@@ -25,17 +33,17 @@
 
 .board {
   display: flex;
-  height: ~'calc(100vh - @{layout-header-height} - 105px)' !important;
+  height: ~'calc(100vh - @{layout-header-height} - 52px)' !important;
   overflow-x: visible;
   overflow-y: hidden;
   transition: 0.3s;
 }
 
-@media screen and (max-width: @screen-md-max) {
-  .board {
-    height: ~'calc(100vh - @{layout-header-height} - 63px)' !important;
-  }
-}
+//@media screen and (max-width: @screen-md-max) {
+//  .board {
+//    height: ~'calc(100vh - @{layout-header-height} - 63px)' !important;
+//  }
+//}
 
 .newCardListToogle {
   width: 300px;

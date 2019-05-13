@@ -33,6 +33,6 @@ export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milstone`, sch
 export const assigneeUser = ({ id, userId }) =>
     callApi(`cards/${id}/assignee/${userId}`, schema.CARD).put();
 
-export const unAssigneeUser = ({ id }) =>
-    callApi(`cards/${id}/assignee`, schema.CARD).delete();
+export const unAssigneeUser = ({ id, userId }) =>
+    callApi(`cards/${id}/assignee/${userId}`, schema.CARD).delete();
 

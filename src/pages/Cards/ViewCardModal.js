@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import {Button, Modal, Row, Col, Form, List, Popover, Upload, Avatar} from 'antd';
+import {Button, Modal, Row, Col, Form, List, Popover, Upload } from 'antd';
 import AvatarList from '@/components/AvatarList';
 import { cardSelectorWithMembers } from './selectors/members';
 import styles from './ViewCardModal.less';
@@ -44,13 +44,14 @@ class ViewCardModal extends PureComponent {
     this.setState({ visibleFormAssignee });
   };
 
-  handleUnAssignAssignee = () => {
+  handleUnAssignAssignee = value => {
     const { dispatch, card } = this.props;
 
     dispatch({
       type: 'cards/unAssiginee',
       payload: {
         id: card.id,
+        userId: value,
       },
     });
   };
@@ -173,21 +174,27 @@ class ViewCardModal extends PureComponent {
             <Row>
               <Col span={24} className={styles.cardListInfo}>
                 <Row gutter={12}>
-                  {/* <Col xs={24} sm={12}>
-                    <Row className={styles.label}>Responsável</Row>
-                    <Row>
-                      {card.assignee ? (
-                        <span>
-                          <Avatar src={card.assignee.avatar} size={20} />
-                          {` ${card.assignee.name}`}
-                        </span>
-                      ) : (
-                        '--'
-                      )}
-                    </Row>
-                    <Row className={styles.label}>Data de entrega</Row>
-                    <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
-                  </Col> */}
+                  {
+                    <Col xs={24} sm={12}>
+                      <Row className={styles.label}>Responsáveis</Row>
+                      <Row>
+                        {card.assignees && card.assignees.length > 0 ? (
+                          <AvatarList size="mini" overlap={0}>
+                            {card.assignees.map(member => (
+                              <AvatarList.Item
+                                key={`${card.id}-avatar-${member.id}`}
+                                src={member.avatar}
+                                tips={member.name}
+                              />
+                            ))}
+                          </AvatarList>
+                        ) : (
+                          '--'
+                        )}
+                      </Row>
+                      <Row className={styles.label}>Data de entrega</Row>
+                      <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
+                    </Col>}
                   <Col xs={24} sm={12}>
                     <Row className={styles.label}>Participantes</Row>
                     <Row>
@@ -247,26 +254,28 @@ class ViewCardModal extends PureComponent {
                   Editar
                 </Button>
               </List.Item> */}
-              {/* <List.Item>
-                <Popover
-                  visible={visibleFormAssignee}
-                  onVisibleChange={this.handleVisibleAssigneeChange}
-                  title={formatMessage({ id: 'app.card.assign-assignee' }, {})}
-                  content={
-                    <AssigneeForm
-                      teamId={card.teamId}
-                      participant={card.assignee}
-                      onSubmit={this.handleAssignAssignee}
-                      onRemove={this.handleUnAssignAssignee}
-                    />
+              {
+                <List.Item>
+                  <Popover
+                    visible={visibleFormAssignee}
+                    onVisibleChange={this.handleVisibleAssigneeChange}
+                    title={formatMessage({ id: 'app.card.assign-assignee' }, {})}
+                    content={
+                      <AssigneeForm
+                        teamId={card.teamId}
+                        participants={card.assignees}
+                        onSubmit={this.handleAssignAssignee}
+                        onRemove={this.handleUnAssignAssignee}
+                      />
                   }
-                  trigger="click"
-                >
-                  <Button block icon="user">
-                    <FormattedMessage id="app.card.assignee" defaultMessage="Assignee" />
-                  </Button>
-                </Popover>
-              </List.Item> */}
+                    trigger="click"
+                  >
+                    <Button block icon="safety">
+                      <FormattedMessage id="app.card.assignee" defaultMessage="Assignee" />
+                    </Button>
+                  </Popover>
+                </List.Item>
+              }
               <List.Item>
                 <Popover
                   visible={visibleFormParticipants}

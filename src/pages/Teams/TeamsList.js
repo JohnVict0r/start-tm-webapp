@@ -30,7 +30,6 @@ class TeamsList extends PureComponent {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
       total: pagination.total,
-      hideOnSinglePage: true,
     };
 
     return (
@@ -49,9 +48,13 @@ class TeamsList extends PureComponent {
                     <List.Item.Meta
                       avatar={<Avatar shape="square" src={item.project.avatar} />}
                       title={
-                        <Link to={`/teams/${item.id}/board`}>
-                          {`${item.project.name} － ${item.name}`}
-                        </Link>
+                        <>
+                          {item.project.name}
+                          <span className={styles.separator}>/</span>
+                          <Link to={`/teams/${item.id}/board`}>
+                            {item.name}
+                          </Link>
+                        </>
                       }
                       description={item.description}
                     />

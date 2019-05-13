@@ -30,7 +30,6 @@ class TeamsList extends PureComponent {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
       total: pagination.total,
-      hideOnSinglePage: true,
     };
 
     return (

@@ -173,7 +173,7 @@ class ViewCardModal extends PureComponent {
             <Row>
               <Col span={24} className={styles.cardListInfo}>
                 <Row gutter={12}>
-                  <Col xs={24} sm={12}>
+                  {/* <Col xs={24} sm={12}>
                     <Row className={styles.label}>Responsável</Row>
                     <Row>
                       {card.assignee ? (
@@ -187,7 +187,7 @@ class ViewCardModal extends PureComponent {
                     </Row>
                     <Row className={styles.label}>Data de entrega</Row>
                     <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
-                  </Col>
+                  </Col> */}
                   <Col xs={24} sm={12}>
                     <Row className={styles.label}>Participantes</Row>
                     <Row>
@@ -247,7 +247,7 @@ class ViewCardModal extends PureComponent {
                   Editar
                 </Button>
               </List.Item> */}
-              <List.Item>
+              {/* <List.Item>
                 <Popover
                   visible={visibleFormAssignee}
                   onVisibleChange={this.handleVisibleAssigneeChange}
@@ -266,7 +266,7 @@ class ViewCardModal extends PureComponent {
                     <FormattedMessage id="app.card.assignee" defaultMessage="Assignee" />
                   </Button>
                 </Popover>
-              </List.Item>
+              </List.Item> */}
               <List.Item>
                 <Popover
                   visible={visibleFormParticipants}

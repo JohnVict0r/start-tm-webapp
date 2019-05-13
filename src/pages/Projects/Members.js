@@ -1,16 +1,23 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Button, Avatar, Popconfirm, Icon } from 'antd';
+import {List, Card, Button, Avatar, Popconfirm, Icon, Tag} from 'antd';
+import { loggedInUserSelector } from '@/selectors/global';
 import NewMemberForm from './NewMember';
 import { projectMembersSelector } from './selectors/members';
+import { makeProjectSelector } from './selectors/projects';
 
 import styles from './Members.less';
 
-@connect(state => ({
-  members: projectMembersSelector(state),
-  loading: state.loading.effects['currentProjectMembers/fetch'],
-}))
+@connect((state, ownProps) => {
+  const projectSelector = makeProjectSelector({ id: ownProps.match.params.projectId });
+  return {
+    currentUser: loggedInUserSelector(state),
+    project: projectSelector(state),
+    members: projectMembersSelector(state),
+    loading: state.loading.effects['currentProjectMembers/fetch'],
+  }
+})
 class ProjectMembers extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -34,8 +41,14 @@ class ProjectMembers extends PureComponent {
   };
 
   renderItemActions = (user, role) => {
-    if (role.name === 'Proprietário') {
-      return [<span>Proprietário</span>];
+    const { currentUser, project } = this.props;
+
+    if (user.id === currentUser.id) {
+      return [<Tag color='red'>Você</Tag>];
+    }
+
+    if (user.id === project.creator) {
+      return [<Tag color='blue'>Proprietário</Tag>];
     }
 
     return [

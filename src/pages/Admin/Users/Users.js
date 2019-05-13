@@ -83,6 +83,7 @@ class Users extends PureComponent {
       current: pagination.currentPage,
       pageSize: pagination.perPage,
       total: pagination.total,
+      hideOnSinglePage: true,
       onChange: page => {
         this.handleChangePage(page);
       },

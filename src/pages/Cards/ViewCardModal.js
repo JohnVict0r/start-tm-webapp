@@ -28,6 +28,14 @@ class ViewCardModal extends PureComponent {
     visibleFormAssignee: false,
   };
 
+  componentDidMount() {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'cards/fetch',
+      payload: match.params.cardId,
+    });
+  }
+
   handleVisibleDueChange = visibleFormDue => {
     this.setState({ visibleFormDue });
   };
@@ -173,8 +181,8 @@ class ViewCardModal extends PureComponent {
             <Row>
               <Col span={24} className={styles.cardListInfo}>
                 <Row gutter={12}>
-                  {/* <Col xs={24} sm={12}>
-                    <Row className={styles.label}>Responsável</Row>
+                  <Col xs={24} sm={12}>
+                    {/* <Row className={styles.label}>Responsável</Row>
                     <Row>
                       {card.assignee ? (
                         <span>
@@ -184,10 +192,10 @@ class ViewCardModal extends PureComponent {
                       ) : (
                         '--'
                       )}
-                    </Row>
+                    </Row> */}
                     <Row className={styles.label}>Data de entrega</Row>
                     <Row>{card.due ? moment(card.due).format('LLL') : '--'}</Row>
-                  </Col> */}
+                  </Col>
                   <Col xs={24} sm={12}>
                     <Row className={styles.label}>Participantes</Row>
                     <Row>

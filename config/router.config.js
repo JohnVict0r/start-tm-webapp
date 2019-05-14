@@ -433,7 +433,7 @@ export default [
                     {
                       path: '/demos/form/advanced-form',
                       name: 'advancedform',
-                      authority: ['admin'],
+                      authority: ['Administrador'],
                       component: './Forms/AdvancedForm',
                     },
                   ],
@@ -510,7 +510,7 @@ export default [
                     {
                       path: '/demos/profile/advanced',
                       name: 'advanced',
-                      authority: ['admin'],
+                      authority: ['Administrador'],
                       component: './Profile/AdvancedProfile',
                     },
                   ],

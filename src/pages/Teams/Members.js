@@ -7,7 +7,7 @@ import NewMemberForm from './NewMember';
 import { teamMembersSelector } from './selectors/members';
 
 import styles from './Members.less';
-import {makeTeamSelector} from "./selectors/teams";
+import { makeTeamSelector } from './selectors/teams';
 
 @connect((state, ownProps) => {
   const teamSelector = makeTeamSelector({ id: ownProps.match.params.teamId });
@@ -17,7 +17,7 @@ import {makeTeamSelector} from "./selectors/teams";
     roles: rolesSelector(state),
     members: teamMembersSelector(state),
     loading: state.loading.effects['currentTeamMembers/fetch'],
-  }
+  };
 })
 class TeamMembers extends PureComponent {
   componentDidMount() {
@@ -58,11 +58,11 @@ class TeamMembers extends PureComponent {
     const { currentUser, team } = this.props;
 
     if (user.id === currentUser.id) {
-      return [<Tag color='red'>Você</Tag>];
+      return [<Tag color="red">Você</Tag>];
     }
 
     if (user.id === team.creator) {
-      return [<Tag color='blue'>Proprietário</Tag>];
+      return [<Tag color="blue">Proprietário</Tag>];
     }
 
     const { roles } = this.props;

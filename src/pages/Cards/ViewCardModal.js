@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
-import {Button, Modal, Row, Col, Form, List, Popover, Upload, Avatar} from 'antd';
+import { Button, Modal, Row, Col, Form, List, Popover, Upload, Avatar } from 'antd';
 import AvatarList from '@/components/AvatarList';
 import { cardSelectorWithMembers } from './selectors/members';
 import styles from './ViewCardModal.less';
@@ -133,7 +133,7 @@ class ViewCardModal extends PureComponent {
     const textTitleParticipantsForm = <span>Participantes</span>;
 
     const propsUpload = {
-      fileList: card.files.map(file => {
+      fileList: card.media.map(file => {
         return {
           uid: file.id,
           name: file.fileName,
@@ -142,7 +142,7 @@ class ViewCardModal extends PureComponent {
       }),
     };
 
-    const cover = card.files.find(i => i.mimeType === 'image/jpeg' || i.mimeType === 'image/png');
+    const cover = card.media.find(i => i.mimeType === 'image/jpeg' || i.mimeType === 'image/png');
 
     /* <AvatarList>
       <AvatarList.Item
@@ -215,7 +215,7 @@ class ViewCardModal extends PureComponent {
                     <Col span={24}>{card.description}</Col>
                   </Row>
                 )}
-                {card.files.length > 0 && (
+                {card.media.length > 0 && (
                   <Row>
                     <Col className={styles.label} span={24}>
                       Anexos

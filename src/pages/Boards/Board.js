@@ -14,7 +14,7 @@ import CardList from './CardList';
 import SaveCardList from './SaveCardList';
 import { boardSelector } from './selectors/boards';
 import styles from './Board.less';
-import {makeTeamSelector} from "../Teams/selectors/teams";
+import { makeTeamSelector } from '../Teams/selectors/teams';
 
 const resetDisabledCardlists = (cardlists, value) =>
   cardlists.reduce(
@@ -31,7 +31,7 @@ const resetDisabledCardlists = (cardlists, value) =>
     team: teamSelector(state),
     board: boardSelector(state),
     loading: state.loading.effects['boards/fetchBoard'],
-  }
+  };
 })
 class Board extends PureComponent {
   static getDerivedStateFromProps(props, state) {
@@ -257,7 +257,11 @@ class Board extends PureComponent {
             <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
               <Droppable droppableId="board" direction="horizontal" type="LIST">
                 {provided => (
-                  <div className={styles.board} ref={provided.innerRef} {...provided.droppableProps}>
+                  <div
+                    className={styles.board}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
                     {this.renderCardList(cardlists)}
                     {provided.placeholder}
                     {showNewCardListForm ? (

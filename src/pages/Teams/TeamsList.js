@@ -52,9 +52,7 @@ class TeamsList extends PureComponent {
                         <>
                           {item.project.name}
                           <span className={styles.separator}>/</span>
-                          <Link to={`/teams/${item.id}/board`}>
-                            {item.name}
-                          </Link>
+                          <Link to={`/teams/${item.id}/board`}>{item.name}</Link>
                         </>
                       }
                       description={item.description}

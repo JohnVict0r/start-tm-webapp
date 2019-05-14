@@ -8,6 +8,9 @@ export const moveCard = ({ cardId, fromCardListId, toCardListId, position }) =>
     position,
   });
 
+export const loadCard = cardId =>
+  callApi(`cards/${cardId}`, schema.CARD).get();
+
 export const createCard = ({ cardListId, card }) =>
   callApi(`cardlists/${cardListId}/cards`, schema.BOARD).post({ ...card });
 

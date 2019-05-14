@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { formatMessage } from 'umi/locale';
 import {
+  loadCard,
   createCard,
   updateCard,
   moveCard,
@@ -22,6 +23,17 @@ export default {
   },
 
   effects: {
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(loadCard, payload);
+
+      if (!response.errors) {
+        yield put({
+          type: 'entities/mergeEntities',
+          payload: response.entities,
+        });
+      }
+    },
+
     *save({ payload }, { call, put, select }) {
       const response = payload.id
         ? yield call(updateCard, payload)

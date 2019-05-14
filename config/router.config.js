@@ -344,11 +344,11 @@ export default [
             hideInMenu: true,
             routes: [
               { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },
-              // {
-              //   path: '/milestones/:milestoneId/details',
-              //   name: 'details',
-              //   component: './Milestones/MilestoneDetails',
-              // },
+              {
+                path: '/milestones/:milestoneId/details',
+                name: 'details',
+                component: './Milestones/MilestoneDetails',
+              },
               // {
               //   path: '/milestones/:milestoneId/edit',
               //   name: 'edit-milestone',

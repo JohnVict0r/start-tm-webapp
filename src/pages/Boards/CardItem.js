@@ -46,7 +46,7 @@ const RenderAvatarList = ({ card }) => (
 );
 
 const CardItem = ({ card, isDragging, provided, style, match }) => {
-  const cover = card.files.find(i => i.mimeType === 'image/jpeg' || i.mimeType === 'image/png');
+  const cover = card.media.find(i => i.mimeType === 'image/jpeg' || i.mimeType === 'image/png');
   return (
     <div
       className={styles.cardWrapper}
@@ -58,12 +58,11 @@ const CardItem = ({ card, isDragging, provided, style, match }) => {
       <Link to={`${match.url}/cards/${card.id}`}>
         <Card
           bordered={false}
-          cover={cover && (
-            <div
-              className={styles.cover}
-              style={{ backgroundImage: `url(${cover.url})` }}
-            />
-          )}
+          cover={
+            cover && (
+              <div className={styles.cover} style={{ backgroundImage: `url(${cover.url})` }} />
+            )
+          }
           className={classNames(styles.card, {
             [styles.dragging]: isDragging,
           })}
@@ -72,8 +71,8 @@ const CardItem = ({ card, isDragging, provided, style, match }) => {
           <Ellipsis lines={3}>{card.name}</Ellipsis>
           <div className={styles.cardMetaInfo}>
             <div className={styles.left}>
-              <IconText type='paper-clip' text={card.filesCount} />
-              <IconText type='message' text={card.commentsCount} />
+              <IconText type="paper-clip" text={card.filesCount} />
+              <IconText type="message" text={card.commentsCount} />
               <Due date={card.due} />
             </div>
             {card.members.length > 0 && <RenderAvatarList card={card} />}

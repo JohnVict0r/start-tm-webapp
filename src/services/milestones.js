@@ -4,7 +4,7 @@ import schema from './Schema';
 
 export const loadMilestone = ({ id }) => callApi(`milestones/${id}`, schema.MILESTONE).get();
 
-export const loadCards = ({ id, page }) =>
+export const loadMilestoneCards = ({ id, page }) =>
   callApi(`milestones/${id}/cards?${stringify({ page })}`, schema.CARD_ARRAY).get();
 
 export const loadMilestones = ({ teamId }) =>

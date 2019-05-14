@@ -1,4 +1,4 @@
-import { loadCards } from '@/services/milestones';
+import { loadMilestoneCards } from '@/services/milestones';
 
 const initialPaginatioState = {
   count: 0,
@@ -21,7 +21,7 @@ export default {
 
   effects: {
     *fetchCards({ payload }, { call, put }) {
-      const response = yield call(loadCards, payload);
+      const response = yield call(loadMilestoneCards, payload);
 
       yield put({
         type: 'entities/mergeEntities',

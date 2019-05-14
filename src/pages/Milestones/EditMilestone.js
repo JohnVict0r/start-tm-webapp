@@ -6,7 +6,7 @@ import moment from 'moment';
 @connect((state, ownProps) => ({
   milestone: state.entities.milestones[ownProps.match.params.milestoneId],
   milestones: state.milestones,
-  submitting: state.loading.effects['saveProject/save'],
+  submitting: state.loading.effects['milestones/save'],
 }))
 @Form.create()
 class EditMilestone extends PureComponent {
@@ -48,7 +48,6 @@ class EditMilestone extends PureComponent {
             },
           },
         });
-        form.resetFields();
       }
     });
   };

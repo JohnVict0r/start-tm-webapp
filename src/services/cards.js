@@ -30,7 +30,7 @@ export const deleteFile = ({ cardId, fileId }) =>
 export const assignMilestone = ({ id, milestoneId }) =>
   callApi(`cards/${id}/milestone/${milestoneId}`, schema.CARD).put();
 
-export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milstone`, schema.CARD).delete();
+export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milestone`, schema.CARD).delete();
 
 export const assigneeUser = ({ id, userId }) =>
   callApi(`cards/${id}/assignee/${userId}`, schema.CARD).put();

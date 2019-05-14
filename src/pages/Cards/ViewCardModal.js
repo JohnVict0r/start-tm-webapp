@@ -44,7 +44,7 @@ class ViewCardModal extends PureComponent {
     this.setState({ visibleFormAssignee });
   };
 
-  handleUnAssignAssignee = value => {
+  handleRemoveAssignee = value => {
     const { dispatch, card } = this.props;
 
     dispatch({
@@ -56,7 +56,7 @@ class ViewCardModal extends PureComponent {
     });
   };
 
-  handleAssignAssignee = value => {
+  handleAddAssignee = value => {
     const { dispatch, card } = this.props;
 
     dispatch({
@@ -264,8 +264,8 @@ class ViewCardModal extends PureComponent {
                       <AssigneeForm
                         teamId={card.teamId}
                         participants={card.assignees}
-                        onSubmit={this.handleAssignAssignee}
-                        onRemove={this.handleUnAssignAssignee}
+                        onSubmit={this.handleAddAssignee}
+                        onRemove={this.handleRemoveAssignee}
                       />
                   }
                     trigger="click"

@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {Select, Form, Spin, Row, Badge, Icon, Tooltip, Avatar, Empty} from 'antd';
+import { Select, Form, Spin, Row, Badge, Icon, Tooltip, Avatar, Empty } from 'antd';
 import { usersSelector } from '@/selectors/search';
 
-import styles from './Participants.less';
+import styles from './Assignee.less';
 
 @connect(state => ({
   users: usersSelector(state),

@@ -349,11 +349,11 @@ export default [
                 name: 'details',
                 component: './Milestones/MilestoneDetails',
               },
-              // {
-              //   path: '/milestones/:milestoneId/edit',
-              //   name: 'edit-milestone',
-              //   component: './Mlestones/EditMilestone',
-              // },
+              {
+                path: '/milestones/:milestoneId/edit',
+                name: 'edit-milestone',
+                component: './Milestones/EditMilestone',
+              },
             ],
           },
         ],

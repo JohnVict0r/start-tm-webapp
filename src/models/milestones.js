@@ -1,19 +1,24 @@
 import { message } from 'antd';
-import { createMilestone, loadMilestones, loadMilestone } from '@/services/milestones';
+import {
+  createMilestone,
+  updateMilestone,
+  loadMilestones,
+  loadMilestone,
+} from '@/services/milestones';
+import router from 'umi/router';
 
 export default {
   namespace: 'milestones',
 
   state: {
-    validation: null,
+    error: null,
     items: [],
   },
 
   effects: {
     *save({ payload }, { call, put }) {
       const response = payload.id
-        ? // ? yield call(updateCard, payload)
-          yield call(createMilestone, payload)
+        ? yield call(updateMilestone, payload)
         : yield call(createMilestone, payload);
 
       if (response.errors) {
@@ -31,10 +36,7 @@ export default {
           payload.id ? 'Entregável atualizado com sucesso' : 'Entregável criado com sucesso!'
         );
 
-        yield put({
-          type: 'fetch',
-          payload,
-        });
+        router.push(`/milestones/${payload.id}`);
       }
     },
 
@@ -79,7 +81,7 @@ export default {
     handleError(state, { payload }) {
       return {
         ...state,
-        validation: payload,
+        error: payload,
       };
     },
   },

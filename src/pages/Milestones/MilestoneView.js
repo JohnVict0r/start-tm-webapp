@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
+import { Tag, Icon } from 'antd';
+import moment from 'moment';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 import { makeMilestoneSelector } from './selectors/milestones';
-import { Tag } from 'antd';
 
 @connect((state, ownProps) => {
   const milestoneSelector = makeMilestoneSelector({ id: ownProps.match.params.milestoneId });
@@ -18,7 +19,9 @@ class MilestoneView extends Component {
     const { dispatch, match } = this.props;
     dispatch({
       type: 'milestones/fetchMilestone',
-      payload: match.params.milestoneId,
+      payload: {
+        id: match.params.milestoneId,
+      },
     });
   }
 
@@ -57,7 +60,15 @@ class MilestoneView extends Component {
     return (
       <PageHeaderWrapper
         title={milestone.name}
-        subTitle={<Tag>{`${milestone.project.name} / ${milestone.team.name}`}</Tag>}
+        subTitle={`${milestone.project.name} / ${milestone.team.name}`}
+        tags={
+          <Tag color="red">
+            <Icon type="clock-circle" />{' '}
+            {`${moment(milestone.startline).format('L')} ~ ${moment(milestone.deadline).format(
+              'L'
+            )}`}
+          </Tag>
+        }
         content={milestone.description}
         tabList={tabList}
         tabActiveKey={location.pathname.replace(`${match.url}/`, '')}

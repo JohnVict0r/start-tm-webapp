@@ -83,4 +83,5 @@ export default {
   'menu.teams.team.edit-team': 'Editar equipe',
   'menu.milestones': 'Entregáveis',
   'menu.milestones.milestone': 'Entregável',
+  'menu.milestones.milestone.edit-milestone': 'Editar Entregável',
 };

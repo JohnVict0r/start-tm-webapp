@@ -311,6 +311,36 @@ export default [
         ],
       },
 
+      // milestones
+      {
+        path: '/milestones',
+        name: 'milestones',
+        icon: 'schedule',
+        hideInBreadcrumb: true,
+        hideInMenu: true,
+        routes: [
+          { path: '/milestones' },
+          {
+            path: '/milestones/:milestoneId',
+            name: 'milestone',
+            component: './Milestones/milestoneView',
+            hideInMenu: true,
+            routes: [
+              { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },
+              {
+                path: '/milestones/:milestoneId/details',
+                name: 'details',
+                component: './Milestones/MilestoneDetails',
+              },
+              {
+                path: '/milestones/:milestoneId/edit',
+                name: 'edit-milestone',
+                component: './Milestones/EditMilestone',
+              },
+            ],
+          },
+        ],
+      },
       // admin
       {
         name: 'admin',
@@ -403,7 +433,7 @@ export default [
                     {
                       path: '/demos/form/advanced-form',
                       name: 'advancedform',
-                      authority: ['admin'],
+                      authority: ['Administrador'],
                       component: './Forms/AdvancedForm',
                     },
                   ],
@@ -480,7 +510,7 @@ export default [
                     {
                       path: '/demos/profile/advanced',
                       name: 'advanced',
-                      authority: ['admin'],
+                      authority: ['Administrador'],
                       component: './Profile/AdvancedProfile',
                     },
                   ],

@@ -1,18 +1,24 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import Link from 'umi/link';
-import { List, Card, Button, Avatar, Select, Popconfirm, Icon } from 'antd';
+import { List, Card, Button, Avatar, Select, Popconfirm, Icon, Tag } from 'antd';
+import { rolesSelector, loggedInUserSelector } from '@/selectors/global';
 import NewMemberForm from './NewMember';
 import { teamMembersSelector } from './selectors/members';
-import { rolesSelector } from '@/selectors/global';
 
 import styles from './Members.less';
+import { makeTeamSelector } from './selectors/teams';
 
-@connect(state => ({
-  roles: rolesSelector(state),
-  members: teamMembersSelector(state),
-  loading: state.loading.effects['currentTeamMembers/fetch'],
-}))
+@connect((state, ownProps) => {
+  const teamSelector = makeTeamSelector({ id: ownProps.match.params.teamId });
+  return {
+    currentUser: loggedInUserSelector(state),
+    team: teamSelector(state),
+    roles: rolesSelector(state),
+    members: teamMembersSelector(state),
+    loading: state.loading.effects['currentTeamMembers/fetch'],
+  };
+})
 class TeamMembers extends PureComponent {
   componentDidMount() {
     const { dispatch, match } = this.props;
@@ -49,8 +55,14 @@ class TeamMembers extends PureComponent {
   };
 
   renderItemActions = (user, role) => {
-    if (role.name === 'Proprietário') {
-      return [<span>Proprietário</span>];
+    const { currentUser, team } = this.props;
+
+    if (user.id === currentUser.id) {
+      return [<Tag color="red">Você</Tag>];
+    }
+
+    if (user.id === team.creator) {
+      return [<Tag color="blue">Proprietário</Tag>];
     }
 
     const { roles } = this.props;

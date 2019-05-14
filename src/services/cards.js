@@ -8,6 +8,8 @@ export const moveCard = ({ cardId, fromCardListId, toCardListId, position }) =>
     position,
   });
 
+export const loadCard = cardId => callApi(`cards/${cardId}`, schema.CARD).get();
+
 export const createCard = ({ cardListId, card }) =>
   callApi(`cardlists/${cardListId}/cards`, schema.BOARD).post({ ...card });
 
@@ -31,8 +33,7 @@ export const assignMilestone = ({ id, milestoneId }) =>
 export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milstone`, schema.CARD).delete();
 
 export const assigneeUser = ({ id, userId }) =>
-    callApi(`cards/${id}/assignee/${userId}`, schema.CARD).put();
+  callApi(`cards/${id}/assignee/${userId}`, schema.CARD).put();
 
 export const unAssigneeUser = ({ id, userId }) =>
-    callApi(`cards/${id}/assignee/${userId}`, schema.CARD).delete();
-
+  callApi(`cards/${id}/assignee/${userId}`, schema.CARD).delete();

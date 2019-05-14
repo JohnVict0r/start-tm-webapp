@@ -37,13 +37,13 @@ class ProjectsList extends PureComponent {
     return (
       <PageHeaderWrapper
         title="Meus projetos"
-        extra={(
-          <Authorized authority={["Administrador", "Gerente"]}>
+        extra={
+          <Authorized authority={['Administrador', 'Gerente']}>
             <Button type="primary" icon="plus" onClick={() => router.push('/projects/new')}>
               Projeto
             </Button>
           </Authorized>
-        )}
+        }
       >
         <div className={styles.standardList}>
           <Card className={styles.listCard} bordered={false}>

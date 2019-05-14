@@ -57,7 +57,8 @@ class MilestoneForm extends PureComponent {
     const {
       form: { getFieldDecorator },
       submitting,
-      current,
+      loading,
+      current: { milestone },
       milestones
     } = this.props;
 
@@ -71,9 +72,9 @@ class MilestoneForm extends PureComponent {
       <Form className={styles.form} onSubmit={this.handleSubmit}>
         <Form.Item {...formItemLayout}>
           {getFieldDecorator('milestone', {
-            initialValue: current.milestone ? current.milestone : '',
+            initialValue: !loading && milestone ? milestone.id : '',
           })(
-            <Select>
+            <Select loading={loading}>
               <Select.Option key={0} value=''> Nenhum </Select.Option>
               {milestones.map(u => (
                 <Select.Option key={u.id} value={u.id}>{u.name}</Select.Option>

@@ -10,11 +10,11 @@ export const cardSelectorWithMembers = ({ cardId }) =>
       const card = cards[cardId];
       if (card) {
         const members = card.members.map(member => users[member]);
+        const assignees = card.assignees.map(member => users[member]);
         const milestone = card.milestone && milestones[card.milestone];
-        return { ...card, members, milestone };
+        return { ...card, members, assignees, milestone };
       }
 
       return undefined;
     }
   );
-

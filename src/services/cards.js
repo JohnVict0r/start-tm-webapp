@@ -8,8 +8,7 @@ export const moveCard = ({ cardId, fromCardListId, toCardListId, position }) =>
     position,
   });
 
-export const loadCard = cardId =>
-  callApi(`cards/${cardId}`, schema.CARD).get();
+export const loadCard = cardId => callApi(`cards/${cardId}`, schema.CARD).get();
 
 export const createCard = ({ cardListId, card }) =>
   callApi(`cardlists/${cardListId}/cards`, schema.BOARD).post({ ...card });
@@ -31,11 +30,10 @@ export const deleteFile = ({ cardId, fileId }) =>
 export const assignMilestone = ({ id, milestoneId }) =>
   callApi(`cards/${id}/milestone/${milestoneId}`, schema.CARD).put();
 
-export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milstone`, schema.CARD).delete();
+export const unassignMilestone = ({ id }) => callApi(`cards/${id}/milestone`, schema.CARD).delete();
 
 export const assigneeUser = ({ id, userId }) =>
-    callApi(`cards/${id}/assignee/${userId}`, schema.CARD).put();
+  callApi(`cards/${id}/assignee/${userId}`, schema.CARD).put();
 
-export const unAssigneeUser = ({ id }) =>
-    callApi(`cards/${id}/assignee`, schema.CARD).delete();
-
+export const unAssigneeUser = ({ id, userId }) =>
+  callApi(`cards/${id}/assignee/${userId}`, schema.CARD).delete();

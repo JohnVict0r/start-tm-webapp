@@ -64,10 +64,14 @@ class MilestoneView extends Component {
       <>
         <DescriptionList size="small" col="2">
           <Description term="Equipe">
-            <Link to={`/teams/${milestone.team.id}`}>{`${milestone.project.name} / ${milestone.team.name}`}</Link>
+            <Link to={`/teams/${milestone.team.id}`}>{`${milestone.project.name} / ${
+              milestone.team.name
+            }`}</Link>
           </Description>
           <Description term="Prazo">
-            {`${moment(milestone.startline).format('L')} ~ ${moment(milestone.deadline).format('L')}`}
+            {`${moment(milestone.startline).format('L')} ~ ${moment(milestone.deadline).format(
+              'L'
+            )}`}
           </Description>
         </DescriptionList>
         <DescriptionList size="small" col="1">

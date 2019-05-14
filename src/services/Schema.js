@@ -85,6 +85,7 @@ CardList.define({
 Card.define({
   creator: User,
   members: [User],
+  assignees: [User],
   comments: [Comment],
   milestone:Milestone
 });

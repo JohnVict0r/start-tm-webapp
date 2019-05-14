@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Select, Form, Spin, Row, Badge, Icon, Tooltip, Avatar } from 'antd';
+import { Select, Form, Spin, Row, Badge, Icon, Tooltip, Avatar, Empty } from 'antd';
 import { usersSelector } from '@/selectors/search';
-import styles from './Milestone.less';
+
+import styles from './Assignee.less';
 
 @connect(state => ({
   users: usersSelector(state),
@@ -26,53 +27,62 @@ class AssigneeForm extends PureComponent {
       payload: {
         model: 'teams',
         id: teamId,
+        c: 1,
         query: value,
       },
     });
   };
 
   render() {
-    const { participant, users, onRemove, searching } = this.props;
+    const { participants, users, onRemove, searching } = this.props;
     const { selected } = this.state;
 
     const { Option } = Select;
 
+    const participantsIds = participants.map(i => i.id);
+    const filteredOptions = users.filter(user => !participantsIds.includes(user.id));
+
     return (
       <div style={{ width: '200px' }}>
-        <Row className={participant > 0 ? styles.listParticipants : styles.noParticipants}>
-          {participant ? (
-            <Badge
-              key={participant.id}
-              className={styles.participant}
-              count={
-                <Icon
-                  onClick={() => onRemove(participant.id)}
-                  type="close-circle"
-                  theme="filled"
-                  style={{ color: '#f5222d' }}
-                />
-              }
-            >
-              <Tooltip key={participant.id} placement="bottom" title={participant.name}>
-                <Avatar size="mini" src={participant.avatar} />
-              </Tooltip>
-            </Badge>
+        <Row>
+          <Select
+            value={selected}
+            showSearch
+            placeholder="Selecione"
+            notFoundContent={searching ? <Spin size="small" /> : null}
+            showArrow={false}
+            defaultActiveFirstOption={false}
+            filterOption={false}
+            onSearch={this.handleSearch}
+            onChange={this.handleChange}
+            style={{ width: '200px' }}
+          >
+            {filteredOptions &&
+            filteredOptions.map(user => <Option key={user.id}>{user.name}</Option>)}
+          </Select>
+        </Row>
+        <Row className={participants.length > 0 ? styles.listParticipants : styles.noParticipants}>
+          {participants.length > 0 ? (
+              participants.map(p => (
+                <Badge
+                  key={p.id}
+                  className={styles.participant}
+                  count={
+                    <Icon
+                      onClick={() => onRemove(p.id)}
+                      type="close-circle"
+                      theme="filled"
+                      style={{ color: '#f5222d' }}
+                    />
+                  }
+                >
+                  <Tooltip key={p.id} placement="bottom" title={p.name}>
+                    <Avatar size="mini" src={p.avatar} />
+                  </Tooltip>
+                </Badge>
+              ))
           ) : (
-            <Select
-              value={selected}
-              showSearch
-              placeholder="Selecione"
-              notFoundContent={searching ? <Spin size="small" /> : null}
-              showArrow={false}
-              defaultActiveFirstOption={false}
-              filterOption={false}
-              onSearch={this.handleSearch}
-              onChange={this.handleChange}
-              style={{ width: '200px' }}
-            >
-              {users &&
-              users.map(user => <Option key={user.id}>{user.name}</Option>)}
-            </Select>
+            <Empty style={{ paddingTop: '8px' }} description="Adicionar responsavel" />
           )}
         </Row>
       </div>

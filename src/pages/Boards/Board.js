@@ -14,6 +14,7 @@ import CardList from './CardList';
 import SaveCardList from './SaveCardList';
 import { boardSelector } from './selectors/boards';
 import styles from './Board.less';
+import { makeTeamSelector } from '../Teams/selectors/teams';
 
 const resetDisabledCardlists = (cardlists, value) =>
   cardlists.reduce(
@@ -24,11 +25,27 @@ const resetDisabledCardlists = (cardlists, value) =>
     {}
   );
 
-@connect(state => ({
-  board: boardSelector(state),
-  loading: state.loading.effects['boards/fetchBoard'],
-}))
+@connect((state, ownProps) => {
+  const teamSelector = makeTeamSelector({ id: ownProps.match.params.teamId });
+  return {
+    team: teamSelector(state),
+    board: boardSelector(state),
+    loading: state.loading.effects['boards/fetchBoard'],
+  };
+})
 class Board extends PureComponent {
+  static getDerivedStateFromProps(props, state) {
+    // permite que o board seja atualizado ao voltar no navegador
+    if (props.board && !isEqual(props.board, state.prevBoard)) {
+      return {
+        prevBoard: props.board,
+        cardlists: props.board.cardlists,
+        cardMap: props.board.cardMap,
+      };
+    }
+    return null;
+  }
+
   state = {
     showNewCardListForm: false,
     cardMap: [],
@@ -38,6 +55,10 @@ class Board extends PureComponent {
 
   componentDidMount() {
     const { dispatch, match } = this.props;
+    dispatch({
+      type: 'teams/fetchTeam',
+      payload: match.params.teamId,
+    });
     dispatch({
       type: 'boards/fetchBoard',
       payload: match.params.teamId,
@@ -186,12 +207,14 @@ class Board extends PureComponent {
   };
 
   render() {
-    const { board, loading, match, children } = this.props;
+    const { team, board, loading, match, children } = this.props;
     const { cardlists, showNewCardListForm } = this.state;
 
     if (!board) {
       return <PageLoading />;
     }
+
+    const isCollaborator = team.role === 'Colaborador';
 
     const menu = (
       <Menu>
@@ -215,24 +238,30 @@ class Board extends PureComponent {
       </Dropdown>
     );
 
+    const onBack = isCollaborator ? null : () => router.push(`/teams/${match.params.teamId}`);
+
     return (
       <PageHeaderWrapper
         wrapperClassName={styles.header}
         fluid
         home={null}
         hiddenBreadcrumb
-        onBack={() => router.push(`/teams/${match.params.teamId}`)}
+        onBack={onBack}
         title={board.team.name}
         subTitle={board.project.name}
         logo={<img alt={board.project.name} src={board.project.avatar} />}
-        extra={extra}
+        extra={!isCollaborator && extra}
       >
         <div className={styles.container}>
           <Spin spinning={loading}>
             <DragDropContext onDragStart={this.onDragStart} onDragEnd={this.onDragEnd}>
               <Droppable droppableId="board" direction="horizontal" type="LIST">
                 {provided => (
-                  <div className={styles.board} ref={provided.innerRef} {...provided.droppableProps}>
+                  <div
+                    className={styles.board}
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
                     {this.renderCardList(cardlists)}
                     {provided.placeholder}
                     {showNewCardListForm ? (

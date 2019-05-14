@@ -59,7 +59,7 @@ export default {
   'menu.teds.view-ted.teds-main': 'Dashboard',
   'menu.teds.view-ted.teds-main.teds-goals': 'Metas',
   'menu.teds.view-ted.goals-new': 'Nova Meta',
-  'menu.admin': 'Administração',
+  'menu.admin': 'Admin',
   'menu.admin.users': 'Usuários',
   'menu.admin.acess': 'Acesso',
   'menu.admin.portal': 'Portal Administrativo',

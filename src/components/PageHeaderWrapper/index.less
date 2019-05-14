@@ -5,15 +5,21 @@
 }
 
 .main {
-  :global {
-    .ant-page-header {
-      padding: 16px 32px 0;
-    }
-  }
-
   .wrapper {
+    padding: 16px 24px 0;
     background: #fff;
     border-bottom: 1px solid #e8e8e8;
+
+    :global {
+      .ant-page-header {
+        padding: 0;
+      }
+
+      .ant-page-header-title-view-extra {
+        top: 0;
+        right: 0;
+      }
+    }
   }
 
   .wide {

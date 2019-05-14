@@ -9,4 +9,4 @@ export const removeUser = ({ userId }) =>
   callApi(`users/${userId}`, schema.TEAMMEMBER_ARRAY).delete();
 
 export const changeUserRole = ({ userId, role }) =>
-  callApi(`users/${userId}/access`, schema.USERMEMBER_ARRAY).put({ role });
+  callApi(`users/${userId}/access`, schema.USERMEMBER).put({ role });

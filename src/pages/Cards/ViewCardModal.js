@@ -215,6 +215,14 @@ class ViewCardModal extends PureComponent {
                     </Row>
                   </Col>
                 </Row>
+                {card.milestone && (
+                  <Row>
+                    <Col className={styles.label} span={24}>
+                      Entregável
+                    </Col>
+                    <Col span={24}>{card.milestone.name}</Col>
+                  </Row>
+                )}
                 {card.description && (
                   <Row>
                     <Col className={styles.label} span={24}>

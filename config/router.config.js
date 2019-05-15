@@ -323,7 +323,7 @@ export default [
           {
             path: '/milestones/:milestoneId',
             name: 'milestone',
-            component: './Milestones/milestoneView',
+            component: './Milestones/MilestoneView',
             hideInMenu: true,
             routes: [
               { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },

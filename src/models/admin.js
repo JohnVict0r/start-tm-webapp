@@ -1,5 +1,6 @@
 import { loadUsers, removeUser, changeUserRole } from '@/services/admin';
 import { message } from 'antd';
+import { router } from 'umi';
 
 const initialPaginatioState = {
   count: 0,
@@ -72,6 +73,7 @@ export default {
         });
 
         message.success('Papel do usuário alterado com sucesso!');
+        router.push('/admin/users');
       }
     },
   },

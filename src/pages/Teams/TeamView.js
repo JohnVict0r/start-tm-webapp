@@ -79,11 +79,7 @@ class TeamView extends Component {
           onClick={this.handleFavorite}
           favorited={team.favorited}
         />
-        <Button
-          type='primary'
-          icon='project'
-          onClick={() => router.push(`${match.url}/board`)}
-        >
+        <Button type="primary" icon="project" onClick={() => router.push(`${match.url}/board`)}>
           Quadro
         </Button>
       </>

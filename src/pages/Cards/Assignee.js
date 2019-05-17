@@ -58,29 +58,29 @@ class AssigneeForm extends PureComponent {
             style={{ width: '200px' }}
           >
             {filteredOptions &&
-            filteredOptions.map(user => <Option key={user.id}>{user.name}</Option>)}
+              filteredOptions.map(user => <Option key={user.id}>{user.name}</Option>)}
           </Select>
         </Row>
         <Row className={participants.length > 0 ? styles.listParticipants : styles.noParticipants}>
           {participants.length > 0 ? (
-              participants.map(p => (
-                <Badge
-                  key={p.id}
-                  className={styles.participant}
-                  count={
-                    <Icon
-                      onClick={() => onRemove(p.id)}
-                      type="close-circle"
-                      theme="filled"
-                      style={{ color: '#f5222d' }}
-                    />
-                  }
-                >
-                  <Tooltip key={p.id} placement="bottom" title={p.name}>
-                    <Avatar size="mini" src={p.avatar} />
-                  </Tooltip>
-                </Badge>
-              ))
+            participants.map(p => (
+              <Badge
+                key={p.id}
+                className={styles.participant}
+                count={
+                  <Icon
+                    onClick={() => onRemove(p.id)}
+                    type="close-circle"
+                    theme="filled"
+                    style={{ color: '#f5222d' }}
+                  />
+                }
+              >
+                <Tooltip key={p.id} placement="bottom" title={p.name}>
+                  <Avatar size="mini" src={p.avatar} />
+                </Tooltip>
+              </Badge>
+            ))
           ) : (
             <Empty style={{ paddingTop: '8px' }} description="Adicionar responsavel" />
           )}

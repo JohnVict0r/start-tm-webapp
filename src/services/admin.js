@@ -5,6 +5,8 @@ import schema from './Schema';
 export const loadUsers = ({ page }) =>
   callApi(`users?${stringify({ page })}`, schema.USERMEMBER_ARRAY).get();
 
+export const loadUser = ({ id }) => callApi(`users/${id}`, schema.USERMEMBER).get();
+
 export const removeUser = ({ userId }) =>
   callApi(`users/${userId}`, schema.TEAMMEMBER_ARRAY).delete();
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, Select, Form } from 'antd';
 import styles from './Milestone.less';
-import {milestonesSelector} from "../Teams/selectors/milestones";
+import { milestonesSelector } from '../Teams/selectors/milestones';
 
 @connect(state => ({
   milestones: milestonesSelector(state),
@@ -20,7 +20,7 @@ class MilestoneForm extends PureComponent {
     dispatch({
       type: 'milestones/fetch',
       payload: {
-        teamId
+        teamId,
       },
     });
   }
@@ -31,7 +31,7 @@ class MilestoneForm extends PureComponent {
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         const { dispatch, current, onClose } = this.props;
-        if(values.milestone!==current.milestone) {
+        if (values.milestone !== current.milestone) {
           dispatch({
             type: 'cards/updateMilestone',
             payload: {
@@ -44,8 +44,7 @@ class MilestoneForm extends PureComponent {
               form.resetFields();
             }
           });
-        }
-        else{
+        } else {
           onClose();
           form.resetFields();
         }
@@ -59,7 +58,7 @@ class MilestoneForm extends PureComponent {
       submitting,
       loading,
       current: { milestone },
-      milestones
+      milestones,
     } = this.props;
 
     const formItemLayout = {
@@ -75,9 +74,14 @@ class MilestoneForm extends PureComponent {
             initialValue: !loading && milestone ? milestone.id : '',
           })(
             <Select loading={loading}>
-              <Select.Option key={0} value=''> Nenhum </Select.Option>
+              <Select.Option key={0} value="">
+                {' '}
+                Nenhum{' '}
+              </Select.Option>
               {milestones.map(u => (
-                <Select.Option key={u.id} value={u.id}>{u.name}</Select.Option>
+                <Select.Option key={u.id} value={u.id}>
+                  {u.name}
+                </Select.Option>
               ))}
             </Select>
           )}

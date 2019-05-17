@@ -63,6 +63,8 @@ export default {
   'menu.admin.users': 'Usuários',
   'menu.admin.acess': 'Acesso',
   'menu.admin.portal': 'Portal Administrativo',
+  'menu.cards': 'Tarefas',
+  'menu.cards.my-cards': 'Minhas Tarefas',
   'menu.projects': 'Projetos',
   'menu.projects.my-projects': 'Meus Projetos',
   'menu.projects.new-project': 'Novo Projeto',

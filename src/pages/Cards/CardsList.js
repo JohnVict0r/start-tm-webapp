@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
-import { List, Card, Skeleton, Form, Badge, Select, Row, Col } from 'antd';
+import { List, Card, Form, Badge, Select, Row, Col } from 'antd';
 
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import TagSelect from '@/components/TagSelect';
 import StandardFormRow from '@/components/StandardFormRow';
 import { statusSelector } from '@/selectors/global';
+
+import CardsListItem from './CardsListItem';
 
 const initialQuery = {
   status: ['status.todo', 'status.doing', 'status.paused'],
@@ -16,14 +17,14 @@ const initialQuery = {
 
 @connect(state => ({
   status: statusSelector(state),
-  cards: state.mycards.cards,
-  pagination: state.mycards.pagination,
-  loading: state.loading.effects['mycards/fetch'],
+  cards: state.cardsList.cards,
+  pagination: state.cardsList.pagination,
+  loading: state.loading.effects['cardsList/fetch'],
 }))
 @Form.create({
   onValuesChange({ dispatch }, changedValues, allValues) {
     dispatch({
-      type: 'mycards/fetch',
+      type: 'cardsList/fetch',
       payload: {
         query: allValues
       },
@@ -38,7 +39,7 @@ class CardsList extends PureComponent {
     });
 
     dispatch({
-      type: 'mycards/fetch',
+      type: 'cardsList/fetch',
       payload: {
         query: initialQuery
       },
@@ -50,7 +51,7 @@ class CardsList extends PureComponent {
     const query = form.getFieldsValue();
 
     dispatch({
-      type: 'mycards/fetch',
+      type: 'cardsList/fetch',
       payload: {
         query: {
           ...query,
@@ -140,16 +141,7 @@ class CardsList extends PureComponent {
             loading={loading}
             pagination={paginationProps}
             dataSource={cards}
-            renderItem={item => (
-              <List.Item>
-                <Skeleton title={false} loading={loading} active>
-                  <List.Item.Meta
-                    title={<Link to={`/teams/${item.team.id}/board/cards/${item.id}`}>{item.name}</Link>}
-                    description={`${item.project.name} / ${item.team.name}`}
-                  />
-                </Skeleton>
-              </List.Item>
-            )}
+            renderItem={item => <CardsListItem cardId={item} />}
           />
         </Card>
       </PageHeaderWrapper>

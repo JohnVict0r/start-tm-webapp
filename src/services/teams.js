@@ -15,7 +15,7 @@ export const updateTeam = team => callApi(`teams/${team.id}`, schema.TEAM).put(t
 export const loadBoard = teamId => callApi(`teams/${teamId}/board`, schema.BOARD).get();
 
 export const createTeam = ({ projectId, team }) =>
-  callApi(`projects/${projectId}/teams`, schema.TEAM).post(team);
+  callApi(`projects/${projectId}/teams`, null, true).post(team);
 
 export const loadTeamMembers = ({ id }) =>
   callApi(`teams/${id}/members`, schema.TEAMMEMBER_ARRAY).get();

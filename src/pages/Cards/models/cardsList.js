@@ -1,6 +1,6 @@
-import {
-  loadMyCards
-} from '@/services/cards';
+import Schema from '@/services/Schema';
+import { loadMyCards } from '@/services/cards';
+
 
 const initialPaginatioState = {
   count: 0,
@@ -12,7 +12,7 @@ const initialPaginatioState = {
 };
 
 export default {
-  namespace: 'mycards',
+  namespace: 'cardsList',
 
   state: {
     cards: [],
@@ -27,26 +27,30 @@ export default {
         pagination: payload.pagination
       };
     },
-    handleError(state, { payload }) {
-      return {
-        ...state,
-        validation: payload,
-      };
-    },
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(loadMyCards, payload);
+      try {
+        const response = yield call(loadMyCards, payload);
 
-      if (!response.errors) {
+        const result = yield put.resolve({
+          type: 'entities/normalize',
+          payload: {
+            data: response.data,
+            schema: Schema.CARD_ARRAY
+          }
+        });
+
         yield put({
           type: 'receiveItems',
           payload: {
-            cards: response.data,
+            cards: result,
             pagination: response.meta.pagination
           }
         })
+      } catch (e) {
+        // não faz nada.
       }
     },
   }

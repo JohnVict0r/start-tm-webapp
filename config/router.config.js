@@ -204,55 +204,19 @@ export default [
       //   ],
       // },
 
-      // projects
+      // cards
       {
-        path: '/projects',
-        name: 'projects',
-        icon: 'project',
+        path: '/cards',
+        name: 'cards',
+        icon: 'appstore',
         hideInBreadcrumb: true,
         routes: [
-          { path: '/projects', redirect: '/projects/explore' },
+          { path: '/cards', redirect: '/cards/explore' },
           {
-            path: '/projects/explore',
-            name: 'my-projects',
-            icon: 'project',
-            component: './Projects/ProjectsList',
-          },
-          {
-            path: '/projects/new',
-            name: 'new-project',
-            icon: 'plus',
-            component: './Projects/NewProject',
-            authority: ['Administrador', 'Gerente'],
-          },
-          {
-            path: '/projects/:projectId',
-            name: 'project',
-            component: './Projects/ProjectView',
-            hideInMenu: true,
-            routes: [
-              { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
-              {
-                path: '/projects/:projectId/details',
-                name: 'details',
-                component: './Projects/ProjectDetails',
-              },
-              {
-                path: '/projects/:projectId/edit',
-                name: 'edit-project',
-                component: './Projects/EditProject',
-              },
-              {
-                path: '/projects/:projectId/new-team',
-                name: 'new-team',
-                component: './Projects/NewTeam',
-              },
-              {
-                path: '/projects/:projectId/members',
-                name: 'project-members',
-                component: './Projects/Members',
-              },
-            ],
+            path: '/cards/explore',
+            name: 'my-cards',
+            icon: 'appstore',
+            component: './Cards/CardsList',
           },
         ],
       },
@@ -305,6 +269,59 @@ export default [
                 path: '/teams/:teamId/milestones',
                 name: 'milestones',
                 component: './Teams/Milestone',
+              },
+            ],
+          },
+        ],
+      },
+
+      // projects
+      {
+        path: '/projects',
+        name: 'projects',
+        icon: 'project',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/projects', redirect: '/projects/explore' },
+          {
+            path: '/projects/explore',
+            name: 'my-projects',
+            icon: 'project',
+            component: './Projects/ProjectsList',
+          },
+          {
+            path: '/projects/new',
+            name: 'new-project',
+            icon: 'plus',
+            component: './Projects/NewProject',
+            authority: ['Administrador', 'Gerente'],
+          },
+          {
+            path: '/projects/:projectId',
+            name: 'project',
+            component: './Projects/ProjectView',
+            hideInMenu: true,
+            routes: [
+              { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
+              {
+                path: '/projects/:projectId/details',
+                name: 'details',
+                component: './Projects/ProjectDetails',
+              },
+              {
+                path: '/projects/:projectId/edit',
+                name: 'edit-project',
+                component: './Projects/EditProject',
+              },
+              {
+                path: '/projects/:projectId/new-team',
+                name: 'new-team',
+                component: './Projects/NewTeam',
+              },
+              {
+                path: '/projects/:projectId/members',
+                name: 'project-members',
+                component: './Projects/Members',
               },
             ],
           },

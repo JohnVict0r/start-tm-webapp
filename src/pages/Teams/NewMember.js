@@ -106,6 +106,7 @@ class NewMember extends PureComponent {
             >
               {getFieldDecorator('role', {
                 rules: [{ required: true, message: 'Selecione um papel!' }],
+                initialValue: 'Colaborador',
               })(
                 <Select placeholder="Papel">
                   {roles.map(r => (

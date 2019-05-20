@@ -1,30 +1,18 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, Card, Form, Input } from 'antd';
+import { setFormWithError } from '@/utils/forms';
 
 @connect(state => ({
-  validation: state.createTeam.validation,
-  submitting: state.loading.effects['createTeam/create'],
+  validation: state.validation['newTeam/create'],
+  submitting: state.loading.effects['newTeam/create'],
 }))
 @Form.create()
 class NewTeam extends PureComponent {
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
-
     if (prevProps.validation !== validation) {
-      const { errors } = validation;
-      const mapErrors = Object.keys(errors).reduce(
-        (accum, key) => ({
-          ...accum,
-          [key]: {
-            value: form.getFieldValue(key),
-            errors: errors[key].map(err => new Error(err)),
-          },
-        }),
-        {}
-      );
-
-      form.setFields(mapErrors);
+      setFormWithError(form, validation);
     }
   }
 
@@ -34,7 +22,7 @@ class NewTeam extends PureComponent {
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         dispatch({
-          type: 'createTeam/create',
+          type: 'newTeam/create',
           payload: {
             projectId: match.params.projectId,
             team: values,

@@ -7,8 +7,9 @@ export const boardSelector = createSelector(
   state => state.entities.cardlists,
   state => state.entities.status,
   state => state.entities.cards,
+  state => state.entities.milestones,
   state => state.entities.users,
-  (currentBoard, boards, cardlists, status, cards, users) => {
+  (currentBoard, boards, cardlists, status, cards, milestones, users) => {
     const board = boards[currentBoard];
     if (board && board.cardlists) {
       const cardlistsArr = board.cardlists.map(item => {
@@ -23,10 +24,13 @@ export const boardSelector = createSelector(
         (previous, cardlist) => ({
           ...previous,
           [cardlist.id]: cardlist.cards.map(item => {
-            const members = cards[item].members.map(member => users[member]);
+            const card = cards[item];
+            const members = card.members.map(member => users[member]);
+            const milestone = card.milestone && milestones[card.milestone];
             return {
-              ...cards[item],
+              ...card,
               members,
+              ...{ milestone },
             };
           }),
         }),

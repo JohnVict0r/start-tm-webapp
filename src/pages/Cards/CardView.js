@@ -27,6 +27,19 @@ class CardView extends PureComponent {
     });
   }
 
+  handleUpdateCard = (field, value) => {
+    const { dispatch, match } = this.props;
+    dispatch({
+      type: 'cards/save',
+      payload: {
+        id: match.params.cardId,
+        card: {
+          [field]: value
+        }
+      },
+    });
+  };
+
   handleRemoveAssignee = value => {
     const { dispatch, card } = this.props;
 
@@ -137,8 +150,8 @@ class CardView extends PureComponent {
         <section className={styles.main}>
           <div className={styles.content}>
             <Row>
-              <Typography.Title level={4} editable>{card.name}</Typography.Title>
-              <Typography.Text editable>{card.description}</Typography.Text>
+              <Typography.Title level={4} editable={{ onChange: (value) => this.handleUpdateCard('name', value) }}>{card.name}</Typography.Title>
+              <Typography.Text editable={{ onChange: (value) => this.handleUpdateCard('description', value) }}>{card.description}</Typography.Text>
             </Row>
             <Divider />
             <CommentSection commentableType="cards" commentableId={card.id} />

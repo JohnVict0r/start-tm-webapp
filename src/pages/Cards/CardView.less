@@ -1,9 +1,41 @@
 @import '~antd/lib/style/themes/default.less';
 
 .modal {
-  width: 768px;
+  width: 1200px;
   transition: none;
   animation: 0s !important;
+}
+
+.main {
+  display: flex;
+}
+
+.aside {
+  flex: 0 0 300px;
+  margin: -24px -24px -24px 24px;
+  padding: 48px 24px 24px;
+  background-color: #f0f2f5;
+  border-radius: 0 4px 4px 0;
+
+  > *:not(:last-child) {
+    border-bottom: 1px solid #e8e8e8;
+    background: transparent;
+  }
+
+  :global {
+    .ant-card > .ant-card-body {
+      padding: 0 0 8px;
+    }
+
+    .ant-card > .ant-card-head {
+      padding: 0;
+      border: none;
+    }
+  }
+}
+
+.content {
+  flex: 1;
 }
 
 .headerImage {
@@ -18,15 +50,6 @@
   background-position: center center;
   background-size: cover;
   background-origin: content-box;
-}
-
-.cardTitle {
-  margin-bottom: 12px;
-  padding-right: 32px;
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: 500;
-  font-size: @font-size-lg;
-  line-height: 22px;
 }
 
 .cardListInfo {

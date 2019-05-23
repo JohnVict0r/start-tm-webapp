@@ -244,7 +244,7 @@ export default [
               {
                 path: '/teams/:teamId/board/cards/:cardId',
                 name: 'card-view',
-                component: './Cards/ViewCardModal',
+                component: './Cards/CardView',
               },
             ],
           },

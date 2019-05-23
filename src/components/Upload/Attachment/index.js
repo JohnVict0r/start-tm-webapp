@@ -30,14 +30,15 @@ class Attachment extends PureComponent {
   };
 
   render() {
-    const { name, block } = this.props;
+    const { name, block, className, style } = this.props;
     const { uploading } = this.state;
 
     return (
       <Upload
-        className={classNames({
+        className={classNames(className, {
           [styles.block]: !!block,
         })}
+        style={style}
         beforeUpload={this.beforeUpload}
         onChange={this.handleChange}
         showUploadList={false}

@@ -77,23 +77,23 @@ class EditUser extends PureComponent {
     };
 
     return (
-      <Card title="Editar entregável" bordered={false}>
+      <Card title="Editar Usuário" bordered={false}>
         <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
           <Form.Item label="Nome do Usuário:" {...formItemLayout}>
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Por favor informe o nome!' }],
               initialValue: user.name,
-            })(<Input disabled={true} maxLength={255} placeholder="Nome do entregável" />)}
+            })(<Input disabled={true} maxLength={255} placeholder="Nome do usuário" />)}
           </Form.Item>
           <Form.Item label="Email:" {...formItemLayout}>
             {getFieldDecorator('email', {
-              rules: [{ required: true, message: 'Por favor informe o descrição!' }],
+              rules: [{ required: true, message: 'Por favor informe o email!' }],
               initialValue: user.email,
-            })(<Input disabled={true} maxLength={255} placeholder="Descricão do entregável" />)}
+            })(<Input disabled={true} maxLength={255} placeholder="Email do usuário" />)}
           </Form.Item>
           <Form.Item label="Papel do usuário:" {...formItemLayout}>
             {getFieldDecorator('role', {
-              rules: [{ required: true, message: 'Por favor informe o descrição!' }],
+              rules: [{ required: true, message: 'Por favor informe o papel do usuário!' }],
               initialValue: user.role && user.role.name,
             })(
               <Select style={{ width: 140 }}>
@@ -107,7 +107,7 @@ class EditUser extends PureComponent {
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              Editar entregável
+              Editar Usuário
             </Button>
           </Form.Item>
         </Form>

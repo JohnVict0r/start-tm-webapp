@@ -355,6 +355,7 @@ export default [
             icon: 'team',
             component: './Admin/Users/EditUser',
             hideInBreadcrumb: true,
+            hideInMenu: true,
           },
           { path: '/admin', redirect: '/admin/users' },
           {

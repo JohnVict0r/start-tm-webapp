@@ -10,7 +10,7 @@ import Transitions from './Transitions';
 
 import styles from './CardList.less';
 
-const CardList = ({ cardList, board, items, index, isDisabled }) => {
+const CardList = ({ cardList, board, items, index, isCollaborator, isDisabled }) => {
   const [showEdit, setShowEdit] = useState(false);
   const [newCard, setNewCard] = useState(false);
   const [showTransitions, setShowTransitions] = useState(false);
@@ -62,14 +62,20 @@ const CardList = ({ cardList, board, items, index, isDisabled }) => {
       {cardList.canCreateCard && (
         <Button key="1" icon="plus" size="small" onClick={() => setNewCard(true)} />
       )}
-      <Dropdown key="2" overlay={menuOptions} trigger={['click']} placement="bottomRight">
-        <Button size="small" icon="ellipsis" />
-      </Dropdown>
+      {!isCollaborator && (
+        <Dropdown key="2" overlay={menuOptions} trigger={['click']} placement="bottomRight">
+          <Button size="small" icon="ellipsis" />
+        </Dropdown>
+      )}
     </span>
   );
 
   return (
-    <Draggable draggableId={`list-${cardList.name}-${cardList.id}`} index={index}>
+    <Draggable
+      isDragDisabled={isCollaborator}
+      draggableId={`list-${cardList.name}-${cardList.id}`}
+      index={index}
+    >
       {provided => (
         <ColumnList
           isDisabled={isDisabled}
@@ -79,7 +85,7 @@ const CardList = ({ cardList, board, items, index, isDisabled }) => {
           <ColumnList.Header
             title={title}
             actions={actions}
-            className={styles.header}
+            className={!isCollaborator && styles.hoverHeader}
             {...provided.dragHandleProps}
           />
           <DroppableZone

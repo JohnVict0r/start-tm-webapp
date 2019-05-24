@@ -57,7 +57,7 @@ class ForgotPassword extends Component {
               message={formatMessage({ id: 'app.register.mailsend' }, { email: emailSent })}
               type="success"
             />
-            <Link className={styles.login} to="/auth/login">
+            <Link className={styles.login} to="/auth/credentials">
               <FormattedMessage id="app.login.backlogin" />
             </Link>
           </Card>
@@ -98,7 +98,7 @@ class ForgotPassword extends Component {
             <Button loading={submitting} className={styles.submit} type="primary" htmlType="submit">
               <FormattedMessage id="app.register.send" />
             </Button>
-            <Link className={styles.login} to="/auth/login">
+            <Link className={styles.login} to="/auth/credentials">
               <FormattedMessage id="app.login.backlogin" />
             </Link>
           </Form>

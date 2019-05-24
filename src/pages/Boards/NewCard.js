@@ -84,14 +84,11 @@ class NewCard extends PureComponent {
               <Form.Item label="Nome">
                 {getFieldDecorator('name', {
                   rules: [{ required: true, message: 'Por favor informe o nome da tarefa!' }],
-                })(<Input maxLength={255} placeholder="Insira o nome da tarefa" />)}
+                })(<Input placeholder="Insira o nome da tarefa" />)}
               </Form.Item>
               <Form.Item label="Descrição">
-                {getFieldDecorator('description', {
-                  rules: [{ required: true, message: 'Por favor informe o descrição da tarefa!' }],
-                })(
+                {getFieldDecorator('description')(
                   <Input.TextArea
-                    maxLength={255}
                     autosize={{ minRows: 2, maxRows: 6 }}
                     placeholder="Insira a descricão da tarefa"
                   />

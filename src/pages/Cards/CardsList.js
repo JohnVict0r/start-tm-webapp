@@ -6,14 +6,12 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import TagSelect from '@/components/TagSelect';
 import StandardFormRow from '@/components/StandardFormRow';
 import { statusSelector } from '@/selectors/global';
-
-import CardsListItem from './CardsListItem';
+import CardsListItem from '@/pages/Containers/CardsListItem';
 
 const initialQuery = {
   status: ['status.todo', 'status.doing', 'status.paused'],
-  sort: "created"
+  sort: 'created',
 };
-
 
 @connect(state => ({
   status: statusSelector(state),
@@ -26,7 +24,7 @@ const initialQuery = {
     dispatch({
       type: 'cardsList/fetch',
       payload: {
-        query: allValues
+        query: allValues,
       },
     });
   },
@@ -41,7 +39,7 @@ class CardsList extends PureComponent {
     dispatch({
       type: 'cardsList/fetch',
       payload: {
-        query: initialQuery
+        query: initialQuery,
       },
     });
   }
@@ -55,8 +53,8 @@ class CardsList extends PureComponent {
       payload: {
         query: {
           ...query,
-          page
-        }
+          page,
+        },
       },
     });
   };
@@ -99,7 +97,7 @@ class CardsList extends PureComponent {
             <StandardFormRow title="Status" block style={{ paddingBottom: 11 }}>
               <Form.Item>
                 {getFieldDecorator('status', {
-                  initialValue: initialQuery.status
+                  initialValue: initialQuery.status,
                 })(
                   <TagSelect actionsText={{ selectAllText: 'Todos' }}>
                     {status.map(s => (
@@ -116,7 +114,7 @@ class CardsList extends PureComponent {
                 <Col xl={8} lg={10} md={12} sm={24} xs={24}>
                   <Form.Item {...formItemLayout} label="Ordernar">
                     {getFieldDecorator('sort', {
-                      initialValue: initialQuery.sort
+                      initialValue: initialQuery.sort,
                     })(
                       <Select placeholder="Ordernar por" style={{ maxWidth: 200, width: '100%' }}>
                         <Select.Option value="created">Data de criação</Select.Option>

@@ -6,7 +6,7 @@ import { List, Skeleton, Icon } from 'antd';
 import timeAgo from '@/utils/timeAgo';
 import { cardSelector } from '@/selectors/cards';
 import AvatarUserList from '@/pages/Containers/AvatarUserList';
-import styles from './CardsListItem.less';
+import styles from './index.less';
 
 const IconText = ({ type, text }) => (
   <span style={{ marginRight: 8 }}>
@@ -29,8 +29,7 @@ const Due = ({ date }) => {
 @connect((state, props) => ({
   card: cardSelector(state, props),
 }))
-class CardsListItem extends PureComponent {
-
+class CardListItem extends PureComponent {
   render() {
     const { card } = this.props;
     const { project, team, status } = card;
@@ -39,7 +38,9 @@ class CardsListItem extends PureComponent {
       <div>
         <p className={styles.project}>{`${project.name} / ${team.name}`}</p>
         <div className={styles.infoList}>
-          <div className={styles.due} style={{ background: status.color }}>{status.displayName}</div>
+          <div className={styles.due} style={{ background: status.color }}>
+            {status.displayName}
+          </div>
           <Due date={card.due} />
           <AvatarUserList usersIds={card.members} />
           <IconText type="paper-clip" text={card.filesCount} />
@@ -61,4 +62,4 @@ class CardsListItem extends PureComponent {
   }
 }
 
-export default CardsListItem;
+export default CardListItem;

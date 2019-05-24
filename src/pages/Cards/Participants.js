@@ -1,15 +1,16 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Empty, Row, Select, Badge, Icon, Avatar, Tooltip, Spin } from 'antd';
+import { Select, Form, Spin, Button, Typography, Avatar, List } from 'antd';
 import { usersSelector } from '@/selectors/search';
-
-import styles from './Participants.less';
+import AvatarList from '@/components/AvatarList';
+import EditableSection from './EditableSection';
 
 @connect(state => ({
   users: usersSelector(state),
   searching: state.loading.effects['search/searchUser'],
 }))
-class ParticipantsForm extends PureComponent {
+@Form.create()
+class Participants extends PureComponent {
   state = {
     selected: '',
   };
@@ -32,7 +33,7 @@ class ParticipantsForm extends PureComponent {
     });
   };
 
-  render() {
+  renderEditing = () => {
     const { participants, users, onRemove, searching } = this.props;
     const { selected } = this.state;
 
@@ -42,8 +43,8 @@ class ParticipantsForm extends PureComponent {
     const filteredOptions = users.filter(user => !participantsIds.includes(user.id));
 
     return (
-      <div style={{ width: '200px' }}>
-        <Row>
+      <List
+        header={
           <Select
             value={selected}
             showSearch
@@ -54,39 +55,43 @@ class ParticipantsForm extends PureComponent {
             filterOption={false}
             onSearch={this.handleSearch}
             onChange={this.handleChange}
-            style={{ width: '200px' }}
+            style={{ width: '100%' }}
           >
             {filteredOptions &&
               filteredOptions.map(user => <Option key={user.id}>{user.name}</Option>)}
           </Select>
-        </Row>
-        <Row className={participants.length > 0 ? styles.listParticipants : styles.noParticipants}>
-          {participants.length > 0 ? (
-            participants.map(p => (
-              <Badge
-                key={p.id}
-                className={styles.participant}
-                count={
-                  <Icon
-                    onClick={() => onRemove(p.id)}
-                    type="close-circle"
-                    theme="filled"
-                    style={{ color: '#f5222d' }}
-                  />
-                }
-              >
-                <Tooltip key={p.id} placement="bottom" title={p.name}>
-                  <Avatar size="mini" src={p.avatar} />
-                </Tooltip>
-              </Badge>
-            ))
-          ) : (
-            <Empty style={{ paddingTop: '8px' }} description="Adiciona participantes" />
-          )}
-        </Row>
-      </div>
+        }
+        size="small"
+        dataSource={participants}
+        rowKey="id"
+        renderItem={item => (
+          <List.Item
+            actions={[<Button type="link" icon="close" onClick={() => onRemove(item.id)} />]}
+          >
+            <Avatar size="small" src={item.avatar} />{' '}
+            <Typography.Text ellipsis>{item.name}</Typography.Text>
+          </List.Item>
+        )}
+      />
+    );
+  };
+
+  render() {
+    const { participants } = this.props;
+    return (
+      <EditableSection title="Participantes" editingComponent={this.renderEditing()}>
+        {participants && participants.length > 0 ? (
+          <AvatarList size="small" overlap={0}>
+            {participants.map(member => (
+              <AvatarList.Item key={`avatar-${member.id}`} src={member.avatar} tips={member.name} />
+            ))}
+          </AvatarList>
+        ) : (
+          'Não há participantes'
+        )}
+      </EditableSection>
     );
   }
 }
 
-export default ParticipantsForm;
+export default Participants;

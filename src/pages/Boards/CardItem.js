@@ -69,6 +69,13 @@ const CardItem = ({ card, isDragging, provided, style, match }) => {
           bodyStyle={{ padding: '12px' }}
         >
           <Ellipsis lines={3}>{card.name}</Ellipsis>
+          {card.milestone && (
+            <div className={styles.cardMetaInfo}>
+              <div className={styles.left}>
+                <IconText type="schedule" text={card.milestone.name} />
+              </div>
+            </div>
+          )}
           <div className={styles.cardMetaInfo}>
             <div className={styles.left}>
               <IconText type="paper-clip" text={card.filesCount} />

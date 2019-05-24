@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, Select, Form } from 'antd';
-import styles from './Milestone.less';
 import { milestonesSelector } from '../Teams/selectors/milestones';
+import EditableSection from './EditableSection';
+
+import styles from './Milestone.less';
 
 @connect(state => ({
   milestones: milestonesSelector(state),
@@ -12,15 +14,15 @@ import { milestonesSelector } from '../Teams/selectors/milestones';
 @Form.create()
 class MilestoneForm extends PureComponent {
   static defaultProps = {
-    current: {},
+    card: {},
   };
 
   componentDidMount() {
-    const { dispatch, teamId } = this.props;
+    const { dispatch, card } = this.props;
     dispatch({
       type: 'milestones/fetch',
       payload: {
-        teamId,
+        teamId: card.teamId,
       },
     });
   }
@@ -30,34 +32,32 @@ class MilestoneForm extends PureComponent {
     const { form } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch, current, onClose } = this.props;
-        if (values.milestone !== current.milestone) {
+        const { dispatch, card } = this.props;
+        if (values.milestone !== card.milestone) {
           dispatch({
             type: 'cards/updateMilestone',
             payload: {
-              id: current.id,
+              id: card.id,
               milestoneId: values.milestone,
             },
           }).then(data => {
             if (!data || !data.errors) {
-              onClose();
               form.resetFields();
             }
           });
         } else {
-          onClose();
           form.resetFields();
         }
       }
     });
   };
 
-  render() {
+  renderEditing = () => {
     const {
       form: { getFieldDecorator },
       submitting,
       loading,
-      current: { milestone },
+      card: { milestone },
       milestones,
     } = this.props;
 
@@ -73,7 +73,7 @@ class MilestoneForm extends PureComponent {
           {getFieldDecorator('milestone', {
             initialValue: !loading && milestone ? milestone.id : '',
           })(
-            <Select loading={loading}>
+            <Select loading={loading} style={{ maxWidth: '250px' }}>
               <Select.Option key={0} value="">
                 {' '}
                 Nenhum{' '}
@@ -92,6 +92,17 @@ class MilestoneForm extends PureComponent {
           </Button>
         </Form.Item>
       </Form>
+    );
+  };
+
+  render() {
+    const {
+      card: { milestone },
+    } = this.props;
+    return (
+      <EditableSection title="Entregável" editingComponent={this.renderEditing()}>
+        {milestone ? milestone.name : 'Não há entregável'}
+      </EditableSection>
     );
   }
 }

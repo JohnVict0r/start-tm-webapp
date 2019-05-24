@@ -36,7 +36,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint-staged",
-      "pre-push": "npm run lint-staged && npm test",
+      "pre-push": "npm run lint-staged && npm run test:component",
       "post-merge": "npm install"
     }
   },
@@ -57,7 +57,7 @@
   "dependencies": {
     "@antv/data-set": "^0.10.1",
     "@babel/runtime": "^7.3.4",
-    "antd": "^3.17.0",
+    "antd": "^3.18.2",
     "bizcharts": "3.5.2-beta.1",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
     "classnames": "^2.2.6",

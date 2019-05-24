@@ -1,6 +1,7 @@
 import has from 'lodash/has';
 import merge from 'lodash/merge';
 import assign from 'lodash/assign';
+import { normalize } from 'normalizr';
 
 const updateEntites = ({ state, payload }) => ({ entity, updateStrategy = merge }) =>
   has(payload, entity)
@@ -46,6 +47,24 @@ export default {
         ...updater({ entity: 'cards', updateStrategy: assign }),
         ...updater({ entity: 'comments' }),
       };
+    },
+  },
+
+  effects: {
+    *normalize(
+      {
+        payload: { data, schema },
+      },
+      { call, put }
+    ) {
+      const normalized = yield call(normalize, data, schema);
+
+      yield put({
+        type: 'mergeEntities',
+        payload: normalized.entities,
+      });
+
+      return normalized.result;
     },
   },
 };

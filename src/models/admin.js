@@ -66,12 +66,6 @@ export default {
           type: 'entities/mergeEntities',
           payload: response.entities,
         });
-
-        yield put({
-          type: 'receiveItems',
-          payload: response.result,
-        });
-
         message.success('Papel do usuário alterado com sucesso!');
         router.push('/admin/users');
       }

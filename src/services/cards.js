@@ -1,3 +1,4 @@
+import { stringify } from 'qs';
 import callApi from '@/utils/callApi';
 import schema from './Schema';
 
@@ -7,6 +8,8 @@ export const moveCard = ({ cardId, fromCardListId, toCardListId, position }) =>
     to_card_list_id: toCardListId,
     position,
   });
+
+export const loadMyCards = ({ query }) => callApi(`me/cards?${stringify(query)}`, null, true).get();
 
 export const loadCard = cardId => callApi(`cards/${cardId}`, schema.CARD).get();
 

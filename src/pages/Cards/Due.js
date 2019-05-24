@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, DatePicker, Form } from 'antd';
 import moment from 'moment';
+import EditableSection from './EditableSection';
 
 import styles from './Due.less';
 
@@ -19,7 +20,7 @@ class DueForm extends PureComponent {
     const { form } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch, current, onClose } = this.props;
+        const { dispatch, current } = this.props;
 
         dispatch({
           type: 'cards/save',
@@ -29,7 +30,6 @@ class DueForm extends PureComponent {
           },
         }).then(data => {
           if (!data || !data.errors) {
-            onClose();
             form.resetFields();
           }
         });
@@ -37,7 +37,7 @@ class DueForm extends PureComponent {
     });
   };
 
-  render() {
+  renderEditing = () => {
     const {
       form: { getFieldDecorator },
       submitting,
@@ -56,7 +56,7 @@ class DueForm extends PureComponent {
           {getFieldDecorator('due', {
             // rules: [{required: true, message: 'Por favor informe o prazo do card!' }],
             initialValue: current.due ? moment(current.due) : null,
-          })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" />)}
+          })(<DatePicker showTime format="DD/MM/YYYY HH:mm:ss" style={{ width: '100%' }} />)}
         </Form.Item>
         <Form.Item {...formItemLayout}>
           <Button block type="primary" htmlType="submit" loading={submitting}>
@@ -64,6 +64,15 @@ class DueForm extends PureComponent {
           </Button>
         </Form.Item>
       </Form>
+    );
+  };
+
+  render() {
+    const { current } = this.props;
+    return (
+      <EditableSection title="Data de entrega" editingComponent={this.renderEditing()}>
+        {current.due ? moment(current.due).format('LLL') : 'Não há data de entrega'}
+      </EditableSection>
     );
   }
 }

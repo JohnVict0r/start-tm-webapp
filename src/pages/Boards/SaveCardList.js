@@ -101,9 +101,9 @@ class SaveCardList extends Component {
               </Form.Item>
               <Form.Item>
                 {getFieldDecorator('can_create_card', {
-                  initialValue: current.canCreateCard,
+                  initialValue: current.canCreateCard === undefined ? true : current.canCreateCard,
                   valuePropName: 'checked',
-                })(<Checkbox>Pode criar tarefa</Checkbox>)}
+                })(<Checkbox>Permite criar tarefas</Checkbox>)}
               </Form.Item>
             </Form>
           </Spin>

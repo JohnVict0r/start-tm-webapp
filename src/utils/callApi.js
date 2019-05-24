@@ -12,14 +12,8 @@ import { getAuthToken } from '@/utils/authentication';
  * @param schema esquema para normalização
  * @returns {*}
  */
-function normalizeJson(reponseJson, schema) {
+function normalizeJson(json, schema) {
   let result;
-
-  /*
-   * converte os campos de, por exemplo,
-   * 'last_name' para 'lastName'
-   */
-  const json = camelizeKeys(reponseJson);
 
   if (schema && (isObject(json.data) || isArray(json.data))) {
     result = normalize(json.data, schema);
@@ -44,19 +38,25 @@ async function handleError(e) {
   return e;
 }
 
-async function handleRequest(url, options, schema) {
-  try {
-    const response = await request(url, options);
-    return normalizeJson(response, schema);
-  } catch (e) {
-    return handleError(e);
+async function handleRequest(url, options, schema, skipNormilization) {
+  if (!skipNormilization) {
+    try {
+      const response = await request(url, options);
+      const reponseJson = camelizeKeys(response);
+      return normalizeJson(reponseJson, schema);
+    } catch (e) {
+      return handleError(e);
+    }
+  } else {
+    const reponse = await request(url, options);
+    return camelizeKeys(reponse);
   }
 }
 
 /**
  * Cliente para consulta a API Rest.
  */
-export default function callApi(endpoint, schema) {
+export default function callApi(endpoint, schema, skipNormilization) {
   // API_URL defined in .env
   const url = API_URL + endpoint;
 
@@ -69,9 +69,10 @@ export default function callApi(endpoint, schema) {
   };
 
   return {
-    post: data => handleRequest(url, { method: 'POST', data, ...options }, schema),
-    put: data => handleRequest(url, { method: 'PUT', data, ...options }, schema),
-    delete: () => handleRequest(url, { method: 'DELETE', ...options }, schema),
-    get: () => handleRequest(url, options, schema),
+    post: data =>
+      handleRequest(url, { method: 'POST', data, ...options }, schema, skipNormilization),
+    put: data => handleRequest(url, { method: 'PUT', data, ...options }, schema, skipNormilization),
+    delete: () => handleRequest(url, { method: 'DELETE', ...options }, schema, skipNormilization),
+    get: () => handleRequest(url, options, schema, skipNormilization),
   };
 }

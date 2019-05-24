@@ -6,6 +6,7 @@ export default [
     routes: [
       { path: '/auth', redirect: '/auth/login' },
       { path: '/auth/login', name: 'login', component: './Auth/Login' },
+      { path: '/auth/credentials', name: 'login', component: './Auth/Credentials' },
       { path: '/auth/callback/sabia', name: 'sabia', component: './Auth/CallbackSabia' },
       {
         path: '/auth/forgot-password',
@@ -204,6 +205,77 @@ export default [
       //   ],
       // },
 
+      // cards
+      {
+        path: '/cards',
+        name: 'cards',
+        icon: 'appstore',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/cards', redirect: '/cards/explore' },
+          {
+            path: '/cards/explore',
+            name: 'my-cards',
+            icon: 'appstore',
+            component: './Cards/CardsList',
+          },
+        ],
+      },
+
+      // teams
+      {
+        path: '/teams',
+        name: 'teams',
+        icon: 'team',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/teams', redirect: '/teams/explore' },
+          {
+            path: '/teams/explore',
+            name: 'my-teams',
+            icon: 'team',
+            component: './Teams/TeamsList',
+          },
+          {
+            path: '/teams/:teamId/board',
+            name: 'board',
+            component: './Boards/Board',
+            hideInMenu: true,
+            routes: [
+              {
+                path: '/teams/:teamId/board/cards/:cardId',
+                name: 'card-view',
+                component: './Cards/CardView',
+              },
+            ],
+          },
+          {
+            path: '/teams/:teamId',
+            name: 'team',
+            component: './Teams/TeamView',
+            hideInMenu: true,
+            routes: [
+              { path: '/teams/:teamId', redirect: '/teams/:teamId/milestones' },
+              {
+                path: '/teams/:teamId/members',
+                name: 'members',
+                component: './Teams/Members',
+              },
+              {
+                path: '/teams/:teamId/edit',
+                name: 'edit-team',
+                component: './Teams/EditTeam',
+              },
+              {
+                path: '/teams/:teamId/milestones',
+                name: 'milestones',
+                component: './Teams/Milestone',
+              },
+            ],
+          },
+        ],
+      },
+
       // projects
       {
         path: '/projects',
@@ -257,60 +329,6 @@ export default [
         ],
       },
 
-      // teams
-      {
-        path: '/teams',
-        name: 'teams',
-        icon: 'team',
-        hideInBreadcrumb: true,
-        routes: [
-          { path: '/teams', redirect: '/teams/explore' },
-          {
-            path: '/teams/explore',
-            name: 'my-teams',
-            icon: 'team',
-            component: './Teams/TeamsList',
-          },
-          {
-            path: '/teams/:teamId/board',
-            name: 'board',
-            component: './Boards/Board',
-            hideInMenu: true,
-            routes: [
-              {
-                path: '/teams/:teamId/board/cards/:cardId',
-                name: 'card-view',
-                component: './Cards/ViewCardModal',
-              },
-            ],
-          },
-          {
-            path: '/teams/:teamId',
-            name: 'team',
-            component: './Teams/TeamView',
-            hideInMenu: true,
-            routes: [
-              { path: '/teams/:teamId', redirect: '/teams/:teamId/milestones' },
-              {
-                path: '/teams/:teamId/members',
-                name: 'members',
-                component: './Teams/Members',
-              },
-              {
-                path: '/teams/:teamId/edit',
-                name: 'edit-team',
-                component: './Teams/EditTeam',
-              },
-              {
-                path: '/teams/:teamId/milestones',
-                name: 'milestones',
-                component: './Teams/Milestone',
-              },
-            ],
-          },
-        ],
-      },
-
       // milestones
       {
         path: '/milestones',
@@ -323,7 +341,7 @@ export default [
           {
             path: '/milestones/:milestoneId',
             name: 'milestone',
-            component: './Milestones/milestoneView',
+            component: './Milestones/MilestoneView',
             hideInMenu: true,
             routes: [
               { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },

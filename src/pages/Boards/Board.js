@@ -190,7 +190,33 @@ class Board extends PureComponent {
     );
   };
 
-  renderCardList = cardlists => {
+  renderNewCardListForm = isCollaborator => {
+    if (isCollaborator) {
+      return null;
+    }
+
+    const { showNewCardListForm } = this.state;
+
+    if (showNewCardListForm) {
+      return <SaveCardList onClose={() => this.setState({ showNewCardListForm: false })} />;
+    }
+
+    return (
+      <ColumnList>
+        <div className={styles.newCardListToogle}>
+          <div
+            className={styles.plusIcon}
+            onClick={() => this.setState({ showNewCardListForm: true })}
+          >
+            <Icon type="plus" />
+            <div>Nova Lista</div>
+          </div>
+        </div>
+      </ColumnList>
+    );
+  };
+
+  renderCardList = (isCollaborator, cardlists) => {
     const { board } = this.props;
     const { cardMap, disabledCardlists } = this.state;
 
@@ -198,6 +224,7 @@ class Board extends PureComponent {
       <CardList
         key={cardList.id}
         index={index}
+        isCollaborator={isCollaborator}
         board={board}
         cardList={cardList}
         items={cardMap[cardList.id]}
@@ -208,7 +235,7 @@ class Board extends PureComponent {
 
   render() {
     const { team, board, loading, match, children } = this.props;
-    const { cardlists, showNewCardListForm } = this.state;
+    const { cardlists } = this.state;
 
     if (!board) {
       return <PageLoading />;
@@ -262,23 +289,9 @@ class Board extends PureComponent {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    {this.renderCardList(cardlists)}
+                    {this.renderCardList(isCollaborator, cardlists)}
                     {provided.placeholder}
-                    {showNewCardListForm ? (
-                      <SaveCardList onClose={() => this.setState({ showNewCardListForm: false })} />
-                    ) : (
-                      <ColumnList>
-                        <div className={styles.newCardListToogle}>
-                          <div
-                            className={styles.plusIcon}
-                            onClick={() => this.setState({ showNewCardListForm: true })}
-                          >
-                            <Icon type="plus" />
-                            <div>Nova Lista</div>
-                          </div>
-                        </div>
-                      </ColumnList>
-                    )}
+                    {this.renderNewCardListForm(isCollaborator)}
                   </div>
                 )}
               </Droppable>

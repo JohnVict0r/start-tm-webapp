@@ -29,7 +29,7 @@ const Due = ({ date }) => {
 @connect((state, props) => ({
   card: cardSelector(state, props),
 }))
-class CardListItem extends PureComponent {
+class CardsListItem extends PureComponent {
   render() {
     const { card } = this.props;
     const { project, team, status } = card;
@@ -62,4 +62,4 @@ class CardListItem extends PureComponent {
   }
 }
 
-export default CardListItem;
+export default CardsListItem;

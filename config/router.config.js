@@ -367,6 +367,14 @@ export default [
         component: './Admin/Menu',
         authority: ['Administrador'],
         routes: [
+          {
+            path: '/admin/users/:userId/edit',
+            name: 'edit-user',
+            icon: 'team',
+            component: './Admin/Users/EditUser',
+            hideInBreadcrumb: true,
+            hideInMenu: true,
+          },
           { path: '/admin', redirect: '/admin/users' },
           {
             path: '/admin/users',

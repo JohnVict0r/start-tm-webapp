@@ -58,15 +58,18 @@ class Participants extends PureComponent {
             style={{ width: '100%' }}
           >
             {filteredOptions &&
-            filteredOptions.map(user => <Option key={user.id}>{user.name}</Option>)}
+              filteredOptions.map(user => <Option key={user.id}>{user.name}</Option>)}
           </Select>
         }
-        size='small'
+        size="small"
         dataSource={participants}
-        rowKey='id'
+        rowKey="id"
         renderItem={item => (
-          <List.Item actions={[<Button type='link' icon='close' onClick={() => onRemove(item.id)} />]}>
-            <Avatar size='small' src={item.avatar} /> <Typography.Text ellipsis>{item.name}</Typography.Text>
+          <List.Item
+            actions={[<Button type="link" icon="close" onClick={() => onRemove(item.id)} />]}
+          >
+            <Avatar size="small" src={item.avatar} />{' '}
+            <Typography.Text ellipsis>{item.name}</Typography.Text>
           </List.Item>
         )}
       />
@@ -76,18 +79,11 @@ class Participants extends PureComponent {
   render() {
     const { participants } = this.props;
     return (
-      <EditableSection
-        title="Participantes"
-        editingComponent={this.renderEditing()}
-      >
+      <EditableSection title="Participantes" editingComponent={this.renderEditing()}>
         {participants && participants.length > 0 ? (
           <AvatarList size="small" overlap={0}>
             {participants.map(member => (
-              <AvatarList.Item
-                key={`avatar-${member.id}`}
-                src={member.avatar}
-                tips={member.name}
-              />
+              <AvatarList.Item key={`avatar-${member.id}`} src={member.avatar} tips={member.name} />
             ))}
           </AvatarList>
         ) : (

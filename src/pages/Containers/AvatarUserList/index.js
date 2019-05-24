@@ -4,7 +4,7 @@ import AvatarList from '@/components/AvatarList';
 import styles from './index.less';
 
 @connect(({ entities }, { usersIds }) => ({
-  users: usersIds.map(id => entities.users[id])
+  users: usersIds.map(id => entities.users[id]),
 }))
 class AvatarUserList extends PureComponent {
   render() {
@@ -18,11 +18,7 @@ class AvatarUserList extends PureComponent {
           excessItemsStyle={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
         >
           {users.map(user => (
-            <AvatarList.Item
-              key={`avatar-${user.id}`}
-              src={user.avatar}
-              tips={user.name}
-            />
+            <AvatarList.Item key={`avatar-${user.id}`} src={user.avatar} tips={user.name} />
           ))}
         </AvatarList>
       </span>

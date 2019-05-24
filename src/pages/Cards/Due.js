@@ -70,10 +70,7 @@ class DueForm extends PureComponent {
   render() {
     const { current } = this.props;
     return (
-      <EditableSection
-        title="Data de entrega"
-        editingComponent={this.renderEditing()}
-      >
+      <EditableSection title="Data de entrega" editingComponent={this.renderEditing()}>
         {current.due ? moment(current.due).format('LLL') : 'Não há data de entrega'}
       </EditableSection>
     );

@@ -11,8 +11,8 @@ export default {
   'app.card.back': 'Voltar',
   'app.card.labeluser': 'Usuarios',
   'app.card.members': 'Membros',
-  'app.card.milestone' : 'Entregavel',
-  'app.card.assign-milestone':'Associar entregavel',
-  'app.card.assignee' : 'Responsável',
+  'app.card.milestone': 'Entregavel',
+  'app.card.assign-milestone': 'Associar entregavel',
+  'app.card.assignee': 'Responsável',
   'app.card.assign-assignee': 'Associar responsável',
 };

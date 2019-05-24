@@ -3,13 +3,13 @@ import { Card } from 'antd';
 
 class EditableSection extends PureComponent {
   state = {
-    editing: false
+    editing: false,
   };
 
   handleEditing = () => {
     const { editing } = this.state;
     this.setState({
-      editing: !editing
+      editing: !editing,
     });
   };
 
@@ -21,11 +21,7 @@ class EditableSection extends PureComponent {
         title={title}
         size="small"
         bordered={false}
-        extra={
-          <a onClick={this.handleEditing}>
-            {editing ? 'Fechar' : 'Editar'}
-          </a>
-        }
+        extra={<a onClick={this.handleEditing}>{editing ? 'Fechar' : 'Editar'}</a>}
       >
         {editing ? editingComponent : children}
       </Card>

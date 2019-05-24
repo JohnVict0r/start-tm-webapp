@@ -1,7 +1,6 @@
 import Schema from '@/services/Schema';
 import { loadMyCards } from '@/services/cards';
 
-
 const initialPaginatioState = {
   count: 0,
   currentPage: 0,
@@ -16,7 +15,7 @@ export default {
 
   state: {
     cards: [],
-    pagination: initialPaginatioState
+    pagination: initialPaginatioState,
   },
 
   reducers: {
@@ -24,7 +23,7 @@ export default {
       return {
         ...state,
         cards: payload.cards,
-        pagination: payload.pagination
+        pagination: payload.pagination,
       };
     },
   },
@@ -38,20 +37,20 @@ export default {
           type: 'entities/normalize',
           payload: {
             data: response.data,
-            schema: Schema.CARD_ARRAY
-          }
+            schema: Schema.CARD_ARRAY,
+          },
         });
 
         yield put({
           type: 'receiveItems',
           payload: {
             cards: result,
-            pagination: response.meta.pagination
-          }
-        })
+            pagination: response.meta.pagination,
+          },
+        });
       } catch (e) {
         // não faz nada.
       }
     },
-  }
+  },
 };

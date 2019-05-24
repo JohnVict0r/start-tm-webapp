@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, Select, Form } from 'antd';
-import { milestonesSelector } from "../Teams/selectors/milestones";
+import { milestonesSelector } from '../Teams/selectors/milestones';
 import EditableSection from './EditableSection';
 
 import styles from './Milestone.less';
@@ -22,7 +22,7 @@ class MilestoneForm extends PureComponent {
     dispatch({
       type: 'milestones/fetch',
       payload: {
-        teamId: card.teamId
+        teamId: card.teamId,
       },
     });
   }
@@ -33,7 +33,7 @@ class MilestoneForm extends PureComponent {
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
         const { dispatch, card } = this.props;
-        if(values.milestone!==card.milestone) {
+        if (values.milestone !== card.milestone) {
           dispatch({
             type: 'cards/updateMilestone',
             payload: {
@@ -45,8 +45,7 @@ class MilestoneForm extends PureComponent {
               form.resetFields();
             }
           });
-        }
-        else{
+        } else {
           form.resetFields();
         }
       }
@@ -59,7 +58,7 @@ class MilestoneForm extends PureComponent {
       submitting,
       loading,
       card: { milestone },
-      milestones
+      milestones,
     } = this.props;
 
     const formItemLayout = {
@@ -75,9 +74,14 @@ class MilestoneForm extends PureComponent {
             initialValue: !loading && milestone ? milestone.id : '',
           })(
             <Select loading={loading} style={{ maxWidth: '250px' }}>
-              <Select.Option key={0} value=''> Nenhum </Select.Option>
+              <Select.Option key={0} value="">
+                {' '}
+                Nenhum{' '}
+              </Select.Option>
               {milestones.map(u => (
-                <Select.Option key={u.id} value={u.id}>{u.name}</Select.Option>
+                <Select.Option key={u.id} value={u.id}>
+                  {u.name}
+                </Select.Option>
               ))}
             </Select>
           )}
@@ -92,12 +96,11 @@ class MilestoneForm extends PureComponent {
   };
 
   render() {
-    const { card: { milestone } } = this.props;
+    const {
+      card: { milestone },
+    } = this.props;
     return (
-      <EditableSection
-        title="Entregável"
-        editingComponent={this.renderEditing()}
-      >
+      <EditableSection title="Entregável" editingComponent={this.renderEditing()}>
         {milestone ? milestone.name : 'Não há entregável'}
       </EditableSection>
     );

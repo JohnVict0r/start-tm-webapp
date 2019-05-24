@@ -6,10 +6,12 @@ export const usersSelector = createSelector(
   state => state.entities.users,
   state => state.entities.roles,
   (collection, users, roles) => {
-    const items = collection.items.map(item => ({
-      user: users[item.user],
-      role: roles[item.role],
-    }));
+    const items =
+      collection.items &&
+      collection.items.map(item => ({
+        user: users[item.user],
+        role: roles[item.role],
+      }));
     return {
       items,
       pagination: collection.pagination,

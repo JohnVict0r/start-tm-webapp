@@ -40,13 +40,13 @@ async function handleError(e) {
 
 async function handleRequest(url, options, schema, skipNormilization) {
   if (!skipNormilization) {
-      try {
-        const response = await request(url, options);
-        const reponseJson = camelizeKeys(response);
-        return normalizeJson(reponseJson, schema);
-      } catch (e) {
-        return handleError(e);
-      }
+    try {
+      const response = await request(url, options);
+      const reponseJson = camelizeKeys(response);
+      return normalizeJson(reponseJson, schema);
+    } catch (e) {
+      return handleError(e);
+    }
   } else {
     const reponse = await request(url, options);
     return camelizeKeys(reponse);
@@ -69,7 +69,8 @@ export default function callApi(endpoint, schema, skipNormilization) {
   };
 
   return {
-    post: data => handleRequest(url, { method: 'POST', data, ...options }, schema, skipNormilization),
+    post: data =>
+      handleRequest(url, { method: 'POST', data, ...options }, schema, skipNormilization),
     put: data => handleRequest(url, { method: 'PUT', data, ...options }, schema, skipNormilization),
     delete: () => handleRequest(url, { method: 'DELETE', ...options }, schema, skipNormilization),
     get: () => handleRequest(url, options, schema, skipNormilization),

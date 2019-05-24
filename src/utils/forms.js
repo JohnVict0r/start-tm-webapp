@@ -1,4 +1,3 @@
-
 // eslint-disable-next-line
 export function setFormWithError(form, { errors }) {
   const mapErrors = Object.keys(errors).reduce(

@@ -34,8 +34,8 @@ class CardView extends PureComponent {
       payload: {
         id: match.params.cardId,
         card: {
-          [field]: value
-        }
+          [field]: value,
+        },
       },
     });
   };
@@ -150,8 +150,17 @@ class CardView extends PureComponent {
         <section className={styles.main}>
           <div className={styles.content}>
             <Row>
-              <Typography.Title level={4} editable={{ onChange: (value) => this.handleUpdateCard('name', value) }}>{card.name}</Typography.Title>
-              <Typography.Text editable={{ onChange: (value) => this.handleUpdateCard('description', value) }}>{card.description}</Typography.Text>
+              <Typography.Title
+                level={4}
+                editable={{ onChange: value => this.handleUpdateCard('name', value) }}
+              >
+                {card.name}
+              </Typography.Title>
+              <Typography.Text
+                editable={{ onChange: value => this.handleUpdateCard('description', value) }}
+              >
+                {card.description}
+              </Typography.Text>
             </Row>
             <Divider />
             <CommentSection commentableType="cards" commentableId={card.id} />
@@ -169,12 +178,8 @@ class CardView extends PureComponent {
               onSubmit={this.handleAssignMember}
               onRemove={this.handleUnAssignMember}
             />
-            <Due
-              current={card}
-            />
-            <MilestoneForm
-              card={card}
-            />
+            <Due current={card} />
+            <MilestoneForm card={card} />
             <Attachments
               propsUpload={propsUpload}
               onUploadFile={this.onUploadFile}

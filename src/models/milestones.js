@@ -36,7 +36,7 @@ export default {
           payload.id ? 'Entregável atualizado com sucesso' : 'Entregável criado com sucesso!'
         );
 
-        router.push(`/milestones/${payload.id}`);
+        router.push(`/milestones/${response.result}`);
       }
     },
 

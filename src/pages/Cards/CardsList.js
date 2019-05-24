@@ -6,8 +6,7 @@ import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import TagSelect from '@/components/TagSelect';
 import StandardFormRow from '@/components/StandardFormRow';
 import { statusSelector } from '@/selectors/global';
-
-import CardsListItem from './CardsListItem';
+import CardsListItem from '@/pages/Containers/CardsListItem';
 
 const initialQuery = {
   status: ['status.todo', 'status.doing', 'status.paused'],

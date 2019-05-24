@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+// eslint-disable-next-line
 export const userUpdateSelector = createSelector(
   state => state.updateUser.item,
   state => state.entities.users,

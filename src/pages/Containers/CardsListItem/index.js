@@ -6,7 +6,7 @@ import { List, Skeleton, Icon } from 'antd';
 import timeAgo from '@/utils/timeAgo';
 import { cardSelector } from '@/selectors/cards';
 import AvatarUserList from '@/pages/Containers/AvatarUserList';
-import styles from './CardsListItem.less';
+import styles from './index.less';
 
 const IconText = ({ type, text }) => (
   <span style={{ marginRight: 8 }}>

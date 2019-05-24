@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
-import Link from 'umi/link';
-import { Card, List, Skeleton } from 'antd';
+import { Card, List } from 'antd';
+import CardsListItem from '@/pages/Containers/CardsListItem';
 import { exploreMilestoneCardsSelector } from './selectors/milestones';
 
 @connect(state => {
@@ -44,18 +44,7 @@ class MilestoneDetails extends Component {
             loading={loadingCards}
             pagination={paginationProps}
             dataSource={items}
-            renderItem={item => (
-              <List.Item>
-                <Skeleton title={false} loading={loadingCards} active>
-                  <List.Item.Meta
-                    title={
-                      <Link to={`/teams/${item.teamId}/board/cards/${item.id}`}>{item.name}</Link>
-                    }
-                    description={item.description}
-                  />
-                </Skeleton>
-              </List.Item>
-            )}
+            renderItem={item => <CardsListItem cardId={item.id} />}
           />
         </Card>
       </Fragment>

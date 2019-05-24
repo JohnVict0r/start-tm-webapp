@@ -83,13 +83,13 @@ class EditUser extends PureComponent {
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Por favor informe o nome!' }],
               initialValue: user.name,
-            })(<Input disabled={true} maxLength={255} placeholder="Nome do usuário" />)}
+            })(<Input disabled maxLength={255} placeholder="Nome do usuário" />)}
           </Form.Item>
           <Form.Item label="Email:" {...formItemLayout}>
             {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Por favor informe o email!' }],
               initialValue: user.email,
-            })(<Input disabled={true} maxLength={255} placeholder="Email do usuário" />)}
+            })(<Input disabled maxLength={255} placeholder="Email do usuário" />)}
           </Form.Item>
           <Form.Item label="Papel do usuário:" {...formItemLayout}>
             {getFieldDecorator('role', {

@@ -1,16 +1,18 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { List, Card, Skeleton, Avatar, Select } from 'antd';
+import { List, Card, Skeleton, Avatar, Button, Tag } from 'antd';
 
+import { router } from 'umi';
 import { usersSelector } from '@/selectors/admin';
-import { systemRolesSelector } from '@/selectors/global';
-import Link from 'umi/link';
+import { systemRolesSelector, loggedInUserSelector } from '@/selectors/global';
 
 import styles from './Users.less';
+import PageLoading from '@/components/PageLoading';
 
 @connect(state => ({
   roles: systemRolesSelector(state),
   users: usersSelector(state),
+  currentUser: loggedInUserSelector(state),
   loading: state.loading.effects['admin/fetchUsers'],
 }))
 class Users extends PureComponent {
@@ -58,13 +60,41 @@ class Users extends PureComponent {
     });
   };
 
+  renderItemActions = (user, role) => {
+    const { currentUser } = this.props;
+
+    if (user.id === currentUser.id) {
+      return [<Tag color="red">Você</Tag>];
+    }
+
+    return [
+      // <Popconfirm
+      //   disabled
+      //   title="Tem certeza?"
+      //   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+      //   onConfirm={() => this.handleDelete(user.id)}
+      // >
+      //   <Button type="danger" icon="delete" ghost />
+      // </Popconfirm>,
+      <Tag color="blue">{role.name}</Tag>,
+      <Button
+        shape="circle"
+        icon="edit"
+        size="large"
+        onClick={() => router.push(`/admin/users/${user.id}/edit`)}
+      />,
+    ];
+  };
+
   render() {
     const {
-      roles,
       users: { items, pagination },
       loading,
     } = this.props;
 
+    if (!items) {
+      return <PageLoading />;
+    }
     /*
     TODO Implementar o searchUsers
     
@@ -105,35 +135,11 @@ class Users extends PureComponent {
             dataSource={items}
             pagination={paginationProps}
             renderItem={({ user, role }) => (
-              <List.Item
-                actions={[
-                  <Select
-                    defaultValue={role.name}
-                    style={{ width: 140 }}
-                    onChange={roleName => {
-                      this.handleChangeRole(user.id, roleName);
-                    }}
-                  >
-                    {roles.map(r => (
-                      <Select.Option key={r.name} value={r.name}>
-                        {` ${r.name} `}
-                      </Select.Option>
-                    ))}
-                  </Select>,
-                  // ,
-                  // <Popconfirm
-                  //   title="Tem certeza?"
-                  //   icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
-                  //   onConfirm={() => this.handleDelete(user.id)}
-                  // >
-                  //   <Button type="danger" icon="delete" ghost />
-                  // </Popconfirm>,
-                ]}
-              >
+              <List.Item actions={this.renderItemActions(user, role)}>
                 <Skeleton title={false} loading={loading} active>
                   <List.Item.Meta
                     avatar={<Avatar src={user.avatar} shape="square" size="large" />}
-                    title={<Link to={`/user/${user.id}`}>{user.name}</Link>}
+                    title={user.name}
                     description={user.email}
                   />
                 </Skeleton>

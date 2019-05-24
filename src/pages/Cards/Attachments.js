@@ -8,7 +8,7 @@ class Attachments extends PureComponent {
     return (
       <div style={{ maxWidth: '250px' }}>
         <Attachment
-          style={{ display: 'block', padding: '8px 0'}}
+          style={{ display: 'block', padding: '8px 0' }}
           name="file"
           onUpload={onUploadFile}
           block

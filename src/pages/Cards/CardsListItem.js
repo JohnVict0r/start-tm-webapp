@@ -30,7 +30,6 @@ const Due = ({ date }) => {
   card: cardSelector(state, props),
 }))
 class CardsListItem extends PureComponent {
-
   render() {
     const { card } = this.props;
     const { project, team, status } = card;
@@ -39,7 +38,9 @@ class CardsListItem extends PureComponent {
       <div>
         <p className={styles.project}>{`${project.name} / ${team.name}`}</p>
         <div className={styles.infoList}>
-          <div className={styles.due} style={{ background: status.color }}>{status.displayName}</div>
+          <div className={styles.due} style={{ background: status.color }}>
+            {status.displayName}
+          </div>
           <Due date={card.due} />
           <AvatarUserList usersIds={card.members} />
           <IconText type="paper-clip" text={card.filesCount} />

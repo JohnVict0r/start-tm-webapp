@@ -14,8 +14,8 @@ export default {
         ...state,
         [payload.effect]: {
           ...state[payload.effect],
-          ...payload.error
-        }
+          ...payload.error,
+        },
       };
     },
   },
@@ -32,8 +32,8 @@ export default {
             type: 'saveError',
             payload: {
               effect: payload.effect,
-              error: camelizeError
-            }
+              error: camelizeError,
+            },
           });
         } catch (e) {
           // não faz nada mesmo

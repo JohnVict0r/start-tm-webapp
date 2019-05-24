@@ -20,13 +20,12 @@ export default {
           type: 'entities/normalize',
           payload: {
             data: response.data,
-            schema: Schema.TEAM
-          }
+            schema: Schema.TEAM,
+          },
         });
 
         message.success(formatMessage({ id: 'app.team.success-created' }));
         router.push(`/teams/${result}`);
-
       } catch (error) {
         // erro de validação nos dados
         yield put({

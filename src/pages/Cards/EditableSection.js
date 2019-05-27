@@ -14,25 +14,14 @@ class EditableSection extends PureComponent {
   };
 
   render() {
-    const { title, actionText = 'Editar', editingComponent, children } = this.props;
+    const { title, editingComponent, children } = this.props;
     const { editing } = this.state;
-
-    const bodyStyle = editing
-      ? {
-          padding: '12px',
-          background: 'white',
-          borderRadius: '4px',
-          margin: '0 -12px',
-        }
-      : undefined;
-
     return (
       <Card
         title={title}
         size="small"
-        bodyStyle={bodyStyle}
         bordered={false}
-        extra={<a onClick={this.handleEditing}>{editing ? 'Fechar' : actionText}</a>}
+        extra={<a onClick={this.handleEditing}>{editing ? 'Fechar' : 'Editar'}</a>}
       >
         {editing ? editingComponent : children}
       </Card>

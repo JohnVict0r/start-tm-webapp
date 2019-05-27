@@ -8,6 +8,7 @@ import MilestoneForm from './Milestone';
 import Assignees from './Assignees';
 import Attachments from './Attachments';
 import Due from './Due';
+import Tasks from './Tasks';
 
 import styles from './CardView.less';
 
@@ -180,6 +181,7 @@ class CardView extends PureComponent {
             />
             <Due current={card} />
             <MilestoneForm card={card} />
+            <Tasks card={card} />
             <Attachments
               propsUpload={propsUpload}
               onUploadFile={this.onUploadFile}

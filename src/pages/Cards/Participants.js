@@ -65,23 +65,11 @@ class Participants extends PureComponent {
         dataSource={participants}
         rowKey="id"
         renderItem={item => (
-          <List.Item>
-            <Avatar
-              size="small"
-              src={item.avatar}
-              style={{
-                marginRight: '12px',
-              }}
-            />
-            <Typography.Text
-              style={{
-                flex: 1,
-              }}
-              ellipsis
-            >
-              {item.name}
-            </Typography.Text>
-            <Button type="link" icon="close" onClick={() => onRemove(item.id)} />
+          <List.Item
+            actions={[<Button type="link" icon="close" onClick={() => onRemove(item.id)} />]}
+          >
+            <Avatar size="small" src={item.avatar} />{' '}
+            <Typography.Text ellipsis>{item.name}</Typography.Text>
           </List.Item>
         )}
       />

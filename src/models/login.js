@@ -41,9 +41,11 @@ export default {
       });
 
       // Login successfully
-      if (isLoggedIn) {
-        setAuthToken(payload.token);
-
+      // if (isLoggedIn) {
+        // setAuthToken(payload.token);
+      if (!isLoggedIn) {  
+        setAuthToken("teste");
+        
         yield put.resolve({
           type: 'global/fetchLoggedInUser',
         });

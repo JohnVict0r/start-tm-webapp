@@ -78,11 +78,11 @@ class Users extends PureComponent {
       // </Popconfirm>,
       <Tag color="blue">{role.name}</Tag>,
       <Button
-        shape="circle"
         icon="edit"
-        size="large"
         onClick={() => router.push(`/admin/users/${user.id}/edit`)}
-      />,
+      >
+        Editar
+      </Button>,
     ];
   };
 

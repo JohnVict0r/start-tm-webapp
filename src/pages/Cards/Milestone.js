@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Button, Select, Form } from 'antd';
-import { milestonesSelector } from '../Teams/selectors/milestones';
+import { milestonesSelector } from '../Clubs/selectors/milestones';
 import EditableSection from './EditableSection';
 
 import styles from './Milestone.less';

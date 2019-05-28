@@ -14,7 +14,7 @@ import CardList from './CardList';
 import SaveCardList from './SaveCardList';
 import { boardSelector } from './selectors/boards';
 import styles from './Board.less';
-import { makeTeamSelector } from '../Teams/selectors/teams';
+import { makeTeamSelector } from '../Clubs/selectors/teams';
 
 const resetDisabledCardlists = (cardlists, value) =>
   cardlists.reduce(

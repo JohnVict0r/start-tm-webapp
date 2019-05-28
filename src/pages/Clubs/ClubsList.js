@@ -6,13 +6,13 @@ import { Avatar, List, Card, Skeleton } from 'antd';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { exploreTeamsSelector } from './selectors/teams';
 
-import styles from './TeamsList.less';
+import styles from './ClubsList.less';
 
 @connect(state => ({
   teams: exploreTeamsSelector(state),
   loading: state.loading.effects['teams/fetchUserTeams'],
 }))
-class TeamsList extends PureComponent {
+class ClubsList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -68,4 +68,4 @@ class TeamsList extends PureComponent {
   }
 }
 
-export default TeamsList;
+export default ClubsList;

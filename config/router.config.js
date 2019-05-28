@@ -7,7 +7,7 @@ export default [
       { path: '/auth', redirect: '/auth/login' },
       //{ path: '/auth/login', name: 'login', component: './Auth/Login' },
       { path: '/auth/login', name: 'login', component: './Auth/Credentials' },
-      // { path: '/auth/callback/sabia', name: 'sabia', component: './Auth/CallbackSabia' },
+      //{ path: '/auth/callback/sabia', name: 'sabia', component: './Auth/CallbackSabia' },
       {
         path: '/auth/forgot-password',
         name: 'forgot-password',
@@ -223,142 +223,142 @@ export default [
       // },
 
       // teams
-      // {
-      //   path: '/teams',
-      //   name: 'teams',
-      //   icon: 'team',
-      //   hideInBreadcrumb: true,
-      //   routes: [
-      //     { path: '/teams', redirect: '/teams/explore' },
-      //     {
-      //       path: '/teams/explore',
-      //       name: 'my-teams',
-      //       icon: 'team',
-      //       component: './Teams/TeamsList',
-      //     },
-      //     {
-      //       path: '/teams/:teamId/board',
-      //       name: 'board',
-      //       component: './Boards/Board',
-      //       hideInMenu: true,
-      //       routes: [
-      //         {
-      //           path: '/teams/:teamId/board/cards/:cardId',
-      //           name: 'card-view',
-      //           component: './Cards/CardView',
-      //         },
-      //       ],
-      //     },
-      //     {
-      //       path: '/teams/:teamId',
-      //       name: 'team',
-      //       component: './Teams/TeamView',
-      //       hideInMenu: true,
-      //       routes: [
-      //         { path: '/teams/:teamId', redirect: '/teams/:teamId/milestones' },
-      //         {
-      //           path: '/teams/:teamId/members',
-      //           name: 'members',
-      //           component: './Teams/Members',
-      //         },
-      //         {
-      //           path: '/teams/:teamId/edit',
-      //           name: 'edit-team',
-      //           component: './Teams/EditTeam',
-      //         },
-      //         {
-      //           path: '/teams/:teamId/milestones',
-      //           name: 'milestones',
-      //           component: './Teams/Milestone',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        path: '/clubs',
+        name: 'clubs',
+        icon: 'home',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/clubs', redirect: '/clubs/explore' },
+          {
+            path: '/clubs/explore',
+            name: 'my-clubs',
+            icon: 'home',
+            component: './clubs/ClubsList',
+          },
+          {
+            path: '/clubs/:clubId/board',
+            name: 'board',
+            component: './Boards/Board',
+            hideInMenu: true,
+            routes: [
+              {
+                path: '/clubs/:clubId/board/cards/:cardId',
+                name: 'card-view',
+                component: './Cards/CardView',
+              },
+            ],
+          },
+          {
+            path: '/clubs/:clubId',
+            name: 'club',
+            component: './clubs/clubView',
+            hideInMenu: true,
+            routes: [
+              { path: '/clubs/:clubId', redirect: '/clubs/:clubId/milestones' },
+              {
+                path: '/clubs/:clubId/members',
+                name: 'members',
+                component: './Clubs/Members',
+              },
+              {
+                path: '/clubs/:clubId/edit',
+                name: 'edit-club',
+                component: './clubs/EditClub',
+              },
+              {
+                path: '/clubs/:clubId/milestones',
+                name: 'milestones',
+                component: './Clubs/Milestone',
+              },
+            ],
+          },
+        ],
+      },
 
       // projects
-      // {
-      //   path: '/projects',
-      //   name: 'projects',
-      //   icon: 'project',
-      //   hideInBreadcrumb: true,
-      //   routes: [
-      //     { path: '/projects', redirect: '/projects/explore' },
-      //     {
-      //       path: '/projects/explore',
-      //       name: 'my-projects',
-      //       icon: 'project',
-      //       component: './Projects/ProjectsList',
-      //     },
-      //     {
-      //       path: '/projects/new',
-      //       name: 'new-project',
-      //       icon: 'plus',
-      //       component: './Projects/NewProject',
-      //       authority: ['Administrador', 'Gerente'],
-      //     },
-      //     {
-      //       path: '/projects/:projectId',
-      //       name: 'project',
-      //       component: './Projects/ProjectView',
-      //       hideInMenu: true,
-      //       routes: [
-      //         { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
-      //         {
-      //           path: '/projects/:projectId/details',
-      //           name: 'details',
-      //           component: './Projects/ProjectDetails',
-      //         },
-      //         {
-      //           path: '/projects/:projectId/edit',
-      //           name: 'edit-project',
-      //           component: './Projects/EditProject',
-      //         },
-      //         {
-      //           path: '/projects/:projectId/new-team',
-      //           name: 'new-team',
-      //           component: './Projects/NewTeam',
-      //         },
-      //         {
-      //           path: '/projects/:projectId/members',
-      //           name: 'project-members',
-      //           component: './Projects/Members',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        path: '/projects',
+        name: 'projects',
+        icon: 'project',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/projects', redirect: '/projects/explore' },
+          {
+            path: '/projects/explore',
+            name: 'my-projects',
+            icon: 'project',
+            component: './Projects/ProjectsList',
+          },
+          {
+            path: '/projects/new',
+            name: 'new-project',
+            icon: 'plus',
+            component: './Projects/NewProject',
+            authority: ['Administrador', 'Gerente'],
+          },
+          {
+            path: '/projects/:projectId',
+            name: 'project',
+            component: './Projects/ProjectView',
+            hideInMenu: true,
+            routes: [
+              { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
+              {
+                path: '/projects/:projectId/details',
+                name: 'details',
+                component: './Projects/ProjectDetails',
+              },
+              {
+                path: '/projects/:projectId/edit',
+                name: 'edit-project',
+                component: './Projects/EditProject',
+              },
+              {
+                path: '/projects/:projectId/new-team',
+                name: 'new-team',
+                component: './Projects/NewTeam',
+              },
+              {
+                path: '/projects/:projectId/members',
+                name: 'project-members',
+                component: './Projects/Members',
+              },
+            ],
+          },
+        ],
+      },
 
       // milestones
-      // {
-      //   path: '/milestones',
-      //   name: 'milestones',
-      //   icon: 'schedule',
-      //   hideInBreadcrumb: true,
-      //   hideInMenu: true,
-      //   routes: [
-      //     { path: '/milestones' },
-      //     {
-      //       path: '/milestones/:milestoneId',
-      //       name: 'milestone',
-      //       component: './Milestones/MilestoneView',
-      //       hideInMenu: true,
-      //       routes: [
-      //         { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },
-      //         {
-      //           path: '/milestones/:milestoneId/details',
-      //           name: 'details',
-      //           component: './Milestones/MilestoneDetails',
-      //         },
-      //         {
-      //           path: '/milestones/:milestoneId/edit',
-      //           name: 'edit-milestone',
-      //           component: './Milestones/EditMilestone',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        path: '/milestones',
+        name: 'milestones',
+        icon: 'schedule',
+        hideInBreadcrumb: true,
+        hideInMenu: true,
+        routes: [
+          { path: '/milestones' },
+          {
+            path: '/milestones/:milestoneId',
+            name: 'milestone',
+            component: './Milestones/MilestoneView',
+            hideInMenu: true,
+            routes: [
+              { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },
+              {
+                path: '/milestones/:milestoneId/details',
+                name: 'details',
+                component: './Milestones/MilestoneDetails',
+              },
+              {
+                path: '/milestones/:milestoneId/edit',
+                name: 'edit-milestone',
+                component: './Milestones/EditMilestone',
+              },
+            ],
+          },
+        ],
+      },
       // admin
       {
         name: 'admin',

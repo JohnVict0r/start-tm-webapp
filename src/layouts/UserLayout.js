@@ -28,8 +28,8 @@ const links = [
 
 const copyright = (
   <Fragment>
-    <a href="http://lais.huol.ufrn.br/" target="_blank" rel="noopener noreferrer">
-      Copyright <Icon type="copyright" /> 2018 LAIS
+    <a target="_blank" rel="noopener noreferrer">
+      Copyright <Icon type="copyright" /> 2019 Startworks
     </a>
   </Fragment>
 );

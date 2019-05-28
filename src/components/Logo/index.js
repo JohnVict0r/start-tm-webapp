@@ -9,10 +9,10 @@ const Logo = () => (
     <div className={styles.header}>
       <Link to="/">
         <img alt="logo" className={styles.logo} src={logo} />
-        <span className={styles.title}>The Manager</span>
+        <span className={styles.title}>Start TM</span>
       </Link>
     </div>
-    <div className={styles.desc}>Gerenciamento de projeto feito da forma fácil</div>
+    <div className={styles.desc}>Dê um start nos seus eventos do Tênis de mesa</div>
   </div>
 );
 

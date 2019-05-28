@@ -1,5 +1,5 @@
 export default {
-  'form.user-name.placeholder': 'Como gostaria de ser chamado?',
+  'form.user-name.placeholder': 'Nome',
   'form.captcha': 'Get Captcha',
   'form.captcha.second': 'sec',
   'form.email.placeholder': 'Email',

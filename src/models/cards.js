@@ -13,6 +13,8 @@ import {
   unassignMilestone,
   assigneeUser,
   unAssigneeUser,
+  createTask,
+  deleteTask,
 } from '@/services/cards';
 
 export default {
@@ -164,6 +166,26 @@ export default {
         type: 'entities/mergeEntities',
         payload: response.entities,
       });
+    },
+
+    *saveTask({ payload }, { call, put }) {
+      const response = yield call(createTask, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      message.success('Atividade adicionada!');
+    },
+
+    *removeTask({ payload }, { call, put }) {
+      const response = yield call(deleteTask, payload);
+      yield put({
+        type: 'entities/mergeEntities',
+        payload: response.entities,
+      });
+
+      message.success('Atividade removida!');
     },
   },
 

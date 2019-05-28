@@ -40,3 +40,9 @@ export const assigneeUser = ({ id, userId }) =>
 
 export const unAssigneeUser = ({ id, userId }) =>
   callApi(`cards/${id}/assignee/${userId}`, schema.CARD).delete();
+
+export const createTask = ({ task, cardId }) =>
+  callApi(`cards/${cardId}/tasks`, schema.CARD).post(task);
+
+export const deleteTask = ({ taskId, cardId }) =>
+  callApi(`cards/${cardId}/tasks/${taskId}`, schema.CARD).delete();

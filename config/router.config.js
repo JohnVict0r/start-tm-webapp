@@ -222,7 +222,7 @@ export default [
       //   ],
       // },
 
-      // teams
+      // clubs
       {
         path: '/clubs',
         name: 'clubs',
@@ -234,7 +234,7 @@ export default [
             path: '/clubs/explore',
             name: 'my-clubs',
             icon: 'home',
-            component: './clubs/ClubsList',
+            component: './Clubs/ClubsList',
           },
           {
             path: '/clubs/:clubId/board',
@@ -252,7 +252,7 @@ export default [
           {
             path: '/clubs/:clubId',
             name: 'club',
-            component: './clubs/clubView',
+            component: './Clubs/ClubView',
             hideInMenu: true,
             routes: [
               { path: '/clubs/:clubId', redirect: '/clubs/:clubId/milestones' },
@@ -264,7 +264,7 @@ export default [
               {
                 path: '/clubs/:clubId/edit',
                 name: 'edit-club',
-                component: './clubs/EditClub',
+                component: './Clubs/EditClub',
               },
               {
                 path: '/clubs/:clubId/milestones',

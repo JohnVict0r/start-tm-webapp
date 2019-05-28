@@ -4,8 +4,8 @@
 ### Usando o bash
 
 ```bash
-$ git clone git@gitlab.sedis.ufrn.br:SISTEMAS/produtiivo-web-client-pro.git
-$ cd produtiivo-web-client-pro
+$ git clone git@github.com:JohnVictor2017/start-tm-webapp.git
+$ cd start-tm-webapp
 $ cp .env.example .env
 $ npm install
 $ npm start         # visit http://localhost:3000

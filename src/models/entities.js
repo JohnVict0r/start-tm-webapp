@@ -17,7 +17,7 @@ export default {
     status: {},
     roles: {},
     users: {},
-    //example
+    // example
     teds: {},
     goals: {},
     projects: {},
@@ -27,7 +27,7 @@ export default {
     cardlists: {},
     cards: {},
     comments: {},
-    //starttm
+    // starttm
     clubs: {},
     events: {},
     federations: {},

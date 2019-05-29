@@ -45,7 +45,7 @@ class EventsList extends PureComponent {
             <List
               size="large"
               rowKey="id"
-              loading={loading}
+              // loading={loading}
               pagination={paginationProps}
               // dataSource={items}
               renderItem={item => (

@@ -30,6 +30,22 @@ const CardList = new schema.Entity('cardlists');
 const Card = new schema.Entity('cards');
 const Comment = new schema.Entity('comments');
 
+//starttm
+const Club = new schema.Entity('clubs');
+const Federation = new schema.Entity('federations');
+const Event = new schema.Entity('events');
+const Championship = new schema.Entity('championships');
+const Table = new schema.Entity('tables');
+
+Club.define({
+  federation: Federation,
+});
+
+Championship.define({
+  event: Event,
+  tables: [Table],
+});
+
 User.define({
   role: Role,
 });
@@ -125,6 +141,18 @@ const Schemas = {
   CARD_ARRAY: [Card],
   COMMENT: Comment,
   COMMENT_ARRAY: [Comment],
+  // starttm
+
+  CLUB: Club,
+  CLUB_ARRAY: [Club],
+  FEDERATION: Federation,
+  FEDERATION_ARRAY: [Federation],
+  EVENT: Event,
+  EVENT_ARRAY: [Event],
+  CHAMPIONSHIP: Championship,
+  CHAMPIONSHIP_ARRAY: [Championship],
+  TABLE: Table,
+  TABLE_ARRAY: [Table],
 };
 
 export default Schemas;

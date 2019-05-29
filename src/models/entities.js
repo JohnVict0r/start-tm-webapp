@@ -17,6 +17,7 @@ export default {
     status: {},
     roles: {},
     users: {},
+    //example
     teds: {},
     goals: {},
     projects: {},
@@ -26,6 +27,12 @@ export default {
     cardlists: {},
     cards: {},
     comments: {},
+    //starttm
+    clubs: {},
+    events: {},
+    federations: {},
+    championships: {},
+    tables: {},
   },
 
   reducers: {
@@ -46,6 +53,10 @@ export default {
         ...updater({ entity: 'cardlists', updateStrategy: assign }),
         ...updater({ entity: 'cards', updateStrategy: assign }),
         ...updater({ entity: 'comments' }),
+        ...updater({ entity: 'clubs' }),
+        ...updater({ entity: 'events' }),
+        ...updater({ entity: 'federations' }),
+        ...updater({ entity: 'tables' }),
       };
     },
   },

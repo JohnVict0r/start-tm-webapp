@@ -30,7 +30,7 @@ const CardList = new schema.Entity('cardlists');
 const Card = new schema.Entity('cards');
 const Comment = new schema.Entity('comments');
 
-//starttm
+// starttm
 const Club = new schema.Entity('clubs');
 const Federation = new schema.Entity('federations');
 const Event = new schema.Entity('events');

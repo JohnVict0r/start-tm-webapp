@@ -56,7 +56,7 @@ async function handleRequest(url, options, schema, skipNormilization) {
 /**
  * Cliente para consulta a API Rest.
  */
-export default function callApi(endpoint, schema, skipNormilization) {
+export function callApi(endpoint, schema, skipNormilization) {
   // API_URL defined in .env
   const url = API_URL + endpoint;
 
@@ -74,5 +74,60 @@ export default function callApi(endpoint, schema, skipNormilization) {
     put: data => handleRequest(url, { method: 'PUT', data, ...options }, schema, skipNormilization),
     delete: () => handleRequest(url, { method: 'DELETE', ...options }, schema, skipNormilization),
     get: () => handleRequest(url, options, schema, skipNormilization),
+  };
+}
+
+async function handleRequestFake(url, options, schema, skipNormilization) {
+  if (!skipNormilization) {
+    try {
+      // const response = await request(url, options);
+      const response = {
+        data: {
+          id: 1,
+          name: 'Admin',
+          cpf: '000.000.000-00',
+          email: 'admin@example.org',
+          avatar:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUC0LYGdxwCD9TEukVRqL3OWRqTyT95SoupznUTkGm49-uwyM33A',
+          role: {
+            id: 1,
+            name: 'Administrador',
+          },
+        },
+      };
+      const reponseJson = camelizeKeys(response);
+      return normalizeJson(reponseJson, schema);
+    } catch (e) {
+      return handleError(e);
+    }
+  } else {
+    const reponse = await request(url, options);
+    return camelizeKeys(reponse);
+  }
+}
+
+/**
+ * Cliente para consulta teste
+ */
+export function callApiFake(endpoint, schema, skipNormilization) {
+  // API_URL defined in .env
+  const url = API_URL + endpoint;
+
+  const token = getAuthToken();
+  const options = {
+    // TODO quando o bug abaixo for resolvido e alterado, remover o atributo crendentials
+    // https://github.com/spatie/laravel-cors/issues/28
+    credentials: 'same-origin',
+    headers: { Authorization: `Bearer ${token}` },
+  };
+
+  return {
+    post: data =>
+      handleRequestFake(url, { method: 'POST', data, ...options }, schema, skipNormilization),
+    put: data =>
+      handleRequestFake(url, { method: 'PUT', data, ...options }, schema, skipNormilization),
+    delete: () =>
+      handleRequestFake(url, { method: 'DELETE', ...options }, schema, skipNormilization),
+    get: () => handleRequestFake(url, options, schema, skipNormilization),
   };
 }

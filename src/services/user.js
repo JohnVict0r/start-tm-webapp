@@ -1,6 +1,6 @@
 import request from '@/utils/request';
-import callApi from '@/utils/callApi';
 import schema from './Schema';
+import { callApiFake, callApi } from '@/utils/callApi';
 
 export async function query() {
   return request('/api/users');
@@ -10,7 +10,9 @@ export async function queryCurrent() {
   return request('/api/currentUser');
 }
 
-export const loadLoggedInUser = () => callApi('me?include=role', schema.USER).get();
+// export const loadLoggedInUser = () => callApi('me?include=role', schema.USER).get();
+
+export const loadLoggedInUser = () => callApiFake('me?include=role', schema.USER).get();
 
 export const loadFavorites = () => callApi('me/favorites').get();
 

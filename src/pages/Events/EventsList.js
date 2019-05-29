@@ -46,11 +46,11 @@ class EventsList extends PureComponent {
               size="large"
               rowKey="id"
               // loading={loading}
-              pagination={paginationProps}
+              // pagination={paginationProps}
               // dataSource={items}
               renderItem={item => (
                 <List.Item>
-                  <Skeleton title={false} loading={loading} active>
+                  <Skeleton title={false} active>
                     <List.Item.Meta
                       avatar={<Avatar shape="square" src={item.avatar} />}
                       title={<Link to={`/projects/${item.id}`}>{item.name}</Link>}

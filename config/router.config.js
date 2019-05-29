@@ -276,58 +276,82 @@ export default [
         ],
       },
 
-      // projects
+      // events
       {
-        path: '/projects',
-        name: 'projects',
+        path: '/events',
+        name: 'events',
         icon: 'project',
         hideInBreadcrumb: true,
         routes: [
-          { path: '/projects', redirect: '/projects/explore' },
+          { path: '/events', redirect: '/events/explore' },
           {
-            path: '/projects/explore',
-            name: 'my-projects',
+            path: '/events/explore',
+            name: 'my-events',
             icon: 'project',
-            component: './Projects/ProjectsList',
+            component: './Events/EventsList',
           },
           {
-            path: '/projects/new',
-            name: 'new-project',
+            path: '/events/new',
+            name: 'new-event',
             icon: 'plus',
-            component: './Projects/NewProject',
+            component: './Events/NewEvent',
             authority: ['Administrador', 'Gerente'],
-          },
-          {
-            path: '/projects/:projectId',
-            name: 'project',
-            component: './Projects/ProjectView',
-            hideInMenu: true,
-            routes: [
-              { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
-              {
-                path: '/projects/:projectId/details',
-                name: 'details',
-                component: './Projects/ProjectDetails',
-              },
-              {
-                path: '/projects/:projectId/edit',
-                name: 'edit-project',
-                component: './Projects/EditProject',
-              },
-              {
-                path: '/projects/:projectId/new-team',
-                name: 'new-team',
-                component: './Projects/NewTeam',
-              },
-              {
-                path: '/projects/:projectId/members',
-                name: 'project-members',
-                component: './Projects/Members',
-              },
-            ],
           },
         ],
       },
+
+      // projects
+      // {
+      //   path: '/projects',
+      //   name: 'projects',
+      //   icon: 'project',
+      //   hideInBreadcrumb: true,
+      //   routes: [
+      //     { path: '/projects', redirect: '/projects/explore' },
+      //     {
+      //       path: '/projects/explore',
+      //       name: 'my-projects',
+      //       icon: 'project',
+      //       component: './Projects/ProjectsList',
+      //     },
+      //     {
+      //       path: '/projects/new',
+      //       name: 'new-project',
+      //       icon: 'plus',
+      //       component: './Projects/NewProject',
+      //       authority: ['Administrador', 'Gerente'],
+      //     },
+      //     {
+      //       path: '/projects/:projectId',
+      //       name: 'project',
+      //       component: './Projects/ProjectView',
+      //       hideInMenu: true,
+      //       routes: [
+      //         { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
+      //         {
+      //           path: '/projects/:projectId/details',
+      //           name: 'details',
+      //           component: './Projects/ProjectDetails',
+      //         },
+      //         {
+      //           path: '/projects/:projectId/edit',
+      //           name: 'edit-project',
+      //           component: './Projects/EditProject',
+      //         },
+      //         {
+      //           path: '/projects/:projectId/new-team',
+      //           name: 'new-team',
+      //           component: './Projects/NewTeam',
+      //         },
+      //         {
+      //           path: '/projects/:projectId/members',
+      //           name: 'project-members',
+      //           component: './Projects/Members',
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
 
       // milestones
       {

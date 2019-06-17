@@ -9,12 +9,10 @@ import menu from './pt-BR/menu';
 import monitor from './pt-BR/monitor';
 import project from './pt-BR/project';
 import event from './pt-BR/event';
-import team from './pt-BR/team';
 import register from './pt-BR/register';
 import result from './pt-BR/result';
 import settingDrawer from './pt-BR/settingDrawer';
 import settings from './pt-BR/settings';
-import card from './pt-BR/card';
 import comment from './pt-BR/comment';
 import validation from './pt-BR/validation';
 import pwa from './pt-BR/pwa';
@@ -38,14 +36,12 @@ export default {
   ...monitor,
   ...project,
   ...event,
-  ...team,
   ...register,
   ...result,
   ...settingDrawer,
   ...settings,
   ...validation,
   ...pwa,
-  ...card,
   ...comment,
   ...component,
   ...editor,

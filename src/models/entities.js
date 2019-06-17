@@ -1,6 +1,6 @@
 import has from 'lodash/has';
 import merge from 'lodash/merge';
-import assign from 'lodash/assign';
+// import assign from 'lodash/assign';
 import { normalize } from 'normalizr';
 
 const updateEntites = ({ state, payload }) => ({ entity, updateStrategy = merge }) =>
@@ -18,14 +18,8 @@ export default {
     roles: {},
     users: {},
     // example
-    teds: {},
-    goals: {},
     projects: {},
     teams: {},
-    boards: {},
-    milestones: {},
-    cardlists: {},
-    cards: {},
     comments: {},
     // starttm
     clubs: {},
@@ -44,14 +38,7 @@ export default {
         ...updater({ entity: 'status' }),
         ...updater({ entity: 'roles' }),
         ...updater({ entity: 'users' }),
-        ...updater({ entity: 'teds' }),
-        ...updater({ entity: 'goals' }),
         ...updater({ entity: 'projects' }),
-        ...updater({ entity: 'teams' }),
-        ...updater({ entity: 'boards', updateStrategy: assign }),
-        ...updater({ entity: 'milestones' }),
-        ...updater({ entity: 'cardlists', updateStrategy: assign }),
-        ...updater({ entity: 'cards', updateStrategy: assign }),
         ...updater({ entity: 'comments' }),
         ...updater({ entity: 'clubs' }),
         ...updater({ entity: 'events' }),

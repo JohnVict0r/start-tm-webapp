@@ -33,7 +33,7 @@ export default [
     routes: [
       {
         path: '/',
-        redirect: '/teams',
+        redirect: '/clubs',
         authority: ['Administrador', 'Colaborador', 'Gerente'],
       },
 
@@ -155,73 +155,6 @@ export default [
         ],
       },
 
-      // teds
-      // {
-      //   path: '/teds',
-      //   name: 'teds',
-      //   icon: 'reconciliation',
-      //   routes: [
-      //     { path: '/teds', redirect: '/teds/explore' },
-      //     {
-      //       path: '/teds/explore',
-      //       name: 'my-teds',
-      //       icon: 'reconciliation',
-      //       component: './Teds/TedsList',
-      //     },
-      //     {
-      //       path: '/teds/new',
-      //       name: 'new-ted',
-      //       icon: 'plus',
-      //       component: './Teds/NewTed',
-      //     },
-      //     {
-      //       path: '/teds/:tedId',
-      //       name: 'view-ted',
-      //       icon: 'plus',
-      //       hideInMenu: true,
-      //       component: './Teds/ViewTed',
-      //       routes: [
-      //         { path: '/teds/:tedId', redirect: '/teds/:tedId/dashboard' },
-      //         {
-      //           path: '/teds/:tedId/dashboard',
-      //           name: 'teds-main',
-      //           component: './Teds/TedDashboard',
-      //           routes: [
-      //             { path: '/teds/:tedId/dashboard', redirect: '/teds/:tedId/dashboard/goals' },
-      //             {
-      //               path: '/teds/:tedId/dashboard/goals',
-      //               name: 'teds-goals',
-      //               component: './Teds/GoalsList',
-      //             },
-      //           ],
-      //         },
-      //         {
-      //           path: '/teds/:tedId/goals/new',
-      //           name: 'goals-new',
-      //           component: './Teds/NewGoal',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
-
-      // cards
-      // {
-      //   path: '/cards',
-      //   name: 'cards',
-      //   icon: 'appstore',
-      //   hideInBreadcrumb: true,
-      //   routes: [
-      //     { path: '/cards', redirect: '/cards/explore' },
-      //     {
-      //       path: '/cards/explore',
-      //       name: 'my-cards',
-      //       icon: 'appstore',
-      //       component: './Cards/CardsList',
-      //     },
-      //   ],
-      // },
-
       // clubs
       {
         path: '/clubs',
@@ -236,19 +169,19 @@ export default [
             icon: 'home',
             component: './Clubs/ClubsList',
           },
-          {
-            path: '/clubs/:clubId/board',
-            name: 'board',
-            component: './Boards/Board',
-            hideInMenu: true,
-            routes: [
-              {
-                path: '/clubs/:clubId/board/cards/:cardId',
-                name: 'card-view',
-                component: './Cards/CardView',
-              },
-            ],
-          },
+          // {
+          //   path: '/clubs/:clubId/board',
+          //   name: 'board',
+          //   component: './Boards/Board',
+          //   hideInMenu: true,
+          //   routes: [
+          //     {
+          //       path: '/clubs/:clubId/board/cards/:cardId',
+          //       name: 'card-view',
+          //       component: './Cards/CardView',
+          //     },
+          //   ],
+          // },
           {
             path: '/clubs/:clubId',
             name: 'club',
@@ -353,36 +286,6 @@ export default [
       //   ],
       // },
 
-      // milestones
-      {
-        path: '/milestones',
-        name: 'milestones',
-        icon: 'schedule',
-        hideInBreadcrumb: true,
-        hideInMenu: true,
-        routes: [
-          { path: '/milestones' },
-          {
-            path: '/milestones/:milestoneId',
-            name: 'milestone',
-            component: './Milestones/MilestoneView',
-            hideInMenu: true,
-            routes: [
-              { path: '/milestones/:milestoneId', redirect: '/milestones/:milestoneId/details' },
-              {
-                path: '/milestones/:milestoneId/details',
-                name: 'details',
-                component: './Milestones/MilestoneDetails',
-              },
-              {
-                path: '/milestones/:milestoneId/edit',
-                name: 'edit-milestone',
-                component: './Milestones/EditMilestone',
-              },
-            ],
-          },
-        ],
-      },
       // admin
       {
         name: 'admin',

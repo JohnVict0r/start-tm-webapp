@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
 // import { connect } from 'dva';
 import router from 'umi/router';
-// import Link from 'umi/link';
-import { List, Card, Button } from 'antd';
+import Link from 'umi/link';
+import { Avatar, List, Card, Button, Skeleton } from 'antd';
 import Authorized from '@/utils/Authorized';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 

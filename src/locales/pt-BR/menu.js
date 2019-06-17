@@ -84,6 +84,7 @@ export default {
   'menu.clubs.club.milestones': 'Entregáveis',
   'menu.clubs.club.edit-card': 'Editar tarefa',
   'menu.clubs.club.edit-club': 'Editar clube',
+  'menu.clubs.new-club': 'Novo Clube',
   'menu.events': 'Eventos',
   'menu.events.my-events': 'Meus Eventos',
   'menu.events.new-event': 'Novo Evento',

@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import router from 'umi/router';
 import Link from 'umi/link';
-import { Avatar, List, Card, Skeleton } from 'antd';
-
+import { Avatar, Button, List, Card, Skeleton } from 'antd';
+import Authorized from '@/utils/Authorized';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import { exploreTeamsSelector } from './selectors/teams';
 
@@ -34,7 +35,15 @@ class ClubsList extends PureComponent {
     };
 
     return (
-      <PageHeaderWrapper title="Minhas Equipes">
+      <PageHeaderWrapper 
+        title="Minhas Equipes" 
+        extra={
+          <Authorized authority={['Administrador', 'Gerente']}>
+            <Button type="primary" icon="plus" onClick={() => router.push('/clubs/new')}>
+              Clube
+            </Button>
+          </Authorized>
+        }>
         <div className={styles.standardList}>
           <Card className={styles.listCard} bordered={false}>
             <List

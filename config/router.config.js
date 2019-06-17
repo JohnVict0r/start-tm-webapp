@@ -169,6 +169,13 @@ export default [
             icon: 'home',
             component: './Clubs/ClubsList',
           },
+          {
+            path: '/clubs/new',
+            name: 'new-club',
+            icon: 'plus',
+            component: './Clubs/NewClub',
+            authority: ['Administrador', 'Gerente'],
+          },
           // {
           //   path: '/clubs/:clubId/board',
           //   name: 'board',

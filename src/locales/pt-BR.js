@@ -18,6 +18,7 @@ import validation from './pt-BR/validation';
 import pwa from './pt-BR/pwa';
 import component from './pt-BR/component';
 import editor from './pt-BR/editor';
+import club from './pt-BR/club';
 
 export default {
   'navBar.lang': 'Idiomas',
@@ -36,6 +37,7 @@ export default {
   ...monitor,
   ...project,
   ...event,
+  ...club,
   ...register,
   ...result,
   ...settingDrawer,

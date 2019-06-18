@@ -1,4 +1,4 @@
-import { signup } from '@/services/auth';
+import { subscription } from '@/services/auth';
 
 export default {
   namespace: 'register',
@@ -9,8 +9,9 @@ export default {
 
   effects: {
     *submit({ payload }, { call, put }) {
-      const response = yield call(signup, payload);
+      const response = yield call(subscription, payload);
 
+      console.log(response);
       // Login successfully
       if (response.token) {
         yield put({

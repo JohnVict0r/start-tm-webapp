@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import Link from 'umi/link';
 import classNames from 'classnames';
-import MaskedInput from 'react-text-mask';
+// import MaskedInput from 'react-text-mask';
 import { Form, Input, Button } from 'antd';
 import PasswordForce from '../PasswordForce';
 
@@ -59,8 +59,10 @@ class Register extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { form, onSubmit } = this.props;
+
     form.validateFields({ force: true }, (err, values) => {
-      onSubmit(err, { ...values, cpf: values.cpf.replace(/\D/g, '') });
+      // onSubmit(err, { ...values, cpf: values.cpf.replace(/\D/g, '') });
+      onSubmit(err, { ...values, redirectUrl: 'localhost:3333/subscription/confirm' });
     });
   };
 
@@ -151,7 +153,7 @@ class Register extends Component {
       <div className={classNames(className, styles.main)}>
         <Form onSubmit={this.handleSubmit}>
           <Form.Item>
-            {getFieldDecorator('name', {
+            {getFieldDecorator('username', {
               rules: [
                 { required: true, message: formatMessage({ id: 'validation.name.required' }) },
               ],
@@ -164,7 +166,7 @@ class Register extends Component {
               />
             )}
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             {getFieldDecorator('cpf', {
               rules: [
                 { required: true, message: formatMessage({ id: 'validation.cpf.required' }) },
@@ -192,7 +194,7 @@ class Register extends Component {
                 placeholder="CPF"
               />
             )}
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item>
             {getFieldDecorator('email', {
               rules: [
@@ -220,7 +222,7 @@ class Register extends Component {
               )}
             </PasswordForce>
           </Form.Item>
-          <Form.Item>
+          {/* <Form.Item>
             {getFieldDecorator('password_confirmation', {
               rules: [
                 {
@@ -236,7 +238,7 @@ class Register extends Component {
                 placeholder={formatMessage({ id: 'form.confirm-password.placeholder' })}
               />
             )}
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item>
             <Button
               size="large"

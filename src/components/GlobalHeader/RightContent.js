@@ -129,12 +129,12 @@ export default class GlobalHeaderRight extends PureComponent {
             console.log('enter', value); // eslint-disable-line
           }}
         /> */}
-        <FavoriteList
+        {/* <FavoriteList
           className={styles.action}
           loading={fetchingFavorites}
           favorites={this.getFavoriteData()}
           onFavoriteVisibleChange={onFavoriteVisibleChange}
-        />
+        /> */}
         {/* <NoticeIcon
           className={styles.action}
           count={currentUser.unreadCount}

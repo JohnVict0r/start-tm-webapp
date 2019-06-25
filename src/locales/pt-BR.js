@@ -19,6 +19,7 @@ import pwa from './pt-BR/pwa';
 import component from './pt-BR/component';
 import editor from './pt-BR/editor';
 import club from './pt-BR/club';
+import federation from './pt-BR/federation';
 
 export default {
   'navBar.lang': 'Idiomas',
@@ -38,6 +39,7 @@ export default {
   ...project,
   ...event,
   ...club,
+  ...federation,
   ...register,
   ...result,
   ...settingDrawer,

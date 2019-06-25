@@ -235,7 +235,31 @@ export default [
             name: 'new-event',
             icon: 'plus',
             component: './Events/NewEvent',
-            authority: ['Administrador', 'Gerente'],
+            authority: ['Administrador'],
+          },
+        ],
+      },
+
+      // federations
+      {
+        path: '/federations',
+        name: 'federations',
+        icon: 'home',
+        hideInBreadcrumb: true,
+        routes: [
+          { path: '/federations', redirect: '/federations/explore' },
+          {
+            path: '/federations/explore',
+            name: 'my-federations',
+            icon: 'home',
+            component: './Federations/FederationsList',
+          },
+          {
+            path: '/federations/new',
+            name: 'new-federation',
+            icon: 'plus',
+            component: './Federations/NewFederation',
+            authority: ['Administrador'],
           },
         ],
       },

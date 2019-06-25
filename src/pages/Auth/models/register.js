@@ -11,7 +11,6 @@ export default {
     *submit({ payload }, { call, put }) {
       const response = yield call(subscription, payload);
 
-      console.log(response);
       // Login successfully
       if (response.token) {
         yield put({

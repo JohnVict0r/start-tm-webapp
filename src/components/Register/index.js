@@ -62,7 +62,7 @@ class Register extends Component {
 
     form.validateFields({ force: true }, (err, values) => {
       // onSubmit(err, { ...values, cpf: values.cpf.replace(/\D/g, '') });
-      onSubmit(err, { ...values, redirectUrl: 'localhost:3333/subscription/confirm' });
+      onSubmit(err, { ...values, redirect_url: 'localhost:3333/subscription/confirm' });
     });
   };
 
@@ -222,7 +222,7 @@ class Register extends Component {
               )}
             </PasswordForce>
           </Form.Item>
-          {/* <Form.Item>
+          <Form.Item>
             {getFieldDecorator('password_confirmation', {
               rules: [
                 {
@@ -238,7 +238,7 @@ class Register extends Component {
                 placeholder={formatMessage({ id: 'form.confirm-password.placeholder' })}
               />
             )}
-          </Form.Item> */}
+          </Form.Item>
           <Form.Item>
             <Button
               size="large"

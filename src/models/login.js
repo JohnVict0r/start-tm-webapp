@@ -42,8 +42,6 @@ export default {
     *authenticate({ payload }, { put }) {
       const isLoggedIn = !!payload && !!payload.token;
 
-      console.log(payload);
-
       yield put({
         type: 'changeLoginStatus',
         payload: isLoggedIn,

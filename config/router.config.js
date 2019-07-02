@@ -169,13 +169,13 @@ export default [
             icon: 'home',
             component: './Clubs/ClubsList',
           },
-          {
-            path: '/clubs/new',
-            name: 'new-club',
-            icon: 'plus',
-            component: './Clubs/NewClub',
-            authority: ['Administrador', 'Gerente'],
-          },
+          // {
+          //   path: '/clubs/new',
+          //   name: 'new-club',
+          //   icon: 'plus',
+          //   component: './Clubs/NewClub',
+          //   authority: ['Administrador', 'Gerente'],
+          // },
           // {
           //   path: '/clubs/:clubId/board',
           //   name: 'board',
@@ -267,15 +267,15 @@ export default [
             component: './Federations/FederationView',
             hideInMenu: true,
             routes: [
-              // {
-              //   path: '/federations/:federationId',
-              //   redirect: '/federations/:federationId/details',
-              // },
-              // {
-              //   path: '/federations/:federationId/details',
-              //   name: 'details',
-              //   component: './Federations/FederationDetails',
-              // },
+              {
+                path: '/federations/:federationId',
+                redirect: '/federations/:federationId/details',
+              },
+              {
+                path: '/federations/:federationId/details',
+                name: 'details',
+                component: './Federations/FederationDetails',
+              },
               // {
               //   path: '/federations/:federationId/edit',
               //   name: 'edit-federation',
@@ -284,7 +284,7 @@ export default [
               {
                 path: '/federations/:federationId/new-club',
                 name: 'new-club',
-                component: './Clubs/NewClub',
+                component: './Federations/NewClub',
               },
               // {
               //   path: '/federations/:federationId/members',

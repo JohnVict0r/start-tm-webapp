@@ -11,7 +11,7 @@ import PageLoading from '@/components/PageLoading';
     favoriting: state.loading.effects['projects/favoriteProject'],
   };
 })
-class ProjectView extends Component {
+class FederationView extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
@@ -81,4 +81,4 @@ class ProjectView extends Component {
   }
 }
 
-export default ProjectView;
+export default FederationView;

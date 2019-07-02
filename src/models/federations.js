@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
-import { createFederation, loadFederations } from '@/services/federations';
+import { createFederation, loadFederation, loadFederations } from '@/services/federations';
 import Schema from '@/services/Schema';
 
 const initialPaginatioState = {
@@ -61,6 +61,25 @@ export default {
         });
       }
     },
+
+    *fetchFederation({ payload }, { call, put }) {
+      try {
+        const response = yield call(loadFederation, payload);
+
+        // normaliza os dados retornados e
+        // funde com o state.entities
+        yield put({
+          type: 'entities/normalize',
+          payload: {
+            data: response,
+            schema: Schema.FEDERATION,
+          },
+        });
+      } catch (error) {
+        // não faz nada
+      }
+    },
+
     *fetchFederations({ payload }, { call, put }) {
       try {
         const response = yield call(loadFederations, payload);

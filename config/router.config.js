@@ -261,6 +261,38 @@ export default [
             component: './Federations/NewFederation',
             authority: ['Administrador'],
           },
+          {
+            path: '/federations/:federationId',
+            name: 'federation',
+            component: './Federations/FederationView',
+            hideInMenu: true,
+            routes: [
+              // {
+              //   path: '/federations/:federationId',
+              //   redirect: '/federations/:federationId/details',
+              // },
+              // {
+              //   path: '/federations/:federationId/details',
+              //   name: 'details',
+              //   component: './Federations/FederationDetails',
+              // },
+              // {
+              //   path: '/federations/:federationId/edit',
+              //   name: 'edit-federation',
+              //   component: './Federations/EditFederation',
+              // },
+              {
+                path: '/federations/:federationId/new-club',
+                name: 'new-club',
+                component: './Clubs/NewClub',
+              },
+              // {
+              //   path: '/federations/:federationId/members',
+              //   name: 'project-members',
+              //   component: './Projects/Members',
+              // },
+            ],
+          },
         ],
       },
 

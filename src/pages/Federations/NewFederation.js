@@ -75,11 +75,68 @@ class NewEvent extends PureComponent {
       <PageHeaderWrapper title={formatMessage({ id: 'app.federation.create' })}>
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <Form.Item label={formatMessage({ id: 'app.federation.form.name' })} {...formItemLayout}>
+            <Form.Item
+              label={formatMessage({ id: 'app.federation.form.name' })}
+              {...formItemLayout}
+            >
               {getFieldDecorator('name', {
-                rules: [{ required: true, message: formatMessage({ id: 'app.federation.form.name.message' }) }],
-              })(<Input maxLength={255} placeholder={formatMessage({ id: 'app.federation.form.name.placeholder' })} />)}
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'app.federation.form.name.message' }),
+                  },
+                ],
+              })(
+                <Input
+                  maxLength={255}
+                  placeholder={formatMessage({ id: 'app.federation.form.name.placeholder' })}
+                />
+              )}
             </Form.Item>
+
+            <Form.Item
+              label={formatMessage({ id: 'app.federation.form.initials' })}
+              {...formItemLayout}
+            >
+              {getFieldDecorator('initials', {
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'app.federation.form.initials.message' }),
+                  },
+                ],
+              })(
+                <Input
+                  maxLength={255}
+                  placeholder={formatMessage({ id: 'app.federation.form.initials.placeholder' })}
+                />
+              )}
+            </Form.Item>
+
+            <Form.Item
+              label={formatMessage({ id: 'app.federation.form.uf' })}
+              {...formItemLayout}
+              // help={
+              //   <span>
+              //     <Link to="/">Leia mais</Link> sobre as federações.
+              //   </span>
+              // }
+            >
+              {getFieldDecorator('uf', {
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'app.federation.form.uf.message' }),
+                  },
+                ],
+              })(
+                <Select placeholder={formatMessage({ id: 'app.federation.form.uf.placeholder' })}>
+                  <Select.Option key={1}>RN</Select.Option>
+                  <Select.Option key={2}>PB</Select.Option>
+                </Select>
+              )}
+            </Form.Item>
+
             <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 {formatMessage({ id: 'app.federation.create' })}

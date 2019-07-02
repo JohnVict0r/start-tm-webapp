@@ -21,8 +21,6 @@ export default {
     *fetchLoggedInUser(_, { call, put, select }) {
       const response = yield call(loadLoggedInUser);
 
-      console.log(response);
-
       if (!response.errors) {
         yield put({
           type: 'entities/mergeEntities',
@@ -37,8 +35,6 @@ export default {
         const loggedInUserRole = yield select(
           ({ entities, global }) => entities.roles[entities.users[global.loggedInUser].role].name
         );
-
-        console.log(loggedInUserRole);
 
         setAuthority(loggedInUserRole);
         reloadAuthorized();

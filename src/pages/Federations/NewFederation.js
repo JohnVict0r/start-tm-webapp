@@ -1,47 +1,36 @@
 import React, { PureComponent } from 'react';
-// import { connect } from 'dva';
+import { connect } from 'dva';
 // import Link from 'umi/link';
 import { Input, Form, Card, Select, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import { setFormWithError } from '@/utils/forms';
 
-// @connect(state => ({
-//   proejcts: state.saveProject,
-//   submitting: state.loading.effects['saveProject/save'],
-// }))
+@connect(state => ({
+  validation: state.validation['federations/save'],
+  proejcts: state.saveProject,
+  // submitting: state.loading.effects['saveProject/save'],
+}))
 @Form.create()
 class NewEvent extends PureComponent {
-  // componentDidUpdate(prevProps) {
-  //   const { form, proejcts } = this.props;
-
-  //   if (prevProps.proejcts !== proejcts && proejcts.error) {
-  //     const { errors } = proejcts.error;
-  //     const mapErrors = Object.keys(errors).reduce(
-  //       (accum, key) => ({
-  //         ...accum,
-  //         [key]: {
-  //           value: form.getFieldValue(key),
-  //           errors: errors[key].map(err => new Error(err)),
-  //         },
-  //       }),
-  //       {}
-  //     );
-
-  //     form.setFields(mapErrors);
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    const { form, validation } = this.props;
+    if (prevProps.validation !== validation) {
+      setFormWithError(form, validation);
+    }
+  }
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form } = this.props;
+    const { form, dispatch } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch } = this.props;
         dispatch({
-          type: 'saveProject/save',
-          payload: values,
+          type: 'federations/save',
+          payload: {
+            federation: values,
+          },
         });
-        form.resetFields();
       }
     });
   };
@@ -131,8 +120,9 @@ class NewEvent extends PureComponent {
                 ],
               })(
                 <Select placeholder={formatMessage({ id: 'app.federation.form.uf.placeholder' })}>
-                  <Select.Option key={1}>RN</Select.Option>
-                  <Select.Option key={2}>PB</Select.Option>
+                  {/* a key deve ser uma da constantes definidas na migration do backend */}
+                  <Select.Option key="RN">RN</Select.Option>
+                  <Select.Option key="PB">PB</Select.Option>
                 </Select>
               )}
             </Form.Item>

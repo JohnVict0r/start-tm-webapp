@@ -1,46 +1,24 @@
-import { loadFederationClubs, createFederationClub } from '@/services/teams';
+import { createFederationClub } from '@/services/clubs';
 import { message } from 'antd';
+import Schema from '@/services/Schema';
 
 export default {
   namespace: 'federationClubs',
 
   state: {},
 
-  reducers: {
-    receiveClubsByFederationId(state, { payload }) {
-      return {
-        ...state,
-        [payload.teamId]: payload.users,
-      };
-    },
-  },
+  reducers: {},
 
   effects: {
-    *fetch({ payload }, { call, put }) {
-      try {
-        const response = yield call(loadFederationClubs, payload);
-
-        yield put({
-          type: 'receiveClubsByFederationId',
-          payload: {
-            federationId: payload.federationId,
-            clubs: response,
-          },
-        });
-      } catch (e) {
-        // não faz nada
-      }
-    },
-
     *create({ payload }, { call, put }) {
       try {
         const response = yield call(createFederationClub, payload);
 
         yield put({
-          type: 'receiveClubsByFederationId',
+          type: 'entities/normalize',
           payload: {
-            federationId: payload.federationId,
-            clubs: response,
+            data: response,
+            schema: Schema.CLUB,
           },
         });
 

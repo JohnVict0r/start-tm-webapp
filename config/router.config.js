@@ -269,10 +269,10 @@ export default [
             routes: [
               {
                 path: '/federations/:federationId',
-                redirect: '/federations/:federationId/details',
+                redirect: '/federations/:federationId/clubs',
               },
               {
-                path: '/federations/:federationId/details',
+                path: '/federations/:federationId/clubs',
                 name: 'details',
                 component: './Federations/FederationDetails',
               },

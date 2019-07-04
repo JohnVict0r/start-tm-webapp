@@ -26,7 +26,7 @@ class FederationView extends Component {
     const { match } = this.props;
     switch (key) {
       case 'clubs':
-        router.push(`${match.url}/details`);
+        router.push(`${match.url}/clubs`);
         break;
       // case 'members':
       //   router.push(`${match.url}/athletes`);
@@ -74,6 +74,7 @@ class FederationView extends Component {
         tabList={tabList}
         tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
         onTabChange={this.handleTabChange}
+        hiddenBreadcrumb
       >
         {children}
       </PageHeaderWrapper>

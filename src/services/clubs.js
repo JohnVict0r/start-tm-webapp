@@ -6,3 +6,5 @@ export const loadUserTeams = ({ page }) =>
 
 export const loadClubsByFederationId = ({ federationId, page }) =>
   callApi(`federations/${federationId}/clubs?${stringify({ page })}`).get();
+
+export const createClub = data => callApi(`clubs`, null, true).post(data);

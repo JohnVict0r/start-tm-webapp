@@ -6,7 +6,7 @@ import Schema from '@/services/Schema';
 
 const initialPaginatioState = {
   count: 0,
-  currentPage: 0,
+  page: 0,
   links: [],
   perPage: 0,
   total: 0,
@@ -109,7 +109,7 @@ export default {
         };
 
         yield put({
-          type: 'receiveClubsByfederationId',
+          type: 'receiveClubsByFederationId',
           payload: {
             federationId: payload.federationId,
             clubsIds: result,

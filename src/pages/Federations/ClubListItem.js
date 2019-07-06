@@ -13,7 +13,7 @@ class clubListItem extends PureComponent {
     const DescriptionClub = ({ data: { address } }) => {
       return (
         <>
-          <div>{`${address.city} - ${address.state} `}</div>
+          <div>{`${address.city} - ${address.uf} `}</div>
           {/* <div>
               <Icon type="clock-circle" />{' '}
             </div> */}

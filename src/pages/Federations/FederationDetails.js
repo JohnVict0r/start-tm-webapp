@@ -15,7 +15,7 @@ class FederationDetails extends Component {
     dispatch({
       type: 'clubs/fetchByFederation',
       payload: {
-        federationId: match.params.federationId,
+        federation_id: match.params.federationId,
         page: 0,
       },
     });
@@ -26,7 +26,7 @@ class FederationDetails extends Component {
     dispatch({
       type: 'clubs/fetchByFederation',
       payload: {
-        federationId: match.params.federationId,
+        federation_id: match.params.federationId,
         page,
       },
     });

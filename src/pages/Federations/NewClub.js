@@ -20,24 +20,18 @@ class NewEvent extends PureComponent {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form, dispatch, ownProps } = this.props;
-    console.log('chegou no handleSubmit')
+    const { form, dispatch, match } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        console.log('não teve erro no form')
+        const { name, ...address} = values;
         dispatch({
-          type: 'clubs/createFederationClub',
+          type: 'clubs/save',
           payload: {            
-            name: values.name,
-            federation_id: ownProps.match.params.federationId,
+            federation_id: match.params.federationId,
+            name,
+            // é necessário criar o Objeto address
             address: {
-              street: values.street,
-              number: values.number,
-              neighborhood: values.neighborhood,
-              cep: values.cep,
-              complement: values.complement,
-              city: values.city,
-              uf: values.city
+              ...address,
             }
           },
         });

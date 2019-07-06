@@ -1,4 +1,4 @@
-import callApi from '@/utils/callApi';
+import {callApi} from '@/utils/callApi';
 import schema from './Schema';
 import { stringify } from 'qs';
 

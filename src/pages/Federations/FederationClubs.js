@@ -9,7 +9,7 @@ import PageLoading from '@/components/PageLoading';
   clubsByFederation: state.clubs.byFederationId[ownProps.match.params.federationId],
   loadingClubs: state.loading.effects['clubs/fetchByFederation'],
 }))
-class FederationDetails extends Component {
+class FederationClubs extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
@@ -81,4 +81,4 @@ class FederationDetails extends Component {
   }
 }
 
-export default FederationDetails;
+export default FederationClubs;

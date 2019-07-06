@@ -276,8 +276,8 @@ export default [
               },
               {
                 path: '/federations/:federationId/clubs',
-                name: 'details',
-                component: './Federations/FederationDetails',
+                name: 'clubs',
+                component: './Federations/FederationClubs',
               },
               // {
               //   path: '/federations/:federationId/edit',

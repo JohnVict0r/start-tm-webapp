@@ -1,5 +1,5 @@
-import { loadClubsByFederationId } from '@/services/clubs';
-// import { message } from 'antd';
+import { loadClubsByFederationId, createClub } from '@/services/clubs';
+import { message } from 'antd';
 // import router from 'umi/router';
 // import { formatMessage } from 'umi/locale';
 import Schema from '@/services/Schema';
@@ -85,6 +85,24 @@ export default {
     //     });
     //   }
     // },
+    *createFederationClub({ payload }, { call, put }) {
+      try {
+        console.log('chegou')
+        const response = yield call(createClub, payload);
+        console.log(response)
+        yield put({
+          type: 'entities/normalize',
+          payload: {
+            data: response,
+            schema: Schema.CLUB,
+          },
+        });
+
+        message.success('Clube criado com sucesso!');
+      } catch (e) {
+        message.error('Não foi possível adicionar o membro!');
+      }
+    },
 
     *fetchByFederation({ payload }, { call, put }) {
       try {

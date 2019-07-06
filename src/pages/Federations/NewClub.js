@@ -1,46 +1,46 @@
 import React, { PureComponent } from 'react';
-// import { connect } from 'dva';
+import { connect } from 'dva';
 // import Link from 'umi/link';
-import { Input, Form, Card, Button } from 'antd';
+import { Input, Form, Card, Button, Select } from 'antd';
 import { formatMessage } from 'umi/locale';
+import { setFormWithError } from '@/utils/forms';
 
-// @connect(state => ({
-//   proejcts: state.saveProject,
-//   submitting: state.loading.effects['saveProject/save'],
-// }))
+@connect(state => ({
+  validation: state.validation['clubs/save'],
+  submitting: state.loading.effects['clubs/save'],
+}))
 @Form.create()
 class NewEvent extends PureComponent {
-  // componentDidUpdate(prevProps) {
-  //   const { form, proejcts } = this.props;
-
-  //   if (prevProps.proejcts !== proejcts && proejcts.error) {
-  //     const { errors } = proejcts.error;
-  //     const mapErrors = Object.keys(errors).reduce(
-  //       (accum, key) => ({
-  //         ...accum,
-  //         [key]: {
-  //           value: form.getFieldValue(key),
-  //           errors: errors[key].map(err => new Error(err)),
-  //         },
-  //       }),
-  //       {}
-  //     );
-
-  //     form.setFields(mapErrors);
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    const { form, validation } = this.props;
+    if (prevProps.validation !== validation) {
+      setFormWithError(form, validation);
+    }
+  }
 
   handleSubmit = e => {
     e.preventDefault();
-    const { form } = this.props;
+    const { form, dispatch, ownProps } = this.props;
+    console.log('chegou no handleSubmit')
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { dispatch } = this.props;
+        console.log('não teve erro no form')
         dispatch({
-          type: 'clubs/save',
-          payload: values,
+          type: 'clubs/createFederationClub',
+          payload: {            
+            name: values.name,
+            federation_id: ownProps.match.params.federationId,
+            address: {
+              street: values.street,
+              number: values.number,
+              neighborhood: values.neighborhood,
+              cep: values.cep,
+              complement: values.complement,
+              city: values.city,
+              uf: values.city
+            }
+          },
         });
-        form.resetFields();
       }
     });
   };
@@ -83,6 +83,55 @@ class NewEvent extends PureComponent {
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Por favor informe o nome do clube!' }],
             })(<Input maxLength={255} placeholder="Insita o nome do Clube" />)}
+          </Form.Item>
+          <Form.Item label="Logradouro" {...formItemLayout}>
+            {getFieldDecorator('street', {
+              rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
+            })(<Input maxLength={255} placeholder="Insita o logradouro" />)}
+          </Form.Item>
+          <Form.Item label="numero" {...formItemLayout}>
+            {getFieldDecorator('number', {
+              rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
+            })(<Input maxLength={255} placeholder="Insita o logradouro" />)}
+          </Form.Item>
+          <Form.Item label="Bairro" {...formItemLayout}>
+            {getFieldDecorator('neighborhood', {
+              rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
+            })(<Input maxLength={255} placeholder="Insita o logradouro" />)}
+          </Form.Item>
+          <Form.Item label="CEP" {...formItemLayout}>
+            {getFieldDecorator('cep', {
+              rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
+            })(<Input maxLength={255} placeholder="Insita o logradouro" />)}
+          </Form.Item>
+          <Form.Item label="Complemento" {...formItemLayout}>
+            {getFieldDecorator('complement', {
+              rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
+            })(<Input maxLength={255} placeholder="Insita o logradouro" />)}
+          </Form.Item>
+          <Form.Item label="Cidade" {...formItemLayout}>
+            {getFieldDecorator('city', {
+              rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
+            })(<Input maxLength={255} placeholder="Insita o logradouro" />)}
+          </Form.Item>
+          <Form.Item
+            label={formatMessage({ id: 'app.federation.form.uf' })}
+            {...formItemLayout}
+          >
+            {getFieldDecorator('uf', {
+              rules: [
+                {
+                  required: true,
+                  message: formatMessage({ id: 'app.federation.form.uf.message' }),
+                },
+              ],
+            })(
+              <Select placeholder={formatMessage({ id: 'app.federation.form.uf.placeholder' })}>
+                {/* a key deve ser uma da constantes definidas na migration do backend */}
+                <Select.Option key="RN">RN</Select.Option>
+                <Select.Option key="PB">PB</Select.Option>
+              </Select>
+            )}
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>

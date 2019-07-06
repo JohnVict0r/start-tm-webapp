@@ -160,7 +160,7 @@ export default [
         path: '/clubs',
         name: 'clubs',
         icon: 'home',
-        hideInBreadcrumb: true,
+        hideInMenu: true,
         routes: [
           { path: '/clubs', redirect: '/clubs/explore' },
           {
@@ -194,8 +194,10 @@ export default [
             name: 'club',
             component: './Clubs/ClubView',
             hideInMenu: true,
+            hideInBreadcrumb: true,
             routes: [
-              { path: '/clubs/:clubId', redirect: '/clubs/:clubId/milestones' },
+              //{ path: '/clubs/:clubId', redirect: '/clubs/:clubId/milestones' },
+              { path: '/clubs/:clubId' },
               {
                 path: '/clubs/:clubId/members',
                 name: 'members',
@@ -222,6 +224,7 @@ export default [
         name: 'events',
         icon: 'project',
         hideInBreadcrumb: true,
+        hideInMenu: true,
         routes: [
           { path: '/events', redirect: '/events/explore' },
           {

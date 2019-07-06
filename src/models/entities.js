@@ -17,10 +17,6 @@ export default {
     status: {},
     roles: {},
     users: {},
-    // example
-    projects: {},
-    teams: {},
-    comments: {},
     // starttm
     clubs: {},
     events: {},
@@ -38,8 +34,6 @@ export default {
         ...updater({ entity: 'status' }),
         ...updater({ entity: 'roles' }),
         ...updater({ entity: 'users' }),
-        ...updater({ entity: 'projects' }),
-        ...updater({ entity: 'comments' }),
         ...updater({ entity: 'clubs' }),
         ...updater({ entity: 'events' }),
         ...updater({ entity: 'federations' }),

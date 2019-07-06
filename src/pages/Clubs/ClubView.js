@@ -1,43 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
+import Link from 'umi/link';
 import { Button } from 'antd';
 import { FavoriteButton } from '@/components/Favorite';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
-import { makeTeamSelector } from './selectors/teams';
-
 @connect((state, ownProps) => {
-  const teamSelector = makeTeamSelector({ id: ownProps.match.params.teamId });
   return {
-    team: teamSelector(state),
+    club: state.entities.clubs[ownProps.match.params.clubId],
     loading: state.loading.effects['teams/fetchTeam'],
     favoriting: state.loading.effects['teams/favoriteTeam'],
   };
 })
-class TeamView extends Component {
+class ClubView extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'teams/fetchTeam',
-      payload: match.params.teamId,
+      type: 'clubs/fetchClub',
+      payload: match.params.clubId,
     });
   }
-
-  handleFavorite = () => {
-    const { dispatch, match } = this.props;
-    dispatch({
-      type: 'teams/favoriteTeam',
-      payload: match.params.teamId,
-    });
-  };
 
   handleTabChange = key => {
     const { match } = this.props;
     switch (key) {
-      case 'milestones':
-        router.push(`${match.url}/milestones`);
+      case 'athletes':
+        router.push(`${match.url}/athletes`);
         break;
       case 'members':
         router.push(`${match.url}/members`);
@@ -51,16 +41,16 @@ class TeamView extends Component {
   };
 
   render() {
-    const { team, favoriting, children, location, match } = this.props;
+    const { club, favoriting, children, location, match } = this.props;
 
-    if (!team) {
+    if (!club) {
       return <PageLoading />;
     }
 
     const tabList = [
       {
-        key: 'milestones',
-        tab: 'Entregáveis',
+        key: 'athletes',
+        tab: 'Atletas',
       },
       {
         key: 'members',
@@ -72,26 +62,25 @@ class TeamView extends Component {
       },
     ];
 
-    const extra = (
-      <>
-        <FavoriteButton
-          loading={favoriting}
-          onClick={this.handleFavorite}
-          favorited={team.favorited}
-        />
-        <Button type="primary" icon="project" onClick={() => router.push(`${match.url}/board`)}>
-          Quadro
-        </Button>
-      </>
-    );
+    const DescriptionClub = ({ club: { address, federation } }) => {
+      return (
+        <>
+          <div>{`${address.city} - ${federation.uf} `}</div>
+          {/*
+            <div>{`Endereço: ${address.street}, ${address.number}, ${address.neighborhood}`}</div>
+            <div>
+              <Icon type="clock-circle" />{' '}
+            </div> */}
+        </>
+      );
+    };
 
     return (
       <PageHeaderWrapper
-        title={team.name}
-        subTitle={team.project.name}
-        logo={<img alt={team.project.name} src={team.project.avatar} />}
-        content={team.description}
-        extra={extra}
+        title={club.name}
+        subTitle={<Link to={`/federations/${club.federation.id}`}>{club.federation.initials}</Link>}
+        // logo={<img alt={team.project.name} src={team.project.avatar} />}
+        content={<DescriptionClub club={club} />}
         tabList={tabList}
         tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
         onTabChange={this.handleTabChange}
@@ -102,4 +91,4 @@ class TeamView extends Component {
   }
 }
 
-export default TeamView;
+export default ClubView;

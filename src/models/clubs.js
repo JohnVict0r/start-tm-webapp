@@ -1,4 +1,4 @@
-import { loadClubsByFederationId, createClub } from '@/services/clubs';
+import { loadClubsByFederationId, createClub, loadClub } from '@/services/clubs';
 import { message } from 'antd';
 import router from 'umi/router';
 // import { formatMessage } from 'umi/locale';
@@ -104,6 +104,25 @@ export default {
 
       } catch (e) {
         message.error('Não foi possível criar o clube!');
+      }
+    },
+
+    *fetchClub({ payload }, { call, put }) {
+      try {
+        const response = yield call(loadClub, payload);
+        
+        // normaliza os dados retornados e
+        // funde com o state.entities
+        const result = yield put.resolve({
+          type: 'entities/normalize',
+          payload: {
+            data: response,
+            schema: Schema.CLUB,
+          },
+        });
+
+      } catch (e) {
+        // Não faz nada
       }
     },
 

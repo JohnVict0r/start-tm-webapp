@@ -37,9 +37,9 @@ const Event = new schema.Entity('events');
 const Championship = new schema.Entity('championships');
 const Table = new schema.Entity('tables');
 
-Club.define({
-  federation: Federation,
-});
+// Club.define({
+//  federation: Federation, // se precisar normalizar federação
+// });
 
 Championship.define({
   event: Event,
@@ -50,13 +50,6 @@ User.define({
   role: Role,
 });
 
-Ted.define({
-  creator: User,
-});
-
-Goal.define({
-  creator: User,
-});
 
 UserMember.define({
   user: User,
@@ -89,10 +82,6 @@ Board.define({
   cardlists: [CardList],
 });
 
-Milestone.define({
-  creator: User,
-});
-
 CardList.define({
   status: Status,
   cards: [Card],
@@ -119,10 +108,6 @@ const Schemas = {
   STATUS_ARRAY: [Status],
   ROLE: Role,
   ROLE_ARRAY: [Role],
-  TED: Ted,
-  TED_ARRAY: [Ted],
-  GOAL: Goal,
-  GOAL_ARRAY: [Goal],
   PROJECTMEMBER: ProjectMember,
   PROJECTMEMBER_ARRAY: [ProjectMember],
   TEAMMEMBER: TeamMember,
@@ -133,16 +118,11 @@ const Schemas = {
   TEAM_ARRAY: [Team],
   BOARD: Board,
   BOARD_ARRAY: [Board],
-  MILESTONE: Milestone,
-  MILESTONE_ARRAY: [Milestone],
-  CARDLIST: CardList,
-  CARDLIST_ARRAY: [CardList],
   CARD: Card,
   CARD_ARRAY: [Card],
   COMMENT: Comment,
   COMMENT_ARRAY: [Comment],
   // starttm
-
   CLUB: Club,
   CLUB_ARRAY: [Club],
   FEDERATION: Federation,

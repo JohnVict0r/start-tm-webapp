@@ -1,4 +1,4 @@
-import { createFederationClub } from '@/services/clubs';
+import { createClub } from '@/services/clubs';
 import { message } from 'antd';
 import Schema from '@/services/Schema';
 
@@ -10,10 +10,11 @@ export default {
   reducers: {},
 
   effects: {
-    *create({ payload }, { call, put }) {
+    *save({ payload }, { call, put }) {
       try {
-        const response = yield call(createFederationClub, payload);
-
+        console.log('chegou')
+        const response = yield call(createClub, payload);
+        console.log(response)
         yield put({
           type: 'entities/normalize',
           payload: {

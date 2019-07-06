@@ -8,8 +8,7 @@ import { setFormWithError } from '@/utils/forms';
 
 @connect(state => ({
   validation: state.validation['federations/save'],
-  proejcts: state.saveProject,
-  // submitting: state.loading.effects['saveProject/save'],
+  submitting: state.loading.effects['federations/save'],
 }))
 @Form.create()
 class NewEvent extends PureComponent {

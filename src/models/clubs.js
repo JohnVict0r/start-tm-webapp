@@ -1,6 +1,6 @@
-import { loadClubsByFederationId } from '@/services/clubs';
-// import { message } from 'antd';
-// import router from 'umi/router';
+import { loadClubsByFederationId, createClub } from '@/services/clubs';
+import { message } from 'antd';
+import router from 'umi/router';
 // import { formatMessage } from 'umi/locale';
 import Schema from '@/services/Schema';
 
@@ -42,12 +42,12 @@ export default {
       };
     },
     receiveClubsByFederationId(state, { payload }) {
-      const { federationId, clubsIds, meta } = payload;
+      const { federation_id, clubsIds, meta } = payload;
       return {
         ...state,
         byFederationId: {
           ...state.byFederationId,
-          [federationId]: {
+          [federation_id]: {
             clubsIds,
             meta,
           },
@@ -85,6 +85,27 @@ export default {
     //     });
     //   }
     // },
+    *save({ payload }, { call, put }) {
+      try {
+        const response = yield call(createClub, payload);
+        
+        // normaliza os dados retornados e
+        // funde com o state.entities
+        const result = yield put.resolve({
+          type: 'entities/normalize',
+          payload: {
+            data: response,
+            schema: Schema.CLUB,
+          },
+        });
+
+        message.success('Clube criado com sucesso!');
+        router.push(`/clubs/${result}`);
+
+      } catch (e) {
+        message.error('Não foi possível criar o clube!');
+      }
+    },
 
     *fetchByFederation({ payload }, { call, put }) {
       try {
@@ -111,7 +132,7 @@ export default {
         yield put({
           type: 'receiveClubsByFederationId',
           payload: {
-            federationId: payload.federationId,
+            federation_id: payload.federation_id,
             clubsIds: result,
             meta,
           },

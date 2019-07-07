@@ -10,8 +10,7 @@ import PageLoading from '@/components/PageLoading';
 @connect((state, ownProps) => {
   return {
     club: state.entities.clubs[ownProps.match.params.clubId],
-    loading: state.loading.effects['teams/fetchTeam'],
-    favoriting: state.loading.effects['teams/favoriteTeam'],
+    loading: state.loading.effects['clubs/fetchClub'],
   };
 })
 class ClubView extends Component {
@@ -41,9 +40,9 @@ class ClubView extends Component {
   };
 
   render() {
-    const { club, favoriting, children, location, match } = this.props;
+    const { club, loading, favoriting, children, location, match } = this.props;
 
-    if (!club) {
+    if (!club.federation || !!loading) {
       return <PageLoading />;
     }
 
@@ -78,7 +77,7 @@ class ClubView extends Component {
     return (
       <PageHeaderWrapper
         title={club.name}
-        subTitle={<Link to={`/federations/${club.federation.id}`}>{club.federation.initials}</Link>}
+        subTitle={<Link to={`/federations/${club.federationId}`}>{club.federation.initials}</Link>}
         // logo={<img alt={team.project.name} src={team.project.avatar} />}
         content={<DescriptionClub club={club} />}
         tabList={tabList}

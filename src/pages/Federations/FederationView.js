@@ -7,8 +7,7 @@ import PageLoading from '@/components/PageLoading';
 @connect((state, ownProps) => {
   return {
     federation: state.entities.federations[ownProps.match.params.federationId],
-    loading: state.loading.effects['projects/fetchProject'],
-    favoriting: state.loading.effects['projects/favoriteProject'],
+    loading: state.loading.effects['federations/fetchFederation'],
   };
 })
 class FederationView extends Component {

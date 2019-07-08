@@ -69,7 +69,7 @@ class FederationView extends Component {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUC0LYGdxwCD9TEukVRqL3OWRqTyT95SoupznUTkGm49-uwyM33A"
           />
         }
-        content={federation.name}
+        content={`${federation.name} - ${federation.uf}`}
         tabList={tabList}
         tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
         onTabChange={this.handleTabChange}

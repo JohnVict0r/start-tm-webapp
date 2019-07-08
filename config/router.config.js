@@ -261,7 +261,7 @@ export default [
             path: '/federations/new',
             name: 'new-federation',
             icon: 'plus',
-            component: './Federations/NewFederation',
+            component: './Federations/FederationForm',
             authority: ['Administrador'],
           },
           {
@@ -279,11 +279,11 @@ export default [
                 name: 'clubs',
                 component: './Federations/FederationClubs',
               },
-              // {
-              //   path: '/federations/:federationId/edit',
-              //   name: 'edit-federation',
-              //   component: './Federations/EditFederation',
-              // },
+              {
+                path: '/federations/:federationId/edit',
+                name: 'edit-federation',
+                component: './Federations/FederationForm',
+              },
               {
                 path: '/federations/:federationId/new-club',
                 name: 'new-club',

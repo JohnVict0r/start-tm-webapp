@@ -1,4 +1,5 @@
 export default {
+  'app.federation.success-created': 'Federação criada com sucesso!',
   'app.federation.sucess-edited': 'Federação editada com sucesso!',
   'app.federation.edit': 'Editar Federação',
   'app.federation.create': 'Criar Federação',

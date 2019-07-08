@@ -279,11 +279,11 @@ export default [
                 name: 'clubs',
                 component: './Federations/FederationClubs',
               },
-              // {
-              //   path: '/federations/:federationId/edit',
-              //   name: 'edit-federation',
-              //   component: './Federations/EditFederation',
-              // },
+              {
+                path: '/federations/:federationId/edit',
+                name: 'edit-federation',
+                component: './Federations/EditFederation',
+              },
               {
                 path: '/federations/:federationId/new-club',
                 name: 'new-club',

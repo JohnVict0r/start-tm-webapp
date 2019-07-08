@@ -143,8 +143,8 @@ class FederationForm extends PureComponent {
                 {/* a key deve ser uma da constantes definidas na migration do backend */}
                 <Select.Option key="RN">RN</Select.Option>
                 <Select.Option key="PB">PB</Select.Option>
-                <Select.Option key="PE">PB</Select.Option>
-                <Select.Option key="CE">PB</Select.Option>
+                <Select.Option key="PE">PE</Select.Option>
+                <Select.Option key="CE">CE</Select.Option>
               </Select>
             )}
           </Form.Item>

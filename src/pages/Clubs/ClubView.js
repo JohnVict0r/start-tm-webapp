@@ -42,7 +42,7 @@ class ClubView extends Component {
   render() {
     const { club, loading, favoriting, children, location, match } = this.props;
 
-    if (!club.federation || !!loading) {
+    if (!club || (club && !club.federation) || !!loading) {
       return <PageLoading />;
     }
 

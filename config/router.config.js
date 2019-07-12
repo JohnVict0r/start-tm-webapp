@@ -287,7 +287,7 @@ export default [
               {
                 path: '/federations/:federationId/new-club',
                 name: 'new-club',
-                component: './Federations/NewClub',
+                component: './Clubs/ClubForm',
               },
               // {
               //   path: '/federations/:federationId/members',

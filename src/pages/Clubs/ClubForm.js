@@ -9,6 +9,7 @@ import { setFormWithError } from '@/utils/forms';
 
 @connect((state, ownProps) => ({
   club: state.entities.clubs[ownProps.match.params.clubId],
+  federation: state.entities.federations[ownProps.match.params.federationId],
   validation: state.validation['clubs/save'],
   submitting: state.loading.effects['clubs/save'],
 }))
@@ -22,26 +23,40 @@ class ClubForm extends PureComponent {
   }
 
   handleSubmit = e => {
-    console.log(this.state.club);
     e.preventDefault();
-    const { form, dispatch, match } = this.props;
+    const { form, dispatch, match, club, federation } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
+        const { name, ...address} = values;
         if (match.params.clubId) {
           dispatch({
-            type: 'clubs/save',
-            payload: {
-              club: values,
-              id: match.params.clubId,
+          type: 'clubs/save',
+          payload: {  
+            club: {         
+              name,
+              // é necessário criar o Objeto address
+              address: {
+                ...address,
+              }
             },
-          });
+            id: match.params.clubId
+          },
+        });
         } else {
           dispatch({
-            type: 'clubs/save',
-            payload: {
-              club: values,
-            },
-          });
+          type: 'clubs/save',
+          payload: {  
+            club: {         
+              name,
+              federation_id: match.params.federationId,
+              // é necessário criar o Objeto address
+              address: {
+                ...address,
+                uf: federation.uf
+              }
+            }
+          },
+        });
         }
       }
     });
@@ -126,7 +141,7 @@ class ClubForm extends PureComponent {
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              {formatMessage({ id: 'app.club.edit' })}
+              {club ? formatMessage({ id: 'app.club.edit' }) : formatMessage({ id: 'app.club.create' })}
             </Button>
           </Form.Item>
         </Form>

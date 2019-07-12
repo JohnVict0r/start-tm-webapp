@@ -206,7 +206,7 @@ export default [
               {
                 path: '/clubs/:clubId/edit',
                 name: 'edit-club',
-                component: './Clubs/EditClub',
+                component: './Clubs/ClubForm',
               },
               {
                 path: '/clubs/:clubId/milestones',

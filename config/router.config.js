@@ -206,7 +206,7 @@ export default [
               {
                 path: '/clubs/:clubId/edit',
                 name: 'edit-club',
-                component: './Clubs/EditClub',
+                component: './Clubs/ClubForm',
               },
               {
                 path: '/clubs/:clubId/milestones',
@@ -287,7 +287,7 @@ export default [
               {
                 path: '/federations/:federationId/new-club',
                 name: 'new-club',
-                component: './Federations/NewClub',
+                component: './Clubs/ClubForm',
               },
               // {
               //   path: '/federations/:federationId/members',

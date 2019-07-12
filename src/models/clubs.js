@@ -1,7 +1,7 @@
-import { loadClubsByFederationId, createClub, loadClub } from '@/services/clubs';
+import { loadClubsByFederationId, createClub, uploadClub, loadClub } from '@/services/clubs';
 import { message } from 'antd';
 import router from 'umi/router';
-// import { formatMessage } from 'umi/locale';
+import { formatMessage } from 'umi/locale';
 import Schema from '@/services/Schema';
 
 const initialPaginatioState = {
@@ -87,7 +87,9 @@ export default {
     // },
     *save({ payload }, { call, put }) {
       try {
-        const response = yield call(createClub, payload);
+        const response = payload.id
+        ? yield call(uploadClub, payload)
+        : yield call(createClub, payload); 
         
         // normaliza os dados retornados e
         // funde com o state.entities
@@ -99,11 +101,16 @@ export default {
           },
         });
 
-        message.success('Clube criado com sucesso!');
+        payload.id 
+        ? message.success(formatMessage({ id: 'app.club.success-edited' }))
+        : message.success(formatMessage({ id: 'app.club.success-created' }));
+        
         router.push(`/clubs/${result}`);
 
       } catch (e) {
-        message.error('Não foi possível criar o clube!');
+        payload.id 
+        ? message.success(formatMessage({ id: 'app.club.failed-edited' }))
+        : message.success(formatMessage({ id: 'app.club.failed-created' }));
       }
     },
 

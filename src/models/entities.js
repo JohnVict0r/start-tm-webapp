@@ -23,6 +23,7 @@ export default {
     federations: {},
     championships: {},
     tables: {},
+    address: {},
   },
 
   reducers: {
@@ -34,6 +35,7 @@ export default {
         ...updater({ entity: 'status' }),
         ...updater({ entity: 'roles' }),
         ...updater({ entity: 'users' }),
+        ...updater({ entity: 'address' }),
         ...updater({ entity: 'clubs' }),
         ...updater({ entity: 'events' }),
         ...updater({ entity: 'federations' }),

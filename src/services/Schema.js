@@ -8,8 +8,6 @@ import { schema } from 'normalizr';
 const User = new schema.Entity('users');
 const Status = new schema.Entity('status');
 const Role = new schema.Entity('roles');
-const Ted = new schema.Entity('teds');
-const Goal = new schema.Entity('goals');
 const UserMember = new schema.Object({
   user: User,
   role: Role,
@@ -31,6 +29,7 @@ const Card = new schema.Entity('cards');
 const Comment = new schema.Entity('comments');
 
 // starttm
+const Address = new schema.Entity('address');
 const Club = new schema.Entity('clubs');
 const Federation = new schema.Entity('federations');
 const Event = new schema.Entity('events');
@@ -49,7 +48,6 @@ Championship.define({
 User.define({
   role: Role,
 });
-
 
 UserMember.define({
   user: User,
@@ -123,6 +121,7 @@ const Schemas = {
   COMMENT: Comment,
   COMMENT_ARRAY: [Comment],
   // starttm
+  ADDRESS: Address,
   CLUB: Club,
   CLUB_ARRAY: [Club],
   FEDERATION: Federation,

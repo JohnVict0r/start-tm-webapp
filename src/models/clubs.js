@@ -57,40 +57,12 @@ export default {
   },
 
   effects: {
-    // *save({ payload }, { call, put }) {
-    //   try {
-    //     const response = payload.id
-    //       ? yield call(updateTeam, payload)
-    //       : yield call(createTeam, payload);
-
-    //     // normaliza os dados retornados e
-    //     // funde com o state.entities
-    //     const result = yield put.resolve({
-    //       type: 'entities/normalize',
-    //       payload: {
-    //         data: response.data,
-    //         schema: Schema.TEAM,
-    //       },
-    //     });
-
-    //     message.success(
-    //       formatMessage({ id: payload.id ? 'app.team.success-edited' : 'app.team.success-created' })
-    //     );
-    //     router.push(`/teams/${result}`);
-    //   } catch (error) {
-    //     // erro de validação nos dados
-    //     yield put({
-    //       type: 'validation/handleError',
-    //       payload: { effect: 'teams/save', error },
-    //     });
-    //   }
-    // },
     *save({ payload }, { call, put }) {
       try {
         const response = payload.id
-        ? yield call(uploadClub, payload)
-        : yield call(createClub, payload); 
-        
+          ? yield call(uploadClub, payload)
+          : yield call(createClub, payload);
+
         // normaliza os dados retornados e
         // funde com o state.entities
         const result = yield put.resolve({
@@ -101,33 +73,31 @@ export default {
           },
         });
 
-        payload.id 
-        ? message.success(formatMessage({ id: 'app.club.success-edited' }))
-        : message.success(formatMessage({ id: 'app.club.success-created' }));
-        
-        router.push(`/clubs/${result}`);
+        payload.id
+          ? message.success(formatMessage({ id: 'app.club.success-edited' }))
+          : message.success(formatMessage({ id: 'app.club.success-created' }));
 
+        router.push(`/clubs/${result}`);
       } catch (e) {
-        payload.id 
-        ? message.success(formatMessage({ id: 'app.club.failed-edited' }))
-        : message.success(formatMessage({ id: 'app.club.failed-created' }));
+        payload.id
+          ? message.success(formatMessage({ id: 'app.club.failed-edited' }))
+          : message.success(formatMessage({ id: 'app.club.failed-created' }));
       }
     },
 
     *fetchClub({ payload }, { call, put }) {
       try {
         const response = yield call(loadClub, payload);
-        
+
         // normaliza os dados retornados e
         // funde com o state.entities
-        const result = yield put.resolve({
+        yield put({
           type: 'entities/normalize',
           payload: {
             data: response,
             schema: Schema.CLUB,
           },
         });
-
       } catch (e) {
         // Não faz nada
       }

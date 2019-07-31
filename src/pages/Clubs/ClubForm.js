@@ -1,10 +1,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 // import Link from 'umi/link';
-import { Input, Form, Card, Select, Button, Divider } from 'antd';
+import { Input, Form, Card, Button, Divider } from 'antd';
 import { formatMessage } from 'umi/locale';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import PageLoading from '@/components/PageLoading';
 import { setFormWithError } from '@/utils/forms';
 
 @connect((state, ownProps) => ({
@@ -27,36 +25,45 @@ class ClubForm extends PureComponent {
     const { form, dispatch, match, club, federation } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { name, ...address} = values;
+        const { name, ...address } = values;
         if (match.params.clubId) {
           dispatch({
-          type: 'clubs/save',
-          payload: {  
-            club: {         
-              name,
-              // é necessário criar o Objeto address
+            type: 'clubs/save',
+            payload: {
+              club: {
+                name,
+                // é necessário criar o Objeto address
+                address: {
+                  ...address,
+                },
+              },
+              id: match.params.clubId,
+            },
+          });
+          dispatch({
+            type: 'address/save',
+            payload: {
               address: {
                 ...address,
-              }
+              },
+              id: club.addressId,
             },
-            id: match.params.clubId
-          },
-        });
+          });
         } else {
           dispatch({
-          type: 'clubs/save',
-          payload: {  
-            club: {         
-              name,
-              federation_id: match.params.federationId,
-              // é necessário criar o Objeto address
-              address: {
-                ...address,
-                uf: federation.uf
-              }
-            }
-          },
-        });
+            type: 'clubs/save',
+            payload: {
+              club: {
+                name,
+                federation_id: match.params.federationId,
+                // é necessário criar o Objeto address
+                address: {
+                  ...address,
+                  uf: federation.uf,
+                },
+              },
+            },
+          });
         }
       }
     });
@@ -141,7 +148,9 @@ class ClubForm extends PureComponent {
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              {club ? formatMessage({ id: 'app.club.edit' }) : formatMessage({ id: 'app.club.create' })}
+              {club
+                ? formatMessage({ id: 'app.club.edit' })
+                : formatMessage({ id: 'app.club.create' })}
             </Button>
           </Form.Item>
         </Form>

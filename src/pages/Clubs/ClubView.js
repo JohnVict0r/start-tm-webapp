@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import Link from 'umi/link';
-import { Button } from 'antd';
-import { FavoriteButton } from '@/components/Favorite';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import PageLoading from '@/components/PageLoading';
 
@@ -40,7 +38,7 @@ class ClubView extends Component {
   };
 
   render() {
-    const { club, loading, favoriting, children, location, match } = this.props;
+    const { club, loading, children, location, match } = this.props;
 
     if (!club || (club && !club.federation) || !!loading) {
       return <PageLoading />;

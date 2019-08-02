@@ -37,7 +37,8 @@ const Championship = new schema.Entity('championships');
 const Table = new schema.Entity('tables');
 
 // Club.define({
-//  federation: Federation, // se precisar normalizar federação
+//   //  federation: Federation, // se precisar normalizar federação
+//   address: Address,
 // });
 
 Championship.define({

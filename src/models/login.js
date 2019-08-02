@@ -15,14 +15,14 @@ export default {
 
   effects: {
     *login({ payload }, { call, put }) {
-      // const response = yield call(login, payload);
+      const response = yield call(login, payload);
 
       // simulando resposta do backend
-      const response = {
-        token:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU1OTEzMDQ3MiwiZXhwIjoxNTYxNzIyNDcyLCJuYmYiOjE1NTkxMzA0NzIsImp0aSI6IjBpNU8za3IzcjN3YVBKOXYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.RMfXKFHFIUTUmQaCGLoqjzLv4C5Q7cbbJ-wI9ea0-SE',
-        expiresIn: 2592000,
-      };
+      // const response = {
+      //   token:
+      //     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU1OTEzMDQ3MiwiZXhwIjoxNTYxNzIyNDcyLCJuYmYiOjE1NTkxMzA0NzIsImp0aSI6IjBpNU8za3IzcjN3YVBKOXYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.RMfXKFHFIUTUmQaCGLoqjzLv4C5Q7cbbJ-wI9ea0-SE',
+      //   expiresIn: 2592000,
+      // };
 
       yield put({
         type: 'authenticate',

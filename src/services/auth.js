@@ -4,7 +4,7 @@ import schema from './Schema';
 
 export const subscription = data => callApi(`subscriptions`, null, true).post(data);
 
-export const login = credentials => callApi(`auth/login`).post(credentials);
+export const login = credentials => callApi(`sessions`).post(credentials);
 
 export const loginWithSabia = query => callApi(`auth/callback/sabia?${stringify(query)}`).get();
 

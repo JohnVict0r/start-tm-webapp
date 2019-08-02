@@ -4,6 +4,7 @@ import { loadStatus } from '@/services/global';
 import { loadLoggedInUser, loadFavorites } from '@/services/user';
 import { setAuthority } from '@/utils/authority';
 import { reloadAuthorized } from '@/utils/Authorized';
+import Schema from '@/services/Schema';
 
 export default {
   namespace: 'global',
@@ -21,22 +22,39 @@ export default {
     *fetchLoggedInUser(_, { call, put, select }) {
       const response = yield call(loadLoggedInUser);
 
+      console.log(response);
       if (!response.errors) {
-        yield put({
-          type: 'entities/mergeEntities',
-          payload: response.entities,
+        // yield put({
+        //   type: 'entities/mergeEntities',
+        //   payload: response.entities,
+        // });
+
+        // yield put({
+        //   type: 'saveLoggedInUser',
+        //   payload: response.result,
+        // });
+
+        // normaliza os dados retornados e
+        // funde com o state.entities
+        const result = yield put.resolve({
+          type: 'entities/normalize',
+          payload: {
+            data: response,
+            schema: Schema.USER,
+          },
         });
 
-        yield put({
-          type: 'saveLoggedInUser',
-          payload: response.result,
-        });
+        console.log(result);
 
-        const loggedInUserRole = yield select(
-          ({ entities, global }) => entities.roles[entities.users[global.loggedInUser].role].name
+        const loggedInUserRoleIds = yield select(({ entities }) => entities.users[result].roles);
+
+        const loggedInUserRoles = yield select(({ entities }) =>
+          entities.roles.filter(i => loggedInUserRoleIds.include(i.id)).map(i => i.id)
         );
 
-        setAuthority(loggedInUserRole);
+        console.log(loggedInUserRoles);
+
+        setAuthority(loggedInUserRoleIds);
         reloadAuthorized();
       }
     },

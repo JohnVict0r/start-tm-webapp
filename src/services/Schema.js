@@ -47,7 +47,7 @@ Championship.define({
 });
 
 User.define({
-  role: Role,
+  roles: [Role],
 });
 
 UserMember.define({

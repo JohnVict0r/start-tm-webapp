@@ -2,7 +2,7 @@ import { stringify } from 'qs';
 import { callApi } from '@/utils/callApi';
 import schema from './Schema';
 
-export const subscription = data => callApi(`subscriptions`, null, true).post(data);
+export const subscription = data => callApi(`subscriptions`).post(data);
 
 export const login = credentials => callApi(`sessions`).post(credentials);
 

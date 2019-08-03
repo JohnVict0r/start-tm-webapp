@@ -37,7 +37,7 @@ class ClubsList extends PureComponent {
       <PageHeaderWrapper
         title="Minhas Federações"
         extra={
-          <Authorized authority={['Administrador']}>
+          <Authorized authority={['Administrator']}>
             <Button type="primary" icon="plus" onClick={() => router.push('/federations/new')}>
               Federação
             </Button>

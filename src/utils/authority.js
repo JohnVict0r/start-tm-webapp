@@ -10,10 +10,8 @@ export function getAuthority(str) {
   } catch (e) {
     authority = authorityString;
   }
-  if (typeof authority === 'string') {
-    return [authority];
-  }
-  return authority;
+  
+  return typeof authority === 'string' ? [authority] : authority;
 }
 export function setAuthority(authority) {
   const proAuthority = typeof authority === 'string' ? [authority] : authority;

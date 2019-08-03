@@ -29,12 +29,12 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    // Routes: ['src/pages/Authorized'],
+    Routes: ['src/pages/Authorized'],
     routes: [
       {
         path: '/',
-        redirect: '/clubs',
-        authority: ['Administrador', 'Colaborador', 'Gerente'],
+        redirect: '/federations',
+        authority: ['Administrator', 'Guest', 'Gerente'],
       },
 
       // exception
@@ -238,7 +238,7 @@ export default [
             name: 'new-event',
             icon: 'plus',
             component: './Events/NewEvent',
-            authority: ['Administrador'],
+            authority: ['Administrator'],
           },
         ],
       },
@@ -262,7 +262,7 @@ export default [
             name: 'new-federation',
             icon: 'plus',
             component: './Federations/FederationForm',
-            authority: ['Administrador'],
+            authority: ['Administrator'],
           },
           {
             path: '/federations/:federationId',
@@ -358,7 +358,7 @@ export default [
         path: '/admin',
         icon: 'tool',
         component: './Admin/Menu',
-        authority: ['Administrador'],
+        authority: ['Administrator'],
         routes: [
           {
             path: '/admin/users/:userId/edit',
@@ -452,7 +452,7 @@ export default [
                     {
                       path: '/demos/form/advanced-form',
                       name: 'advancedform',
-                      authority: ['Administrador'],
+                      authority: ['Administrator'],
                       component: './Forms/AdvancedForm',
                     },
                   ],
@@ -529,7 +529,7 @@ export default [
                     {
                       path: '/demos/profile/advanced',
                       name: 'advanced',
-                      authority: ['Administrador'],
+                      authority: ['Administrator'],
                       component: './Profile/AdvancedProfile',
                     },
                   ],

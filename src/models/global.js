@@ -44,22 +44,21 @@ export default {
           },
         });
 
-        console.log(result);
+        yield put({
+          type: 'saveLoggedInUser',
+          payload: result,
+        });
+
 
         const loggedInUserRoleIds = yield select(({ entities }) => entities.users[result].roles);
 
         const loggedInUserRoles = yield select(({ entities }) =>
-          Object.values(entities.roles)
-            .filter(i => loggedInUserRoleIds.include(i.id))
+          (Object.values(entities.roles)
+            .filter(i => loggedInUserRoleIds.includes(i.id)))
             .map(i => i.name)
         );
 
-        // Object.values(roles).map(i => console.log(i));
-        // const loggedInUserRoles = roles;
-
-        console.log(loggedInUserRoles);
-
-        setAuthority(loggedInUserRoleIds);
+        setAuthority(loggedInUserRoles);
         reloadAuthorized();
       }
     },

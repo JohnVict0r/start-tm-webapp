@@ -88,11 +88,11 @@ export default class GlobalHeaderRight extends PureComponent {
             size="small"
             className={styles.avatar}
             style={{ height: '15px', width: '15px' }}
-            src={currentUser.avatar}
+            src="https://www.pena.com.br/wp-content/uploads/2017/05/user-icon.jpg"
             alt="avatar"
           />
           <Ellipsis className={styles.ellipsis} length={13}>
-            {currentUser.name}
+            {currentUser.email}
           </Ellipsis>
         </Menu.Item>
         <Menu.Item key="userinfo">
@@ -181,13 +181,13 @@ export default class GlobalHeaderRight extends PureComponent {
             showViewMore
           />
         </NoticeIcon> */}
-        {currentUser.name ? (
+        {currentUser.email ? (
           <HeaderDropdown overlay={accountMenu}>
             <span className={`${styles.action} ${styles.account}`}>
               <Avatar
                 size="small"
                 className={styles.avatar}
-                src={currentUser.avatar}
+                src="https://www.pena.com.br/wp-content/uploads/2017/05/user-icon.jpg"
                 alt="avatar"
               />
             </span>

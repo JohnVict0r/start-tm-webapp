@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import { Input, Form, Card, Button, Divider } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { setFormWithError } from '@/utils/forms';
+import { cepMask, numberMask } from '@/utils/mask';
 
 @connect((state, ownProps) => ({
   club: state.entities.clubs[ownProps.match.params.clubId],
@@ -19,6 +20,14 @@ class ClubForm extends PureComponent {
       setFormWithError(form, validation);
     }
   }
+
+  handleChangeCep = e => {
+    return cepMask(e.target.value);
+  };
+
+  handleChangeNumber = e => {
+    return numberMask(e.target.value);
+  };
 
   handleSubmit = e => {
     e.preventDefault();
@@ -107,32 +116,34 @@ class ClubForm extends PureComponent {
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Por favor informe o nome do clube!' }],
               initialValue: club && club.name,
-            })(<Input maxLength={255} placeholder="Insita o nome do Clube" />)}
+            })(<Input maxLength={255} placeholder="Insira o nome do Clube" />)}
           </Form.Item>
           <Divider>Endereço</Divider>
           <Form.Item label="Logradouro" {...formItemLayout}>
             {getFieldDecorator('street', {
               rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
               initialValue: club && club.address.street,
-            })(<Input maxLength={255} placeholder="Insita o logradouro" />)}
+            })(<Input maxLength={255} placeholder="Insira o logradouro" />)}
           </Form.Item>
           <Form.Item label="numero" {...formItemLayout}>
             {getFieldDecorator('number', {
               rules: [{ required: true, message: 'Por favor informe o número!' }],
               initialValue: club && club.address.number,
-            })(<Input maxLength={255} placeholder="Insita o número" />)}
+              getValueFromEvent: this.handleChangeNumber,
+            })(<Input maxLength={11} placeholder="Insira o número" />)}
           </Form.Item>
           <Form.Item label="Bairro" {...formItemLayout}>
             {getFieldDecorator('neighborhood', {
               rules: [{ required: true, message: 'Por favor informe o bairro!' }],
               initialValue: club && club.address.neighborhood,
-            })(<Input maxLength={255} placeholder="Insita o bairro" />)}
+            })(<Input maxLength={255} placeholder="Insira o bairro" />)}
           </Form.Item>
           <Form.Item label="CEP" {...formItemLayout}>
             {getFieldDecorator('cep', {
               rules: [{ required: true, message: 'Por favor informe o CEP!' }],
               initialValue: club && club.address.cep,
-            })(<Input maxLength={255} placeholder="Insita o ;CEP" />)}
+              getValueFromEvent: this.handleChangeCep,
+            })(<Input maxLength={255} placeholder="Insira o CEP" />)}
           </Form.Item>
           <Form.Item label="Complemento" {...formItemLayout}>
             {getFieldDecorator('complement', {

@@ -1,8 +1,8 @@
-import { loadClubsByFederationId, createClub, uploadClub, loadClub } from '@/services/clubs';
 import { message } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
 import Schema from '@/services/Schema';
+import { loadClubsByFederationId, createClub, uploadClub, loadClub } from '@/services/clubs';
 
 const initialPaginatioState = {
   count: 0,
@@ -80,8 +80,8 @@ export default {
         router.push(`/clubs/${result}`);
       } catch (e) {
         payload.id
-          ? message.success(formatMessage({ id: 'app.club.failed-edited' }))
-          : message.success(formatMessage({ id: 'app.club.failed-created' }));
+          ? message.error(formatMessage({ id: 'app.club.failed-edited' }))
+          : message.error(formatMessage({ id: 'app.club.failed-created' }));
       }
     },
 

@@ -1,10 +1,10 @@
+import { message } from 'antd';
 import {
   loadTeamMembers,
   addTeamMember,
   deleteTeamMember,
   changeTeamMemberRole,
 } from '@/services/teams';
-import { message } from 'antd';
 
 export default {
   namespace: 'currentTeamMembers',

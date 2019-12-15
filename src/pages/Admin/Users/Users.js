@@ -77,10 +77,7 @@ class Users extends PureComponent {
       //   <Button type="danger" icon="delete" ghost />
       // </Popconfirm>,
       <Tag color="blue">{role.name}</Tag>,
-      <Button
-        icon="edit"
-        onClick={() => router.push(`/admin/users/${user.id}/edit`)}
-      >
+      <Button icon="edit" onClick={() => router.push(`/admin/users/${user.id}/edit`)}>
         Editar
       </Button>,
     ];

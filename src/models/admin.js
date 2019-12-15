@@ -1,6 +1,6 @@
-import { loadUsers, removeUser, changeUserRole } from '@/services/admin';
 import { message } from 'antd';
 import { router } from 'umi';
+import { loadUsers, removeUser, changeUserRole } from '@/services/admin';
 
 const initialPaginatioState = {
   count: 0,

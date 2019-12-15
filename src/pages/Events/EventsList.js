@@ -17,10 +17,10 @@ class EventsList extends PureComponent {
   // }
 
   render() {
-    const {
-      // projects: { items, pagination },
-      // loading,
-    } = this.props;
+    // const {
+    //   projects: { items, pagination },
+    //   loading,
+    // } = this.props;
 
     // const paginationProps = {
     //   current: pagination.currentPage,

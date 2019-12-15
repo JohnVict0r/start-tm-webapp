@@ -10,7 +10,7 @@ export function getAuthority(str) {
   } catch (e) {
     authority = authorityString;
   }
-  
+
   return typeof authority === 'string' ? [authority] : authority;
 }
 export function setAuthority(authority) {

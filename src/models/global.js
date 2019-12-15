@@ -22,7 +22,6 @@ export default {
     *fetchLoggedInUser(_, { call, put, select }) {
       const response = yield call(loadLoggedInUser);
 
-      console.log(response);
       if (!response.errors) {
         // yield put({
         //   type: 'entities/mergeEntities',
@@ -49,12 +48,11 @@ export default {
           payload: result,
         });
 
-
         const loggedInUserRoleIds = yield select(({ entities }) => entities.users[result].roles);
 
         const loggedInUserRoles = yield select(({ entities }) =>
-          (Object.values(entities.roles)
-            .filter(i => loggedInUserRoleIds.includes(i.id)))
+          Object.values(entities.roles)
+            .filter(i => loggedInUserRoleIds.includes(i.id))
             .map(i => i.name)
         );
 

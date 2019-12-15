@@ -126,7 +126,10 @@ class FilterCardList extends PureComponent {
               <Row gutter={16}>
                 <Col lg={8} md={10} sm={10} xs={24}>
                   <FormItem {...formItemLayout} label="作者">
-                    {getFieldDecorator('author', {})(
+                    {getFieldDecorator(
+                      'author',
+                      {}
+                    )(
                       <Select placeholder="不限" style={{ maxWidth: 200, width: '100%' }}>
                         <Option value="lisa">王昭君</Option>
                       </Select>
@@ -135,7 +138,10 @@ class FilterCardList extends PureComponent {
                 </Col>
                 <Col lg={8} md={10} sm={10} xs={24}>
                   <FormItem {...formItemLayout} label="好评度">
-                    {getFieldDecorator('rate', {})(
+                    {getFieldDecorator(
+                      'rate',
+                      {}
+                    )(
                       <Select placeholder="不限" style={{ maxWidth: 200, width: '100%' }}>
                         <Option value="good">优秀</Option>
                         <Option value="normal">普通</Option>

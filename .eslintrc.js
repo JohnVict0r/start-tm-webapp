@@ -36,6 +36,7 @@ module.exports = {
     'linebreak-style': 0,
     camelcase: 'off',
     'no-unused-expressions': 'off',
+    'import/extensions': 'off',
   },
   settings: {
     polyfills: ['fetch', 'Promise', 'Promise.resolve', 'URL'],

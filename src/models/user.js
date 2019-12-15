@@ -1,3 +1,5 @@
+import { formatMessage } from 'umi/locale';
+import { notification } from 'antd';
 import {
   query as queryUsers,
   queryCurrent,
@@ -5,8 +7,6 @@ import {
   updateLoggedInUserInfo,
   updateLoggedInUserPassword,
 } from '@/services/user';
-import { formatMessage } from 'umi/locale';
-import { notification } from 'antd';
 
 export default {
   namespace: 'user',

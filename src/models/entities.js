@@ -45,12 +45,7 @@ export default {
   },
 
   effects: {
-    *normalize(
-      {
-        payload: { data, schema },
-      },
-      { call, put }
-    ) {
+    *normalize({ payload: { data, schema } }, { call, put }) {
       const normalized = yield call(normalize, data, schema);
 
       yield put({

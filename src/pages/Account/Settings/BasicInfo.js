@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
 import { Form, Input, Button, Col, Row } from 'antd';
-import AvatarUpload from '@/components/Upload/Avatar';
 import { connect } from 'dva';
+import AvatarUpload from '@/components/Upload/Avatar';
 import { loggedInUserSelector } from '@/selectors/global';
 import styles from './BasicInfo.less';
 

@@ -1,6 +1,6 @@
-import callApi from '@/utils/callApi';
-import schema from './Schema';
 import { stringify } from 'qs';
+import schema from './Schema';
+import callApi from '@/utils/callApi';
 
 export const createComment = ({ commentableType, commentableId, comment }) =>
   callApi(`comments`, schema.COMMENT_ARRAY).post({

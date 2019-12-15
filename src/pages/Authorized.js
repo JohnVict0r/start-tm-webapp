@@ -28,7 +28,7 @@ function AuthComponent({ children, location, routerData }) {
         }
       }
     });
-    
+
     return authorities;
   };
 

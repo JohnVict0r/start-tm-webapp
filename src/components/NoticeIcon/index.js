@@ -9,8 +9,6 @@ import styles from './index.less';
 const { TabPane } = Tabs;
 
 export default class NoticeIcon extends PureComponent {
-  static Tab = TabPane;
-
   static defaultProps = {
     onItemClick: () => {},
     onPopupVisibleChange: () => {},
@@ -102,6 +100,8 @@ export default class NoticeIcon extends PureComponent {
     this.setState({ visible });
     onPopupVisibleChange(visible);
   };
+
+  static Tab = TabPane;
 
   render() {
     const { className, count, popupVisible, bell } = this.props;

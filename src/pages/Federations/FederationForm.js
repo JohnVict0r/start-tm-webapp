@@ -3,10 +3,9 @@ import { connect } from 'dva';
 // import Link from 'umi/link';
 import { Input, Form, Card, Select, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
-import PageLoading from '@/components/PageLoading';
+// import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+// import PageLoading from '@/components/PageLoading';
 import { setFormWithError } from '@/utils/forms';
-
 
 @connect((state, ownProps) => ({
   federation: state.entities.federations[ownProps.match.params.federationId],
@@ -27,20 +26,20 @@ class FederationForm extends PureComponent {
     const { form, dispatch, match } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        if(match.params.federationId){
+        if (match.params.federationId) {
           dispatch({
-          type: 'federations/save',
-          payload: {
-            federation: values,
-            id: match.params.federationId
-          },
+            type: 'federations/save',
+            payload: {
+              federation: values,
+              id: match.params.federationId,
+            },
           });
         } else {
           dispatch({
-          type: 'federations/save',
-          payload: {
-            federation: values,
-          },
+            type: 'federations/save',
+            payload: {
+              federation: values,
+            },
           });
         }
       }
@@ -51,7 +50,7 @@ class FederationForm extends PureComponent {
     const {
       form: { getFieldDecorator },
       submitting,
-      federation
+      federation,
     } = this.props;
 
     const formItemLayout = {
@@ -74,17 +73,16 @@ class FederationForm extends PureComponent {
     };
 
     return (
-      <Card 
-        title={ federation 
-          ? formatMessage({ id: 'app.federation.edit' })
-          : formatMessage({ id: 'app.federation.create' })} 
+      <Card
+        title={
+          federation
+            ? formatMessage({ id: 'app.federation.edit' })
+            : formatMessage({ id: 'app.federation.create' })
+        }
         bordered={false}
       >
         <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-          <Form.Item
-            label={formatMessage({ id: 'app.federation.form.name' })}
-            {...formItemLayout}
-          >
+          <Form.Item label={formatMessage({ id: 'app.federation.form.name' })} {...formItemLayout}>
             {getFieldDecorator('name', {
               rules: [
                 {
@@ -151,10 +149,9 @@ class FederationForm extends PureComponent {
 
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
-              {federation 
+              {federation
                 ? formatMessage({ id: 'app.federation.edit' })
-                : formatMessage({ id: 'app.federation.create' })
-              }
+                : formatMessage({ id: 'app.federation.create' })}
             </Button>
           </Form.Item>
         </Form>

@@ -5,9 +5,9 @@ export default [
     component: '../layouts/UserLayout',
     routes: [
       { path: '/auth', redirect: '/auth/login' },
-      //{ path: '/auth/login', name: 'login', component: './Auth/Login' },
+      // { path: '/auth/login', name: 'login', component: './Auth/Login' },
       { path: '/auth/login', name: 'login', component: './Auth/Credentials' },
-      //{ path: '/auth/callback/sabia', name: 'sabia', component: './Auth/CallbackSabia' },
+      // { path: '/auth/callback/sabia', name: 'sabia', component: './Auth/CallbackSabia' },
       {
         path: '/auth/forgot-password',
         name: 'forgot-password',
@@ -196,7 +196,7 @@ export default [
             hideInMenu: true,
             hideInBreadcrumb: true,
             routes: [
-              //{ path: '/clubs/:clubId', redirect: '/clubs/:clubId/milestones' },
+              // { path: '/clubs/:clubId', redirect: '/clubs/:clubId/milestones' },
               { path: '/clubs/:clubId' },
               {
                 path: '/clubs/:clubId/members',

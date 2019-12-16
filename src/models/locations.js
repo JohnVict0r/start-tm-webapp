@@ -5,7 +5,7 @@ export default {
 
   state: {
     states: [],
-    citiesByStateId: {},
+    citiesByUF: {},
   },
 
   reducers: {
@@ -15,15 +15,13 @@ export default {
         states: payload,
       };
     },
-    receiveCitiesByStateId(state, { payload }) {
-      const { state_id, cities } = payload;
+    receivecitiesByUF(state, { payload }) {
+      const { uf, cities } = payload;
       return {
         ...state,
-        citiesByStateId: {
-          ...state.citiesByStateId,
-          [state_id]: {
-            cities,
-          },
+        citiesByUF: {
+          ...state.citiesByUF,
+          [uf]: cities,
         },
       };
     },
@@ -42,13 +40,13 @@ export default {
       }
     },
 
-    *fetchCititesByStateId({ payload }, { call, put }) {
+    *fetchcitiesByUF({ payload }, { call, put }) {
       try {
         const response = yield call(loadCities, payload);
         yield put({
-          type: 'receiveCitiesByStateId',
+          type: 'receivecitiesByUF',
           payload: {
-            state_id: payload.state_id,
+            uf: payload.uf,
             cities: response,
           },
         });

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 // import Link from 'umi/link';
-import { Input, Form, Card, Button, Divider } from 'antd';
+import { Input, Form, Select, Card, Button, Divider } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { setFormWithError } from '@/utils/forms';
 import { cepMask, numberMask } from '@/utils/mask';
@@ -9,11 +9,26 @@ import { cepMask, numberMask } from '@/utils/mask';
 @connect((state, ownProps) => ({
   club: state.entities.clubs[ownProps.match.params.clubId],
   federation: state.entities.federations[ownProps.match.params.federationId],
+  states: state.locations.states,
+  citiesByUF: state.locations.citiesByUF,
   validation: state.validation['clubs/save'],
   submitting: state.loading.effects['clubs/save'],
 }))
 @Form.create()
 class ClubForm extends PureComponent {
+  componentDidMount() {
+    const { dispatch, federation } = this.props;
+    dispatch({
+      type: 'locations/fetchStates',
+    });
+    dispatch({
+      type: 'locations/fetchcitiesByUF',
+      payload: {
+        uf: federation.uf,
+      },
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
     if (prevProps.validation !== validation) {
@@ -82,7 +97,9 @@ class ClubForm extends PureComponent {
     const {
       form: { getFieldDecorator },
       submitting,
+      federation,
       club,
+      citiesByUF,
     } = this.props;
 
     const formItemLayout = {
@@ -155,7 +172,17 @@ class ClubForm extends PureComponent {
             {getFieldDecorator('city', {
               rules: [{ required: true, message: 'Por favor informe o nome da cidade!' }],
               initialValue: club && club.address.city,
-            })(<Input maxLength={255} placeholder="Insira o nome da cidade" />)}
+            })(
+              <Select placeholder={formatMessage({ id: 'app.club.form.city.placeholder' })}>
+                {/* TODO fazer com que salve o id do estado */}
+                {citiesByUF &&
+                  federation &&
+                  citiesByUF[federation.uf] &&
+                  citiesByUF[federation.uf].map(i => (
+                    <Select.Option key={i.nome}>{i.nome}</Select.Option>
+                  ))}
+              </Select>
+            )}
           </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>

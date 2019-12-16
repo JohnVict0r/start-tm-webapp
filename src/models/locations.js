@@ -4,7 +4,7 @@ export default {
   namespace: 'locations',
 
   state: {
-    states: {},
+    states: [],
     citiesByStateId: {},
   },
 

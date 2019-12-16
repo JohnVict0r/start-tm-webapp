@@ -9,7 +9,7 @@ export default {
   'app.federation.form.initials': 'Sigla',
   'app.federation.form.initials.message': 'Por favor, insira as iniciais da Federação',
   'app.federation.form.initials.placeholder': 'Insira as iniciais da Federação',
-  'app.federation.form.uf': 'UF',
-  'app.federation.form.uf.message': 'Por favor, insira a UF',
-  'app.federation.form.uf.placeholder': 'Insira a UF',
+  'app.federation.form.uf': 'Estado',
+  'app.federation.form.uf.message': 'Por favor, selecione o estado',
+  'app.federation.form.uf.placeholder': 'Selecione o estado',
 };

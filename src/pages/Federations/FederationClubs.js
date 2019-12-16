@@ -1,7 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
 import { Button, Card, List } from 'antd';
+import HeaderWrapper from '@/components/HeaderWrapper';
 import ClubListItem from './ClubListItem';
 import PageLoading from '@/components/PageLoading';
 
@@ -53,7 +54,8 @@ class FederationClubs extends Component {
     };
 
     return (
-      <Fragment>
+      <>
+        <HeaderWrapper title="Clubes" />
         <Card
           bordered={false}
           title="Clubes"
@@ -76,7 +78,7 @@ class FederationClubs extends Component {
             renderItem={item => <ClubListItem clubId={item} loadingClubs={loadingClubs} />}
           />
         </Card>
-      </Fragment>
+      </>
     );
   }
 }

@@ -37,6 +37,7 @@ module.exports = {
     camelcase: 'off',
     'no-unused-expressions': 'off',
     'import/extensions': 'off',
+    'no-use-before-define': 'off',
   },
   settings: {
     polyfills: ['fetch', 'Promise', 'Promise.resolve', 'URL'],

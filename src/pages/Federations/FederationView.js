@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import router from 'umi/router';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import PageWrapper from '@/components/PageWrapper';
 import PageLoading from '@/components/PageLoading';
 
 @connect((state, ownProps) => {
@@ -39,44 +39,43 @@ class FederationView extends Component {
   };
 
   render() {
-    const { federation, match, location, children } = this.props;
+    const { federation, children } = this.props;
 
     if (!federation) {
       return <PageLoading />;
     }
 
-    const tabList = [
+    const menuData = [
       {
-        key: 'clubs',
-        tab: 'Clubes',
+        key: '/details',
+        name: 'Detalhes',
+        icon: 'dashboard',
       },
-      // {
-      //   key: 'athletes',
-      //   tab: 'Atletas',
-      // },
       {
-        key: 'edit',
-        tab: 'Configurações',
+        key: '/clubs',
+        name: 'Clubes',
+        icon: 'team',
+      },
+      {
+        key: '/edit',
+        name: 'Configurações',
+        icon: 'setting',
       },
     ];
 
     return (
-      <PageHeaderWrapper
-        title={federation.initials}
-        logo={
-          <img
-            alt={federation.initials}
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUC0LYGdxwCD9TEukVRqL3OWRqTyT95SoupznUTkGm49-uwyM33A"
-          />
-        }
-        content={`${federation.name} - ${federation.uf}`}
-        tabList={tabList}
-        tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
-        onTabChange={this.handleTabChange}
-        hiddenBreadcrumb
+      <PageWrapper
+        top="Federação"
+        title={federation.name}
+        avatar={{
+          src:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUC0LYGdxwCD9TEukVRqL3OWRqTyT95SoupznUTkGm49-uwyM33A',
+          alt: federation.initials,
+        }}
+        menuData={menuData}
       >
         {children}
-      </PageHeaderWrapper>
+      </PageWrapper>
     );
   }
 }

@@ -31,16 +31,6 @@ export default {
         error: payload,
       };
     },
-    receiveTeamsForCurrentUser(state, { payload }) {
-      return {
-        ...state,
-        forCurrentUser: {
-          ...state.forCurrentUser,
-          teamIds: payload.teamIds,
-          meta: payload.meta,
-        },
-      };
-    },
     receiveClubsByFederationId(state, { payload }) {
       const { federation_id, clubsIds, meta } = payload;
       return {
@@ -117,6 +107,7 @@ export default {
           },
         });
 
+        // TODO melhorar esse código
         const { page, perPage, total, lastPage } = response;
         const meta = {
           page,

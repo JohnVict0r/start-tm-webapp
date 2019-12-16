@@ -11,9 +11,18 @@ import { setFormWithError } from '@/utils/forms';
   federation: state.entities.federations[ownProps.match.params.federationId],
   validation: state.validation['federations/save'],
   submitting: state.loading.effects['federations/save'],
+  states: state.locations.states,
+  loading: state.loading.effects['locations/fetchStates'],
 }))
 @Form.create()
 class FederationForm extends PureComponent {
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'locations/fetchStates',
+    });
+  }
+
   componentDidUpdate(prevProps) {
     const { form, validation } = this.props;
     if (prevProps.validation !== validation) {
@@ -51,6 +60,7 @@ class FederationForm extends PureComponent {
       form: { getFieldDecorator },
       submitting,
       federation,
+      states,
     } = this.props;
 
     const formItemLayout = {
@@ -138,11 +148,11 @@ class FederationForm extends PureComponent {
               initialValue: federation && federation.uf,
             })(
               <Select placeholder={formatMessage({ id: 'app.federation.form.uf.placeholder' })}>
-                {/* a key deve ser uma da constantes definidas na migration do backend */}
-                <Select.Option key="RN">RN</Select.Option>
-                <Select.Option key="PB">PB</Select.Option>
-                <Select.Option key="PE">PE</Select.Option>
-                <Select.Option key="CE">CE</Select.Option>
+                {/* TODO fazer com que salve o id do estado */}
+                {states &&
+                  states.map(i => (
+                    <Select.Option key={i.sigla}>{`${i.nome} - ${i.sigla}`}</Select.Option>
+                  ))}
               </Select>
             )}
           </Form.Item>

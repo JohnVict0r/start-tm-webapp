@@ -113,44 +113,7 @@ export default [
                 path: '/account/settings/password',
                 component: './Account/Settings/ChangePassword',
               },
-              {
-                path: '/account/settings/security',
-                component: './Account/Settings/SecurityView',
-              },
-              {
-                path: '/account/settings/binding',
-                component: './Account/Settings/BindingView',
-              },
-              {
-                path: '/account/settings/notification',
-                component: './Account/Settings/NotificationView',
-              },
             ],
-          },
-        ],
-      },
-
-      // dashboard
-      {
-        path: '/dashboard',
-        name: 'dashboard',
-        icon: 'dashboard',
-        hideInMenu: true,
-        routes: [
-          {
-            path: '/dashboard/analysis',
-            name: 'analysis',
-            component: './Dashboard/Analysis',
-          },
-          {
-            path: '/dashboard/monitor',
-            name: 'monitor',
-            component: './Dashboard/Monitor',
-          },
-          {
-            path: '/dashboard/workplace',
-            name: 'workplace',
-            component: './Dashboard/Workplace',
           },
         ],
       },
@@ -224,7 +187,6 @@ export default [
         name: 'events',
         icon: 'project',
         hideInBreadcrumb: true,
-        hideInMenu: true,
         routes: [
           { path: '/events', redirect: '/events/explore' },
           {
@@ -353,30 +315,30 @@ export default [
       // },
 
       // admin
-      {
-        name: 'admin',
-        path: '/admin',
-        icon: 'tool',
-        component: './Admin/Menu',
-        authority: ['Administrator'],
-        routes: [
-          {
-            path: '/admin/users/:userId/edit',
-            name: 'edit-user',
-            icon: 'team',
-            component: './Admin/Users/EditUser',
-            hideInBreadcrumb: true,
-            hideInMenu: true,
-          },
-          { path: '/admin', redirect: '/admin/users' },
-          {
-            path: '/admin/users',
-            name: 'users',
-            icon: 'team',
-            component: './Admin/Users/Users',
-          },
-        ],
-      },
+      // {
+      //   name: 'admin',
+      //   path: '/admin',
+      //   icon: 'tool',
+      //   component: './Admin/Menu',
+      //   authority: ['Administrator'],
+      //   routes: [
+      //     {
+      //       path: '/admin/users/:userId/edit',
+      //       name: 'edit-user',
+      //       icon: 'team',
+      //       component: './Admin/Users/EditUser',
+      //       hideInBreadcrumb: true,
+      //       hideInMenu: true,
+      //     },
+      //     { path: '/admin', redirect: '/admin/users' },
+      //     {
+      //       path: '/admin/users',
+      //       name: 'users',
+      //       icon: 'team',
+      //       component: './Admin/Users/Users',
+      //     },
+      //   ],
+      // },
 
       // demos
       // only show in development
@@ -387,77 +349,6 @@ export default [
               name: 'demos',
               icon: 'appstore',
               routes: [
-                // dashboard
-                {
-                  path: '/demos/dashboard',
-                  name: 'dashboard',
-                  icon: 'dashboard',
-                  routes: [
-                    {
-                      path: '/demos/dashboard/analysis',
-                      name: 'analysis',
-                      component: './Dashboard/Analysis',
-                    },
-                    {
-                      path: '/demos/dashboard/monitor',
-                      name: 'monitor',
-                      component: './Dashboard/Monitor',
-                    },
-                    {
-                      path: '/demos/dashboard/workplace',
-                      name: 'workplace',
-                      component: './Dashboard/Workplace',
-                    },
-                  ],
-                },
-
-                // form
-                {
-                  path: '/demos/form',
-                  icon: 'form',
-                  name: 'form',
-                  routes: [
-                    {
-                      path: '/demos/form/basic-form',
-                      name: 'basicform',
-                      component: './Forms/BasicForm',
-                    },
-                    {
-                      path: '/demos/form/step-form',
-                      name: 'stepform',
-                      component: './Forms/StepForm',
-                      hideChildrenInMenu: true,
-                      routes: [
-                        {
-                          path: '/demos/form/step-form',
-                          redirect: '/demos/form/step-form/info',
-                        },
-                        {
-                          path: '/demos/form/step-form/info',
-                          name: 'info',
-                          component: './Forms/StepForm/Step1',
-                        },
-                        {
-                          path: '/demos/form/step-form/confirm',
-                          name: 'confirm',
-                          component: './Forms/StepForm/Step2',
-                        },
-                        {
-                          path: '/demos/form/step-form/result',
-                          name: 'result',
-                          component: './Forms/StepForm/Step3',
-                        },
-                      ],
-                    },
-                    {
-                      path: '/demos/form/advanced-form',
-                      name: 'advancedform',
-                      authority: ['Administrator'],
-                      component: './Forms/AdvancedForm',
-                    },
-                  ],
-                },
-
                 // list
                 {
                   path: '/demos/list',
@@ -507,58 +398,6 @@ export default [
                     },
                   ],
                 },
-
-                // profile
-                {
-                  path: '/demos/profile',
-                  name: 'profile',
-                  icon: 'profile',
-                  routes: [
-                    // profile
-                    {
-                      path: '/demos/profile/basic',
-                      name: 'basic',
-                      component: './Profile/BasicProfile',
-                    },
-                    {
-                      path: '/demos/profile/basic/:id',
-                      name: 'basic',
-                      hideInMenu: true,
-                      component: './Profile/BasicProfile',
-                    },
-                    {
-                      path: '/demos/profile/advanced',
-                      name: 'advanced',
-                      authority: ['Administrator'],
-                      component: './Profile/AdvancedProfile',
-                    },
-                  ],
-                },
-
-                //  editor
-                {
-                  name: 'editor',
-                  icon: 'highlight',
-                  path: '/demos/editor',
-                  routes: [
-                    {
-                      path: '/demos/editor/flow',
-                      name: 'flow',
-                      component: './Editor/GGEditor/Flow',
-                    },
-                    {
-                      path: '/demos/editor/mind',
-                      name: 'mind',
-                      component: './Editor/GGEditor/Mind',
-                    },
-                    {
-                      path: '/demos/editor/koni',
-                      name: 'koni',
-                      component: './Editor/GGEditor/Koni',
-                    },
-                  ],
-                },
-
                 // result
                 {
                   name: 'result',

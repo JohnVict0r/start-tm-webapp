@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { formatMessage, FormattedMessage } from 'umi/locale';
-import { Button, Input, Form } from 'antd';
+import { Button, Input, Form, Card } from 'antd';
 import { connect } from 'dva';
+import HeaderWrapper from '@/components/HeaderWrapper';
 import PasswordForce from '@/components/PasswordForce';
 
 import styles from './ChangePassword.less';
@@ -95,63 +96,79 @@ class ChangePassword extends Component {
     };
 
     return (
-      <Form onSubmit={this.handleSubmit} layout="vertical" hideRequiredMark>
-        <Form.Item
-          {...formItemLayout}
-          label={formatMessage({ id: 'app.settings.basic.current-password' })}
-        >
-          {getFieldDecorator('currentPassword', {
-            rules: [
-              { required: true, message: formatMessage({ id: 'validation.password.required' }) },
-            ],
-          })(
-            <Input
-              type="password"
-              placeholder={formatMessage({ id: 'form.oldpasssword.placeholder' })}
-            />
-          )}
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          help={help}
-          label={formatMessage({ id: 'app.settings.basic.newpassword' })}
-        >
-          <PasswordForce form={form}>
-            {getFieldDecorator('password', {
-              rules: [
-                { required: true, message: formatMessage({ id: 'validation.password.required' }) },
-                { validator: this.checkPassword },
-              ],
-            })(
-              <Input
-                type="password"
-                placeholder={formatMessage({ id: 'form.password.placeholder' })}
-              />
-            )}
-          </PasswordForce>
-        </Form.Item>
-        <Form.Item {...formItemLayout}>
-          {getFieldDecorator('passwordConfirmation', {
-            rules: [
-              {
-                required: true,
-                message: formatMessage({ id: 'validation.confirm-password.required' }),
-              },
-              { validator: this.checkConfirm },
-            ],
-          })(
-            <Input
-              type="password"
-              placeholder={formatMessage({ id: 'form.confirm-password.placeholder' })}
-            />
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button loading={submitting} className={styles.submit} type="primary" htmlType="submit">
-            <FormattedMessage id="app.register.register" />
-          </Button>
-        </Form.Item>
-      </Form>
+      <>
+        <HeaderWrapper title="Alterar senha" />
+        <Card bordered={false}>
+          <Form onSubmit={this.handleSubmit} layout="vertical" hideRequiredMark>
+            <Form.Item
+              {...formItemLayout}
+              label={formatMessage({ id: 'app.settings.basic.current-password' })}
+            >
+              {getFieldDecorator('currentPassword', {
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'validation.password.required' }),
+                  },
+                ],
+              })(
+                <Input
+                  type="password"
+                  placeholder={formatMessage({ id: 'form.oldpasssword.placeholder' })}
+                />
+              )}
+            </Form.Item>
+            <Form.Item
+              {...formItemLayout}
+              help={help}
+              label={formatMessage({ id: 'app.settings.basic.newpassword' })}
+            >
+              <PasswordForce form={form}>
+                {getFieldDecorator('password', {
+                  rules: [
+                    {
+                      required: true,
+                      message: formatMessage({ id: 'validation.password.required' }),
+                    },
+                    { validator: this.checkPassword },
+                  ],
+                })(
+                  <Input
+                    type="password"
+                    placeholder={formatMessage({ id: 'form.password.placeholder' })}
+                  />
+                )}
+              </PasswordForce>
+            </Form.Item>
+            <Form.Item {...formItemLayout}>
+              {getFieldDecorator('passwordConfirmation', {
+                rules: [
+                  {
+                    required: true,
+                    message: formatMessage({ id: 'validation.confirm-password.required' }),
+                  },
+                  { validator: this.checkConfirm },
+                ],
+              })(
+                <Input
+                  type="password"
+                  placeholder={formatMessage({ id: 'form.confirm-password.placeholder' })}
+                />
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Button
+                loading={submitting}
+                className={styles.submit}
+                type="primary"
+                htmlType="submit"
+              >
+                <FormattedMessage id="app.register.register" />
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </>
     );
   }
 }

@@ -17,14 +17,14 @@ import { cepMask, numberMask } from '@/utils/mask';
 @Form.create()
 class ClubForm extends PureComponent {
   componentDidMount() {
-    const { dispatch, federation } = this.props;
+    const { dispatch, federation, club } = this.props;
     dispatch({
       type: 'locations/fetchStates',
     });
     dispatch({
       type: 'locations/fetchcitiesByUF',
       payload: {
-        uf: federation.uf,
+        uf: federation ? federation.uf : club.federation.uf,
       },
     });
   }
@@ -176,9 +176,8 @@ class ClubForm extends PureComponent {
               <Select placeholder={formatMessage({ id: 'app.club.form.city.placeholder' })}>
                 {/* TODO fazer com que salve o id do estado */}
                 {citiesByUF &&
-                  federation &&
-                  citiesByUF[federation.uf] &&
-                  citiesByUF[federation.uf].map(i => (
+                  citiesByUF[federation ? federation.uf : club.federation.uf] &&
+                  citiesByUF[federation ? federation.uf : club.federation.uf].map(i => (
                     <Select.Option key={i.nome}>{i.nome}</Select.Option>
                   ))}
               </Select>

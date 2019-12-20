@@ -1,6 +1,6 @@
 {
-  "name": "The Manager",
-  "short_name": "TheManager",
+  "name": "Start TM",
+  "short_name": "StartTM",
   "display": "standalone",
   "start_url": "./?utm_source=homescreen",
   "theme_color": "#002140",

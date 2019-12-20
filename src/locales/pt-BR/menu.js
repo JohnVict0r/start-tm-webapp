@@ -94,6 +94,8 @@ export default {
   'menu.federations.federation': 'Federação',
   'menu.federations.federation.clubs': 'Clubes',
   'menu.federations.federation.new-club': 'Novo Clube',
+  'menu.federations.federation.events': 'Eventos',
+  'menu.federations.federation.new-event': 'Novo Evento',
   'menu.milestones': 'Entregáveis',
   'menu.milestones.milestone': 'Entregável',
   'menu.milestones.milestone.details': 'Detalhes',

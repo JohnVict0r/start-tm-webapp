@@ -8,15 +8,7 @@ import {
   loadFederations,
 } from '@/services/federations';
 import Schema from '@/services/Schema';
-
-const initialPaginatioState = {
-  count: 0,
-  page: 0,
-  links: [],
-  perPage: 0,
-  total: 0,
-  totalPages: 0,
-};
+import { initialPaginationState } from '@/utils/getPaginationProps';
 
 export default {
   namespace: 'federations',
@@ -24,7 +16,7 @@ export default {
   state: {
     forCurrentUser: {
       federationIds: [],
-      meta: initialPaginatioState,
+      meta: initialPaginationState,
     },
   },
 
@@ -94,23 +86,17 @@ export default {
       try {
         const response = yield call(loadFederations, payload);
 
+        const { data, ...meta } = response;
+
         // normaliza os dados retornados e
         // funde com o state.entities
         const result = yield put.resolve({
           type: 'entities/normalize',
           payload: {
-            data: response.data,
+            data,
             schema: Schema.FEDERATION_ARRAY,
           },
         });
-
-        const { page, perPage, total, lastPage } = response;
-        const meta = {
-          page,
-          perPage,
-          total,
-          lastPage,
-        };
 
         yield put({
           type: 'receiveFederationsForCurrentUser',

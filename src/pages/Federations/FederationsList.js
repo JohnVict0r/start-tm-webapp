@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Button, List, Card } from 'antd';
 import Authorized from '@/utils/Authorized';
+import getPaginationProps from '@/utils/getPaginationProps';
 import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 import FederationListItem from './FederationListItem';
 
@@ -10,7 +11,7 @@ import styles from './FederationsList.less';
 
 @connect(state => ({
   federations: state.federations.forCurrentUser,
-  loadingFederations: state.loading.effects['federations/fetchfederations'],
+  loadingFederations: state.loading.effects['federations/fetchFederations'],
 }))
 class ClubsList extends PureComponent {
   componentDidMount() {
@@ -25,13 +26,6 @@ class ClubsList extends PureComponent {
       federations: { federationIds, meta },
       loadingFederations,
     } = this.props;
-
-    const paginationProps = {
-      current: meta.page,
-      pageSize: meta.perPage,
-      total: meta.total,
-      hideOnSinglePage: true,
-    };
 
     return (
       <PageHeaderWrapper
@@ -50,7 +44,7 @@ class ClubsList extends PureComponent {
               size="large"
               rowKey="id"
               loading={loadingFederations}
-              pagination={paginationProps}
+              pagination={getPaginationProps(meta)}
               dataSource={federationIds}
               renderItem={item => (
                 <FederationListItem federationId={item} loadingFederations={loadingFederations} />

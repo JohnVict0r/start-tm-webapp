@@ -5,6 +5,7 @@ import { Button, Card, List } from 'antd';
 import HeaderWrapper from '@/components/HeaderWrapper';
 import ClubListItem from './ClubListItem';
 import PageLoading from '@/components/PageLoading';
+import getPaginationProps from '@/utils/getPaginationProps';
 
 @connect((state, ownProps) => ({
   clubsByFederation: state.clubs.byFederationId[ownProps.match.params.federationId],
@@ -35,23 +36,10 @@ class FederationClubs extends Component {
 
   render() {
     const { clubsByFederation, loadingClubs, match } = this.props;
-    // const { loadingClubs, match } = this.props;
 
     if (!clubsByFederation) {
       return <PageLoading />;
     }
-
-    const { clubsIds, meta } = clubsByFederation;
-
-    const paginationProps = {
-      current: meta.page,
-      pageSize: meta.perPage,
-      total: meta.total,
-      hideOnSinglePage: true,
-      onChange: page => {
-        this.handleChangePage(page);
-      },
-    };
 
     return (
       <>
@@ -73,9 +61,9 @@ class FederationClubs extends Component {
             size="large"
             rowKey="id"
             loading={loadingClubs}
-            pagination={paginationProps}
-            dataSource={clubsIds}
-            renderItem={item => <ClubListItem clubId={item} loadingClubs={loadingClubs} />}
+            pagination={getPaginationProps(clubsByFederation.meta)}
+            dataSource={clubsByFederation.clubsIds}
+            renderItem={item => <ClubListItem id={item} loading={loadingClubs} />}
           />
         </Card>
       </>

@@ -10,4 +10,13 @@ const getPaginationProps = meta => {
   };
 };
 
+export const initialPaginationState = {
+  count: 0,
+  page: 0,
+  links: [],
+  perPage: 0,
+  total: 0,
+  totalPages: 0,
+};
+
 export default getPaginationProps;

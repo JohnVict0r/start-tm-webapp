@@ -187,6 +187,7 @@ export default [
         name: 'events',
         icon: 'project',
         hideInBreadcrumb: true,
+        hideInMenu: true,
         routes: [
           { path: '/events', redirect: '/events/explore' },
           {
@@ -199,7 +200,7 @@ export default [
             path: '/events/new',
             name: 'new-event',
             icon: 'plus',
-            component: './Events/NewEvent',
+            component: './Events/EventForm',
             authority: ['Administrator'],
           },
         ],
@@ -237,19 +238,29 @@ export default [
                 redirect: '/federations/:federationId/clubs',
               },
               {
-                path: '/federations/:federationId/clubs',
-                name: 'clubs',
-                component: './Federations/FederationClubs',
-              },
-              {
                 path: '/federations/:federationId/edit',
                 name: 'edit-federation',
                 component: './Federations/FederationForm',
               },
               {
+                path: '/federations/:federationId/clubs',
+                name: 'clubs',
+                component: './Federations/FederationClubs',
+              },
+              {
                 path: '/federations/:federationId/new-club',
                 name: 'new-club',
                 component: './Clubs/ClubForm',
+              },
+              {
+                path: '/federations/:federationId/events',
+                name: 'events',
+                component: './Federations/FederationEvents',
+              },
+              {
+                path: '/federations/:federationId/new-event',
+                name: 'new-event',
+                component: './Events/EventForm',
               },
               // {
               //   path: '/federations/:federationId/members',

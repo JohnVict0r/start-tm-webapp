@@ -3,19 +3,19 @@ import { connect } from 'dva';
 import router from 'umi/router';
 import { Button, Card, List } from 'antd';
 import HeaderWrapper from '@/components/HeaderWrapper';
-import ClubListItem from './ClubListItem';
+import EventListItem from './EventListItem';
 import PageLoading from '@/components/PageLoading';
 import getPaginationProps from '@/utils/getPaginationProps';
 
 @connect((state, ownProps) => ({
-  clubsByFederation: state.clubs.byFederationId[ownProps.match.params.federationId],
-  loadingClubs: state.loading.effects['clubs/fetchByFederation'],
+  eventsByFederation: state.events.byFederationId[ownProps.match.params.federationId],
+  loadingEvents: state.loading.effects['events/fetchByFederation'],
 }))
-class FederationClubs extends Component {
+class FederationEvents extends Component {
   componentDidMount() {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'clubs/fetchByFederation',
+      type: 'events/fetchByFederation',
       payload: {
         federation_id: match.params.federationId,
         page: 0,
@@ -26,7 +26,7 @@ class FederationClubs extends Component {
   handleChangePage = page => {
     const { dispatch, match } = this.props;
     dispatch({
-      type: 'clubs/fetchByFederation',
+      type: 'events/fetchByFederation',
       payload: {
         federation_id: match.params.federationId,
         page,
@@ -35,35 +35,36 @@ class FederationClubs extends Component {
   };
 
   render() {
-    const { clubsByFederation, loadingClubs, match } = this.props;
+    const { eventsByFederation, loadingEvents, match } = this.props;
 
-    if (!clubsByFederation) {
+    if (!eventsByFederation) {
       return <PageLoading />;
     }
 
     return (
       <>
-        <HeaderWrapper title="Clubes" />
+        <HeaderWrapper title="Meus Eventos" />
         <Card
           bordered={false}
-          title="Clubes"
+          title="Eventos"
           extra={
             <Button
               type="primary"
               icon="plus"
-              onClick={() => router.push(`/federations/${match.params.federationId}/new-club`)}
+              onClick={() => router.push(`/federations/${match.params.federationId}/new-event`)}
             >
-              Clube
+              Evento
             </Button>
           }
         >
           <List
             size="large"
             rowKey="id"
-            loading={loadingClubs}
-            pagination={getPaginationProps(clubsByFederation.meta)}
-            dataSource={clubsByFederation.clubsIds}
-            renderItem={item => <ClubListItem id={item} loading={loadingClubs} />}
+            loading={loadingEvents}
+            pagination={getPaginationProps(eventsByFederation.meta)}
+            dataSource={eventsByFederation.eventsIds}
+            // TODO corrigir listagem quando organizar o TTEvent no backend
+            renderItem={item => <EventListItem id={item} loading={loadingEvents} />}
           />
         </Card>
       </>
@@ -71,4 +72,4 @@ class FederationClubs extends Component {
   }
 }
 
-export default FederationClubs;
+export default FederationEvents;

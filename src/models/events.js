@@ -6,12 +6,12 @@ import { loadClubsByFederationId, createClub, uploadClub, loadClub } from '@/ser
 import { initialPaginationState } from '@/utils/getPaginationProps';
 
 export default {
-  namespace: 'clubs',
+  namespace: 'events',
 
   state: {
     byFederationId: {},
     forCurrentUser: {
-      clubsIds: [],
+      eventIds: [],
       meta: initialPaginationState,
     },
   },
@@ -23,14 +23,14 @@ export default {
         error: payload,
       };
     },
-    receiveClubsByFederationId(state, { payload }) {
-      const { federation_id, clubsIds, meta } = payload;
+    receiveEventsByFederationId(state, { payload }) {
+      const { federation_id, eventIds, meta } = payload;
       return {
         ...state,
         byFederationId: {
           ...state.byFederationId,
           [federation_id]: {
-            clubsIds,
+            eventIds,
             meta,
           },
         },
@@ -51,7 +51,7 @@ export default {
           type: 'entities/normalize',
           payload: {
             data: response,
-            schema: Schema.CLUB,
+            schema: Schema.EVENT,
           },
         });
 
@@ -59,7 +59,7 @@ export default {
           ? message.success(formatMessage({ id: 'app.club.success-edited' }))
           : message.success(formatMessage({ id: 'app.club.success-created' }));
 
-        router.push(`/clubs/${result}`);
+        router.push(`/events/${result}`);
       } catch (e) {
         payload.id
           ? message.error(formatMessage({ id: 'app.club.failed-edited' }))
@@ -67,7 +67,7 @@ export default {
       }
     },
 
-    *fetchClub({ payload }, { call, put }) {
+    *fetchEvent({ payload }, { call, put }) {
       try {
         const response = yield call(loadClub, payload);
 
@@ -77,7 +77,7 @@ export default {
           type: 'entities/normalize',
           payload: {
             data: response,
-            schema: Schema.CLUB,
+            schema: Schema.EVENT,
           },
         });
       } catch (e) {
@@ -97,15 +97,15 @@ export default {
           type: 'entities/normalize',
           payload: {
             data,
-            schema: Schema.CLUB_ARRAY,
+            schema: Schema.EVENT_ARRAY,
           },
         });
 
         yield put({
-          type: 'receiveClubsByFederationId',
+          type: 'receiveEventsByFederationId',
           payload: {
             federation_id: payload.federation_id,
-            clubsIds: result,
+            eventIds: result,
             meta,
           },
         });

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
 import PageWrapper from '@/components/PageWrapper';
 import PageLoading from '@/components/PageLoading';
 
@@ -21,23 +20,6 @@ class FederationView extends Component {
     });
   }
 
-  handleTabChange = key => {
-    const { match } = this.props;
-    switch (key) {
-      case 'clubs':
-        router.push(`${match.url}/clubs`);
-        break;
-      // case 'members':
-      //   router.push(`${match.url}/athletes`);
-      //   break;
-      case 'edit':
-        router.push(`${match.url}/edit`);
-        break;
-      default:
-        break;
-    }
-  };
-
   render() {
     const { federation, children } = this.props;
 
@@ -55,6 +37,11 @@ class FederationView extends Component {
         key: '/clubs',
         name: 'Clubes',
         icon: 'team',
+      },
+      {
+        key: '/events',
+        name: 'Eventos',
+        icon: 'calendar',
       },
       {
         key: '/edit',

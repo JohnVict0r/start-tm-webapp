@@ -4,11 +4,11 @@ import Link from 'umi/link';
 import { List, Skeleton } from 'antd';
 
 @connect((state, ownProps) => ({
-  club: state.entities.clubs[ownProps.clubId],
+  club: state.entities.clubs[ownProps.id],
 }))
-class clubListItem extends PureComponent {
+class ClubListItem extends PureComponent {
   render() {
-    const { club, loadingClubs } = this.props;
+    const { club, loading } = this.props;
 
     const DescriptionClub = ({ data: { address } }) => {
       return (
@@ -23,7 +23,7 @@ class clubListItem extends PureComponent {
 
     return (
       <List.Item>
-        <Skeleton title={false} loading={loadingClubs} active>
+        <Skeleton title={false} loading={loading} active>
           <List.Item.Meta
             // avatar={
             //   <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUC0LYGdxwCD9TEukVRqL3OWRqTyT95SoupznUTkGm49-uwyM33A" />
@@ -37,4 +37,4 @@ class clubListItem extends PureComponent {
   }
 }
 
-export default clubListItem;
+export default ClubListItem;

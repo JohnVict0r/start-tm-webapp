@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
+import withRouter from 'umi/withRouter';
 // import Link from 'umi/link';
 import { Input, Form, Card, Select, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
 // import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import PageLoading from '@/components/PageLoading';
 import { setFormWithError } from '@/utils/forms';
+import { upperCaseMask } from '@/utils/mask';
 
+@withRouter
 @connect((state, ownProps) => ({
   federation: state.entities.federations[ownProps.match.params.federationId],
   validation: state.validation['federations/save'],
@@ -53,6 +56,10 @@ class FederationForm extends PureComponent {
         }
       }
     });
+  };
+
+  handleChangeInitials = e => {
+    return upperCaseMask(e.target.value);
   };
 
   render() {
@@ -121,6 +128,7 @@ class FederationForm extends PureComponent {
                 },
               ],
               initialValue: federation && federation.initials,
+              getValueFromEvent: this.handleChangeInitials,
             })(
               <Input
                 maxLength={255}

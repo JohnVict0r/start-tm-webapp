@@ -240,7 +240,7 @@ export default [
               {
                 path: '/federations/:federationId/edit',
                 name: 'edit-federation',
-                component: './Federations/FederationForm',
+                component: './Federations/EditFederation',
               },
               {
                 path: '/federations/:federationId/clubs',

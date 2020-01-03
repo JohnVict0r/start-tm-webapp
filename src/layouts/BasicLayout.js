@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { Layout } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
 import classNames from 'classnames';
 import Media from 'react-media';
+import defaultSettings from '@/defaultSettings';
 import logo from '../assets/logo.svg';
 import Header from './Header';
 import Context from './MenuContext';
@@ -12,9 +13,6 @@ import SiderMenu from '@/components/SiderMenu';
 import getPageTitle from '@/utils/getPageTitle';
 
 import styles from './BasicLayout.less';
-
-// lazy load SettingDrawer
-const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
 
 const { Content } = Layout;
 
@@ -53,9 +51,6 @@ class BasicLayout extends React.Component {
       type: 'global/fetchLoggedInUser',
     });
     dispatch({
-      type: 'setting/getSetting',
-    });
-    dispatch({
       type: 'menu/getMenuData',
       payload: { routes, path, authority },
     });
@@ -70,7 +65,9 @@ class BasicLayout extends React.Component {
   }
 
   getLayoutStyle = () => {
-    const { fixSiderbar, isMobile, collapsed, layout } = this.props;
+    const { isMobile, collapsed } = this.props;
+    const { fixSiderbar, layout } = defaultSettings;
+
     if (fixSiderbar && layout !== 'topmenu' && !isMobile) {
       return {
         paddingLeft: collapsed ? '80px' : '256px',
@@ -87,30 +84,15 @@ class BasicLayout extends React.Component {
     });
   };
 
-  renderSettingDrawer = () => {
-    // Do not render SettingDrawer in production
-    // unless it is deployed in preview.pro.ant.design as demo
-    // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-    if (
-      process.env.NODE_ENV === 'production' &&
-      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION !== 'site'
-    ) {
-      return null;
-    }
-    return <SettingDrawer />;
-  };
-
   render() {
     const {
-      navTheme,
-      layout: PropsLayout,
       children,
       location: { pathname },
       isMobile,
       menuData,
       breadcrumbNameMap,
-      fixedHeader,
     } = this.props;
+    const { layout: PropsLayout, fixedHeader, navTheme } = defaultSettings;
 
     const isTop = PropsLayout === 'topmenu';
     const contentStyle = !fixedHeader ? { paddingTop: 0 } : {};
@@ -123,6 +105,7 @@ class BasicLayout extends React.Component {
             onCollapse={this.handleMenuCollapse}
             menuData={menuData}
             isMobile={isMobile}
+            {...defaultSettings}
             {...this.props}
           />
         )}
@@ -137,6 +120,7 @@ class BasicLayout extends React.Component {
             handleMenuCollapse={this.handleMenuCollapse}
             logo={logo}
             isMobile={isMobile}
+            {...defaultSettings}
             {...this.props}
           />
           <Content className={styles.content} style={contentStyle}>
@@ -146,28 +130,23 @@ class BasicLayout extends React.Component {
       </Layout>
     );
     return (
-      <React.Fragment>
-        <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
-          <ContainerQuery query={query}>
-            {params => (
-              <Context.Provider value={this.getContext()}>
-                <div className={classNames(params)}>{layout}</div>
-              </Context.Provider>
-            )}
-          </ContainerQuery>
-        </DocumentTitle>
-        <Suspense fallback={null}>{this.renderSettingDrawer()}</Suspense>
-      </React.Fragment>
+      <DocumentTitle title={getPageTitle(pathname, breadcrumbNameMap)}>
+        <ContainerQuery query={query}>
+          {params => (
+            <Context.Provider value={this.getContext()}>
+              <div className={classNames(params)}>{layout}</div>
+            </Context.Provider>
+          )}
+        </ContainerQuery>
+      </DocumentTitle>
     );
   }
 }
 
-export default connect(({ global, setting, menu: menuModel }) => ({
+export default connect(({ global, menu: menuModel }) => ({
   collapsed: global.collapsed,
-  layout: setting.layout,
   menuData: menuModel.menuData,
   breadcrumbNameMap: menuModel.breadcrumbNameMap,
-  ...setting,
 }))(props => (
   <Media query="(max-width: 599px)">
     {isMobile => <BasicLayout {...props} isMobile={isMobile} />}

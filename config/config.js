@@ -6,14 +6,7 @@ import webpackPlugin from './plugin.config';
 import defaultSettings from '../src/defaultSettings';
 
 const { pwa, primaryColor } = defaultSettings;
-// preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-const {
-  API_URL,
-  ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION,
-  TEST,
-  SABIA_CLIENT_ID,
-  SABIA_REDIRECT_URI,
-} = process.env;
+const { API_URL, TEST } = process.env;
 
 const plugins = [
   [
@@ -56,7 +49,7 @@ const plugins = [
 
 // 针对 preview.pro.ant.design 的 GA 统计代码
 // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-if (ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site') {
+if (process.env.NODE_ENV === 'production') {
   plugins.push([
     'umi-plugin-ga',
     {
@@ -69,17 +62,13 @@ export default {
   // add for transfer to umi
   plugins,
   define: {
-    ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
-      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-    API_URL: API_URL || 'http://localhost:8000/api/',
-    SABIA_CLIENT_ID,
-    SABIA_REDIRECT_URI,
+    API_URL: API_URL || 'http://localhost:3333/api/',
   },
   treeShaking: true,
   targets: {
     ie: 11,
   },
-  devtool: ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION ? 'source-map' : false,
+  devtool: false,
   // 路由配置
   routes: pageRoutes,
   // Theme for antd

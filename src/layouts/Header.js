@@ -4,6 +4,7 @@ import { Layout, message } from 'antd';
 import Animate from 'rc-animate';
 import { connect } from 'dva';
 import router from 'umi/router';
+import defaultSettings from '@/defaultSettings';
 import GlobalHeader from '@/components/GlobalHeader';
 import TopNavHeader from '@/components/TopNavHeader';
 import styles from './Header.less';
@@ -34,8 +35,9 @@ class HeaderView extends Component {
   }
 
   getHeadWidth = () => {
-    const { isMobile, collapsed, setting } = this.props;
-    const { fixedHeader, layout } = setting;
+    const { isMobile, collapsed } = this.props;
+    const { fixedHeader, layout } = defaultSettings;
+
     if (isMobile || !fixedHeader || layout === 'topmenu') {
       return '100%';
     }
@@ -124,8 +126,9 @@ class HeaderView extends Component {
   };
 
   render() {
-    const { isMobile, handleMenuCollapse, setting } = this.props;
-    const { navTheme, layout, fixedHeader } = setting;
+    const { isMobile, handleMenuCollapse } = this.props;
+    const { navTheme, layout, fixedHeader } = defaultSettings;
+
     const { visible } = this.state;
     const isTop = layout === 'topmenu';
     const width = this.getHeadWidth();
@@ -166,7 +169,7 @@ class HeaderView extends Component {
 }
 
 export default connect(state => {
-  const { global, setting, loading } = state;
+  const { global, loading } = state;
   return {
     currentUser: loggedInUserSelector(state),
     collapsed: global.collapsed,
@@ -176,6 +179,5 @@ export default connect(state => {
     notices: global.notices,
     fetchingFavorites: loading.effects['global/fetchFavorites'],
     favorites: global.favorites,
-    setting,
   };
 })(HeaderView);

@@ -2,8 +2,8 @@ import React from 'react';
 import { FormattedMessage } from 'umi-plugin-react/locale';
 import Link from 'umi/link';
 import { PageHeader, Tabs } from 'antd';
-import { connect } from 'dva';
 import classNames from 'classnames';
+import defaultSettings from '@/defaultSettings';
 import GridContent from './GridContent';
 import styles from './index.less';
 import MenuContext from '@/layouts/MenuContext';
@@ -15,27 +15,30 @@ import { conversionBreadcrumbList } from './breadcrumb';
  * basically all the functions are implemented.
  */
 const renderFooter = ({ tabList, tabActiveKey, onTabChange, tabBarExtraContent }) => {
-  return tabList && tabList.length ? (
-    <Tabs
-      className={styles.tabs}
-      activeKey={tabActiveKey}
-      onChange={key => {
-        if (onTabChange) {
-          onTabChange(key);
-        }
-      }}
-      tabBarExtraContent={tabBarExtraContent}
-    >
-      {tabList.map(item => (
-        <Tabs.TabPane tab={item.tab} key={item.key} />
-      ))}
-    </Tabs>
-  ) : null;
+  if (tabList && tabList.length) {
+    return (
+      <Tabs
+        className={styles.tabs}
+        activeKey={tabActiveKey}
+        onChange={key => {
+          if (onTabChange) {
+            onTabChange(key);
+          }
+        }}
+        tabBarExtraContent={tabBarExtraContent}
+      >
+        {tabList.map(item => (
+          <Tabs.TabPane tab={item.tab} key={item.key} />
+        ))}
+      </Tabs>
+    );
+  }
+
+  return null;
 };
 
 const PageHeaderWrapper = ({
   children,
-  contentWidth,
   fluid,
   wrapperClassName,
   home,
@@ -56,7 +59,7 @@ const PageHeaderWrapper = ({
             <div className={styles.wrapper}>
               <div
                 className={classNames({
-                  [styles.wide]: !fluid && contentWidth === 'Fixed',
+                  [styles.wide]: !fluid && defaultSettings.contentWidth === 'Fixed',
                 })}
               >
                 <PageHeader
@@ -105,6 +108,4 @@ const PageHeaderWrapper = ({
   );
 };
 
-export default connect(({ setting }) => ({
-  contentWidth: setting.contentWidth,
-}))(PageHeaderWrapper);
+export default PageHeaderWrapper;

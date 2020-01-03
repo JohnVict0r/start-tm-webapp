@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import router from 'umi/router';
-import Link from 'umi/link';
-import PageHeaderWrapper from '@/components/PageHeaderWrapper';
+import PageWrapper from '@/components/PageWrapper';
 import PageLoading from '@/components/PageLoading';
 
 @connect((state, ownProps) => {
@@ -20,70 +18,47 @@ class ClubView extends Component {
     });
   }
 
-  handleTabChange = key => {
-    const { match } = this.props;
-    switch (key) {
-      case 'athletes':
-        router.push(`${match.url}/athletes`);
-        break;
-      case 'members':
-        router.push(`${match.url}/members`);
-        break;
-      case 'edit':
-        router.push(`${match.url}/edit`);
-        break;
-      default:
-        break;
-    }
-  };
-
   render() {
-    const { club, loading, children, location, match } = this.props;
+    const { club, loading, children } = this.props;
 
     if (!club || (club && !club.federation) || !!loading) {
       return <PageLoading />;
     }
 
-    const tabList = [
+    const menuData = [
       {
-        key: 'athletes',
-        tab: 'Atletas',
+        key: '/details',
+        name: 'Detalhes',
+        icon: 'dashboard',
       },
       {
-        key: 'members',
-        tab: 'Membros',
+        key: '/athletes',
+        name: 'Atletas',
+        icon: 'team',
       },
       {
-        key: 'edit',
-        tab: 'Configurações',
+        key: '/edit',
+        name: 'Configurações',
+        icon: 'setting',
       },
     ];
 
-    const DescriptionClub = ({ club: { address, federation } }) => {
-      return (
-        <>
-          <div>{`${address.city} - ${federation.uf} `}</div>
-          {/*
-            <div>{`Endereço: ${address.street}, ${address.number}, ${address.neighborhood}`}</div>
-            <div>
-              <Icon type="clock-circle" />{' '}
-            </div> */}
-        </>
-      );
-    };
+    const descriptionClub = `${club.address.city} - ${club.federation.uf}`;
 
     return (
-      <PageHeaderWrapper
+      <PageWrapper
+        top="Clube"
         title={club.name}
-        subTitle={<Link to={`/federations/${club.federationId}`}>{club.federation.initials}</Link>}
-        // logo={<img alt={team.project.name} src={team.project.avatar} />}
-        content={<DescriptionClub club={club} />}
-        tabList={tabList}
-        tabActiveKey={location.pathname.replace(`${match.url}/`, '')}
-        onTabChange={this.handleTabChange}
+        // avatar={{
+        //   src:
+        //     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUC0LYGdxwCD9TEukVRqL3OWRqTyT95SoupznUTkGm49-uwyM33A',
+        //   alt: federation.initials,
+        // }}
+        menuData={menuData}
+        subtitle={descriptionClub}
       >
         {children}
-      </PageHeaderWrapper>
+      </PageWrapper>
     );
   }
 }

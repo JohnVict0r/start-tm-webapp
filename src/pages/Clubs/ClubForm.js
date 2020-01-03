@@ -3,7 +3,7 @@ import { connect } from 'dva';
 // import Link from 'umi/link';
 import { Input, Form, Select, Card, Button, Divider } from 'antd';
 import { formatMessage } from 'umi/locale';
-import { setFormWithError } from '@/utils/forms';
+import { setFormWithError, formItemLayout, submitFormLayout } from '@/utils/forms';
 import { cepMask, numberMask } from '@/utils/mask';
 
 @connect((state, ownProps) => ({
@@ -101,25 +101,6 @@ class ClubForm extends PureComponent {
       club,
       citiesByUF,
     } = this.props;
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
-      },
-    };
-
-    const submitFormLayout = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
-      },
-    };
 
     return (
       <Card

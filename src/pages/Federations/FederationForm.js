@@ -6,7 +6,7 @@ import { Input, Form, Card, Select, Button } from 'antd';
 import { formatMessage } from 'umi/locale';
 // import PageHeaderWrapper from '@/components/PageHeaderWrapper';
 // import PageLoading from '@/components/PageLoading';
-import { setFormWithError } from '@/utils/forms';
+import { setFormWithError, formItemLayout, submitFormLayout } from '@/utils/forms';
 import { upperCaseMask } from '@/utils/mask';
 
 @withRouter
@@ -69,25 +69,6 @@ class FederationForm extends PureComponent {
       federation,
       states,
     } = this.props;
-
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 7 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 12 },
-        md: { span: 10 },
-      },
-    };
-
-    const submitFormLayout = {
-      wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 10, offset: 7 },
-      },
-    };
 
     return (
       <Card

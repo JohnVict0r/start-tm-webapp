@@ -6,6 +6,7 @@ import {
   uploadFederation,
   loadFederation,
   loadFederations,
+  deleteFederation,
 } from '@/services/federations';
 import Schema from '@/services/Schema';
 import { initialPaginationState } from '@/utils/getPaginationProps';
@@ -61,6 +62,16 @@ export default {
           type: 'validation/handleError',
           payload: { effect: 'federations/save', error },
         });
+      }
+    },
+
+    *delete({ payload }, { call }) {
+      try {
+        yield call(deleteFederation, payload);
+        message.success('Federação apagada com sucesso!');
+        router.push(`/federations`);
+      } catch (error) {
+        // não faz nada
       }
     },
 

@@ -8,3 +8,6 @@ export const uploadFederation = ({ federation, id }) =>
 export const loadFederation = ({ federationId }) => callApi(`federations/${federationId}`).get();
 
 export const loadFederations = () => callApi(`federations`).get();
+
+export const deleteFederation = ({ federationId }) =>
+  callApi(`federations/${federationId}`).delete();

@@ -156,7 +156,7 @@ class EventForm extends PureComponent {
             })(<Input maxLength={255} placeholder="Insira o nome do evento" />)}
           </Form.Item>
           <Form.Item label="Tipo do evento" {...formItemLayout}>
-            {getFieldDecorator('type', {
+            {getFieldDecorator('typeEvent', {
               rules: [{ required: true, message: 'Por favor informe o tipo do evento!' }],
               initialValue: event && event.name,
             })(

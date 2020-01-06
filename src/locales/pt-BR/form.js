@@ -43,4 +43,7 @@ export default {
   'form.publicUsers.option.A': 'Colega A',
   'form.publicUsers.option.B': 'Colega B',
   'form.publicUsers.option.C': 'Colega C',
+
+  // start tm
+  'form.city.placeholder': 'Selecione a cidade',
 };

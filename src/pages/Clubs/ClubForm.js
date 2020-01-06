@@ -154,7 +154,7 @@ class ClubForm extends PureComponent {
               rules: [{ required: true, message: 'Por favor informe o nome da cidade!' }],
               initialValue: club && club.address.city,
             })(
-              <Select placeholder={formatMessage({ id: 'app.club.form.city.placeholder' })}>
+              <Select placeholder={formatMessage({ id: 'form.city.placeholder' })}>
                 {/* TODO fazer com que salve o id do estado */}
                 {citiesByUF &&
                   citiesByUF[federation ? federation.uf : club.federation.uf] &&

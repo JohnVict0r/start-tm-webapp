@@ -5,5 +5,4 @@ export default {
   'app.club.failed-edited': 'Não foi possível editar o clube!',
   'app.club.edit': 'Editar Clube',
   'app.club.create': 'Criar Clube',
-  'app.club.form.city.placeholder': 'Selecione a cidade',
 };

@@ -127,40 +127,12 @@ export default [
         routes: [
           { path: '/clubs', redirect: '/clubs/explore' },
           {
-            path: '/clubs/explore',
-            name: 'my-clubs',
-            icon: 'home',
-            component: './Clubs/ClubsList',
-          },
-          // {
-          //   path: '/clubs/new',
-          //   name: 'new-club',
-          //   icon: 'plus',
-          //   component: './Clubs/NewClub',
-          //   authority: ['Administrador', 'Gerente'],
-          // },
-          // {
-          //   path: '/clubs/:clubId/board',
-          //   name: 'board',
-          //   component: './Boards/Board',
-          //   hideInMenu: true,
-          //   routes: [
-          //     {
-          //       path: '/clubs/:clubId/board/cards/:cardId',
-          //       name: 'card-view',
-          //       component: './Cards/CardView',
-          //     },
-          //   ],
-          // },
-          {
             path: '/clubs/:clubId',
             name: 'club',
             component: './Clubs/ClubView',
             hideInMenu: true,
             hideInBreadcrumb: true,
             routes: [
-              // { path: '/clubs/:clubId', redirect: '/clubs/:clubId/milestones' },
-              { path: '/clubs/:clubId' },
               {
                 path: '/clubs/:clubId/members',
                 name: 'members',
@@ -170,11 +142,6 @@ export default [
                 path: '/clubs/:clubId/edit',
                 name: 'edit-club',
                 component: './Clubs/ClubForm',
-              },
-              {
-                path: '/clubs/:clubId/milestones',
-                name: 'milestones',
-                component: './Clubs/Milestone',
               },
             ],
           },
@@ -262,68 +229,10 @@ export default [
                 name: 'new-event',
                 component: './Events/EventForm',
               },
-              // {
-              //   path: '/federations/:federationId/members',
-              //   name: 'project-members',
-              //   component: './Projects/Members',
-              // },
             ],
           },
         ],
       },
-
-      // projects
-      // {
-      //   path: '/projects',
-      //   name: 'projects',
-      //   icon: 'project',
-      //   hideInBreadcrumb: true,
-      //   routes: [
-      //     { path: '/projects', redirect: '/projects/explore' },
-      //     {
-      //       path: '/projects/explore',
-      //       name: 'my-projects',
-      //       icon: 'project',
-      //       component: './Projects/ProjectsList',
-      //     },
-      //     {
-      //       path: '/projects/new',
-      //       name: 'new-project',
-      //       icon: 'plus',
-      //       component: './Projects/NewProject',
-      //       authority: ['Administrador', 'Gerente'],
-      //     },
-      //     {
-      //       path: '/projects/:projectId',
-      //       name: 'project',
-      //       component: './Projects/ProjectView',
-      //       hideInMenu: true,
-      //       routes: [
-      //         { path: '/projects/:projectId', redirect: '/projects/:projectId/details' },
-      //         {
-      //           path: '/projects/:projectId/details',
-      //           name: 'details',
-      //           component: './Projects/ProjectDetails',
-      //         },
-      //         {
-      //           path: '/projects/:projectId/edit',
-      //           name: 'edit-project',
-      //           component: './Projects/EditProject',
-      //         },
-      //         {
-      //           path: '/projects/:projectId/new-team',
-      //           name: 'new-team',
-      //           component: './Projects/NewTeam',
-      //         },
-      //         {
-      //           path: '/projects/:projectId/members',
-      //           name: 'project-members',
-      //           component: './Projects/Members',
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
 
       // admin
       // {

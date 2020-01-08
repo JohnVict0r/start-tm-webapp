@@ -9,6 +9,6 @@ export const loadClubsByFederationId = ({ federation_id, page }) =>
 
 export const createClub = ({ club }) => callApi(`clubs`, null, true).post(club);
 
-export const loadClub = id => callApi(`clubs/${id}`, null, true).get();
-
 export const uploadClub = ({ club, id }) => callApi(`clubs/${id}`).put(club);
+
+export const loadClub = id => callApi(`clubs/${id}`, null, true).get();

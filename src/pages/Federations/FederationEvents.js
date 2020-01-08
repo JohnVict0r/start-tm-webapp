@@ -17,7 +17,7 @@ class FederationEvents extends Component {
     dispatch({
       type: 'events/fetchByFederation',
       payload: {
-        federation_id: match.params.federationId,
+        owner_id: match.params.federationId,
         page: 0,
       },
     });
@@ -28,7 +28,7 @@ class FederationEvents extends Component {
     dispatch({
       type: 'events/fetchByFederation',
       payload: {
-        federation_id: match.params.federationId,
+        owner_id: match.params.federationId,
         page,
       },
     });
@@ -62,7 +62,7 @@ class FederationEvents extends Component {
             rowKey="id"
             loading={loadingEvents}
             pagination={getPaginationProps(eventsByFederation.meta)}
-            dataSource={eventsByFederation.eventsIds}
+            dataSource={eventsByFederation.eventIds}
             // TODO corrigir listagem quando organizar o TTEvent no backend
             renderItem={item => <EventListItem id={item} loading={loadingEvents} />}
           />

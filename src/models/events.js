@@ -2,7 +2,7 @@ import { message } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
 import Schema from '@/services/Schema';
-import { loadClubsByFederationId, createClub, uploadClub, loadClub } from '@/services/clubs';
+import { loadEventsByFederationId, createEvent, uploadEvent } from '@/services/events';
 import { initialPaginationState } from '@/utils/getPaginationProps';
 
 export default {
@@ -11,7 +11,7 @@ export default {
   state: {
     byFederationId: {},
     forCurrentUser: {
-      eventIds: [],
+      clubIds: [],
       meta: initialPaginationState,
     },
   },
@@ -42,8 +42,8 @@ export default {
     *save({ payload }, { call, put }) {
       try {
         const response = payload.id
-          ? yield call(uploadClub, payload)
-          : yield call(createClub, payload);
+          ? yield call(uploadEvent, payload)
+          : yield call(createEvent, payload);
 
         // normaliza os dados retornados e
         // funde com o state.entities
@@ -67,27 +67,27 @@ export default {
       }
     },
 
-    *fetchEvent({ payload }, { call, put }) {
-      try {
-        const response = yield call(loadClub, payload);
+    // *fetchEvent({ payload }, { call, put }) {
+    //   try {
+    //     const response = yield call(loadClub, payload);
 
-        // normaliza os dados retornados e
-        // funde com o state.entities
-        yield put({
-          type: 'entities/normalize',
-          payload: {
-            data: response,
-            schema: Schema.EVENT,
-          },
-        });
-      } catch (e) {
-        // Não faz nada
-      }
-    },
+    //     // normaliza os dados retornados e
+    //     // funde com o state.entities
+    //     yield put({
+    //       type: 'entities/normalize',
+    //       payload: {
+    //         data: response,
+    //         schema: Schema.EVENT,
+    //       },
+    //     });
+    //   } catch (e) {
+    //     // Não faz nada
+    //   }
+    // },
 
     *fetchByFederation({ payload }, { call, put }) {
       try {
-        const response = yield call(loadClubsByFederationId, payload);
+        const response = yield call(loadEventsByFederationId, payload);
 
         const { data, ...meta } = response;
 
@@ -104,7 +104,7 @@ export default {
         yield put({
           type: 'receiveEventsByFederationId',
           payload: {
-            federation_id: payload.federation_id,
+            federation_id: payload.owner_id,
             eventIds: result,
             meta,
           },

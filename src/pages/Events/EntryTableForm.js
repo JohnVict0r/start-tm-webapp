@@ -190,7 +190,7 @@ export default class EntryTableForm extends PureComponent {
         title: 'Preço',
         dataIndex: 'price',
         key: 'price',
-        width: '40%',
+        width: '30%',
         render: (text, record) => {
           if (record.editable) {
             return (

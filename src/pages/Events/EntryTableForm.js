@@ -1,6 +1,29 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Table, Button, Input, message, Popconfirm, Divider } from 'antd';
+import { Table, Button, Select, Input, message, Popconfirm, Divider } from 'antd';
 import styles from './style.less';
+
+const EntryTypes = [
+  {
+    type: 'R',
+    value: 'Rating',
+  },
+  {
+    type: 'K',
+    value: 'Ranking',
+  },
+  {
+    type: 'KK',
+    value: '2 Rakings',
+  },
+  {
+    type: 'RK',
+    value: 'Rating + Ranking',
+  },
+  {
+    type: 'KKR',
+    value: 'Rating + 2 Ranking',
+  },
+];
 
 export default class EntryTableForm extends PureComponent {
   index = 0;
@@ -81,6 +104,16 @@ export default class EntryTableForm extends PureComponent {
     }
   }
 
+  handleSelectChange(value, fieldName, key) {
+    const { data } = this.state;
+    const newData = data.map(item => ({ ...item }));
+    const target = this.getRowByKey(key, newData);
+    if (target) {
+      target[fieldName] = value;
+      this.setState({ data: newData });
+    }
+  }
+
   saveRow(e, key) {
     e.persist();
     this.setState({
@@ -134,27 +167,30 @@ export default class EntryTableForm extends PureComponent {
         title: 'tipo da entrada',
         dataIndex: 'type',
         key: 'type',
-        width: '20%',
-        render: (text, record) => {
+        width: '40%',
+        render: (key, record) => {
           if (record.editable) {
             return (
-              <Input
-                value={text}
+              <Select
+                value={key}
                 autoFocus
-                onChange={e => this.handleFieldChange(e, 'type', record.key)}
-                onKeyPress={e => this.handleKeyPress(e, record.key)}
-                placeholder="Tipo da entrada"
-              />
+                onChange={value => this.handleSelectChange(value, 'type', record.key)}
+                placeholder="Tipo de entrada"
+              >
+                {EntryTypes.map(entry => (
+                  <Select.Option key={entry.type}>{entry.value}</Select.Option>
+                ))}
+              </Select>
             );
           }
-          return text;
+          return EntryTypes.filter(entry => entry.type === key)[0].value;
         },
       },
       {
         title: 'Preço',
         dataIndex: 'price',
         key: 'price',
-        width: '20%',
+        width: '40%',
         render: (text, record) => {
           if (record.editable) {
             return (
@@ -215,6 +251,7 @@ export default class EntryTableForm extends PureComponent {
     return (
       <Fragment>
         <Table
+          className="entry-table"
           loading={loading}
           columns={columns}
           dataSource={data}

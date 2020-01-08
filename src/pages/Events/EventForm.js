@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Input, Form, Select, Card, Button, DatePicker, Divider } from 'antd';
+import { Input, Form, Select, Card, Button, DatePicker, InputNumber, Divider } from 'antd';
 import { formatMessage } from 'umi/locale';
 import { setFormWithError, formItemLayout, submitFormLayout } from '@/utils/forms';
 import { cepMask, numberMask, upperCaseMask } from '@/utils/mask';
@@ -9,12 +9,12 @@ import EntryTableForm from './EntryTableForm';
 const entryData = [
   {
     key: '1',
-    type: 'r',
+    type: 'R',
     price: 45.5,
   },
   {
     key: '2',
-    type: 'k',
+    type: 'K',
     price: 50.5,
   },
 ];
@@ -62,7 +62,7 @@ class EventForm extends PureComponent {
     const { form, dispatch, match, event, federation } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { name, typeEvent, duration, entries, ...address } = values;
+        const { name, typeEvent, duration, entries, tables, ...address } = values;
 
         // TODO verificar se o formato DD/MM/YYYY é suficiente
         const [startline, deadline] = duration;
@@ -73,6 +73,12 @@ class EventForm extends PureComponent {
           const typeFormated = upperCaseMask(type);
           return { type: typeFormated, price };
         });
+
+        // Tables
+        const tablesData = [];
+        for (let i = 1; i <= parseInt(tables, 10); i += 1) {
+          tablesData.push({ order: i });
+        }
 
         if (match.params.eventId) {
           dispatch({
@@ -121,7 +127,7 @@ class EventForm extends PureComponent {
                 },
                 entries: entriesData,
                 championships: [],
-                tables: [],
+                tables: tablesData,
               },
             },
           });
@@ -170,6 +176,11 @@ class EventForm extends PureComponent {
               rules: [{ required: true, message: 'Por favor informe o periodo do evento!' }],
             })(<DatePicker.RangePicker format="DD/MM/YYYY" />)}
           </Form.Item>
+          <Form.Item label="Quantidade de mesas" {...formItemLayout}>
+            {getFieldDecorator('tables', {
+              rules: [{ required: true, message: 'Por favor informe o periodo do evento!' }],
+            })(<InputNumber defaultValue={4} min={0} max={50} />)}
+          </Form.Item>
           <Divider>Endereço</Divider>
           <Form.Item label="Logradouro" {...formItemLayout}>
             {getFieldDecorator('street', {
@@ -184,18 +195,18 @@ class EventForm extends PureComponent {
               getValueFromEvent: this.handleChangeNumber,
             })(<Input maxLength={11} placeholder="Insira o número" />)}
           </Form.Item>
-          <Form.Item label="Bairro" {...formItemLayout}>
-            {getFieldDecorator('neighborhood', {
-              rules: [{ message: 'Por favor informe o bairro!' }],
-              initialValue: event && event.address.neighborhood,
-            })(<Input maxLength={255} placeholder="Insira o bairro" />)}
-          </Form.Item>
           <Form.Item label="CEP" {...formItemLayout}>
             {getFieldDecorator('cep', {
               rules: [{ required: true, message: 'Por favor informe o CEP!' }],
               initialValue: event && event.address.cep,
               getValueFromEvent: this.handleChangeCep,
             })(<Input maxLength={255} placeholder="Insira o CEP" />)}
+          </Form.Item>
+          <Form.Item label="Bairro" {...formItemLayout}>
+            {getFieldDecorator('neighborhood', {
+              rules: [{ message: 'Por favor informe o bairro!' }],
+              initialValue: event && event.address.neighborhood,
+            })(<Input maxLength={255} placeholder="Insira o bairro" />)}
           </Form.Item>
           <Form.Item label="Complemento" {...formItemLayout}>
             {getFieldDecorator('complement', {
@@ -218,10 +229,12 @@ class EventForm extends PureComponent {
               </Select>
             )}
           </Form.Item>
-          <Divider>Preços</Divider>
-          {getFieldDecorator('entries', {
-            initialValue: entryData,
-          })(<EntryTableForm />)}
+          <Divider>Configurações</Divider>
+          <Form.Item label="Valores de Inscrição" {...formItemLayout}>
+            {getFieldDecorator('entries', {
+              initialValue: entryData,
+            })(<EntryTableForm />)}
+          </Form.Item>
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
               {event

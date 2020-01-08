@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Input, Form, Select, Card, Button, DatePicker, InputNumber, Divider } from 'antd';
 import { formatMessage } from 'umi/locale';
+import { router } from 'umi';
 import { setFormWithError, formItemLayout, submitFormLayout } from '@/utils/forms';
-import { cepMask, numberMask, upperCaseMask } from '@/utils/mask';
+import { cepMask, numberMask } from '@/utils/mask';
 import EntryTableForm from './EntryTableForm';
+import CategoryTableForm from './CategoryTableForm';
 
 const entryData = [
   {
@@ -16,6 +18,33 @@ const entryData = [
     key: '2',
     type: 'K',
     price: 50.5,
+  },
+];
+
+const categoryData = [
+  {
+    key: '1',
+    name: 'Rating A',
+    sex: 'M',
+    type: 'RAT',
+    upperLimit: 1500,
+    downLimit: 300,
+  },
+  {
+    key: '2',
+    name: 'Raking Absoluto B',
+    sex: 'F',
+    type: 'RAK',
+    upperLimit: 1500,
+    downLimit: 300,
+  },
+  {
+    key: '3',
+    name: 'Ranking Juvenil',
+    sex: 'M',
+    type: 'RAK',
+    upperLimit: 18,
+    downLimit: 15,
   },
 ];
 
@@ -62,22 +91,27 @@ class EventForm extends PureComponent {
     const { form, dispatch, match, event, federation } = this.props;
     form.validateFields({ force: true }, (err, values) => {
       if (!err) {
-        const { name, typeEvent, duration, entries, tables, ...address } = values;
+        const { name, typeEvent, duration, entries, championships, tables, ...address } = values;
 
         // TODO verificar se o formato DD/MM/YYYY é suficiente
         const [startline, deadline] = duration;
 
         // Entries
         const entriesData = entries.map(entry => {
-          const { type, price } = entry;
-          const typeFormated = upperCaseMask(type);
-          return { type: typeFormated, price };
+          const { key, ...data } = entry;
+          return data;
+        });
+
+        // Championships
+        const championshipsData = championships.map(championship => {
+          const { key, ...data } = championship;
+          return data;
         });
 
         // Tables
         const tablesData = [];
         for (let i = 1; i <= parseInt(tables, 10); i += 1) {
-          tablesData.push({ order: i });
+          tablesData.push({ number: i });
         }
 
         if (match.params.eventId) {
@@ -126,8 +160,8 @@ class EventForm extends PureComponent {
                   uf: federation.uf,
                 },
                 entries: entriesData,
-                championships: [],
                 tables: tablesData,
+                championships: championshipsData,
               },
             },
           });
@@ -168,6 +202,9 @@ class EventForm extends PureComponent {
             })(
               <Select placeholder={formatMessage({ id: 'app.event.form.type.placeholder' })}>
                 <Select.Option key="state">Estadual</Select.Option>
+                <Select.Option key="intrastate">Interestadual</Select.Option>
+                <Select.Option key="national">Brasileiro</Select.Option>
+                <Select.Option key="school">Escolar</Select.Option>
               </Select>
             )}
           </Form.Item>
@@ -229,17 +266,22 @@ class EventForm extends PureComponent {
               </Select>
             )}
           </Form.Item>
-          <Divider>Configurações</Divider>
-          <Form.Item label="Valores de Inscrição" {...formItemLayout}>
-            {getFieldDecorator('entries', {
-              initialValue: entryData,
-            })(<EntryTableForm />)}
-          </Form.Item>
+          <Divider>Valores das inscrições</Divider>
+          {getFieldDecorator('entries', {
+            initialValue: entryData,
+          })(<EntryTableForm />)}
+          <Divider>Categorias</Divider>
+          {getFieldDecorator('championships', {
+            initialValue: categoryData,
+          })(<CategoryTableForm />)}
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
               {event
                 ? formatMessage({ id: 'app.event.edit' })
                 : formatMessage({ id: 'app.event.create' })}
+            </Button>
+            <Button onClick={() => router.goBack()} type="danger">
+              {formatMessage({ id: 'app.event.cancel' })}
             </Button>
           </Form.Item>
         </Form>

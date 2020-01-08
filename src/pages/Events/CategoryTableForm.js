@@ -1,27 +1,26 @@
 import React, { PureComponent, Fragment } from 'react';
-import { Table, Button, Select, Input, message, Popconfirm, Divider } from 'antd';
+import { Table, Button, Select, Input, InputNumber, message, Popconfirm, Divider } from 'antd';
 import styles from './style.less';
 
-const EntryTypes = [
+const CategoryTypes = [
   {
-    type: 'R',
+    type: 'RAT',
     value: 'Rating',
   },
   {
-    type: 'K',
+    type: 'RAK',
     value: 'Ranking',
   },
+];
+
+const SexTypes = [
   {
-    type: 'KK',
-    value: '2 Rakings',
+    type: 'M',
+    value: 'Masculino',
   },
   {
-    type: 'RK',
-    value: 'Rating + Ranking',
-  },
-  {
-    type: 'KKR',
-    value: 'Rating + 2 Ranking',
+    type: 'F',
+    value: 'Feminino',
   },
 ];
 
@@ -126,7 +125,7 @@ export default class EntryTableForm extends PureComponent {
       }
       const target = this.getRowByKey(key) || {};
       if (!target.type || !target.price) {
-        message.error('preencha os campos para cadastrar');
+        message.error('preencha os campos da categoria para cadastrar');
         e.target.focus();
         this.setState({
           loading: false,
@@ -164,10 +163,52 @@ export default class EntryTableForm extends PureComponent {
   render() {
     const columns = [
       {
-        title: 'Tipo da entrada',
+        title: 'Nome da categoria',
+        dataIndex: 'name',
+        key: 'name',
+        width: '20%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <Input
+                value={text}
+                onChange={e => this.handleFieldChange(e, 'name', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="Nome"
+              />
+            );
+          }
+          return text;
+        },
+      },
+      {
+        title: 'Modalidade',
+        dataIndex: 'sex',
+        key: 'sex',
+        width: '15%',
+        render: (key, record) => {
+          if (record.editable) {
+            return (
+              <Select
+                value={key}
+                autoFocus
+                onChange={value => this.handleSelectChange(value, 'sex', record.key)}
+                placeholder="Modalidade"
+              >
+                {SexTypes.map(sex => (
+                  <Select.Option key={sex.type}>{sex.value}</Select.Option>
+                ))}
+              </Select>
+            );
+          }
+          return SexTypes.filter(sex => sex.type === key)[0].value;
+        },
+      },
+      {
+        title: 'Tipo',
         dataIndex: 'type',
         key: 'type',
-        width: '50%',
+        width: '15%',
         render: (key, record) => {
           if (record.editable) {
             return (
@@ -175,28 +216,47 @@ export default class EntryTableForm extends PureComponent {
                 value={key}
                 autoFocus
                 onChange={value => this.handleSelectChange(value, 'type', record.key)}
-                placeholder="Tipo de entrada"
+                placeholder="Tipo"
               >
-                {EntryTypes.map(entry => (
-                  <Select.Option key={entry.type}>{entry.value}</Select.Option>
+                {CategoryTypes.map(category => (
+                  <Select.Option key={category.type}>{category.value}</Select.Option>
                 ))}
               </Select>
             );
           }
-          return EntryTypes.filter(entry => entry.type === key)[0].value;
+          return CategoryTypes.filter(category => category.type === key)[0].value;
         },
       },
       {
-        title: 'Preço',
-        dataIndex: 'price',
-        key: 'price',
-        width: '30%',
+        title: 'pont/idade min.',
+        dataIndex: 'downLimit',
+        key: 'downLimit',
+        width: '15%',
         render: (text, record) => {
           if (record.editable) {
             return (
-              <Input
+              <InputNumber
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'price', record.key)}
+                onChange={e => this.handleFieldChange(e, 'downLimit', record.key)}
+                onKeyPress={e => this.handleKeyPress(e, record.key)}
+                placeholder="Valor"
+              />
+            );
+          }
+          return text;
+        },
+      },
+      {
+        title: 'pont/idade max.',
+        dataIndex: 'upperLimit',
+        key: 'upperLimit',
+        width: '15%',
+        render: (text, record) => {
+          if (record.editable) {
+            return (
+              <InputNumber
+                value={text}
+                onChange={e => this.handleFieldChange(e, 'upperLimit', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="Valor"
               />
@@ -266,7 +326,7 @@ export default class EntryTableForm extends PureComponent {
           onClick={this.newEntry}
           icon="plus"
         >
-          Adicionar forma de entrada
+          Adicionar categoria
         </Button>
       </Fragment>
     );

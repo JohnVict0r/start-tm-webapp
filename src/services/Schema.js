@@ -33,6 +33,7 @@ const Address = new schema.Entity('address');
 const Club = new schema.Entity('clubs');
 const Federation = new schema.Entity('federations');
 const Event = new schema.Entity('events');
+const Athlete = new schema.Entity('athletes');
 const Championship = new schema.Entity('championships');
 const Table = new schema.Entity('tables');
 
@@ -125,6 +126,8 @@ const Schemas = {
   ADDRESS: Address,
   CLUB: Club,
   CLUB_ARRAY: [Club],
+  ATHLETE: Athlete,
+  ATHLETE_ARRAY: [Athlete],
   FEDERATION: Federation,
   FEDERATION_ARRAY: [Federation],
   EVENT: Event,

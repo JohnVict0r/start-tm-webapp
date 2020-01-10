@@ -24,6 +24,7 @@ export default {
     championships: {},
     tables: {},
     address: {},
+    athletes: {},
   },
 
   reducers: {
@@ -37,6 +38,7 @@ export default {
         ...updater({ entity: 'users' }),
         ...updater({ entity: 'address' }),
         ...updater({ entity: 'clubs' }),
+        ...updater({ entity: 'athletes' }),
         ...updater({ entity: 'events' }),
         ...updater({ entity: 'federations' }),
         ...updater({ entity: 'tables' }),

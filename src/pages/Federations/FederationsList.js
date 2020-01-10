@@ -13,7 +13,7 @@ import styles from './FederationsList.less';
   federations: state.federations.forCurrentUser,
   loadingFederations: state.loading.effects['federations/fetchFederations'],
 }))
-class ClubsList extends PureComponent {
+class FederationsList extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
@@ -57,4 +57,4 @@ class ClubsList extends PureComponent {
   }
 }
 
-export default ClubsList;
+export default FederationsList;

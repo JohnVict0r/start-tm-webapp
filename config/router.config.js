@@ -134,14 +134,19 @@ export default [
             hideInBreadcrumb: true,
             routes: [
               {
-                path: '/clubs/:clubId/members',
-                name: 'members',
-                component: './Clubs/Members',
+                path: '/clubs/:clubId/athletes',
+                name: 'athletes',
+                component: './Clubs/ClubAthletes',
               },
               {
                 path: '/clubs/:clubId/edit',
                 name: 'edit-club',
                 component: './Clubs/ClubForm',
+              },
+              {
+                path: '/clubs/:clubId/new-athlete',
+                name: 'new-athlete',
+                component: './Athletes/AthleteForm',
               },
             ],
           },

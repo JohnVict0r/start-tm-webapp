@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Input, Form, Select, Card, Button, DatePicker, InputNumber, Divider } from 'antd';
-import { formatMessage } from 'umi/locale';
+import moment from 'moment';
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import { router } from 'umi';
 import { setFormWithError, formItemLayout, submitFormLayout } from '@/utils/forms';
 import { cepMask, numberMask } from '@/utils/mask';
 import EntryTableForm from './EntryTableForm';
 import CategoryTableForm from './CategoryTableForm';
+
+import styles from './EventForm.less';
 
 const entryData = [
   {
@@ -198,9 +201,9 @@ class EventForm extends PureComponent {
           <Form.Item label="Tipo do evento" {...formItemLayout}>
             {getFieldDecorator('typeEvent', {
               rules: [{ required: true, message: 'Por favor informe o tipo do evento!' }],
-              initialValue: event && event.name,
+              initialValue: event && event.type,
             })(
-              <Select placeholder={formatMessage({ id: 'app.event.form.type.placeholder' })}>
+              <Select placeholder="Selecione o tipo do evento">
                 <Select.Option key="state">Estadual</Select.Option>
                 <Select.Option key="intrastate">Interestadual</Select.Option>
                 <Select.Option key="national">Brasileiro</Select.Option>
@@ -211,12 +214,14 @@ class EventForm extends PureComponent {
           <Form.Item label="Período do evento" {...formItemLayout}>
             {getFieldDecorator('duration', {
               rules: [{ required: true, message: 'Por favor informe o periodo do evento!' }],
+              initialValue: event && [moment(event.start), moment(event.end)],
             })(<DatePicker.RangePicker format="DD/MM/YYYY" />)}
           </Form.Item>
           <Form.Item label="Quantidade de mesas" {...formItemLayout}>
             {getFieldDecorator('tables', {
               rules: [{ required: true, message: 'Por favor informe o periodo do evento!' }],
-            })(<InputNumber defaultValue={4} min={0} max={50} />)}
+              initialValue: event && event.tables && event.tables.length,
+            })(<InputNumber min={0} max={50} disabled={!!event} />)}
           </Form.Item>
           <Divider>Endereço</Divider>
           <Form.Item label="Logradouro" {...formItemLayout}>
@@ -225,9 +230,18 @@ class EventForm extends PureComponent {
               initialValue: event && event.address.street,
             })(<Input maxLength={255} placeholder="Insira o logradouro" />)}
           </Form.Item>
-          <Form.Item label="numero" {...formItemLayout}>
+          <Form.Item
+            label={
+              <span>
+                Número
+                <em className={styles.optional}>
+                  <FormattedMessage id="form.optional" />
+                </em>
+              </span>
+            }
+            {...formItemLayout}
+          >
             {getFieldDecorator('number', {
-              rules: [{ required: true, message: 'Por favor informe o número!' }],
               initialValue: event && event.address.number,
               getValueFromEvent: this.handleChangeNumber,
             })(<Input maxLength={11} placeholder="Insira o número" />)}
@@ -245,9 +259,18 @@ class EventForm extends PureComponent {
               initialValue: event && event.address.neighborhood,
             })(<Input maxLength={255} placeholder="Insira o bairro" />)}
           </Form.Item>
-          <Form.Item label="Complemento" {...formItemLayout}>
+          <Form.Item
+            label={
+              <span>
+                Complemento
+                <em className={styles.optional}>
+                  <FormattedMessage id="form.optional" />
+                </em>
+              </span>
+            }
+            {...formItemLayout}
+          >
             {getFieldDecorator('complement', {
-              rules: [{ message: 'Por favor informe o complemento!' }],
               initialValue: event && event.address.complement,
             })(<Input maxLength={255} placeholder="Insira o complemento" />)}
           </Form.Item>

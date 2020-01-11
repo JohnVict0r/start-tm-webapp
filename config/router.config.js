@@ -170,6 +170,33 @@ export default [
             component: './Events/EventForm',
             authority: ['Administrator'],
           },
+          {
+            path: '/events/:eventId',
+            name: 'event',
+            component: './Events/EventView',
+            hideInMenu: true,
+            routes: [
+              {
+                path: '/events/:eventId',
+                redirect: '/events/:eventId/edit',
+              },
+              // {
+              //   path: '/events/:eventId/tables',
+              //   name: 'tables',
+              //   component: './Events/EventTables',
+              // },
+              // {
+              //   path: '/events/:eventId/championships',
+              //   name: 'championships',
+              //   component: './Events/EventCategories',
+              // },
+              {
+                path: '/events/:eventId/edit',
+                name: 'edit-event',
+                component: './Events/EventForm',
+              },
+            ],
+          },
         ],
       },
 

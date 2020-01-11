@@ -103,6 +103,17 @@ export default class EntryTableForm extends PureComponent {
     }
   }
 
+  handleNumberChange(e, fieldName, key) {
+    const { data } = this.state;
+    const newData = data.map(item => ({ ...item }));
+    const target = this.getRowByKey(key, newData);
+
+    if (target) {
+      target[fieldName] = e;
+      this.setState({ data: newData });
+    }
+  }
+
   handleSelectChange(value, fieldName, key) {
     const { data } = this.state;
     const newData = data.map(item => ({ ...item }));
@@ -124,8 +135,8 @@ export default class EntryTableForm extends PureComponent {
         return;
       }
       const target = this.getRowByKey(key) || {};
-      if (!target.type || !target.price) {
-        message.error('preencha os campos da categoria para cadastrar');
+      if (Object.keys(target).length !== 9) {
+        message.error('preencha todos os campos da categoria para cadastrar');
         e.target.focus();
         this.setState({
           loading: false,
@@ -237,7 +248,7 @@ export default class EntryTableForm extends PureComponent {
             return (
               <InputNumber
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'downLimit', record.key)}
+                onChange={e => this.handleNumberChange(e, 'downLimit', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="Valor"
               />
@@ -256,7 +267,7 @@ export default class EntryTableForm extends PureComponent {
             return (
               <InputNumber
                 value={text}
-                onChange={e => this.handleFieldChange(e, 'upperLimit', record.key)}
+                onChange={e => this.handleNumberChange(e, 'upperLimit', record.key)}
                 onKeyPress={e => this.handleKeyPress(e, record.key)}
                 placeholder="Valor"
               />

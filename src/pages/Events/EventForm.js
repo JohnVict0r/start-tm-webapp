@@ -294,14 +294,18 @@ class EventForm extends PureComponent {
               </Select>
             )}
           </Form.Item>
-          <Divider>Valores das inscrições</Divider>
-          {getFieldDecorator('entries', {
-            initialValue: entryData,
-          })(<EntryTableForm />)}
-          <Divider>Categorias</Divider>
-          {getFieldDecorator('championships', {
-            initialValue: categoryData,
-          })(<CategoryTableForm />)}
+          {!event && (
+            <>
+              <Divider>Valores das inscrições</Divider>
+              {getFieldDecorator('entries', {
+                initialValue: entryData,
+              })(<EntryTableForm />)}
+              <Divider>Categorias</Divider>
+              {getFieldDecorator('championships', {
+                initialValue: categoryData,
+              })(<CategoryTableForm />)}
+            </>
+          )}
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
               {event

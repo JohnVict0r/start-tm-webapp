@@ -2,7 +2,7 @@ import { message } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
 import Schema from '@/services/Schema';
-import { loadEventsByFederationId, createEvent, uploadEvent } from '@/services/events';
+import { loadEventsByFederationId, createEvent, uploadEvent, loadEvent } from '@/services/events';
 import { initialPaginationState } from '@/utils/getPaginationProps';
 
 export default {
@@ -67,23 +67,23 @@ export default {
       }
     },
 
-    // *fetchEvent({ payload }, { call, put }) {
-    //   try {
-    //     const response = yield call(loadClub, payload);
+    *fetchEvent({ payload }, { call, put }) {
+      try {
+        const response = yield call(loadEvent, payload);
 
-    //     // normaliza os dados retornados e
-    //     // funde com o state.entities
-    //     yield put({
-    //       type: 'entities/normalize',
-    //       payload: {
-    //         data: response,
-    //         schema: Schema.EVENT,
-    //       },
-    //     });
-    //   } catch (e) {
-    //     // Não faz nada
-    //   }
-    // },
+        // normaliza os dados retornados e
+        // funde com o state.entities
+        yield put({
+          type: 'entities/normalize',
+          payload: {
+            data: response,
+            schema: Schema.EVENT,
+          },
+        });
+      } catch (e) {
+        // Não faz nada
+      }
+    },
 
     *fetchByFederation({ payload }, { call, put }) {
       try {

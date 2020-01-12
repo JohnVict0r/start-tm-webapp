@@ -120,39 +120,39 @@ class ClubForm extends PureComponent {
           <Form.Item label="Logradouro" {...formItemLayout}>
             {getFieldDecorator('street', {
               rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
-              initialValue: club && club.address.street,
+              initialValue: club && club.address && club.address.street,
             })(<Input maxLength={255} placeholder="Insira o logradouro" />)}
           </Form.Item>
           <Form.Item label="numero" {...formItemLayout}>
             {getFieldDecorator('number', {
               rules: [{ required: true, message: 'Por favor informe o número!' }],
-              initialValue: club && club.address.number,
+              initialValue: club && club.address && club.address.number,
               getValueFromEvent: this.handleChangeNumber,
             })(<Input maxLength={11} placeholder="Insira o número" />)}
           </Form.Item>
           <Form.Item label="Bairro" {...formItemLayout}>
             {getFieldDecorator('neighborhood', {
               rules: [{ required: true, message: 'Por favor informe o bairro!' }],
-              initialValue: club && club.address.neighborhood,
+              initialValue: club && club.address && club.address.neighborhood,
             })(<Input maxLength={255} placeholder="Insira o bairro" />)}
           </Form.Item>
           <Form.Item label="CEP" {...formItemLayout}>
             {getFieldDecorator('cep', {
               rules: [{ required: true, message: 'Por favor informe o CEP!' }],
-              initialValue: club && club.address.cep,
+              initialValue: club && club.address && club.address.cep,
               getValueFromEvent: this.handleChangeCep,
             })(<Input maxLength={255} placeholder="Insira o CEP" />)}
           </Form.Item>
           <Form.Item label="Complemento" {...formItemLayout}>
             {getFieldDecorator('complement', {
               rules: [{ required: true, message: 'Por favor informe o complemento!' }],
-              initialValue: club && club.address.complement,
+              initialValue: club && club.address && club.address.complement,
             })(<Input maxLength={255} placeholder="Insira o complemento" />)}
           </Form.Item>
           <Form.Item label="Cidade" {...formItemLayout}>
             {getFieldDecorator('city', {
               rules: [{ required: true, message: 'Por favor informe o nome da cidade!' }],
-              initialValue: club && club.address.city,
+              initialValue: club && club.address && club.address.city,
             })(
               <Select placeholder={formatMessage({ id: 'form.city.placeholder' })}>
                 {/* TODO fazer com que salve o id do estado */}

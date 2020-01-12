@@ -66,12 +66,15 @@ class EventForm extends PureComponent {
     dispatch({
       type: 'locations/fetchStates',
     });
-    dispatch({
-      type: 'locations/fetchcitiesByUF',
-      payload: {
-        uf: federation ? federation.uf : event.address.uf,
-      },
-    });
+
+    if (federation || event.address) {
+      dispatch({
+        type: 'locations/fetchcitiesByUF',
+        payload: {
+          uf: federation ? federation.uf : event.address.uf,
+        },
+      });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -227,7 +230,7 @@ class EventForm extends PureComponent {
           <Form.Item label="Logradouro" {...formItemLayout}>
             {getFieldDecorator('street', {
               rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
-              initialValue: event && event.address.street,
+              initialValue: event && event.address && event.address.street,
             })(<Input maxLength={255} placeholder="Insira o logradouro" />)}
           </Form.Item>
           <Form.Item
@@ -242,21 +245,21 @@ class EventForm extends PureComponent {
             {...formItemLayout}
           >
             {getFieldDecorator('number', {
-              initialValue: event && event.address.number,
+              initialValue: event && event.address && event.address.number,
               getValueFromEvent: this.handleChangeNumber,
             })(<Input maxLength={11} placeholder="Insira o número" />)}
           </Form.Item>
           <Form.Item label="CEP" {...formItemLayout}>
             {getFieldDecorator('cep', {
               rules: [{ required: true, message: 'Por favor informe o CEP!' }],
-              initialValue: event && event.address.cep,
+              initialValue: event && event.address && event.address.cep,
               getValueFromEvent: this.handleChangeCep,
             })(<Input maxLength={255} placeholder="Insira o CEP" />)}
           </Form.Item>
           <Form.Item label="Bairro" {...formItemLayout}>
             {getFieldDecorator('neighborhood', {
               rules: [{ message: 'Por favor informe o bairro!' }],
-              initialValue: event && event.address.neighborhood,
+              initialValue: event && event.address && event.address.neighborhood,
             })(<Input maxLength={255} placeholder="Insira o bairro" />)}
           </Form.Item>
           <Form.Item
@@ -271,21 +274,23 @@ class EventForm extends PureComponent {
             {...formItemLayout}
           >
             {getFieldDecorator('complement', {
-              initialValue: event && event.address.complement,
+              initialValue: event && event.address && event.address.complement,
             })(<Input maxLength={255} placeholder="Insira o complemento" />)}
           </Form.Item>
           <Form.Item label="Cidade" {...formItemLayout}>
             {getFieldDecorator('city', {
               rules: [{ required: true, message: 'Por favor informe o nome da cidade!' }],
-              initialValue: event && event.address.city,
+              initialValue: event && event.address && event.address.city,
             })(
               <Select placeholder={formatMessage({ id: 'form.city.placeholder' })}>
                 {/* TODO fazer com que salve o id do estado */}
                 {citiesByUF &&
-                  citiesByUF[federation ? federation.uf : event.federation.uf] &&
-                  citiesByUF[federation ? federation.uf : event.federation.uf].map(i => (
-                    <Select.Option key={i.nome}>{i.nome}</Select.Option>
-                  ))}
+                  citiesByUF[
+                    federation ? federation.uf : event.federation && event.federation.uf
+                  ] &&
+                  citiesByUF[
+                    federation ? federation.uf : event.federation && event.federation.uf
+                  ].map(i => <Select.Option key={i.nome}>{i.nome}</Select.Option>)}
               </Select>
             )}
           </Form.Item>

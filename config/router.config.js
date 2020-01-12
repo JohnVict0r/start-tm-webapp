@@ -185,11 +185,11 @@ export default [
               //   name: 'tables',
               //   component: './Events/EventTables',
               // },
-              // {
-              //   path: '/events/:eventId/championships',
-              //   name: 'championships',
-              //   component: './Events/EventCategories',
-              // },
+              {
+                path: '/events/:eventId/championships',
+                name: 'championships',
+                component: './Events/EventCategories',
+              },
               {
                 path: '/events/:eventId/edit',
                 name: 'edit-event',

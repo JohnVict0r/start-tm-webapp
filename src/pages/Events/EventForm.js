@@ -1,12 +1,15 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Input, Form, Select, Card, Button, DatePicker, InputNumber, Divider } from 'antd';
-import { formatMessage } from 'umi/locale';
+import moment from 'moment';
+import { formatMessage, FormattedMessage } from 'umi-plugin-react/locale';
 import { router } from 'umi';
 import { setFormWithError, formItemLayout, submitFormLayout } from '@/utils/forms';
 import { cepMask, numberMask } from '@/utils/mask';
 import EntryTableForm from './EntryTableForm';
 import CategoryTableForm from './CategoryTableForm';
+
+import styles from './EventForm.less';
 
 const entryData = [
   {
@@ -63,12 +66,15 @@ class EventForm extends PureComponent {
     dispatch({
       type: 'locations/fetchStates',
     });
-    dispatch({
-      type: 'locations/fetchcitiesByUF',
-      payload: {
-        uf: federation ? federation.uf : event.address.uf,
-      },
-    });
+
+    if (federation || event.address) {
+      dispatch({
+        type: 'locations/fetchcitiesByUF',
+        payload: {
+          uf: federation ? federation.uf : event.address.uf,
+        },
+      });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -198,9 +204,9 @@ class EventForm extends PureComponent {
           <Form.Item label="Tipo do evento" {...formItemLayout}>
             {getFieldDecorator('typeEvent', {
               rules: [{ required: true, message: 'Por favor informe o tipo do evento!' }],
-              initialValue: event && event.name,
+              initialValue: event && event.type,
             })(
-              <Select placeholder={formatMessage({ id: 'app.event.form.type.placeholder' })}>
+              <Select placeholder="Selecione o tipo do evento">
                 <Select.Option key="state">Estadual</Select.Option>
                 <Select.Option key="intrastate">Interestadual</Select.Option>
                 <Select.Option key="national">Brasileiro</Select.Option>
@@ -211,69 +217,95 @@ class EventForm extends PureComponent {
           <Form.Item label="Período do evento" {...formItemLayout}>
             {getFieldDecorator('duration', {
               rules: [{ required: true, message: 'Por favor informe o periodo do evento!' }],
+              initialValue: event && [moment(event.start), moment(event.end)],
             })(<DatePicker.RangePicker format="DD/MM/YYYY" />)}
           </Form.Item>
           <Form.Item label="Quantidade de mesas" {...formItemLayout}>
             {getFieldDecorator('tables', {
               rules: [{ required: true, message: 'Por favor informe o periodo do evento!' }],
-            })(<InputNumber defaultValue={4} min={0} max={50} />)}
+              initialValue: event && event.tables && event.tables.length,
+            })(<InputNumber min={0} max={50} disabled={!!event} />)}
           </Form.Item>
           <Divider>Endereço</Divider>
           <Form.Item label="Logradouro" {...formItemLayout}>
             {getFieldDecorator('street', {
               rules: [{ required: true, message: 'Por favor informe o logradouro!' }],
-              initialValue: event && event.address.street,
+              initialValue: event && event.address && event.address.street,
             })(<Input maxLength={255} placeholder="Insira o logradouro" />)}
           </Form.Item>
-          <Form.Item label="numero" {...formItemLayout}>
+          <Form.Item
+            label={
+              <span>
+                Número
+                <em className={styles.optional}>
+                  <FormattedMessage id="form.optional" />
+                </em>
+              </span>
+            }
+            {...formItemLayout}
+          >
             {getFieldDecorator('number', {
-              rules: [{ required: true, message: 'Por favor informe o número!' }],
-              initialValue: event && event.address.number,
+              initialValue: event && event.address && event.address.number,
               getValueFromEvent: this.handleChangeNumber,
             })(<Input maxLength={11} placeholder="Insira o número" />)}
           </Form.Item>
           <Form.Item label="CEP" {...formItemLayout}>
             {getFieldDecorator('cep', {
               rules: [{ required: true, message: 'Por favor informe o CEP!' }],
-              initialValue: event && event.address.cep,
+              initialValue: event && event.address && event.address.cep,
               getValueFromEvent: this.handleChangeCep,
             })(<Input maxLength={255} placeholder="Insira o CEP" />)}
           </Form.Item>
           <Form.Item label="Bairro" {...formItemLayout}>
             {getFieldDecorator('neighborhood', {
               rules: [{ message: 'Por favor informe o bairro!' }],
-              initialValue: event && event.address.neighborhood,
+              initialValue: event && event.address && event.address.neighborhood,
             })(<Input maxLength={255} placeholder="Insira o bairro" />)}
           </Form.Item>
-          <Form.Item label="Complemento" {...formItemLayout}>
+          <Form.Item
+            label={
+              <span>
+                Complemento
+                <em className={styles.optional}>
+                  <FormattedMessage id="form.optional" />
+                </em>
+              </span>
+            }
+            {...formItemLayout}
+          >
             {getFieldDecorator('complement', {
-              rules: [{ message: 'Por favor informe o complemento!' }],
-              initialValue: event && event.address.complement,
+              initialValue: event && event.address && event.address.complement,
             })(<Input maxLength={255} placeholder="Insira o complemento" />)}
           </Form.Item>
           <Form.Item label="Cidade" {...formItemLayout}>
             {getFieldDecorator('city', {
               rules: [{ required: true, message: 'Por favor informe o nome da cidade!' }],
-              initialValue: event && event.address.city,
+              initialValue: event && event.address && event.address.city,
             })(
               <Select placeholder={formatMessage({ id: 'form.city.placeholder' })}>
                 {/* TODO fazer com que salve o id do estado */}
                 {citiesByUF &&
-                  citiesByUF[federation ? federation.uf : event.federation.uf] &&
-                  citiesByUF[federation ? federation.uf : event.federation.uf].map(i => (
-                    <Select.Option key={i.nome}>{i.nome}</Select.Option>
-                  ))}
+                  citiesByUF[
+                    federation ? federation.uf : event.federation && event.federation.uf
+                  ] &&
+                  citiesByUF[
+                    federation ? federation.uf : event.federation && event.federation.uf
+                  ].map(i => <Select.Option key={i.nome}>{i.nome}</Select.Option>)}
               </Select>
             )}
           </Form.Item>
-          <Divider>Valores das inscrições</Divider>
-          {getFieldDecorator('entries', {
-            initialValue: entryData,
-          })(<EntryTableForm />)}
-          <Divider>Categorias</Divider>
-          {getFieldDecorator('championships', {
-            initialValue: categoryData,
-          })(<CategoryTableForm />)}
+          {!event && (
+            <>
+              <Divider>Valores das inscrições</Divider>
+              {getFieldDecorator('entries', {
+                initialValue: entryData,
+              })(<EntryTableForm />)}
+              <Divider>Categorias</Divider>
+              {getFieldDecorator('championships', {
+                initialValue: categoryData,
+              })(<CategoryTableForm />)}
+            </>
+          )}
           <Form.Item {...submitFormLayout} style={{ marginTop: 32 }}>
             <Button type="primary" htmlType="submit" loading={submitting}>
               {event

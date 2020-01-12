@@ -162,6 +162,10 @@ export default class EntryTableForm extends PureComponent {
   }
 
   render() {
+    const { data } = this.state;
+
+    const typesCreated = data.map(entry => entry.type);
+
     const columns = [
       {
         title: 'Tipo da entrada',
@@ -172,12 +176,11 @@ export default class EntryTableForm extends PureComponent {
           if (record.editable) {
             return (
               <Select
-                value={key}
                 autoFocus
                 onChange={value => this.handleSelectChange(value, 'type', record.key)}
                 placeholder="Tipo de entrada"
               >
-                {EntryTypes.map(entry => (
+                {EntryTypes.filter(entry => !typesCreated.includes(entry.type)).map(entry => (
                   <Select.Option key={entry.type}>{entry.value}</Select.Option>
                 ))}
               </Select>
@@ -246,7 +249,7 @@ export default class EntryTableForm extends PureComponent {
       },
     ];
 
-    const { loading, data } = this.state;
+    const { loading } = this.state;
 
     return (
       <Fragment>
@@ -260,14 +263,16 @@ export default class EntryTableForm extends PureComponent {
             return record.editable ? styles.editable : '';
           }}
         />
-        <Button
-          style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
-          type="dashed"
-          onClick={this.newEntry}
-          icon="plus"
-        >
-          Adicionar forma de entrada
-        </Button>
+        {data.length < 5 && (
+          <Button
+            style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
+            type="dashed"
+            onClick={this.newEntry}
+            icon="plus"
+          >
+            Adicionar forma de entrada
+          </Button>
+        )}
       </Fragment>
     );
   }

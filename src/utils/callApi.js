@@ -6,8 +6,12 @@ import request from '@/utils/request';
 import { getAuthToken } from '@/utils/authentication';
 
 async function handleRequest(url, options) {
-  const reponse = await request(url, options);
-  return camelizeKeys(reponse);
+  try {
+    const reponse = await request(url, options);
+    return camelizeKeys(reponse);
+  } catch (e) {
+    return handleError(e);
+  }
 }
 
 /**

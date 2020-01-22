@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import router from 'umi/router';
 import { formatMessage } from 'umi/locale';
+
 import Schema from '@/services/Schema';
 import {
   loadAthletesByClubId,
@@ -41,11 +42,30 @@ export default {
 
   effects: {
     *save({ payload }, { call, put }) {
+      let response;
       try {
-        const response = payload.id
+        response = payload.id
           ? yield call(uploadAthlete, payload)
           : yield call(createAthlete, payload);
 
+        if (!!response[0] && response[0].field) {
+          const error = {
+            response,
+            status: 422,
+            skipToJson: true,
+          };
+
+          yield put({
+            type: 'validation/handleError',
+            payload: {
+              effect: 'athletes/save',
+              error,
+            },
+          });
+          // TODO remover isso depois que corrigir o setFormWithErrors({...})
+          message.error('CPF já cadastrado no sistema');
+          return;
+        }
         // normaliza os dados retornados e
         // funde com o state.entities
         const result = yield put.resolve({
@@ -62,6 +82,7 @@ export default {
 
         router.push(`/athlete/${result}`);
       } catch (e) {
+        console.log(e);
         payload.id
           ? message.error(formatMessage({ id: 'app.athlete.failed-edited' }))
           : message.error(formatMessage({ id: 'app.athlete.failed-created' }));

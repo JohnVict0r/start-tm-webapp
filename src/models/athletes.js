@@ -49,21 +49,22 @@ export default {
           : yield call(createAthlete, payload);
 
         if (!!response[0] && response[0].field) {
-          const error = {
-            response,
-            status: 422,
-            skipToJson: true,
-          };
+          // const error = {
+          //   response,
+          //   status: 422,
+          //   skipToJson: true,
+          // };
 
-          yield put({
-            type: 'validation/handleError',
-            payload: {
-              effect: 'athletes/save',
-              error,
-            },
-          });
+          // yield put({
+          //   type: 'validation/handleError',
+          //   payload: {
+          //     effect: 'athletes/save',
+          //     error,
+          //   },
+          // });
+
           // TODO remover isso depois que corrigir o setFormWithErrors({...})
-          message.error('CPF já cadastrado no sistema');
+          response.map(res => message.error(res.message));
           return;
         }
         // normaliza os dados retornados e
@@ -80,7 +81,7 @@ export default {
           ? message.success(formatMessage({ id: 'app.athlete.success-edited' }))
           : message.success(formatMessage({ id: 'app.athlete.success-created' }));
 
-        router.push(`/athlete/${result}`);
+        router.push(`/athletes/${result}`);
       } catch (e) {
         console.log(e);
         payload.id

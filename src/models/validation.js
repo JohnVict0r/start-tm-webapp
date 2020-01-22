@@ -23,11 +23,13 @@ export default {
   effects: {
     *handleError({ payload }, { put }) {
       const { error } = payload;
-      if (error.response && error.response.status === 422) {
+      if (error.response && (error.response.status === 422 || error.status === 422)) {
         try {
-          const response = yield error.response.json();
+          let { response } = error;
+          if (!error.skipToJson) {
+            response = yield error.response.json();
+          }
           const camelizeError = camelizeKeys(response);
-
           yield put({
             type: 'saveError',
             payload: {

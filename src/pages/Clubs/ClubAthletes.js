@@ -6,6 +6,7 @@ import HeaderWrapper from '@/components/HeaderWrapper';
 // import AthleteListItem from './ClubListItem';
 import PageLoading from '@/components/PageLoading';
 import getPaginationProps from '@/utils/getPaginationProps';
+import AthleteListItem from './AthleteListItem';
 
 @connect((state, ownProps) => ({
   athletesByClub: state.athletes.byClubId[ownProps.match.params.clubId],
@@ -62,8 +63,8 @@ class ClubAthletes extends Component {
             rowKey="id"
             loading={loadingAthletes}
             pagination={getPaginationProps(athletesByClub.meta)}
-            dataSource={athletesByClub.athletesIds}
-            // renderItem={item => <ClubListItem id={item} loading={loadingAthletes} />}
+            dataSource={athletesByClub.athleteIds}
+            renderItem={item => <AthleteListItem id={item} loading={loadingAthletes} />}
           />
         </Card>
       </>

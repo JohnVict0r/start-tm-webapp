@@ -83,7 +83,6 @@ export default {
 
         router.push(`/athletes/${result}`);
       } catch (e) {
-        console.log(e);
         payload.id
           ? message.error(formatMessage({ id: 'app.athlete.failed-edited' }))
           : message.error(formatMessage({ id: 'app.athlete.failed-created' }));

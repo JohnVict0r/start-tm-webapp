@@ -54,9 +54,7 @@ class AthleteForm extends PureComponent {
               athlete: {
                 club_id: match.params.clubId,
                 rating,
-                people: {
-                  ...person,
-                },
+                person,
               },
             },
           });

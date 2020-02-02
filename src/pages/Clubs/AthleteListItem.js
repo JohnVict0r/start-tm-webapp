@@ -26,7 +26,7 @@ class AthleteListItem extends PureComponent {
             // avatar={
             //   <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUC0LYGdxwCD9TEukVRqL3OWRqTyT95SoupznUTkGm49-uwyM33A" />
             // }
-            title={<Link to={`/clubs/${athlete.id}`}>{athlete.people.name}</Link>}
+            title={<Link to={`/clubs/${athlete.id}`}>{athlete.person && athlete.person.name}</Link>}
             description={<DescriptionAthlete data={athlete} />}
           />
         </Skeleton>
